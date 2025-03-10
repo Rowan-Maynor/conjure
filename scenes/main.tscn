@@ -233,9 +233,9 @@ position = Vector2(963, 359.5)
 shape = SubResource("RectangleShape2D_a8y0u")
 
 [node name="Skeleton" parent="." instance=ExtResource("9_85g3d")]
-position = Vector2(610, 238)
+position = Vector2(402, 591)
 collision_layer = 2
 motion_mode = 1
 
 [node name="Skeleton2" parent="." instance=ExtResource("9_85g3d")]
-position = Vector2(342, 202)
+position = Vector2(418, 578)
