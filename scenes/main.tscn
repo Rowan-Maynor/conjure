@@ -1,6 +1,7 @@
-[gd_scene load_steps=26 format=4 uid="uid://dm76mg2k73lxk"]
+[gd_scene load_steps=28 format=4 uid="uid://dm76mg2k73lxk"]
 
 [ext_resource type="Texture2D" uid="uid://cjeicm00qeewr" path="res://assets/sprites/Tiles/Path_Middle.png" id="1_tipki"]
+[ext_resource type="Script" uid="uid://cof62ids57e6o" path="res://scripts/main.gd" id="1_ya4ey"]
 [ext_resource type="Texture2D" uid="uid://s253v7kf2tb7" path="res://assets/sprites/Tiles/Path_Tile.png" id="2_85g3d"]
 [ext_resource type="Texture2D" uid="uid://c2x35xwwg60p" path="res://assets/sprites/Tiles/FarmLand_Tile.png" id="3_choun"]
 [ext_resource type="Texture2D" uid="uid://brnfh6p17woa1" path="res://assets/sprites/Tiles/Grass_Middle.png" id="4_ya4ey"]
@@ -9,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://dsa4clabykjg3" path="res://assets/sprites/Tiles/Water_Middle.png" id="7_a8y0u"]
 [ext_resource type="Texture2D" uid="uid://bqrxn06et0rqv" path="res://assets/sprites/Tiles/Water_Tile.png" id="8_jkv2x"]
 [ext_resource type="PackedScene" uid="uid://c78ysnebai1o6" path="res://scenes/skeleton.tscn" id="9_85g3d"]
+[ext_resource type="PackedScene" uid="uid://b578nkptq5xnm" path="res://scenes/main_ui.tscn" id="11_eb6dy"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_jbj1t"]
 texture = ExtResource("1_tipki")
@@ -139,6 +141,7 @@ size = Vector2(652, 10)
 size = Vector2(10, 635)
 
 [node name="Default-stage" type="Node2D"]
+script = ExtResource("1_ya4ey")
 metadata/_edit_vertical_guides_ = [640.0]
 metadata/_edit_horizontal_guides_ = [360.0]
 
@@ -149,54 +152,6 @@ tile_set = SubResource("TileSet_y6deb")
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(640, 360)
 position_smoothing_enabled = true
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="ready_button" type="Button" parent="CanvasLayer"]
-custom_minimum_size = Vector2(200, 0)
-offset_left = 540.0
-offset_top = 685.0
-offset_right = 740.0
-offset_bottom = 716.0
-text = "Ready"
-
-[node name="matter_total" type="Label" parent="CanvasLayer"]
-offset_left = 1030.0
-offset_right = 1092.0
-offset_bottom = 23.0
-text = "Matter: "
-
-[node name="research_total" type="Label" parent="CanvasLayer"]
-offset_left = 1131.0
-offset_top = 1.0
-offset_right = 1211.0
-offset_bottom = 24.0
-text = "Research: "
-
-[node name="player_level" type="Label" parent="CanvasLayer"]
-offset_right = 40.0
-offset_bottom = 23.0
-text = "Level:"
-
-[node name="player_exp" type="Label" parent="CanvasLayer"]
-offset_top = 27.0
-offset_right = 40.0
-offset_bottom = 50.0
-text = "EXP: "
-
-[node name="player_tp" type="Label" parent="CanvasLayer"]
-offset_left = -1.0
-offset_top = 50.0
-offset_right = 39.0
-offset_bottom = 73.0
-text = "TP: "
-
-[node name="wave_counter" type="Label" parent="CanvasLayer"]
-offset_left = 598.0
-offset_top = 7.0
-offset_right = 683.0
-offset_bottom = 30.0
-text = "Wave: 1/30"
 
 [node name="boundries" type="StaticBody2D" parent="."]
 
@@ -239,3 +194,9 @@ motion_mode = 1
 
 [node name="Skeleton2" parent="." instance=ExtResource("9_85g3d")]
 position = Vector2(418, 578)
+
+[node name="Main-ui" parent="." instance=ExtResource("11_eb6dy")]
+offset_left = 1.0
+offset_top = -1.0
+offset_right = 1.0
+offset_bottom = -1.0
