@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://b578nkptq5xnm"]
+
+[node name="Main-ui" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 95.0
+offset_bottom = 95.0
+
+[node name="level" type="Label" parent="."]
+layout_mode = 0
+offset_left = 110.0
+offset_top = 10.0
+offset_right = 159.0
+offset_bottom = 33.0
+text = "Level: "
+
+[node name="exp" type="Label" parent="."]
+layout_mode = 0
+offset_left = 110.0
+offset_top = 40.0
+offset_right = 150.0
+offset_bottom = 63.0
+text = "EXP: "
+
+[node name="tp" type="Label" parent="."]
+layout_mode = 0
+offset_left = 110.0
+offset_top = 70.0
+offset_right = 150.0
+offset_bottom = 93.0
+text = "TP:"
