@@ -82,6 +82,11 @@ func _draw():
 
 func _select_units():
 	var size = abs(get_global_mouse_position() - drag_start)
+	# this will set the minimum size to 1x1 in case people are trying to select 
+	# individual units instead of a drag select
+	if (size.x == 0 && size.y == 0):
+		size.x = 1.0
+		size.y = 1.0
 	var area_position = _get_rect_start_position()
 	
 	selection_area.global_position = area_position
