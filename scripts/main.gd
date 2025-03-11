@@ -31,16 +31,6 @@ func _input(event: InputEvent) -> void:
 	if(Input.is_action_pressed("clear_data")):
 		clear_player_data(player_data_path)
 		
-	if(Input.is_action_just_pressed("spawn_t1_unit")):
-		var spawn_areas = $player_spawn_areas.get_children()
-		var unit = load(t1_units.pick_random()).instantiate()
-		var spawn_point = find_open_spawn_point(spawn_areas)
-		if(spawn_point == null):
-			print("No free space!")
-		else:
-			unit.position = spawn_point.global_position
-			$".".add_child(unit)
-			
 	if(Input.is_action_just_released("right_click")):
 		for unit in selected:
 			unit.click_position = get_global_mouse_position()
@@ -157,10 +147,3 @@ func clear_player_data(path):
 	save_player_data(path, data)
 	load_player_data(path)
 	update_player_data_ui(player_data)
-
-func find_open_spawn_point(spawn_areas):
-	for area in spawn_areas:
-		var units = area.has_overlapping_bodies()
-		if(units == false):
-			return area
-	return null
