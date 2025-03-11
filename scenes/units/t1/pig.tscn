@@ -1,7 +1,8 @@
-[gd_scene load_steps=18 format=3 uid="uid://dwld7g2281wjw"]
+[gd_scene load_steps=19 format=3 uid="uid://dwld7g2281wjw"]
 
 [ext_resource type="Script" uid="uid://bmtnkgh3vjrpk" path="res://scripts/unit.gd" id="1_m6pb5"]
 [ext_resource type="Texture2D" uid="uid://cjrfinpmss21d" path="res://assets/sprites/Animals/Pig/Pig.png" id="2_pabn0"]
+[ext_resource type="Texture2D" uid="uid://ckdartvi5yj1y" path="res://assets/sprites/selection.png" id="3_pabn0"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4a8uq"]
 radius = 4.0
@@ -155,3 +156,12 @@ sprite_frames = SubResource("SpriteFrames_7e1yb")
 animation = &"move_up"
 autoplay = "idle_down"
 metadata/_edit_lock_ = true
+
+[node name="selection_sprite" type="Sprite2D" parent="."]
+visible = false
+show_behind_parent = true
+position = Vector2(-2.98023e-07, 0)
+scale = Vector2(1.375, 0.5)
+texture = ExtResource("3_pabn0")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]

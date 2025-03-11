@@ -43,6 +43,9 @@ func _input(event: InputEvent) -> void:
 			
 	if(drag_start == Vector2.ZERO && event is InputEventMouseButton 
 		&& event.button_index == 1 && event.is_pressed()):
+			for body in selected:
+				var selection_sprite = body.get_node("selection_sprite")
+				selection_sprite.visible = false
 			selected = []
 			drag_start = get_global_mouse_position()
 	elif(drag_start != Vector2.ZERO && event is InputEventMouseButton 
@@ -89,6 +92,8 @@ func _select_units():
 		var body = area.get_parent()
 		if (body.control == "player"):
 			selected.append(body)
+			var selection_sprite = body.get_node("selection_sprite")
+			selection_sprite.visible = true
 
 func _get_rect_start_position():
 	var new_position = Vector2.ZERO
