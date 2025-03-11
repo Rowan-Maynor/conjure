@@ -26,6 +26,7 @@ offset_left = 10.0
 offset_top = 10.0
 offset_right = 75.0
 offset_bottom = 75.0
+metadata/_edit_lock_ = true
 
 [node name="level" type="Label" parent="."]
 layout_mode = 0
@@ -35,6 +36,7 @@ offset_right = 129.0
 offset_bottom = 28.0
 theme = SubResource("Theme_fnul3")
 text = "Level: "
+metadata/_edit_lock_ = true
 
 [node name="exp" type="Label" parent="."]
 layout_mode = 0
@@ -44,6 +46,7 @@ offset_right = 120.0
 offset_bottom = 52.0
 theme = SubResource("Theme_513t2")
 text = "EXP: "
+metadata/_edit_lock_ = true
 
 [node name="tp" type="Label" parent="."]
 layout_mode = 0
@@ -53,13 +56,14 @@ offset_right = 120.0
 offset_bottom = 76.0
 theme = SubResource("Theme_e6fyy")
 text = "TP:"
+metadata/_edit_lock_ = true
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 0
-offset_left = 800.0
-offset_top = 452.0
-offset_right = 956.0
-offset_bottom = 536.0
+offset_left = 796.0
+offset_top = 450.0
+offset_right = 952.0
+offset_bottom = 534.0
 text = "Spawn T1"
 script = ExtResource("1_fnul3")
 metadata/_edit_lock_ = true
