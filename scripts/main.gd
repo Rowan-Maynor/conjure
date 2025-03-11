@@ -95,7 +95,8 @@ func _select_units():
 	
 	await get_tree().create_timer(.04).timeout
 	
-	for body in selection_area.get_overlapping_bodies():
+	for area in selection_area.get_overlapping_areas():
+		var body = area.get_parent()
 		if (body.control == "player"):
 			selected.append(body)
 
