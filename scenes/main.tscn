@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=4 uid="uid://dm76mg2k73lxk"]
+[gd_scene load_steps=29 format=4 uid="uid://dm76mg2k73lxk"]
 
 [ext_resource type="Texture2D" uid="uid://cjeicm00qeewr" path="res://assets/sprites/Tiles/Path_Middle.png" id="1_tipki"]
 [ext_resource type="Script" uid="uid://cof62ids57e6o" path="res://scripts/main.gd" id="1_ya4ey"]
@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://dls8obl4bq8uc" path="res://assets/sprites/Tiles/Beach_Tile.png" id="6_trceg"]
 [ext_resource type="Texture2D" uid="uid://dsa4clabykjg3" path="res://assets/sprites/Tiles/Water_Middle.png" id="7_a8y0u"]
 [ext_resource type="Texture2D" uid="uid://bqrxn06et0rqv" path="res://assets/sprites/Tiles/Water_Tile.png" id="8_jkv2x"]
-[ext_resource type="PackedScene" uid="uid://c78ysnebai1o6" path="res://scenes/skeleton.tscn" id="9_85g3d"]
+[ext_resource type="Script" uid="uid://eddeiyu7x0u" path="res://scripts/spawner.gd" id="10_ya4ey"]
 [ext_resource type="PackedScene" uid="uid://b578nkptq5xnm" path="res://scenes/main_ui.tscn" id="11_eb6dy"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_jbj1t"]
@@ -140,6 +140,8 @@ size = Vector2(652, 10)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_a8y0u"]
 size = Vector2(10, 635)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jkv2x"]
+
 [node name="Default-stage" type="Node2D"]
 script = ExtResource("1_ya4ey")
 metadata/_edit_vertical_guides_ = [640.0]
@@ -187,13 +189,88 @@ shape = SubResource("RectangleShape2D_trceg")
 position = Vector2(963, 359.5)
 shape = SubResource("RectangleShape2D_a8y0u")
 
-[node name="Skeleton" parent="." instance=ExtResource("9_85g3d")]
-position = Vector2(402, 591)
-collision_layer = 2
-motion_mode = 1
+[node name="player_spawn_areas" type="Node2D" parent="."]
 
-[node name="Skeleton2" parent="." instance=ExtResource("9_85g3d")]
-position = Vector2(418, 578)
+[node name="player_spawn_area_1" type="Area2D" parent="player_spawn_areas"]
+position = Vector2(640, 360)
+script = ExtResource("10_ya4ey")
+
+[node name="player_spawn_area" type="CollisionShape2D" parent="player_spawn_areas/player_spawn_area_1"]
+shape = SubResource("RectangleShape2D_jkv2x")
+
+[node name="player_spawn_point" type="Marker2D" parent="player_spawn_areas/player_spawn_area_1/player_spawn_area"]
+
+[node name="player_spawn_area_2" type="Area2D" parent="player_spawn_areas"]
+position = Vector2(640, 336)
+script = ExtResource("10_ya4ey")
+
+[node name="player_spawn_area" type="CollisionShape2D" parent="player_spawn_areas/player_spawn_area_2"]
+shape = SubResource("RectangleShape2D_jkv2x")
+
+[node name="player_spawn_point" type="Marker2D" parent="player_spawn_areas/player_spawn_area_2/player_spawn_area"]
+
+[node name="player_spawn_area_3" type="Area2D" parent="player_spawn_areas"]
+position = Vector2(664, 336)
+script = ExtResource("10_ya4ey")
+
+[node name="player_spawn_area" type="CollisionShape2D" parent="player_spawn_areas/player_spawn_area_3"]
+shape = SubResource("RectangleShape2D_jkv2x")
+
+[node name="player_spawn_point" type="Marker2D" parent="player_spawn_areas/player_spawn_area_3/player_spawn_area"]
+
+[node name="player_spawn_area_4" type="Area2D" parent="player_spawn_areas"]
+position = Vector2(664, 360)
+script = ExtResource("10_ya4ey")
+
+[node name="player_spawn_area" type="CollisionShape2D" parent="player_spawn_areas/player_spawn_area_4"]
+shape = SubResource("RectangleShape2D_jkv2x")
+
+[node name="player_spawn_point" type="Marker2D" parent="player_spawn_areas/player_spawn_area_4/player_spawn_area"]
+
+[node name="player_spawn_area_5" type="Area2D" parent="player_spawn_areas"]
+position = Vector2(664, 384)
+script = ExtResource("10_ya4ey")
+
+[node name="player_spawn_area" type="CollisionShape2D" parent="player_spawn_areas/player_spawn_area_5"]
+shape = SubResource("RectangleShape2D_jkv2x")
+
+[node name="player_spawn_point" type="Marker2D" parent="player_spawn_areas/player_spawn_area_5/player_spawn_area"]
+
+[node name="player_spawn_area_6" type="Area2D" parent="player_spawn_areas"]
+position = Vector2(640, 384)
+script = ExtResource("10_ya4ey")
+
+[node name="player_spawn_area" type="CollisionShape2D" parent="player_spawn_areas/player_spawn_area_6"]
+shape = SubResource("RectangleShape2D_jkv2x")
+
+[node name="player_spawn_point" type="Marker2D" parent="player_spawn_areas/player_spawn_area_6/player_spawn_area"]
+
+[node name="player_spawn_area_7" type="Area2D" parent="player_spawn_areas"]
+position = Vector2(616, 384)
+script = ExtResource("10_ya4ey")
+
+[node name="player_spawn_area" type="CollisionShape2D" parent="player_spawn_areas/player_spawn_area_7"]
+shape = SubResource("RectangleShape2D_jkv2x")
+
+[node name="player_spawn_point" type="Marker2D" parent="player_spawn_areas/player_spawn_area_7/player_spawn_area"]
+
+[node name="player_spawn_area_8" type="Area2D" parent="player_spawn_areas"]
+position = Vector2(616, 360)
+script = ExtResource("10_ya4ey")
+
+[node name="player_spawn_area" type="CollisionShape2D" parent="player_spawn_areas/player_spawn_area_8"]
+shape = SubResource("RectangleShape2D_jkv2x")
+
+[node name="player_spawn_point" type="Marker2D" parent="player_spawn_areas/player_spawn_area_8/player_spawn_area"]
+
+[node name="player_spawn_area_9" type="Area2D" parent="player_spawn_areas"]
+position = Vector2(616, 336)
+script = ExtResource("10_ya4ey")
+
+[node name="player_spawn_area" type="CollisionShape2D" parent="player_spawn_areas/player_spawn_area_9"]
+shape = SubResource("RectangleShape2D_jkv2x")
+
+[node name="player_spawn_point" type="Marker2D" parent="player_spawn_areas/player_spawn_area_9/player_spawn_area"]
 
 [node name="Main-ui" parent="." instance=ExtResource("11_eb6dy")]
 offset_left = 1.0
