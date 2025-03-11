@@ -2,6 +2,10 @@ extends Node2D
 
 var player_data_path = "user://player_data.json"
 var player_data: Dictionary = {}
+var t1_units = [
+	"res://scenes/units/t1/pig.tscn",
+	"res://scenes/units/t1/skeleton.tscn"
+]
 
 func _ready():
 	load_player_data(player_data_path)
@@ -20,15 +24,15 @@ func _ready():
 func _input(_event: InputEvent) -> void:
 	if(Input.is_action_pressed("clear_data")):
 		clear_player_data(player_data_path)
-	if(Input.is_action_just_pressed("spawn_skeleton")):
+	if(Input.is_action_just_pressed("spawn_t1_unit")):
 		var spawn_areas = $player_spawn_areas.get_children()
-		var skeleton = load("res://scenes/skeleton.tscn").instantiate()
+		var unit = load(t1_units.pick_random()).instantiate()
 		var spawn_point = find_open_spawn_point(spawn_areas)
 		if(spawn_point == null):
 			print("No free space!")
 		else:
-			skeleton.position = spawn_point.global_position
-			$".".add_child(skeleton)
+			unit.position = spawn_point.global_position
+			$".".add_child(unit)
 
 func update_player_data_ui(data):
 	$"Main-ui/level".text = "Level: " + str(int(data.level))
@@ -74,6 +78,7 @@ func clear_player_data(path):
 
 func find_open_spawn_point(spawn_areas):
 	for area in spawn_areas:
-		if(area.open == true):
+		var units = area.has_overlapping_bodies()
+		if(units == false):
 			return area
 	return null
