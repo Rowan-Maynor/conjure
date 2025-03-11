@@ -127,30 +127,29 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="CharacterBody2D" type="CharacterBody2D"]
-y_sort_enabled = true
+[node name="pig" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_m6pb5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-y_sort_enabled = true
+z_index = -1
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_4a8uq")
 metadata/_edit_lock_ = true
 
 [node name="selection_area" type="Area2D" parent="."]
 collision_layer = 4
-collision_mask = 4
+collision_mask = 0
 metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="selection_area"]
 position = Vector2(0, -6)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_m6pb5")
+metadata/_edit_lock_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-y_sort_enabled = true
 position = Vector2(0, -6)
 sprite_frames = SubResource("SpriteFrames_7e1yb")
 animation = &"move_up"

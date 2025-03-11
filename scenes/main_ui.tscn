@@ -1,4 +1,15 @@
-[gd_scene format=3 uid="uid://b578nkptq5xnm"]
+[gd_scene load_steps=5 format=3 uid="uid://b578nkptq5xnm"]
+
+[ext_resource type="Script" uid="uid://mivjt0t7mpqb" path="res://scripts/spawn_t1.gd" id="1_fnul3"]
+
+[sub_resource type="Theme" id="Theme_fnul3"]
+default_font_size = 15
+
+[sub_resource type="Theme" id="Theme_513t2"]
+default_font_size = 15
+
+[sub_resource type="Theme" id="Theme_e6fyy"]
+default_font_size = 15
 
 [node name="Main-ui" type="Control"]
 layout_mode = 3
@@ -7,34 +18,50 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+metadata/_edit_lock_ = true
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 0
 offset_left = 10.0
 offset_top = 10.0
-offset_right = 95.0
-offset_bottom = 95.0
+offset_right = 75.0
+offset_bottom = 75.0
 
 [node name="level" type="Label" parent="."]
 layout_mode = 0
-offset_left = 110.0
-offset_top = 10.0
-offset_right = 159.0
-offset_bottom = 33.0
+offset_left = 80.0
+offset_top = 5.0
+offset_right = 129.0
+offset_bottom = 28.0
+theme = SubResource("Theme_fnul3")
 text = "Level: "
 
 [node name="exp" type="Label" parent="."]
 layout_mode = 0
-offset_left = 110.0
-offset_top = 40.0
-offset_right = 150.0
-offset_bottom = 63.0
+offset_left = 80.0
+offset_top = 29.0
+offset_right = 120.0
+offset_bottom = 52.0
+theme = SubResource("Theme_513t2")
 text = "EXP: "
 
 [node name="tp" type="Label" parent="."]
 layout_mode = 0
-offset_left = 110.0
-offset_top = 70.0
-offset_right = 150.0
-offset_bottom = 93.0
+offset_left = 80.0
+offset_top = 53.0
+offset_right = 120.0
+offset_bottom = 76.0
+theme = SubResource("Theme_e6fyy")
 text = "TP:"
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 800.0
+offset_top = 452.0
+offset_right = 956.0
+offset_bottom = 536.0
+text = "Spawn T1"
+script = ExtResource("1_fnul3")
+metadata/_edit_lock_ = true
+
+[connection signal="pressed" from="Button" to="Button" method="_on_pressed"]
