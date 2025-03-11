@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://c78ysnebai1o6"]
+[gd_scene load_steps=42 format=3 uid="uid://c78ysnebai1o6"]
 
 [ext_resource type="Script" uid="uid://bmtnkgh3vjrpk" path="res://scripts/unit.gd" id="1_p0ms8"]
 [ext_resource type="Texture2D" uid="uid://sdshnn12mxu7" path="res://assets/sprites/Enemies/Skeleton.png" id="2_rugf1"]
@@ -6,6 +6,10 @@
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ruecw"]
 radius = 6.0
 height = 18.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_p0ms8"]
+radius = 8.0
+height = 26.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bnirc"]
 atlas = ExtResource("2_rugf1")
@@ -294,12 +298,24 @@ animations = [{
 
 [node name="Skeleton" type="CharacterBody2D"]
 y_sort_enabled = true
+collision_layer = 2
+collision_mask = 3
 script = ExtResource("1_p0ms8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 y_sort_enabled = true
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_ruecw")
+metadata/_edit_lock_ = true
+
+[node name="selection_area" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 4
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="selection_area"]
+position = Vector2(0, -8)
+shape = SubResource("CapsuleShape2D_p0ms8")
 metadata/_edit_lock_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

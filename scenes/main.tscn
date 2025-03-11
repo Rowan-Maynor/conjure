@@ -210,6 +210,7 @@ metadata/_edit_lock_ = true
 
 [node name="player_spawn_area_1" type="Area2D" parent="player_spawn_areas"]
 position = Vector2(640, 360)
+collision_mask = 2
 metadata/_edit_lock_ = true
 
 [node name="player_spawn_area" type="CollisionShape2D" parent="player_spawn_areas/player_spawn_area_1"]
@@ -221,6 +222,7 @@ metadata/_edit_lock_ = true
 
 [node name="player_spawn_area_2" type="Area2D" parent="player_spawn_areas"]
 position = Vector2(640, 336)
+collision_mask = 2
 metadata/_edit_lock_ = true
 
 [node name="player_spawn_area" type="CollisionShape2D" parent="player_spawn_areas/player_spawn_area_2"]
@@ -232,6 +234,7 @@ metadata/_edit_lock_ = true
 
 [node name="player_spawn_area_3" type="Area2D" parent="player_spawn_areas"]
 position = Vector2(664, 336)
+collision_mask = 2
 metadata/_edit_lock_ = true
 
 [node name="player_spawn_area" type="CollisionShape2D" parent="player_spawn_areas/player_spawn_area_3"]
@@ -243,6 +246,7 @@ metadata/_edit_lock_ = true
 
 [node name="player_spawn_area_4" type="Area2D" parent="player_spawn_areas"]
 position = Vector2(664, 360)
+collision_mask = 2
 metadata/_edit_lock_ = true
 
 [node name="player_spawn_area" type="CollisionShape2D" parent="player_spawn_areas/player_spawn_area_4"]
@@ -254,6 +258,7 @@ metadata/_edit_lock_ = true
 
 [node name="player_spawn_area_5" type="Area2D" parent="player_spawn_areas"]
 position = Vector2(664, 384)
+collision_mask = 2
 metadata/_edit_lock_ = true
 
 [node name="player_spawn_area" type="CollisionShape2D" parent="player_spawn_areas/player_spawn_area_5"]
@@ -265,6 +270,7 @@ metadata/_edit_lock_ = true
 
 [node name="player_spawn_area_6" type="Area2D" parent="player_spawn_areas"]
 position = Vector2(640, 384)
+collision_mask = 2
 metadata/_edit_lock_ = true
 
 [node name="player_spawn_area" type="CollisionShape2D" parent="player_spawn_areas/player_spawn_area_6"]
@@ -276,6 +282,7 @@ metadata/_edit_lock_ = true
 
 [node name="player_spawn_area_7" type="Area2D" parent="player_spawn_areas"]
 position = Vector2(616, 384)
+collision_mask = 2
 metadata/_edit_lock_ = true
 
 [node name="player_spawn_area" type="CollisionShape2D" parent="player_spawn_areas/player_spawn_area_7"]
@@ -287,6 +294,7 @@ metadata/_edit_lock_ = true
 
 [node name="player_spawn_area_8" type="Area2D" parent="player_spawn_areas"]
 position = Vector2(616, 360)
+collision_mask = 2
 metadata/_edit_lock_ = true
 
 [node name="player_spawn_area" type="CollisionShape2D" parent="player_spawn_areas/player_spawn_area_8"]
@@ -298,6 +306,7 @@ metadata/_edit_lock_ = true
 
 [node name="player_spawn_area_9" type="Area2D" parent="player_spawn_areas"]
 position = Vector2(616, 336)
+collision_mask = 2
 metadata/_edit_lock_ = true
 
 [node name="player_spawn_area" type="CollisionShape2D" parent="player_spawn_areas/player_spawn_area_9"]
@@ -315,6 +324,8 @@ offset_bottom = -1.0
 metadata/_edit_lock_ = true
 
 [node name="selection_area" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="selection_area"]
 shape = SubResource("RectangleShape2D_jbj1t")
