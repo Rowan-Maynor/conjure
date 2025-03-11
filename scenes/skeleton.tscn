@@ -1,11 +1,11 @@
 [gd_scene load_steps=41 format=3 uid="uid://c78ysnebai1o6"]
 
-[ext_resource type="Script" uid="uid://bmtnkgh3vjrpk" path="res://scripts/skeleton.gd" id="1_txkty"]
+[ext_resource type="Script" uid="uid://2ima178unc0m" path="res://scripts/skeleton.gd" id="1_txkty"]
 [ext_resource type="Texture2D" uid="uid://sdshnn12mxu7" path="res://assets/sprites/Enemies/Skeleton.png" id="2_ivqcw"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ruecw"]
-radius = 3.0
-height = 14.0
+radius = 6.0
+height = 18.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bnirc"]
 atlas = ExtResource("2_ivqcw")
