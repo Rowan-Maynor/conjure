@@ -331,3 +331,6 @@ visible = false
 show_behind_parent = true
 scale = Vector2(1, 0.5)
 texture = ExtResource("3_rugf1")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_postprocessing = 1
