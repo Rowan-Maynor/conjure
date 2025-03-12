@@ -18,6 +18,10 @@ func _ready():
 	#defaults spawned enemies to moving downwards on spawn
 	if(unit_data.control == "enemy"):
 		enemy_change_direction(enemy_direction)
+	#this causes units to clot less around the square
+	#however it also makes them jitter like crazy if they do clot
+	if(unit_data.control == "enemy"):
+		self.safe_margin = 1.0
 
 func _physics_process(_delta: float) -> void:
 	#handles updating the path of enemies when they get near corners

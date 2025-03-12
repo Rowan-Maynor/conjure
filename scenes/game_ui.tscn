@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://b578nkptq5xnm"]
+[gd_scene load_steps=7 format=3 uid="uid://b578nkptq5xnm"]
 
 [ext_resource type="Script" uid="uid://mivjt0t7mpqb" path="res://scripts/spawn_t1.gd" id="1_fnul3"]
 [ext_resource type="Script" uid="uid://47d5d3lrt102" path="res://scripts/spawn_wave.gd" id="2_513t2"]
@@ -12,6 +12,9 @@ default_font_size = 15
 [sub_resource type="Theme" id="Theme_e6fyy"]
 default_font_size = 15
 
+[sub_resource type="Theme" id="Theme_rns2u"]
+default_font_size = 15
+
 [node name="Main-ui" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -21,45 +24,76 @@ grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_lock_ = true
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="resources" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 768.0
+offset_top = 16.0
+offset_right = 950.0
+offset_bottom = 78.0
+
+[node name="mana" type="Label" parent="resources"]
 layout_mode = 0
-offset_left = 10.0
-offset_top = 10.0
-offset_right = 75.0
-offset_bottom = 75.0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Mana: "
 metadata/_edit_lock_ = true
 
-[node name="level" type="Label" parent="."]
+[node name="research" type="Label" parent="resources"]
 layout_mode = 0
-offset_left = 10.0
-offset_top = 80.0
-offset_right = 59.0
-offset_bottom = 103.0
+offset_top = 30.0
+offset_right = 80.0
+offset_bottom = 53.0
+text = "Research: "
+metadata/_edit_lock_ = true
+
+[node name="player_data" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 9.0
+offset_top = 10.0
+offset_right = 270.0
+offset_bottom = 175.0
+
+[node name="ColorRect" type="ColorRect" parent="player_data"]
+layout_mode = 0
+offset_left = -1.0
+offset_top = -2.0
+offset_right = 64.0
+offset_bottom = 63.0
+metadata/_edit_lock_ = true
+
+[node name="level" type="Label" parent="player_data"]
+layout_mode = 0
+offset_top = 75.0
+offset_right = 49.0
+offset_bottom = 98.0
 theme = SubResource("Theme_fnul3")
 text = "Level: "
 metadata/_edit_lock_ = true
 
-[node name="exp" type="Label" parent="."]
+[node name="exp" type="Label" parent="player_data"]
 layout_mode = 0
-offset_left = 10.0
-offset_top = 100.0
-offset_right = 50.0
-offset_bottom = 123.0
+offset_top = 95.0
+offset_right = 40.0
+offset_bottom = 118.0
 theme = SubResource("Theme_513t2")
 text = "XP: "
 metadata/_edit_lock_ = true
 
-[node name="tp" type="Label" parent="."]
+[node name="tp" type="Label" parent="player_data"]
 layout_mode = 0
-offset_left = 10.0
-offset_top = 120.0
-offset_right = 50.0
-offset_bottom = 143.0
+offset_top = 115.0
+offset_right = 84.0
+offset_bottom = 138.0
 theme = SubResource("Theme_e6fyy")
 text = "Knowledge:"
 metadata/_edit_lock_ = true
 
-[node name="Button" type="Button" parent="."]
+[node name="buttons" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="spawn_t1" type="Button" parent="buttons"]
 layout_mode = 0
 offset_left = 796.0
 offset_top = 450.0
@@ -69,7 +103,7 @@ text = "Spawn T1"
 script = ExtResource("1_fnul3")
 metadata/_edit_lock_ = true
 
-[node name="Button2" type="Button" parent="."]
+[node name="spawn_wave" type="Button" parent="buttons"]
 layout_mode = 0
 offset_left = 797.0
 offset_top = 365.0
@@ -79,27 +113,66 @@ text = "Spawn Wave"
 script = ExtResource("2_513t2")
 metadata/_edit_lock_ = true
 
-[node name="Control" type="Control" parent="."]
+[node name="wave_data" type="Control" parent="."]
 anchors_preset = 0
-offset_left = 768.0
-offset_top = 16.0
-offset_right = 950.0
-offset_bottom = 78.0
+offset_top = 218.0
+offset_right = 183.0
+offset_bottom = 332.0
 
-[node name="mana" type="Label" parent="Control"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-text = "Mana: "
+[node name="wave" type="Label" parent="wave_data"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 22.0
+grow_horizontal = 2
+theme = SubResource("Theme_rns2u")
+text = "Wave"
+horizontal_alignment = 1
+vertical_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="research" type="Label" parent="Control"]
-layout_mode = 0
-offset_top = 30.0
-offset_right = 80.0
-offset_bottom = 53.0
-text = "Research: "
+[node name="wave_value" type="Label" parent="wave_data"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -23.0
+offset_top = 20.0
+offset_right = 23.0
+offset_bottom = 43.0
+grow_horizontal = 2
+horizontal_alignment = 1
 metadata/_edit_lock_ = true
 
-[connection signal="pressed" from="Button" to="Button" method="_on_pressed"]
-[connection signal="pressed" from="Button2" to="Button2" method="_on_pressed"]
+[node name="waves_remaining" type="Label" parent="wave_data"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -65.0
+offset_top = 50.0
+offset_right = 65.0
+offset_bottom = 73.0
+grow_horizontal = 2
+theme = SubResource("Theme_rns2u")
+text = "Waves Remaining"
+metadata/_edit_lock_ = true
+
+[node name="waves_remaining_value" type="Label" parent="wave_data"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -23.0
+offset_top = 70.0
+offset_right = 23.0
+offset_bottom = 93.0
+grow_horizontal = 2
+horizontal_alignment = 1
+metadata/_edit_lock_ = true
+
+[connection signal="pressed" from="buttons/spawn_t1" to="buttons/spawn_t1" method="_on_pressed"]
+[connection signal="pressed" from="buttons/spawn_wave" to="buttons/spawn_wave" method="_on_pressed"]

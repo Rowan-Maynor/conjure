@@ -111,9 +111,13 @@ func _get_rect_start_position():
 	return new_position
 
 func update_player_data_ui():
-	$"Main-ui/level".text = "Level: " + str(int(player_data.level))
-	$"Main-ui/exp".text = "XP: " + str(int(player_data.xp))
-	$"Main-ui/tp".text = "Knowledge: " + str(int(player_data.knowledge))
+	$"Main-ui/player_data/level".text = "Level: " + str(int(player_data.level))
+	$"Main-ui/player_data/exp".text = "XP: " + str(int(player_data.xp))
+	$"Main-ui/player_data/tp".text = "Knowledge: " + str(int(player_data.knowledge))
+	
+func update_wave_data_ui():
+	$"Main-ui/wave_data/wave_value".text = str(wave)
+	$"Main-ui/wave_data/waves_remaining_value".text = str(waves_remaining)
 
 
 #timer that handles the spawning of waves
@@ -131,3 +135,4 @@ func spawn_wave():
 		unit.position = spawn_point.position
 		get_tree().get_root().get_node("game").add_child(unit)
 	waves_remaining -= 1
+	update_wave_data_ui()
