@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://b578nkptq5xnm"]
+[gd_scene load_steps=6 format=3 uid="uid://b578nkptq5xnm"]
 
 [ext_resource type="Script" uid="uid://mivjt0t7mpqb" path="res://scripts/spawn_t1.gd" id="1_fnul3"]
+[ext_resource type="Script" uid="uid://47d5d3lrt102" path="res://scripts/spawn_wave.gd" id="2_513t2"]
 
 [sub_resource type="Theme" id="Theme_fnul3"]
 default_font_size = 15
@@ -68,4 +69,15 @@ text = "Spawn T1"
 script = ExtResource("1_fnul3")
 metadata/_edit_lock_ = true
 
+[node name="Button2" type="Button" parent="."]
+layout_mode = 0
+offset_left = 797.0
+offset_top = 365.0
+offset_right = 950.0
+offset_bottom = 445.0
+text = "Spawn Wave"
+script = ExtResource("2_513t2")
+metadata/_edit_lock_ = true
+
 [connection signal="pressed" from="Button" to="Button" method="_on_pressed"]
+[connection signal="pressed" from="Button2" to="Button2" method="_on_pressed"]
