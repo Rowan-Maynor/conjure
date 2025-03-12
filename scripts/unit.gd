@@ -1,11 +1,13 @@
 extends CharacterBody2D
 
-var damage = 2
-var health = 10
-const speed = 100
-var current_command = "stop"
+#variables for unit properites
+@export var damage = 2
+@export var health = 10
+@export var speed = 100
+@export var current_command = "stop"
 @export var control = "player"
 
+#variables for navigation
 var click_position = Vector2()
 var target_position = Vector2()
 var current_direction = "down"
@@ -13,7 +15,9 @@ var current_direction = "down"
 var enemy_direction = "down"
 
 func _ready():
+	#this prevents units from running to (0, 0) on spawn
 	click_position = position
+	#defaults spawned enemies to moving downwards on spawn
 	if(control == "enemy"):
 		enemy_change_direction(enemy_direction)
 
@@ -79,25 +83,25 @@ func enemy_change_direction(direction):
 	var rng = RandomNumberGenerator.new()
 	var variance = 20.0
 	if(direction == "right"):
-		var path_node = get_tree().get_root().get_node("main/enemy_path_points/bottom_right")
+		var path_node = get_tree().get_root().get_node("game/enemy_path_points/bottom_right")
 		target_position = path_node.position
 		target_position.x += rng.randf_range(-variance, variance)
 		target_position.y += rng.randf_range(-variance, variance)
 		update_target_position(target_position)
 	if(direction == "up"):
-		var path_node = get_tree().get_root().get_node("main/enemy_path_points/top_right")
+		var path_node = get_tree().get_root().get_node("game/enemy_path_points/top_right")
 		target_position = path_node.position
 		target_position.x += rng.randf_range(-variance, variance)
 		target_position.y += rng.randf_range(-variance, variance)
 		update_target_position(target_position)
 	if(direction == "left"):
-		var path_node = get_tree().get_root().get_node("main/enemy_path_points/top_left")
+		var path_node = get_tree().get_root().get_node("game/enemy_path_points/top_left")
 		target_position = path_node.position
 		target_position.x += rng.randf_range(-variance, variance)
 		target_position.y += rng.randf_range(-variance, variance)
 		update_target_position(target_position)
 	if(direction == "down"):
-		var path_node = get_tree().get_root().get_node("main/enemy_path_points/bottom_left")
+		var path_node = get_tree().get_root().get_node("game/enemy_path_points/bottom_left")
 		target_position = path_node.position
 		target_position.x += rng.randf_range(-variance, variance)
 		target_position.y += rng.randf_range(-variance, variance)
