@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Unit_data" load_steps=2 format=3 uid="uid://bk8kouy8e8ikp"]
+
+[ext_resource type="Script" uid="uid://db2pd7vctcukq" path="res://scripts/unit_data.gd" id="1_4u05r"]
+
+[resource]
+script = ExtResource("1_4u05r")
+damage = 2
+health = 6
+speed = 100
+control = "player"
+type = "water"
+metadata/_custom_type_script = "uid://db2pd7vctcukq"

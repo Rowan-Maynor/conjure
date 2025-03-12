@@ -1,11 +1,9 @@
 extends CharacterBody2D
 
+@export var unit_data: Unit_data
+
 #variables for unit properites
-@export var damage = 2
-@export var health = 10
-@export var speed = 100
 @export var current_command = "stop"
-@export var control = "player"
 
 #variables for navigation
 var click_position = Vector2()
@@ -18,41 +16,41 @@ func _ready():
 	#this prevents units from running to (0, 0) on spawn
 	click_position = position
 	#defaults spawned enemies to moving downwards on spawn
-	if(control == "enemy"):
+	if(unit_data.control == "enemy"):
 		enemy_change_direction(enemy_direction)
 
 func _physics_process(_delta: float) -> void:
 	#handles updating the path of enemies when they get near corners
-	if (target_position.y - position.y <= 3 && control == "enemy" && enemy_direction == "down"):
+	if (target_position.y - position.y <= 3 && unit_data.control == "enemy" && enemy_direction == "down"):
 		enemy_direction = "right"
 		enemy_change_direction(enemy_direction)
-	if (target_position.x - position.x <= 3 && control == "enemy" && enemy_direction == "right"):
+	if (target_position.x - position.x <= 3 && unit_data.control == "enemy" && enemy_direction == "right"):
 		enemy_direction = "up"
 		enemy_change_direction(enemy_direction)
-	if (position.y - target_position.y <= 3 && control == "enemy" && enemy_direction == "up"):
+	if (position.y - target_position.y <= 3 && unit_data.control == "enemy" && enemy_direction == "up"):
 		enemy_direction = "left"
 		enemy_change_direction(enemy_direction)
-	if (position.x - target_position.x <= 3 && control == "enemy" && enemy_direction == "left"):
+	if (position.x - target_position.x <= 3 && unit_data.control == "enemy" && enemy_direction == "left"):
 		enemy_direction = "down"
 		enemy_change_direction(enemy_direction)
 	
 	#resolves enemy movement if they are more than 3 pixels from target
-	if (position.distance_to(target_position) > 3 && control == "enemy"):
+	if (position.distance_to(target_position) > 3 && unit_data.control == "enemy"):
 		var next_nav_location = nav.get_next_path_position()
 		var nav_target_position = (next_nav_location - position).normalized()
-		velocity = nav_target_position * speed
+		velocity = nav_target_position * unit_data.speed
 		handle_anim(nav_target_position)
 		move_and_slide()
 		
 	#resolves player movement if they are more than 3 pixels away from click
-	if (position.distance_to(click_position) > 3 && control == "player"):
+	if (position.distance_to(click_position) > 3 && unit_data.control == "player"):
 		target_position = (click_position - position).normalized()
-		velocity = target_position * speed
+		velocity = target_position * unit_data.speed
 		handle_anim(target_position)
 		move_and_slide()
 		
 	#sets animation to idle if unit stops moving
-	if (position.distance_to(click_position) < 3 && control == "player"):
+	if (position.distance_to(click_position) < 3 && unit_data.control == "player"):
 		$AnimatedSprite2D.play("idle_" + current_direction)
 		if(current_command == "move"):
 			current_command = "stop"

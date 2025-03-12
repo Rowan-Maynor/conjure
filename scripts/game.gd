@@ -1,18 +1,12 @@
 extends Node2D
 
 #handles player save data
-var player_data_path = "user://player_data.json"
-var player_data: Dictionary = {}
+@export var player_data: Player_data
 
 #handles wave information
+@export var wave_data: Wave_data
 var wave = 1
 var waves_remaining = 0
-var wave_data = {
-	"wave1": {"unit": "res://scenes/units/t1/skeleton.tscn",
-	"wave_count": 6},
-	"wave2": {"unit": "res://scenes/units/t1/pig.tscn",
-	"wave_count": 6},
-}
 
 #handles drag select
 var selected = []
@@ -21,13 +15,10 @@ var drag_start = Vector2.ZERO
 @onready var selection_collision = $selection_area/CollisionShape2D
 
 func _ready():
-	load_player_data(player_data_path)
-	update_player_data_ui(player_data)
+	player_data = load("res://resources/player/player_data.tres")
+	update_player_data_ui()
 
 func _input(event: InputEvent) -> void:
-	if(Input.is_action_pressed("clear_data")):
-		clear_player_data(player_data_path)
-		
 	if(Input.is_action_just_released("right_click")):
 		for unit in selected:
 			unit.click_position = get_global_mouse_position()
@@ -87,7 +78,7 @@ func _select_units():
 	
 	for area in selection_area.get_overlapping_areas():
 		var body = area.get_parent()
-		if (body.control == "player"):
+		if (body.unit_data.control == "player"):
 			selected.append(body)
 			var selection_sprite = body.get_node("selection_sprite")
 			selection_sprite.visible = true
@@ -108,47 +99,10 @@ func _get_rect_start_position():
 	
 	return new_position
 
-func update_player_data_ui(data):
-	$"Main-ui/level".text = "Level: " + str(int(data.level))
-	$"Main-ui/exp".text = "EXP: " + str(int(data.exp))
-	$"Main-ui/tp".text = "TP: " + str(int(data.tp))
-
-func load_player_data(path):
-	if not FileAccess.file_exists(path):
-		print("No save file found, attempting to create")
-		var data = {
-			"exp":0.0,
-			"level":0.0,
-			"name":"Test Name 1",
-			"tp":0.0
-			}
-		save_player_data(path, data)
-	
-	var file = FileAccess.open(path, FileAccess.READ)
-	var json = file.get_as_text()
-	var json_object = JSON.new()
-	
-	json_object.parse(json)
-	player_data = json_object.data
-
-func save_player_data(path, data):
-	var file = FileAccess.open(path, FileAccess.WRITE)
-	if file:
-		var json_text = JSON.stringify(data)
-		file.store_string(json_text)
-	else:
-		print("Failed to open or create file")
-
-func clear_player_data(path):
-	var data = {
-		"exp":0.0,
-		"level":0.0,
-		"name":"Test Name 1",
-		"tp":0.0
-		}
-	save_player_data(path, data)
-	load_player_data(path)
-	update_player_data_ui(player_data)
+func update_player_data_ui():
+	$"Main-ui/level".text = "Level: " + str(int(player_data.level))
+	$"Main-ui/exp".text = "XP: " + str(int(player_data.xp))
+	$"Main-ui/tp".text = "TP: " + str(int(player_data.tp))
 
 
 #timer that handles the spawning of waves
@@ -156,9 +110,9 @@ func _on_wave_delay_timeout() -> void:
 	if(waves_remaining > 0):
 		var spawn_areas = get_tree().get_root().get_node("game/enemy_spawn_areas").get_children()
 		for spawn_point in spawn_areas:
-			var unit = load(wave_data["wave" + str(wave)]["unit"]).instantiate()
-			unit.position = spawn_point.global_position
-			unit.control = "enemy"
+			var unit = load(wave_data.unit).instantiate()
+			unit.unit_data = load("res://resources/waves/wave_" + str(wave) + "/unit_stats.tres")
+			unit.position = spawn_point.position
 			get_tree().get_root().get_node("game").add_child(unit)
 		waves_remaining -= 1
 	else:
