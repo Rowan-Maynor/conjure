@@ -2,10 +2,16 @@ extends Node2D
 
 var player_data_path = "user://player_data.json"
 var player_data: Dictionary = {}
-var t1_units = [
-	"res://scenes/units/t1/pig.tscn",
-	"res://scenes/units/t1/skeleton.tscn"
-]
+
+#handles wave information
+var wave = 1
+var waves_remaining = 0
+var wave_data = {
+	"wave1": {"unit": "res://scenes/units/t1/skeleton.tscn",
+	"wave_count": 6},
+	"wave2": {"unit": "res://scenes/units/t1/pig.tscn",
+	"wave_count": 6},
+}
 
 #handles drag select
 var selected = []
@@ -152,3 +158,14 @@ func clear_player_data(path):
 	save_player_data(path, data)
 	load_player_data(path)
 	update_player_data_ui(player_data)
+
+
+func _on_wave_delay_timeout() -> void:
+	if(waves_remaining > 0):
+		var spawn_areas = get_tree().get_root().get_node("game/enemy_spawn_areas").get_children()
+		for spawn_point in spawn_areas:
+			var unit = load(wave_data["wave" + str(wave)]["unit"]).instantiate()
+			unit.position = spawn_point.global_position
+			unit.control = "enemy"
+			get_tree().get_root().get_node("game").add_child(unit)
+		waves_remaining -= 1

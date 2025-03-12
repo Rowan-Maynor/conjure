@@ -2,7 +2,6 @@ extends Button
 
 var t1_units = [
 	"res://scenes/units/t1/pig.tscn",
-	"res://scenes/units/t1/skeleton.tscn"
 ]
 
 func _on_pressed():
