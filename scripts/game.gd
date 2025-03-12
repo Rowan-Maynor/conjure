@@ -113,18 +113,21 @@ func _get_rect_start_position():
 func update_player_data_ui():
 	$"Main-ui/level".text = "Level: " + str(int(player_data.level))
 	$"Main-ui/exp".text = "XP: " + str(int(player_data.xp))
-	$"Main-ui/tp".text = "TP: " + str(int(player_data.tp))
+	$"Main-ui/tp".text = "Knowledge: " + str(int(player_data.knowledge))
 
 
 #timer that handles the spawning of waves
 func _on_wave_delay_timeout() -> void:
 	if(waves_remaining > 0):
-		var spawn_areas = get_tree().get_root().get_node("game/enemy_spawn_areas").get_children()
-		for spawn_point in spawn_areas:
-			var unit = load(wave_data.unit).instantiate()
-			unit.unit_data = load("res://resources/waves/wave_" + str(wave) + "/unit_stats.tres")
-			unit.position = spawn_point.position
-			get_tree().get_root().get_node("game").add_child(unit)
-		waves_remaining -= 1
+		spawn_wave()
 	else:
 		$wave_delay.stop()
+
+func spawn_wave():
+	var spawn_areas = get_tree().get_root().get_node("game/enemy_spawn_areas").get_children()
+	for spawn_point in spawn_areas:
+		var unit = load(wave_data.unit).instantiate()
+		unit.unit_data = load("res://resources/waves/wave_" + str(wave) + "/unit_stats.tres")
+		unit.position = spawn_point.position
+		get_tree().get_root().get_node("game").add_child(unit)
+	waves_remaining -= 1
