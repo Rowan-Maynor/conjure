@@ -1,11 +1,18 @@
 extends Node2D
 
+#handles player save data
 var player_data_path = "user://player_data.json"
 var player_data: Dictionary = {}
-var t1_units = [
-	"res://scenes/units/t1/pig.tscn",
-	"res://scenes/units/t1/skeleton.tscn"
-]
+
+#handles wave information
+var wave = 1
+var waves_remaining = 0
+var wave_data = {
+	"wave1": {"unit": "res://scenes/units/t1/skeleton.tscn",
+	"wave_count": 6},
+	"wave2": {"unit": "res://scenes/units/t1/pig.tscn",
+	"wave_count": 6},
+}
 
 #handles drag select
 var selected = []
@@ -16,16 +23,6 @@ var drag_start = Vector2.ZERO
 func _ready():
 	load_player_data(player_data_path)
 	update_player_data_ui(player_data)
-	
-	await get_tree().create_timer(2).timeout
-	player_data.level += 1
-	player_data.exp += 1000
-	player_data.tp += 500
-	
-	save_player_data(player_data_path, player_data)
-	update_player_data_ui(player_data)
-	
-	print("Done!")
 
 func _input(event: InputEvent) -> void:
 	if(Input.is_action_pressed("clear_data")):
@@ -152,3 +149,17 @@ func clear_player_data(path):
 	save_player_data(path, data)
 	load_player_data(path)
 	update_player_data_ui(player_data)
+
+
+#timer that handles the spawning of waves
+func _on_wave_delay_timeout() -> void:
+	if(waves_remaining > 0):
+		var spawn_areas = get_tree().get_root().get_node("game/enemy_spawn_areas").get_children()
+		for spawn_point in spawn_areas:
+			var unit = load(wave_data["wave" + str(wave)]["unit"]).instantiate()
+			unit.position = spawn_point.global_position
+			unit.control = "enemy"
+			get_tree().get_root().get_node("game").add_child(unit)
+		waves_remaining -= 1
+	else:
+		$wave_delay.stop()
