@@ -17,8 +17,14 @@ var drag_start = Vector2.ZERO
 func _ready():
 	player_data = load("res://resources/player/player_data.tres")
 	update_player_data_ui()
+	
+	await get_tree().create_timer(1.0).timeout
+	
+	player_data.level += 1
+	update_player_data_ui()
+	save()
 
-func _input(event: InputEvent) -> void:
+func _input(_event: InputEvent) -> void:
 	if(Input.is_action_just_released("right_click")):
 		for unit in selected:
 			unit.click_position = get_global_mouse_position()
@@ -29,6 +35,8 @@ func _input(event: InputEvent) -> void:
 			unit.click_position = unit.position
 			unit.current_command = "stop"
 			
+
+func _unhandled_input(event: InputEvent) -> void:
 	if(drag_start == Vector2.ZERO && event is InputEventMouseButton 
 		&& event.button_index == 1 && event.is_pressed()):
 			for body in selected:
@@ -40,6 +48,9 @@ func _input(event: InputEvent) -> void:
 		&& event.button_index == 1):
 			_select_units()
 			drag_start = Vector2.ZERO
+			
+func save():
+	ResourceSaver.save(player_data, "res://resources/player/player_data.tres")
 
 func _process(_delta):
 	queue_redraw()
