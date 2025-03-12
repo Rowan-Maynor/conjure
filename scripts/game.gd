@@ -5,14 +5,9 @@ var player_data_path = "user://player_data.json"
 var player_data: Dictionary = {}
 
 #handles wave information
+@export var wave_data: Wave_data
 var wave = 1
 var waves_remaining = 0
-var wave_data = {
-	"wave1": {"unit": "res://scenes/units/t1/skeleton.tscn",
-	"wave_count": 6},
-	"wave2": {"unit": "res://scenes/units/t1/pig.tscn",
-	"wave_count": 6},
-}
 
 #handles drag select
 var selected = []
@@ -87,7 +82,7 @@ func _select_units():
 	
 	for area in selection_area.get_overlapping_areas():
 		var body = area.get_parent()
-		if (body.control == "player"):
+		if (body.unit_data.control == "player"):
 			selected.append(body)
 			var selection_sprite = body.get_node("selection_sprite")
 			selection_sprite.visible = true
@@ -156,9 +151,9 @@ func _on_wave_delay_timeout() -> void:
 	if(waves_remaining > 0):
 		var spawn_areas = get_tree().get_root().get_node("game/enemy_spawn_areas").get_children()
 		for spawn_point in spawn_areas:
-			var unit = load(wave_data["wave" + str(wave)]["unit"]).instantiate()
-			unit.position = spawn_point.global_position
-			unit.control = "enemy"
+			var unit = load(wave_data.unit).instantiate()
+			unit.unit_data = load("res://resources/waves/wave_" + str(wave) + "/unit_stats.tres")
+			unit.position = spawn_point.position
 			get_tree().get_root().get_node("game").add_child(unit)
 		waves_remaining -= 1
 	else:
