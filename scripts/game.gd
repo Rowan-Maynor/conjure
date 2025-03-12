@@ -17,6 +17,12 @@ var drag_start = Vector2.ZERO
 func _ready():
 	player_data = load("res://resources/player/player_data.tres")
 	update_player_data_ui()
+	
+	await get_tree().create_timer(1.0).timeout
+	
+	player_data.level += 1
+	update_player_data_ui()
+	save()
 
 func _input(event: InputEvent) -> void:
 	if(Input.is_action_just_released("right_click")):
@@ -40,6 +46,9 @@ func _input(event: InputEvent) -> void:
 		&& event.button_index == 1):
 			_select_units()
 			drag_start = Vector2.ZERO
+			
+func save():
+	ResourceSaver.save(player_data, "res://resources/player/player_data.tres")
 
 func _process(_delta):
 	queue_redraw()
