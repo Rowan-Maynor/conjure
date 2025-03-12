@@ -1,15 +1,15 @@
 extends Button
 
 var t1_units = [
-	"pig",
+	"human",
 ]
 
 var unit_scene_path = {
-	"pig": "res://scenes/units/t1/pig.tscn"
+	"human": "res://scenes/units/t1/human.tscn"
 }
 
 var unit_data_path = {
-	"pig": "res://resources/units/pig.tres"
+	"human": "res://resources/units/human.tres"
 }
 
 func _on_pressed():

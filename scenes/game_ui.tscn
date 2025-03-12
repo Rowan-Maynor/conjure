@@ -31,30 +31,30 @@ metadata/_edit_lock_ = true
 
 [node name="level" type="Label" parent="."]
 layout_mode = 0
-offset_left = 80.0
-offset_top = 5.0
-offset_right = 129.0
-offset_bottom = 28.0
+offset_left = 10.0
+offset_top = 80.0
+offset_right = 59.0
+offset_bottom = 103.0
 theme = SubResource("Theme_fnul3")
 text = "Level: "
 metadata/_edit_lock_ = true
 
 [node name="exp" type="Label" parent="."]
 layout_mode = 0
-offset_left = 80.0
-offset_top = 29.0
-offset_right = 120.0
-offset_bottom = 52.0
+offset_left = 10.0
+offset_top = 100.0
+offset_right = 50.0
+offset_bottom = 123.0
 theme = SubResource("Theme_513t2")
-text = "EXP: "
+text = "XP: "
 metadata/_edit_lock_ = true
 
 [node name="tp" type="Label" parent="."]
 layout_mode = 0
-offset_left = 80.0
-offset_top = 53.0
-offset_right = 120.0
-offset_bottom = 76.0
+offset_left = 10.0
+offset_top = 120.0
+offset_right = 50.0
+offset_bottom = 143.0
 theme = SubResource("Theme_e6fyy")
 text = "TP:"
 metadata/_edit_lock_ = true
@@ -77,6 +77,28 @@ offset_right = 950.0
 offset_bottom = 445.0
 text = "Spawn Wave"
 script = ExtResource("2_513t2")
+metadata/_edit_lock_ = true
+
+[node name="Control" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 768.0
+offset_top = 16.0
+offset_right = 950.0
+offset_bottom = 78.0
+
+[node name="mana" type="Label" parent="Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Mana: "
+metadata/_edit_lock_ = true
+
+[node name="research" type="Label" parent="Control"]
+layout_mode = 0
+offset_top = 30.0
+offset_right = 80.0
+offset_bottom = 53.0
+text = "Research: "
 metadata/_edit_lock_ = true
 
 [connection signal="pressed" from="Button" to="Button" method="_on_pressed"]

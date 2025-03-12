@@ -1,8 +1,7 @@
 extends Node2D
 
 #handles player save data
-var player_data_path = "user://player_data.json"
-var player_data: Dictionary = {}
+@export var player_data: Player_data
 
 #handles wave information
 @export var wave_data: Wave_data
@@ -16,13 +15,10 @@ var drag_start = Vector2.ZERO
 @onready var selection_collision = $selection_area/CollisionShape2D
 
 func _ready():
-	load_player_data(player_data_path)
-	update_player_data_ui(player_data)
+	player_data = load("res://resources/player/player_data.tres")
+	update_player_data_ui()
 
 func _input(event: InputEvent) -> void:
-	if(Input.is_action_pressed("clear_data")):
-		clear_player_data(player_data_path)
-		
 	if(Input.is_action_just_released("right_click")):
 		for unit in selected:
 			unit.click_position = get_global_mouse_position()
@@ -103,47 +99,10 @@ func _get_rect_start_position():
 	
 	return new_position
 
-func update_player_data_ui(data):
-	$"Main-ui/level".text = "Level: " + str(int(data.level))
-	$"Main-ui/exp".text = "EXP: " + str(int(data.exp))
-	$"Main-ui/tp".text = "TP: " + str(int(data.tp))
-
-func load_player_data(path):
-	if not FileAccess.file_exists(path):
-		print("No save file found, attempting to create")
-		var data = {
-			"exp":0.0,
-			"level":0.0,
-			"name":"Test Name 1",
-			"tp":0.0
-			}
-		save_player_data(path, data)
-	
-	var file = FileAccess.open(path, FileAccess.READ)
-	var json = file.get_as_text()
-	var json_object = JSON.new()
-	
-	json_object.parse(json)
-	player_data = json_object.data
-
-func save_player_data(path, data):
-	var file = FileAccess.open(path, FileAccess.WRITE)
-	if file:
-		var json_text = JSON.stringify(data)
-		file.store_string(json_text)
-	else:
-		print("Failed to open or create file")
-
-func clear_player_data(path):
-	var data = {
-		"exp":0.0,
-		"level":0.0,
-		"name":"Test Name 1",
-		"tp":0.0
-		}
-	save_player_data(path, data)
-	load_player_data(path)
-	update_player_data_ui(player_data)
+func update_player_data_ui():
+	$"Main-ui/level".text = "Level: " + str(int(player_data.level))
+	$"Main-ui/exp".text = "XP: " + str(int(player_data.xp))
+	$"Main-ui/tp".text = "TP: " + str(int(player_data.tp))
 
 
 #timer that handles the spawning of waves

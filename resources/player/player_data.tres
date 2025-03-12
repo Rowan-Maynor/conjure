@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Player_data" load_steps=2 format=3 uid="uid://crdr7vwimx8v5"]
+
+[ext_resource type="Script" uid="uid://dem02p8om4b10" path="res://scripts/player_data.gd" id="1_lx46u"]
+
+[resource]
+script = ExtResource("1_lx46u")
+level = 1
+exp = 2000
+tp = 5
+metadata/_custom_type_script = "uid://dem02p8om4b10"
