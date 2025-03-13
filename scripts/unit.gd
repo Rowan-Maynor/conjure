@@ -225,8 +225,12 @@ func find_lowest_health_target(targets):
 	
 func find_new_target():
 	var units = $attack_range.get_overlapping_bodies()
-	if(units.size() > 1):
-		current_target = find_lowest_health_target(units)
+	var enemy_units = []
+	for unit in units:
+		if (unit.unit_data.control == "enemy"):
+			enemy_units.append(unit)
+	if(enemy_units.size() != 0):
+		current_target = find_lowest_health_target(enemy_units)
 		current_target.died.connect(_on_died)
 	if(current_target != null):
 		attack()
