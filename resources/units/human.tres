@@ -5,8 +5,10 @@
 [resource]
 script = ExtResource("1_ngi8q")
 damage = 2
+attack_range = 100
+attack_speed = 3.0
 health = 10
 speed = 100
-control = "player"
 type = "fire"
+control = "player"
 metadata/_custom_type_script = "uid://db2pd7vctcukq"

@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://b8uv4cs1ld83g"]
+[gd_scene load_steps=44 format=3 uid="uid://b8uv4cs1ld83g"]
 
 [ext_resource type="Texture2D" uid="uid://6xoidkpb15s4" path="res://assets/sprites/Player/Player.png" id="1_p3orc"]
 [ext_resource type="Script" uid="uid://bmtnkgh3vjrpk" path="res://scripts/unit.gd" id="1_ybjwe"]
@@ -296,6 +296,9 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_ybjwe"]
+radius = 68.0294
+
 [node name="Human" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 3
@@ -318,12 +321,11 @@ shape = SubResource("CapsuleShape2D_7rom1")
 metadata/_edit_lock_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -7)
+position = Vector2(1, -7)
 sprite_frames = SubResource("SpriteFrames_wej26")
-animation = &"move_up"
+animation = &"idle_down"
 autoplay = "idle_down"
 offset = Vector2(-0.5, 0)
-metadata/_edit_lock_ = true
 
 [node name="selection_sprite" type="Sprite2D" parent="."]
 visible = false
@@ -332,3 +334,17 @@ scale = Vector2(1, 0.5)
 texture = ExtResource("2_ybjwe")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+
+[node name="attack_range" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="attack_range"]
+shape = SubResource("CircleShape2D_ybjwe")
+
+[node name="attack_speed" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="body_entered" from="attack_range" to="." method="_on_attack_range_body_entered"]
+[connection signal="body_exited" from="attack_range" to="." method="_on_attack_range_body_exited"]
+[connection signal="timeout" from="attack_speed" to="." method="_on_attack_speed_timeout"]
