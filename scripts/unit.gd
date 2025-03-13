@@ -65,7 +65,7 @@ func _physics_process(_delta: float) -> void:
 		velocity = nav_target_position * unit_data.speed
 		if(is_attacking == false):
 			handle_anim(nav_target_position)
-		move_and_slide()
+			move_and_slide()
 		
 	#resolves player movement if they are more than 3 pixels away from click
 	if (position.distance_to(move_position) > 3 && unit_data.control == "player"):
@@ -73,7 +73,7 @@ func _physics_process(_delta: float) -> void:
 		velocity = target_position * unit_data.speed
 		if(is_attacking == false):
 			handle_anim(target_position)
-		move_and_slide()
+			move_and_slide()
 		
 	#sets animation to idle if unit stops moving
 	if (position.distance_to(move_position) < 3 && unit_data.control == "player"):
@@ -166,7 +166,6 @@ func _on_attack_range_body_entered(body: Node2D) -> void:
 			current_command = "focus"
 			attack()
 	elif(current_command == "focus" && current_target == body):
-		chase = false
 		attack()
 	elif(current_command == "hold" && current_target == null):
 		current_target = body
@@ -196,10 +195,12 @@ func die():
 signal died(body)
 
 func _on_died(body):
+	print("Target died:", body)
 	if (current_target == body):
 		reset_target()
 		if(current_command != "hold"):
 			current_command = "idle"
+			print("command should now be idle")
 		find_new_target()
 
 func _on_attack_speed_timeout() -> void:
