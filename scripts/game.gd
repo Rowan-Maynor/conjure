@@ -136,7 +136,7 @@ func spawn_wave():
 	var spawn_areas = get_tree().get_root().get_node("game/enemy_spawn_areas").get_children()
 	for spawn_point in spawn_areas:
 		var unit = load(wave_data.unit).instantiate()
-		unit.unit_data = load("res://resources/waves/wave_" + str(wave) + "/unit_stats.tres")
+		unit.unit_data = load("res://resources/waves/wave_" + str(wave) + "/unit_stats.tres").duplicate()
 		unit.position = spawn_point.position
 		get_tree().get_root().get_node("game").add_child(unit)
 	waves_remaining -= 1

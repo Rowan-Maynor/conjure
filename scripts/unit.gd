@@ -29,6 +29,8 @@ func _ready():
 	#initialize nodes based on units data
 	get_node("attack_range/CollisionShape2D").shape.radius = unit_data.attack_range
 	$attack_speed.wait_time = unit_data.attack_speed
+	$health_bar.max_value = unit_data.health
+	$health_bar.value = unit_data.health
 
 func _physics_process(_delta: float) -> void:
 	#handles updating the path of enemies when they get near corners
@@ -181,9 +183,8 @@ func attack():
 	if(current_target == null):
 		return
 	if($attack_speed.is_stopped()):
-		print(current_target)
 		handle_attack_anim((current_target.position - position).normalized())
-		current_target.unit_data.health -= unit_data.damage
+		current_target.handle_damage(unit_data.damage)
 		$attack_speed.start()
 		if(current_target.unit_data.health <= 0):
 			current_target.die()
@@ -242,6 +243,11 @@ func reset_target():
 	current_target = null
 	move_position = self.position
 
-
 func _on_attack_animation_speed_timeout() -> void:
 	is_attacking = false
+	
+func handle_damage(value):
+	self.unit_data.health -= value
+	$health_bar.value = unit_data.health
+	if($health_bar.value < $health_bar.max_value):
+		$health_bar.visible = true

@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=3 uid="uid://b8uv4cs1ld83g"]
+[gd_scene load_steps=58 format=3 uid="uid://b8uv4cs1ld83g"]
 
 [ext_resource type="Texture2D" uid="uid://6xoidkpb15s4" path="res://assets/sprites/Player/Player.png" id="1_p3orc"]
 [ext_resource type="Script" uid="uid://bmtnkgh3vjrpk" path="res://scripts/unit.gd" id="1_ybjwe"]
@@ -398,6 +398,22 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_ybjwe"]
 radius = 68.0294
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ybjwe"]
+bg_color = Color(0.517647, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k32c4"]
+bg_color = Color(0, 0.690196, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+
 [node name="Human" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 3
@@ -422,10 +438,8 @@ metadata/_edit_lock_ = true
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(1, -7)
 sprite_frames = SubResource("SpriteFrames_wej26")
-animation = &"attack_up"
+animation = &"idle_down"
 autoplay = "idle_down"
-frame = 3
-frame_progress = 1.0
 offset = Vector2(-0.5, 0)
 
 [node name="selection_sprite" type="Sprite2D" parent="."]
@@ -437,6 +451,7 @@ texture = ExtResource("2_ybjwe")
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
 [node name="attack_range" type="Area2D" parent="."]
+visible = false
 collision_layer = 8
 collision_mask = 2
 
@@ -448,6 +463,19 @@ one_shot = true
 
 [node name="attack_animation_speed" type="Timer" parent="."]
 wait_time = 0.8
+
+[node name="health_bar" type="ProgressBar" parent="."]
+visible = false
+offset_left = 9.0
+offset_top = -26.0
+offset_right = 13.0
+offset_bottom = -8.0
+rotation = 1.5708
+theme_override_styles/background = SubResource("StyleBoxFlat_ybjwe")
+theme_override_styles/fill = SubResource("StyleBoxFlat_k32c4")
+value = 60.0
+fill_mode = 3
+show_percentage = false
 
 [connection signal="body_entered" from="attack_range" to="." method="_on_attack_range_body_entered"]
 [connection signal="body_exited" from="attack_range" to="." method="_on_attack_range_body_exited"]
