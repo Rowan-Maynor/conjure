@@ -25,16 +25,21 @@ func _ready():
 	save()
 
 func _input(_event: InputEvent) -> void:
-	if(Input.is_action_just_released("right_click")):
+	if(Input.is_action_just_pressed("right_click")):
 		for unit in selected:
-			unit.move_position = get_global_mouse_position()
+			unit.reset_target()
 			unit.current_command = "move"
-			
+			unit.move_position = get_global_mouse_position()
 	if(Input.is_action_just_pressed("stop_movement")):
 		for unit in selected:
-			unit.move_position = unit.position
+			unit.reset_target()
 			unit.current_command = "idle"
-			
+			unit.find_new_target()
+	if(Input.is_action_just_pressed("hold_position")):
+		for unit in selected:
+			unit.reset_target()
+			unit.current_command = "hold"
+			unit.find_new_target()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if(drag_start == Vector2.ZERO && event is InputEventMouseButton 
@@ -131,7 +136,7 @@ func spawn_wave():
 	var spawn_areas = get_tree().get_root().get_node("game/enemy_spawn_areas").get_children()
 	for spawn_point in spawn_areas:
 		var unit = load(wave_data.unit).instantiate()
-		unit.unit_data = load("res://resources/waves/wave_" + str(wave) + "/unit_stats.tres")
+		unit.unit_data = load("res://resources/waves/wave_" + str(wave) + "/unit_stats.tres").duplicate()
 		unit.position = spawn_point.position
 		get_tree().get_root().get_node("game").add_child(unit)
 	waves_remaining -= 1

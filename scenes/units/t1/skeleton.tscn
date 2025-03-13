@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://c78ysnebai1o6"]
+[gd_scene load_steps=46 format=3 uid="uid://c78ysnebai1o6"]
 
 [ext_resource type="Script" uid="uid://bmtnkgh3vjrpk" path="res://scripts/unit.gd" id="1_p0ms8"]
 [ext_resource type="Texture2D" uid="uid://sdshnn12mxu7" path="res://assets/sprites/Enemies/Skeleton.png" id="2_rugf1"]
@@ -299,6 +299,22 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_evay3"]
 radius = 68.0294
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rugf1"]
+bg_color = Color(0.517647, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_evay3"]
+bg_color = Color(0, 0.690196, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+
 [node name="Skeleton" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 3
@@ -325,7 +341,8 @@ position = Vector2(0, -7)
 sprite_frames = SubResource("SpriteFrames_wdmmv")
 animation = &"idle_down"
 autoplay = "idle_down"
-offset = Vector2(-0.5, 0)
+frame = 2
+frame_progress = 0.766906
 metadata/_edit_lock_ = true
 
 [node name="selection_sprite" type="Sprite2D" parent="."]
@@ -333,12 +350,35 @@ visible = false
 show_behind_parent = true
 scale = Vector2(1, 0.5)
 texture = ExtResource("3_rugf1")
+metadata/_edit_lock_ = true
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
 [node name="attack_range" type="Area2D" parent="."]
+visible = false
 collision_layer = 8
 collision_mask = 2
+metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="attack_range"]
 shape = SubResource("CircleShape2D_evay3")
+
+[node name="attack_speed" type="Timer" parent="."]
+
+[node name="attack_animation_speed" type="Timer" parent="."]
+
+[node name="health_bar" type="ProgressBar" parent="."]
+visible = false
+offset_left = 9.0
+offset_top = -25.0
+offset_right = 13.0
+offset_bottom = -7.0
+rotation = 1.5708
+theme_override_styles/background = SubResource("StyleBoxFlat_rugf1")
+theme_override_styles/fill = SubResource("StyleBoxFlat_evay3")
+value = 60.0
+fill_mode = 3
+show_percentage = false
+
+[connection signal="timeout" from="attack_speed" to="." method="_on_attack_speed_timeout"]
+[connection signal="timeout" from="attack_animation_speed" to="." method="_on_attack_animation_speed_timeout"]
