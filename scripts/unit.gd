@@ -22,6 +22,8 @@ func _ready():
 	#however it also makes them jitter like crazy if they do clot
 	if(unit_data.control == "enemy"):
 		self.safe_margin = 1.0
+	if($attack_range):
+		get_node("attack_range/CollisionShape2D").shape.radius = unit_data.attack_range
 
 func _physics_process(_delta: float) -> void:
 	#handles updating the path of enemies when they get near corners

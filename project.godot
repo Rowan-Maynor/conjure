@@ -54,8 +54,9 @@ spawn_t1_unit={
 [layer_names]
 
 2d_physics/layer_1="Movement Boundries"
-2d_physics/layer_2="Units"
-2d_physics/layer_3="UnitSelectionArea"
+2d_physics/layer_2="Unit bodies"
+2d_physics/layer_3="Unit Selection"
+2d_physics/layer_4="Unit Attacks"
 
 [rendering]
 

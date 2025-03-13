@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://b8uv4cs1ld83g"]
+[gd_scene load_steps=44 format=3 uid="uid://b8uv4cs1ld83g"]
 
 [ext_resource type="Texture2D" uid="uid://6xoidkpb15s4" path="res://assets/sprites/Player/Player.png" id="1_p3orc"]
 [ext_resource type="Script" uid="uid://bmtnkgh3vjrpk" path="res://scripts/unit.gd" id="1_ybjwe"]
@@ -296,6 +296,9 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_ybjwe"]
+radius = 68.0294
+
 [node name="Human" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 3
@@ -331,3 +334,8 @@ scale = Vector2(1, 0.5)
 texture = ExtResource("2_ybjwe")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+
+[node name="attack_range" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="attack_range"]
+shape = SubResource("CircleShape2D_ybjwe")
