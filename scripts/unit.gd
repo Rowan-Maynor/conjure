@@ -2,19 +2,20 @@ extends CharacterBody2D
 
 @export var unit_data: Unit_data
 
-#variables for unit properites
-@export var current_command = "stop"
+var current_command = "idle"
+var current_target = null
 
 #variables for navigation
-var click_position = Vector2()
+var move_position = Vector2()
 var target_position = Vector2()
 var current_direction = "down"
+var chase = false
 @onready var nav = $NavigationAgent2D
 var enemy_direction = "down"
 
 func _ready():
 	#this prevents units from running to (0, 0) on spawn
-	click_position = position
+	move_position = position
 	#defaults spawned enemies to moving downwards on spawn
 	if(unit_data.control == "enemy"):
 		enemy_change_direction(enemy_direction)
@@ -22,7 +23,7 @@ func _ready():
 	#however it also makes them jitter like crazy if they do clot
 	if(unit_data.control == "enemy"):
 		self.safe_margin = 1.0
-	if($attack_range):
+	if($attack_range != null):
 		get_node("attack_range/CollisionShape2D").shape.radius = unit_data.attack_range
 
 func _physics_process(_delta: float) -> void:
@@ -40,6 +41,8 @@ func _physics_process(_delta: float) -> void:
 		enemy_direction = "down"
 		enemy_change_direction(enemy_direction)
 	
+	if (chase == true):
+		move_position = current_target.position
 	#resolves enemy movement if they are more than 3 pixels from target
 	if (position.distance_to(target_position) > 3 && unit_data.control == "enemy"):
 		var next_nav_location = nav.get_next_path_position()
@@ -49,17 +52,17 @@ func _physics_process(_delta: float) -> void:
 		move_and_slide()
 		
 	#resolves player movement if they are more than 3 pixels away from click
-	if (position.distance_to(click_position) > 3 && unit_data.control == "player"):
-		target_position = (click_position - position).normalized()
+	if (position.distance_to(move_position) > 3 && unit_data.control == "player"):
+		target_position = (move_position - position).normalized()
 		velocity = target_position * unit_data.speed
 		handle_anim(target_position)
 		move_and_slide()
 		
 	#sets animation to idle if unit stops moving
-	if (position.distance_to(click_position) < 3 && unit_data.control == "player"):
+	if (position.distance_to(move_position) < 3 && unit_data.control == "player"):
 		$AnimatedSprite2D.play("idle_" + current_direction)
 		if(current_command == "move"):
-			current_command = "stop"
+			current_command = "idle"
 
 func handle_anim(vector):
 	if(vector.x > 0 && abs(vector.x) > abs(vector.y)):
@@ -78,7 +81,8 @@ func handle_anim(vector):
 		$AnimatedSprite2D.flip_h = false
 		$AnimatedSprite2D.play("move_up")
 		current_direction = "up"
-		
+
+#used for enemies pathing around square
 func update_target_position(target):
 	nav.set_target_position(target)
 
@@ -110,3 +114,51 @@ func enemy_change_direction(direction):
 		target_position.x += rng.randf_range(-variance, variance)
 		target_position.y += rng.randf_range(-variance, variance)
 		update_target_position(target_position)
+
+func _on_attack_range_body_entered(body: Node2D) -> void:
+	#only allow players to attack enemies, not vice versa
+	if(unit_data.control == "enemy"):
+		return
+	if(current_command == "idle" || current_command == "attack"):
+		if(current_target == null && body.unit_data.control == "enemy"):
+			current_target = body
+			current_target.died.connect(_on_died)
+			current_command = "focus"
+			attack()
+	elif(current_command == "focus" && current_target == body):
+		chase = false
+		attack()
+
+func _on_attack_range_body_exited(body: Node2D) -> void:
+	if(body == current_target):
+		chase = true
+
+func attack():
+	if(current_target == null):
+		return
+	if($attack_speed.is_stopped()):
+		print(current_target)
+		current_target.unit_data.health -= unit_data.damage
+		$attack_speed.start(unit_data.attack_speed)
+		if(current_target.unit_data.health <= 0):
+			current_target.die()
+
+func die():
+	emit_signal("died", self)
+	queue_free()
+
+signal died(body)
+
+func _on_died(body):
+	if (current_target == body):
+		current_target = null
+		current_command = "idle"
+		move_position = self.position
+
+func _on_attack_speed_timeout() -> void:
+	$attack_speed.stop()
+	if(current_target == null):
+		return
+	var units_in_range = $attack_range.get_overlapping_bodies()
+	if(units_in_range.has(current_target)):
+		attack()

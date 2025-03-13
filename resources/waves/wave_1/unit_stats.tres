@@ -4,9 +4,11 @@
 
 [resource]
 script = ExtResource("1_qh81u")
-damage = 2
-health = 6
+damage = 0
+attack_range = 0
+attack_speed = 0.0
+health = 10
 speed = 100
-control = "enemy"
 type = "fire"
+control = "enemy"
 metadata/_custom_type_script = "uid://db2pd7vctcukq"

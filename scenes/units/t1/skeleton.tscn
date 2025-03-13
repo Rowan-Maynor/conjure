@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://c78ysnebai1o6"]
+[gd_scene load_steps=44 format=3 uid="uid://c78ysnebai1o6"]
 
 [ext_resource type="Script" uid="uid://bmtnkgh3vjrpk" path="res://scripts/unit.gd" id="1_p0ms8"]
 [ext_resource type="Texture2D" uid="uid://sdshnn12mxu7" path="res://assets/sprites/Enemies/Skeleton.png" id="2_rugf1"]
@@ -296,6 +296,9 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_evay3"]
+radius = 68.0294
+
 [node name="Skeleton" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 3
@@ -332,3 +335,10 @@ scale = Vector2(1, 0.5)
 texture = ExtResource("3_rugf1")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+
+[node name="attack_range" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="attack_range"]
+shape = SubResource("CircleShape2D_evay3")

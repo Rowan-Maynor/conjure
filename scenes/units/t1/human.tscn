@@ -336,6 +336,15 @@ texture = ExtResource("2_ybjwe")
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
 [node name="attack_range" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="attack_range"]
 shape = SubResource("CircleShape2D_ybjwe")
+
+[node name="attack_speed" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="body_entered" from="attack_range" to="." method="_on_attack_range_body_entered"]
+[connection signal="body_exited" from="attack_range" to="." method="_on_attack_range_body_exited"]
+[connection signal="timeout" from="attack_speed" to="." method="_on_attack_speed_timeout"]

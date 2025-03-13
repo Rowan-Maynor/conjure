@@ -27,13 +27,13 @@ func _ready():
 func _input(_event: InputEvent) -> void:
 	if(Input.is_action_just_released("right_click")):
 		for unit in selected:
-			unit.click_position = get_global_mouse_position()
+			unit.move_position = get_global_mouse_position()
 			unit.current_command = "move"
 			
 	if(Input.is_action_just_pressed("stop_movement")):
 		for unit in selected:
-			unit.click_position = unit.position
-			unit.current_command = "stop"
+			unit.move_position = unit.position
+			unit.current_command = "idle"
 			
 
 func _unhandled_input(event: InputEvent) -> void:
