@@ -13,6 +13,9 @@ var chase = false
 @onready var nav = $NavigationAgent2D
 var enemy_direction = "down"
 
+#used to prevent animation overlap
+var is_attacking = false
+
 func _ready():
 	#this prevents units from running to (0, 0) on spawn
 	move_position = position
@@ -23,8 +26,9 @@ func _ready():
 	#however it also makes them jitter like crazy if they do clot
 	if(unit_data.control == "enemy"):
 		self.safe_margin = 1.0
-	if($attack_range != null):
-		get_node("attack_range/CollisionShape2D").shape.radius = unit_data.attack_range
+	#initialize nodes based on units data
+	get_node("attack_range/CollisionShape2D").shape.radius = unit_data.attack_range
+	$attack_speed.wait_time = unit_data.attack_speed
 
 func _physics_process(_delta: float) -> void:
 	#handles updating the path of enemies when they get near corners
@@ -42,25 +46,37 @@ func _physics_process(_delta: float) -> void:
 		enemy_change_direction(enemy_direction)
 	
 	if (chase == true):
-		move_position = current_target.position
+		#need to do this because if a unit is queued to be freed on the same frame
+		#as when you try to get the posiion for the chase the game will crash
+		if(current_target != null):
+			move_position = current_target.position
+		#there is a case where a unit will be in the idle state chasing a target
+		#i am not sure why its happening so this is a bandaid fix
+		elif(current_command == "idle"):
+			chase = false
+		else:
+			chase = false
 	#resolves enemy movement if they are more than 3 pixels from target
 	if (position.distance_to(target_position) > 3 && unit_data.control == "enemy"):
 		var next_nav_location = nav.get_next_path_position()
 		var nav_target_position = (next_nav_location - position).normalized()
 		velocity = nav_target_position * unit_data.speed
-		handle_anim(nav_target_position)
+		if(is_attacking == false):
+			handle_anim(nav_target_position)
 		move_and_slide()
 		
 	#resolves player movement if they are more than 3 pixels away from click
 	if (position.distance_to(move_position) > 3 && unit_data.control == "player"):
 		target_position = (move_position - position).normalized()
 		velocity = target_position * unit_data.speed
-		handle_anim(target_position)
+		if(is_attacking == false):
+			handle_anim(target_position)
 		move_and_slide()
 		
 	#sets animation to idle if unit stops moving
 	if (position.distance_to(move_position) < 3 && unit_data.control == "player"):
-		$AnimatedSprite2D.play("idle_" + current_direction)
+		if(is_attacking == false):
+			$AnimatedSprite2D.play("idle_" + current_direction)
 		if(current_command == "move"):
 			current_command = "idle"
 
@@ -81,6 +97,26 @@ func handle_anim(vector):
 		$AnimatedSprite2D.flip_h = false
 		$AnimatedSprite2D.play("move_up")
 		current_direction = "up"
+		
+func handle_attack_anim(vector):
+	is_attacking = true
+	if(vector.x > 0 && abs(vector.x) > abs(vector.y)):
+		$AnimatedSprite2D.flip_h = false
+		$AnimatedSprite2D.play("attack_side")
+		current_direction = "side"
+	elif(vector.x < 0 && abs(vector.x) > abs(vector.y)):
+		$AnimatedSprite2D.flip_h = true
+		$AnimatedSprite2D.play("attack_side")
+		current_direction = "side"
+	elif(vector.y > 0 && abs(vector.y) > abs(vector.x)):
+		$AnimatedSprite2D.flip_h = false
+		$AnimatedSprite2D.play("attack_down")
+		current_direction = "down"
+	elif(vector.y < 0 && abs(vector.y) > abs(vector.x)):
+		$AnimatedSprite2D.flip_h = false
+		$AnimatedSprite2D.play("attack_up")
+		current_direction = "up"
+	$attack_animation_speed.start()
 
 #used for enemies pathing around square
 func update_target_position(target):
@@ -119,6 +155,8 @@ func _on_attack_range_body_entered(body: Node2D) -> void:
 	#only allow players to attack enemies, not vice versa
 	if(unit_data.control == "enemy"):
 		return
+	if(body.unit_data.control == "player"):
+		return
 	if(current_command == "idle" || current_command == "attack"):
 		if(current_target == null && body.unit_data.control == "enemy"):
 			current_target = body
@@ -128,9 +166,15 @@ func _on_attack_range_body_entered(body: Node2D) -> void:
 	elif(current_command == "focus" && current_target == body):
 		chase = false
 		attack()
+	elif(current_command == "hold" && current_target == null):
+		current_target = body
+		current_target.died.connect(_on_died)
+		attack()
 
 func _on_attack_range_body_exited(body: Node2D) -> void:
-	if(body == current_target):
+	if(current_command == "hold" && current_target == body):
+		reset_target()
+	elif(body == current_target && current_target != null):
 		chase = true
 
 func attack():
@@ -138,8 +182,9 @@ func attack():
 		return
 	if($attack_speed.is_stopped()):
 		print(current_target)
+		handle_attack_anim((current_target.position - position).normalized())
 		current_target.unit_data.health -= unit_data.damage
-		$attack_speed.start(unit_data.attack_speed)
+		$attack_speed.start()
 		if(current_target.unit_data.health <= 0):
 			current_target.die()
 
@@ -151,14 +196,48 @@ signal died(body)
 
 func _on_died(body):
 	if (current_target == body):
-		current_target = null
-		current_command = "idle"
-		move_position = self.position
+		reset_target()
+		if(current_command != "hold"):
+			current_command = "idle"
+		find_new_target()
 
 func _on_attack_speed_timeout() -> void:
 	$attack_speed.stop()
-	if(current_target == null):
-		return
 	var units_in_range = $attack_range.get_overlapping_bodies()
-	if(units_in_range.has(current_target)):
+	if(current_target != null && units_in_range.has(current_target)):
 		attack()
+	elif(current_command == "hold" || current_command == "idle"):
+		if(current_target == null):
+			find_new_target()
+
+func find_lowest_health_target(targets):
+	if(targets == null):
+		return
+	var lowest_health_target = null
+	for target in targets:
+		if(target.unit_data.control == "player"):
+			continue
+		if (lowest_health_target == null):
+			lowest_health_target = target
+		if (target.unit_data.health < lowest_health_target.unit_data.health):
+			lowest_health_target = target
+	return lowest_health_target
+	
+func find_new_target():
+	var units = $attack_range.get_overlapping_bodies()
+	if(units.size() > 1):
+		current_target = find_lowest_health_target(units)
+		current_target.died.connect(_on_died)
+	if(current_target != null):
+		attack()
+
+func reset_target():
+	if(current_target != null):
+		current_target.died.disconnect(_on_died)
+	chase = false
+	current_target = null
+	move_position = self.position
+
+
+func _on_attack_animation_speed_timeout() -> void:
+	is_attacking = false

@@ -342,3 +342,8 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="attack_range"]
 shape = SubResource("CircleShape2D_evay3")
+
+[node name="attack_speed" type="Timer" parent="."]
+one_shot = true
+
+[node name="attack_animation_speed" type="Timer" parent="."]
