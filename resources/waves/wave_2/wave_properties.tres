@@ -1,12 +1,9 @@
-[gd_resource type="Resource" script_class="wave_data" load_steps=2 format=3 uid="uid://d1q33fldhx23f"]
+[gd_resource type="Resource" script_class="Wave_data" load_steps=2 format=3 uid="uid://d1q33fldhx23f"]
 
 [ext_resource type="Script" uid="uid://umr4b0y202fc" path="res://resources/resource_scripts/wave_data.gd" id="1_d2gni"]
 
 [resource]
 script = ExtResource("1_d2gni")
-unit = "res://scenes/units/t1/pig.tscn"
-wave_count = 6
-speed = 100
-health = 6
-type = "water"
+unit = "res://scenes/units/t1/human.tscn"
+wave_count = 3
 metadata/_custom_type_script = "uid://umr4b0y202fc"
