@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="Unit_data" load_steps=2 format=3 uid="uid://djkjrkyiq0rym"]
+[gd_resource type="Resource" script_class="Unit_Data" load_steps=2 format=3 uid="uid://djkjrkyiq0rym"]
 
 [ext_resource type="Script" uid="uid://db2pd7vctcukq" path="res://resources/resource_scripts/unit_data.gd" id="1_ngi8q"]
 
@@ -9,6 +9,7 @@ attack_range = 100
 attack_speed = 2.0
 health = 2
 speed = 100
-type = "fire"
+element = "fire"
+type = "human"
 control = "player"
 metadata/_custom_type_script = "uid://db2pd7vctcukq"

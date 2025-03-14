@@ -1,10 +1,10 @@
 extends Node2D
 
 #handles player save data
-@export var player_data: Player_data
+@export var player_data: Player_Data
 
 #handles wave information
-@export var wave_data: Wave_data
+@export var wave_data: Wave_Data
 var wave = 1
 var waves_remaining = 0
 
