@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-@export var unit_data: Unit_data
+@export var unit_data: Unit_Data
 
 var current_command = "idle"
 var current_target = null
@@ -81,46 +81,26 @@ func _physics_process(_delta: float) -> void:
 	#sets animation to idle if unit stops moving
 	if (position.distance_to(move_position) < 3 && unit_data.control == "player"):
 		if(is_attacking == false):
-			$AnimatedSprite2D.play("idle_" + current_direction)
+			$AnimatedSprite2D.play("idle")
 		if(current_command == "move"):
 			current_command = "idle"
 
 func handle_anim(vector):
-	if(vector.x > 0 && abs(vector.x) > abs(vector.y)):
+	if(vector.x > 0):
 		$AnimatedSprite2D.flip_h = false
-		$AnimatedSprite2D.play("move_side")
-		current_direction = "side"
-	elif(vector.x < 0 && abs(vector.x) > abs(vector.y)):
+		$AnimatedSprite2D.play("move")
+	elif(vector.x < 0):
 		$AnimatedSprite2D.flip_h = true
-		$AnimatedSprite2D.play("move_side")
-		current_direction = "side"
-	elif(vector.y > 0 && abs(vector.y) > abs(vector.x)):
-		$AnimatedSprite2D.flip_h = false
-		$AnimatedSprite2D.play("move_down")
-		current_direction = "down"
-	elif(vector.y < 0 && abs(vector.y) > abs(vector.x)):
-		$AnimatedSprite2D.flip_h = false
-		$AnimatedSprite2D.play("move_up")
-		current_direction = "up"
-		
+		$AnimatedSprite2D.play("move")
+
 func handle_attack_anim(vector):
 	is_attacking = true
-	if(vector.x > 0 && abs(vector.x) > abs(vector.y)):
+	if(vector.x > 0):
 		$AnimatedSprite2D.flip_h = false
-		$AnimatedSprite2D.play("attack_side")
-		current_direction = "side"
-	elif(vector.x < 0 && abs(vector.x) > abs(vector.y)):
+		$AnimatedSprite2D.play("attack")
+	elif(vector.x < 0):
 		$AnimatedSprite2D.flip_h = true
-		$AnimatedSprite2D.play("attack_side")
-		current_direction = "side"
-	elif(vector.y > 0 && abs(vector.y) > abs(vector.x)):
-		$AnimatedSprite2D.flip_h = false
-		$AnimatedSprite2D.play("attack_down")
-		current_direction = "down"
-	elif(vector.y < 0 && abs(vector.y) > abs(vector.x)):
-		$AnimatedSprite2D.flip_h = false
-		$AnimatedSprite2D.play("attack_up")
-		current_direction = "up"
+		$AnimatedSprite2D.play("attack")
 	$attack_animation_speed.start()
 
 #used for enemies pathing around square

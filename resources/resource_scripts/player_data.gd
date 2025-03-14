@@ -1,5 +1,5 @@
 extends Resource
-class_name Player_data
+class_name Player_Data
 
 @export var level: int
 @export var xp: int
