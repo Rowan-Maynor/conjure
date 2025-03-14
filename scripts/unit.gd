@@ -27,7 +27,10 @@ func _ready():
 	if(unit_data.control == "enemy"):
 		self.safe_margin = 1.0
 	#initialize nodes based on units data
-	get_node("attack_range/CollisionShape2D").shape.radius = unit_data.attack_range
+	if $attack_range/CollisionShape2D.shape:
+		#need to duplicate the shape or if another unit spawns it will override the attack range
+		$attack_range/CollisionShape2D.shape = $attack_range/CollisionShape2D.shape.duplicate(true)
+		$attack_range/CollisionShape2D.shape.radius = unit_data.attack_range
 	$attack_speed.wait_time = unit_data.attack_speed
 	$health_bar.max_value = unit_data.health
 	$health_bar.value = unit_data.health
@@ -159,24 +162,39 @@ func _on_attack_range_body_entered(body: Node2D) -> void:
 		return
 	if(body.unit_data.control == "player"):
 		return
+	if(!is_instance_valid(body)):
+		return
 	if(current_command == "idle" || current_command == "attack"):
 		if(current_target == null && body.unit_data.control == "enemy"):
 			current_target = body
-			current_target.died.connect(_on_died)
+			if(!current_target.died.is_connected(_on_died)):
+				current_target.died.connect(_on_died)
 			current_command = "focus"
 			attack()
 	elif(current_command == "focus" && current_target == body):
 		attack()
 	elif(current_command == "hold" && current_target == null):
 		current_target = body
-		current_target.died.connect(_on_died)
+		if(!current_target.died.is_connected(_on_died)):
+			current_target.died.connect(_on_died)
 		attack()
 
 func _on_attack_range_body_exited(body: Node2D) -> void:
-	if(current_command == "hold" && current_target == body):
-		reset_target()
-	elif(body == current_target && current_target != null):
-		chase = true
+	if(body.is_queued_for_deletion()):
+		return
+	if(body == current_target):
+		if(!is_instance_valid(current_target)):
+			reset_target()
+			return
+		if(current_target.is_queued_for_deletion()):
+			reset_target()
+			return
+		#if target is valid and not queued for deletion chase
+		if(current_command != "hold"):
+			chase = true
+			current_command = "focus"
+		if(current_command == "hold"):
+			reset_target()
 
 func attack():
 	if(current_target == null):
@@ -189,18 +207,20 @@ func attack():
 			current_target.die()
 
 func die():
-	emit_signal("died", self)
-	queue_free()
+	#is_attacking used so that animation plays instead of more movement
+	is_attacking = true
+	move_position = position
+	$CollisionShape2D.set_deferred("disabled", true)
+	$AnimatedSprite2D.play("death")
+	$death_animation_speed.start(.8)
 
 signal died(body)
 
 func _on_died(body):
-	print("Target died:", body)
 	if (current_target == body):
 		reset_target()
 		if(current_command != "hold"):
 			current_command = "idle"
-			print("command should now be idle")
 		find_new_target()
 
 func _on_attack_speed_timeout() -> void:
@@ -252,3 +272,8 @@ func handle_damage(value):
 	$health_bar.value = unit_data.health
 	if($health_bar.value < $health_bar.max_value):
 		$health_bar.visible = true
+
+
+func _on_death_animation_speed_timeout() -> void:
+	emit_signal("died", self)
+	queue_free()
