@@ -8,7 +8,6 @@ var current_target = null
 #variables for navigation
 var move_position = Vector2()
 var target_position = Vector2()
-var current_direction = "down"
 var chase = false
 @onready var nav = $NavigationAgent2D
 var enemy_direction = "down"
