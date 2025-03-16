@@ -180,10 +180,8 @@ func attack():
 		return
 	if($attack_speed.is_stopped()):
 		handle_attack_anim((current_target.position - position).normalized())
-		current_target.handle_damage(unit_data.damage)
 		$attack_speed.start()
-		if(current_target.unit_data.health <= 0):
-			current_target.die()
+		$projectile_spawn_delay.start()
 
 func die():
 	#is_attacking used so that animation plays instead of more movement
@@ -212,6 +210,7 @@ func _on_attack_speed_timeout() -> void:
 			find_new_target()
 
 func find_lowest_health_target(targets):
+	#TODO probably gotta change lowest to nearest target
 	if(targets == null):
 		return
 	var lowest_health_target = null
@@ -245,14 +244,43 @@ func reset_target():
 
 func _on_attack_animation_speed_timeout() -> void:
 	is_attacking = false
+
 	
 func handle_damage(value):
+	if(unit_data.health <= 0):
+		return
 	self.unit_data.health -= value
 	$health_bar.value = unit_data.health
 	if($health_bar.value < $health_bar.max_value):
 		$health_bar.visible = true
+	if(unit_data.health <= 0):
+		die()
+		return
 
 
 func _on_death_animation_speed_timeout() -> void:
 	emit_signal("died", self)
 	queue_free()
+
+func _on_projectile_contact(body, damage):
+	body.handle_damage(damage)
+
+
+func _on_projectile_spawn_delay_timeout() -> void:
+	var projectile_instance = load(
+		"res://scenes/projectiles/" + unit_data.projectile + ".tscn").instantiate()
+	projectile_instance.projectile_data = load(
+		"res://resources/projectiles/" + unit_data.projectile + ".tres").duplicate()
+	if(projectile_instance.projectile_data.type == "melee"):
+		projectile_instance.position = current_target.position
+	else:
+		if($AnimatedSprite2D.flip_h == false):
+			projectile_instance.position.x = self.position.x + 10.0
+			projectile_instance.position.y = self.position.y - 5.0
+		if($AnimatedSprite2D.flip_h == true):
+			projectile_instance.position.x = self.position.x - 5.0
+			projectile_instance.position.y = self.position.y - 5.0
+	projectile_instance.current_target = current_target
+	projectile_instance.damage = unit_data.damage
+	projectile_instance.projectile_contact.connect(_on_projectile_contact)
+	get_tree().get_root().get_node("game").add_child(projectile_instance)

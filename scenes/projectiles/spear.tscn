@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://b6hadb8g4dxbg"]
+
+[ext_resource type="Script" uid="uid://b846axt7uv25l" path="res://scripts/projectile.gd" id="1_554un"]
+[ext_resource type="Texture2D" uid="uid://b186kbch2wvli" path="res://assets/sprites/projectiles/imp_spear.png" id="2_554un"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_554un"]
+radius = 1.0
+
+[node name="Spear" type="CharacterBody2D"]
+script = ExtResource("1_554un")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_554un")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_554un")
+disabled = true

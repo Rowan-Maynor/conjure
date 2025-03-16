@@ -12,4 +12,5 @@ speed = 100
 element = "water"
 type = "pig"
 control = "player"
+projectile = "spear"
 metadata/_custom_type_script = "uid://db2pd7vctcukq"
