@@ -5,7 +5,7 @@ extends Node2D
 
 #handles wave information
 @export var wave_data: Wave_Data
-var wave = 1
+var wave = 2
 var waves_remaining = 0
 
 #handles drag select
@@ -27,16 +27,19 @@ func _ready():
 func _input(_event: InputEvent) -> void:
 	if(Input.is_action_just_pressed("right_click")):
 		for unit in selected:
+			unit.get_node("projectile_spawn_delay").stop()
 			unit.reset_target()
 			unit.current_command = "move"
 			unit.move_position = get_global_mouse_position()
 	if(Input.is_action_just_pressed("stop_movement")):
 		for unit in selected:
+			unit.get_node("projectile_spawn_delay").stop()
 			unit.reset_target()
 			unit.current_command = "idle"
 			unit.find_new_target()
 	if(Input.is_action_just_pressed("hold_position")):
 		for unit in selected:
+			unit.get_node("projectile_spawn_delay").stop()
 			unit.reset_target()
 			unit.current_command = "hold"
 			unit.find_new_target()

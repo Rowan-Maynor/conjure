@@ -12,3 +12,4 @@ class_name Unit_Data
 #helping variables
 @export var type: String
 @export var control: String
+@export var projectile: String
