@@ -1,17 +1,17 @@
 extends Button
 
 var t1_units = [
-	"human",
+	"pup",
 	"imp",
 ]
 
 var unit_scene_path = {
-	"human": "res://scenes/units/t1/human.tscn",
+	"pup": "res://scenes/units/t1/pup.tscn",
 	"imp": "res://scenes/units/t1/imp.tscn"
 }
 
 var unit_data_path = {
-	"human": "res://resources/units/human.tres",
+	"pup": "res://resources/units/pup.tres",
 	"imp": "res://resources/units/imp.tres"
 }
 

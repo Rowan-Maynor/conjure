@@ -4,6 +4,8 @@ extends CharacterBody2D
 
 var current_command = "idle"
 var current_target = null
+#this is for cases where the attack starts, but target exits attack range, resetting current_target
+var attacked_target = null
 
 #variables for navigation
 var move_position = Vector2()
@@ -179,6 +181,7 @@ func attack():
 	if(current_target == null):
 		return
 	if($attack_speed.is_stopped()):
+		attacked_target = current_target
 		handle_attack_anim((current_target.position - position).normalized())
 		$attack_speed.start()
 		$projectile_spawn_delay.start()
@@ -189,7 +192,7 @@ func die():
 	move_position = position
 	$CollisionShape2D.set_deferred("disabled", true)
 	$AnimatedSprite2D.play("death")
-	$death_animation_speed.start(.8)
+	emit_signal("died", self)
 
 signal died(body)
 
@@ -227,7 +230,8 @@ func find_new_target():
 	var units = $attack_range.get_overlapping_bodies()
 	var enemy_units = []
 	for unit in units:
-		if (unit.unit_data.control == "enemy"):
+		#always filter out dead targets that are lingering in animation
+		if (unit.unit_data.control == "enemy" && unit.unit_data.health > 0):
 			enemy_units.append(unit)
 	if(enemy_units.size() != 0):
 		current_target = find_lowest_health_target(enemy_units)
@@ -257,11 +261,6 @@ func handle_damage(value):
 		die()
 		return
 
-
-func _on_death_animation_speed_timeout() -> void:
-	emit_signal("died", self)
-	queue_free()
-
 func _on_projectile_contact(body, damage):
 	body.handle_damage(damage)
 
@@ -272,7 +271,7 @@ func _on_projectile_spawn_delay_timeout() -> void:
 	projectile_instance.projectile_data = load(
 		"res://resources/projectiles/" + unit_data.projectile + ".tres").duplicate()
 	if(projectile_instance.projectile_data.type == "melee"):
-		projectile_instance.position = current_target.position
+		projectile_instance.position = attacked_target.position
 	else:
 		if($AnimatedSprite2D.flip_h == false):
 			projectile_instance.position.x = self.position.x + 10.0
@@ -280,7 +279,14 @@ func _on_projectile_spawn_delay_timeout() -> void:
 		if($AnimatedSprite2D.flip_h == true):
 			projectile_instance.position.x = self.position.x - 5.0
 			projectile_instance.position.y = self.position.y - 5.0
-	projectile_instance.current_target = current_target
+	projectile_instance.current_target = attacked_target
 	projectile_instance.damage = unit_data.damage
 	projectile_instance.projectile_contact.connect(_on_projectile_contact)
 	get_tree().get_root().get_node("game").add_child(projectile_instance)
+
+
+func _on_animated_sprite_2d_animation_finished() -> void:
+	if($AnimatedSprite2D.animation == "death"):
+		queue_free()
+	else:
+		return
