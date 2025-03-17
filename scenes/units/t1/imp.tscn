@@ -265,12 +265,14 @@ collision_mask = 3
 script = ExtResource("1_6ot2n")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 z_index = -1
 rotation = 1.5708
 shape = SubResource("CircleShape2D_qvgk5")
 metadata/_edit_lock_ = true
 
 [node name="selection_area" type="Area2D" parent="."]
+visible = false
 collision_layer = 4
 collision_mask = 0
 metadata/_edit_lock_ = true
@@ -283,10 +285,8 @@ metadata/_edit_lock_ = true
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -7)
 sprite_frames = SubResource("SpriteFrames_iqh78")
-animation = &"attack"
+animation = &"death"
 autoplay = "idle"
-frame = 6
-frame_progress = 1.0
 offset = Vector2(-0.5, 0)
 
 [node name="selection_sprite" type="Sprite2D" parent="."]
@@ -298,6 +298,7 @@ texture = ExtResource("6_qvgk5")
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
 [node name="attack_range" type="Area2D" parent="."]
+visible = false
 collision_layer = 8
 collision_mask = 2
 
@@ -323,15 +324,13 @@ show_percentage = false
 wait_time = 0.4
 one_shot = true
 
-[node name="death_animation_speed" type="Timer" parent="."]
-
 [node name="projectile_spawn_delay" type="Timer" parent="."]
 wait_time = 0.3
 one_shot = true
 
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="body_entered" from="attack_range" to="." method="_on_attack_range_body_entered"]
 [connection signal="body_exited" from="attack_range" to="." method="_on_attack_range_body_exited"]
 [connection signal="timeout" from="attack_speed" to="." method="_on_attack_speed_timeout"]
 [connection signal="timeout" from="attack_animation_speed" to="." method="_on_attack_animation_speed_timeout"]
-[connection signal="timeout" from="death_animation_speed" to="." method="_on_death_animation_speed_timeout"]
 [connection signal="timeout" from="projectile_spawn_delay" to="." method="_on_projectile_spawn_delay_timeout"]

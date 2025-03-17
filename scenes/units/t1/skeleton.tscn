@@ -243,8 +243,6 @@ shape = SubResource("CircleShape2D_evay3")
 [node name="attack_animation_speed" type="Timer" parent="."]
 one_shot = true
 
-[node name="death_animation_speed" type="Timer" parent="."]
-
 [node name="health_bar" type="ProgressBar" parent="."]
 visible = false
 offset_left = 9.0
@@ -260,4 +258,3 @@ show_percentage = false
 
 [connection signal="timeout" from="attack_speed" to="." method="_on_attack_speed_timeout"]
 [connection signal="timeout" from="attack_animation_speed" to="." method="_on_attack_animation_speed_timeout"]
-[connection signal="timeout" from="death_animation_speed" to="." method="_on_death_animation_speed_timeout"]
