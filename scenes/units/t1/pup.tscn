@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://gdyo03dve5na"]
+[gd_scene load_steps=37 format=3 uid="uid://gdyo03dve5na"]
 
 [ext_resource type="Script" uid="uid://bmtnkgh3vjrpk" path="res://scripts/unit.gd" id="1_10qic"]
 [ext_resource type="Texture2D" uid="uid://l2gfwj3o4o4c" path="res://assets/sprites/units/pup/attack.png" id="2_10qic"]
@@ -59,6 +59,10 @@ atlas = ExtResource("3_mup5y")
 region = Rect2(96, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_up2dx"]
+atlas = ExtResource("3_mup5y")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_10qic"]
 atlas = ExtResource("3_mup5y")
 region = Rect2(128, 0, 32, 32)
 
@@ -149,10 +153,16 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_up2dx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_10qic")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_10qic")
 }],
 "loop": false,
 "name": &"death",
-"speed": 15.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -243,8 +253,10 @@ metadata/_edit_lock_ = true
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -7)
 sprite_frames = SubResource("SpriteFrames_iqh78")
-animation = &"move"
+animation = &"death"
 autoplay = "idle"
+frame = 6
+frame_progress = 1.0
 offset = Vector2(-0.5, 0)
 
 [node name="selection_sprite" type="Sprite2D" parent="."]
