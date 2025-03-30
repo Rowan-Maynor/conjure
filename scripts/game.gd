@@ -5,7 +5,7 @@ extends Node2D
 
 #handles wave information
 @export var wave_data: Wave_Data
-var wave = 1
+var wave = 3
 var waves_remaining = 0
 
 #handles drag select
@@ -17,6 +17,9 @@ var drag_start = Vector2.ZERO
 func _ready():
 	player_data = load("res://resources/player/player_data.tres")
 	update_player_data_ui()
+	#$"Main-ui/buttons/merge".connect("merge", _on_merge)
+	var result = $"Main-ui/buttons/merge".connect("merge", _on_merge)
+	print("Signal connected:", result)  # Should print "OK" if successful
 	
 	await get_tree().create_timer(1.0).timeout
 	
@@ -144,3 +147,9 @@ func spawn_wave():
 		get_tree().get_root().get_node("game").add_child(unit)
 	waves_remaining -= 1
 	update_wave_data_ui()
+
+func _on_merge():
+	if(selected == []):
+		print("no selection")
+	else:
+		print("units selected")
