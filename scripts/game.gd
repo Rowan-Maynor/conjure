@@ -5,7 +5,7 @@ extends Node2D
 
 #handles wave information
 @export var wave_data: Wave_Data
-var wave = 2
+var wave = 1
 var waves_remaining = 0
 
 #handles drag select
