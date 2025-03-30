@@ -5,21 +5,15 @@ var t1_units = [
 	"imp",
 ]
 
-var unit_scene_path = {
-	"pup": "res://scenes/units/t1/pup.tscn",
-	"imp": "res://scenes/units/t1/imp.tscn"
-}
-
-var unit_data_path = {
-	"pup": "res://resources/units/pup.tres",
-	"imp": "res://resources/units/imp.tres"
-}
-
 func _on_pressed():
 	var spawn_areas = get_tree().get_root().get_node("game/player_spawn_areas").get_children()
 	var unit = t1_units.pick_random()
-	var instance = load(unit_scene_path[unit]).instantiate()
-	instance.unit_data = load(unit_data_path[unit]).duplicate()
+	var unit_scene_path = "res://scenes/units/" + unit + ".tscn"
+	var instance = load(unit_scene_path).instantiate()
+	var unit_data_path = "res://resources/units/" + unit + "/" + unit + ".tres"
+	instance.unit_data = load(unit_data_path).duplicate()
+	var unit_recipe_path = "res://resources/units/" + unit + "/" + unit + "_recipe.tres"
+	instance.recipe_data = load(unit_recipe_path).duplicate()
 	var spawn_point = find_open_spawn_point(spawn_areas)
 	if(spawn_point == null):
 		print("No free space!")
