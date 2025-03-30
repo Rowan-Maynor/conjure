@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 @export var unit_data: Unit_Data
+@export var recipe_data: Recipe_Data
 
 var current_command = "idle"
 var current_target = null
