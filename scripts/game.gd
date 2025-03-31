@@ -211,3 +211,9 @@ func find_open_spawn_point(spawn_areas):
 		if(units == false):
 			return area
 	return null
+
+#TODO timer that starts when waves finish spawning
+#TODO timer needs to decrement an int every 1 seccond so time can be presented on screen
+#TODO when timer int reaches 0, get all enemy bodies active on the field
+#TODO reduce player hp by number of bodies
+#TODO if player hp <= 0 game over

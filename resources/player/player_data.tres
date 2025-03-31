@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_lx46u")
-level = 424
+level = 426
 xp = 0
 knowledge = 0
 metadata/_custom_type_script = "uid://dem02p8om4b10"
