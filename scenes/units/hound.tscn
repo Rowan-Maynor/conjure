@@ -7,8 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://cuwxavcgmijg1" path="res://assets/sprites/units/hound/move.png" id="5_a8soo"]
 [ext_resource type="Texture2D" uid="uid://bd5ey7cewwd4" path="res://assets/sprites/selection2.png" id="6_ru6n7"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_qvgk5"]
-radius = 7.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nbxmk"]
+radius = 3.0
+height = 22.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_k4pre"]
 radius = 8.0
@@ -251,10 +252,9 @@ collision_mask = 3
 script = ExtResource("1_nbxmk")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 z_index = -1
 rotation = 1.5708
-shape = SubResource("CircleShape2D_qvgk5")
+shape = SubResource("CapsuleShape2D_nbxmk")
 metadata/_edit_lock_ = true
 
 [node name="selection_area" type="Area2D" parent="."]
@@ -271,9 +271,8 @@ metadata/_edit_lock_ = true
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -7)
 sprite_frames = SubResource("SpriteFrames_iqh78")
-animation = &"move"
+animation = &"idle"
 autoplay = "idle"
-frame_progress = 0.574058
 offset = Vector2(-0.5, 0)
 
 [node name="selection_sprite" type="Sprite2D" parent="."]

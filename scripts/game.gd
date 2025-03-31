@@ -3,6 +3,8 @@ extends Node2D
 #handles player save data
 @export var player_data: Player_Data
 
+var lives = 30
+
 #handles wave information
 @export var wave_data: Wave_Data
 var wave
@@ -61,7 +63,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		&& event.button_index == 1):
 			_select_units()
 			drag_start = Vector2.ZERO
-			
+
 func save():
 	ResourceSaver.save(player_data, "res://resources/player/player_data.tres")
 
@@ -127,13 +129,11 @@ func update_player_data_ui():
 	$"Main-ui/player_data/level".text = "Level: " + str(int(player_data.level))
 	$"Main-ui/player_data/exp".text = "XP: " + str(int(player_data.xp))
 	$"Main-ui/player_data/tp".text = "Knowledge: " + str(int(player_data.knowledge))
-	
+
 func update_wave_data_ui():
 	$"Main-ui/wave_data/wave_value".text = str(wave)
 	$"Main-ui/wave_data/waves_remaining_value".text = str(waves_remaining)
 
-
-#timer that handles the spawning of waves
 func _on_wave_delay_timeout() -> void:
 	if(waves_remaining > 0):
 		spawn_wave()
@@ -217,18 +217,15 @@ func find_open_spawn_point():
 	return null
 
 func start_game():
+	$"Main-ui/buttons/start_game".disabled = true
 	wave_data = load("res://resources/waves/wave_1/wave_properties.tres")
 	wave = 1
 	waves_remaining = wave_data.wave_count
 	wave_time = 75
 	$"Main-ui/wave_data/time_value".text = str(wave_time)
+	$"Main-ui/lives_data/lives_value".text = str(lives)
 	spawn_wave()
 	$wave_delay.start()
-
-#TODO when timer int reaches 0, get all enemy bodies active on the field
-#TODO reduce player hp by number of bodies
-#TODO if player hp <= 0 game over
-
 
 func _on_wave_time_timeout() -> void:
 	if($enemy_units.get_child_count() == 0):
@@ -240,7 +237,17 @@ func _on_wave_time_timeout() -> void:
 		wave_time -= 1
 		$"Main-ui/wave_data/time_value".text = str(wave_time)
 	else:
+		var remaining_enemies = $enemy_units
+		lives -= remaining_enemies.get_child_count()
+		$"Main-ui/lives_data/lives_value".text = str(lives)
+		for enemy in remaining_enemies.get_children():
+			enemy.die()
+		if(lives <= 0):
+			$"Main-ui/wave_data/time_value".text = "YOU LOSE BUSTER"
 		$wave_time.stop()
+		if(lives > 0):
+			wave_time = 10
+			$wait_time.start()
 
 
 func _on_wait_time_timeout() -> void:
