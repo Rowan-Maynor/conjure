@@ -6,6 +6,7 @@ extends Node2D
 var lives = 30
 var mana = 25
 var research = 0
+var kills = 0
 
 #handles wave information
 @export var wave_data: Wave_Data
@@ -150,6 +151,7 @@ func spawn_wave():
 		var unit = load(wave_data.unit).instantiate()
 		unit.unit_data = load("res://resources/waves/wave_" + str(wave) + "/unit_stats.tres").duplicate()
 		unit.position = spawn_point.position
+		unit.connect("died", _on_died)
 		get_tree().get_root().get_node("game").get_node("enemy_units").add_child(unit)
 	waves_remaining -= 1
 	if(waves_remaining == 0):
@@ -279,3 +281,9 @@ func next_wave():
 func _on_mana_spent(ammount):
 	mana -= ammount
 	$"Main-ui/resources/mana".text = "Mana: " + str(mana)
+
+func _on_died(_body):
+	kills += 1
+	if(kills % 5 == 0):
+		mana += 1
+		$"Main-ui/resources/mana".text = "Mana: " + str(mana)
