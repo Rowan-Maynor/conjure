@@ -4,6 +4,8 @@ extends Node2D
 @export var player_data: Player_Data
 
 var lives = 30
+var mana = 25
+var research = 0
 
 #handles wave information
 @export var wave_data: Wave_Data
@@ -22,6 +24,8 @@ func _ready():
 	player_data = load("res://resources/player/player_data.tres")
 	update_player_data_ui()
 	$"Main-ui/buttons/merge".connect("merge", _on_merge)
+	$"Main-ui/buttons/spawn_t1".connect("spend_mana", _on_mana_spent)
+	$"Main-ui/resources/mana".text = "Mana: " + str(mana)
 	
 	await get_tree().create_timer(1.0).timeout
 	
@@ -262,6 +266,7 @@ func next_wave():
 	wave += 1
 	if(wave > wave_max):
 		$"Main-ui/wave_data/time_value".text = "YOU WIN BUSTER"
+		$"Main-ui/buttons/start_game".disabled = false
 		return
 	wave_time = 75
 	$"Main-ui/wave_data/time_value".text = str(wave_time)
@@ -270,3 +275,7 @@ func next_wave():
 	waves_remaining = wave_data.wave_count
 	spawn_wave()
 	$wave_delay.start()
+
+func _on_mana_spent(ammount):
+	mana -= ammount
+	$"Main-ui/resources/mana".text = "Mana: " + str(mana)
