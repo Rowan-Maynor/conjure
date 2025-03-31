@@ -3,10 +3,14 @@ extends Node2D
 #handles player save data
 @export var player_data: Player_Data
 
+var lives = 30
+
 #handles wave information
 @export var wave_data: Wave_Data
-var wave = 3
-var waves_remaining = 0
+var wave
+var wave_max = 3
+var waves_remaining
+var wave_time
 
 #handles drag select
 var selected = []
@@ -59,7 +63,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		&& event.button_index == 1):
 			_select_units()
 			drag_start = Vector2.ZERO
-			
+
 func save():
 	ResourceSaver.save(player_data, "res://resources/player/player_data.tres")
 
@@ -125,13 +129,11 @@ func update_player_data_ui():
 	$"Main-ui/player_data/level".text = "Level: " + str(int(player_data.level))
 	$"Main-ui/player_data/exp".text = "XP: " + str(int(player_data.xp))
 	$"Main-ui/player_data/tp".text = "Knowledge: " + str(int(player_data.knowledge))
-	
+
 func update_wave_data_ui():
 	$"Main-ui/wave_data/wave_value".text = str(wave)
 	$"Main-ui/wave_data/waves_remaining_value".text = str(waves_remaining)
 
-
-#timer that handles the spawning of waves
 func _on_wave_delay_timeout() -> void:
 	if(waves_remaining > 0):
 		spawn_wave()
@@ -144,8 +146,10 @@ func spawn_wave():
 		var unit = load(wave_data.unit).instantiate()
 		unit.unit_data = load("res://resources/waves/wave_" + str(wave) + "/unit_stats.tres").duplicate()
 		unit.position = spawn_point.position
-		get_tree().get_root().get_node("game").add_child(unit)
+		get_tree().get_root().get_node("game").get_node("enemy_units").add_child(unit)
 	waves_remaining -= 1
+	if(waves_remaining == 0):
+		$wave_time.start()
 	update_wave_data_ui()
 
 func _on_merge():
@@ -185,19 +189,18 @@ func _on_merge():
 			input_units = []
 	# input units will be present on successful recipe
 	if(input_units != []):
-		var spawn_areas = get_tree().get_root().get_node("game/player_spawn_areas").get_children()
 		var unit_scene_path = "res://scenes/units/" + recipe_unit + ".tscn"
 		var instance = load(unit_scene_path).instantiate()
 		var unit_data_path = "res://resources/units/" + recipe_unit + "/" + recipe_unit + ".tres"
 		instance.unit_data = load(unit_data_path).duplicate()
 		var unit_recipe_path = "res://resources/units/" + recipe_unit + "/" + recipe_unit + "_recipe.tres"
 		instance.recipe_data = load(unit_recipe_path).duplicate()
-		var spawn_point = find_open_spawn_point(spawn_areas)
+		var spawn_point = find_open_spawn_point()
 		if(spawn_point == null):
 			print("No free space!")
 		else:
 			instance.position = spawn_point.global_position
-			get_tree().get_root().get_node("game").add_child(instance)
+			get_tree().get_root().get_node("game").get_node("player_units").add_child(instance)
 			#merged unit is now spawned, free the others
 			selected.pop_at(selected.find(main_unit))
 			main_unit.queue_free()
@@ -205,9 +208,65 @@ func _on_merge():
 				selected.pop_at(selected.find(unit))
 				unit.queue_free()
 
-func find_open_spawn_point(spawn_areas):
+func find_open_spawn_point():
+	var spawn_areas = get_tree().get_root().get_node("game/player_spawn_areas").get_children()
 	for area in spawn_areas:
 		var units = area.has_overlapping_bodies()
 		if(units == false):
 			return area
 	return null
+
+func start_game():
+	$"Main-ui/buttons/start_game".disabled = true
+	wave_data = load("res://resources/waves/wave_1/wave_properties.tres")
+	wave = 1
+	waves_remaining = wave_data.wave_count
+	wave_time = 75
+	$"Main-ui/wave_data/time_value".text = str(wave_time)
+	$"Main-ui/lives_data/lives_value".text = str(lives)
+	spawn_wave()
+	$wave_delay.start()
+
+func _on_wave_time_timeout() -> void:
+	if($enemy_units.get_child_count() == 0):
+		$wave_time.stop()
+		wave_time = 10
+		$"Main-ui/wave_data/time_value".text = str(wave_time)
+		$wait_time.start()
+	elif(wave_time > 0):
+		wave_time -= 1
+		$"Main-ui/wave_data/time_value".text = str(wave_time)
+	else:
+		var remaining_enemies = $enemy_units
+		lives -= remaining_enemies.get_child_count()
+		$"Main-ui/lives_data/lives_value".text = str(lives)
+		for enemy in remaining_enemies.get_children():
+			enemy.die()
+		if(lives <= 0):
+			$"Main-ui/wave_data/time_value".text = "YOU LOSE BUSTER"
+		$wave_time.stop()
+		if(lives > 0):
+			wave_time = 10
+			$wait_time.start()
+
+
+func _on_wait_time_timeout() -> void:
+	if(wave_time > 0):
+		wave_time -= 1
+		$"Main-ui/wave_data/time_value".text = str(wave_time)
+	else:
+		$wait_time.stop()
+		next_wave()
+
+func next_wave():
+	wave += 1
+	if(wave > wave_max):
+		$"Main-ui/wave_data/time_value".text = "YOU WIN BUSTER"
+		return
+	wave_time = 75
+	$"Main-ui/wave_data/time_value".text = str(wave_time)
+	var wave_path = "res://resources/waves/wave_" + str(wave) + "/wave_properties.tres"
+	wave_data = load(wave_path)
+	waves_remaining = wave_data.wave_count
+	spawn_wave()
+	$wave_delay.start()

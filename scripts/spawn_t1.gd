@@ -19,7 +19,7 @@ func _on_pressed():
 		print("No free space!")
 	else:
 		instance.position = spawn_point.global_position
-		get_tree().get_root().get_node("game").add_child(instance)
+		get_tree().get_root().get_node("game").get_node("player_units").add_child(instance)
 		
 func find_open_spawn_point(spawn_areas):
 	for area in spawn_areas:

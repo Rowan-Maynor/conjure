@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://b578nkptq5xnm"]
 
 [ext_resource type="Script" uid="uid://mivjt0t7mpqb" path="res://scripts/spawn_t1.gd" id="1_fnul3"]
-[ext_resource type="Script" uid="uid://47d5d3lrt102" path="res://scripts/spawn_wave.gd" id="2_513t2"]
+[ext_resource type="Script" uid="uid://47d5d3lrt102" path="res://scripts/start_game.gd" id="2_513t2"]
 [ext_resource type="Script" uid="uid://i66x3auk3nqu" path="res://scripts/merge.gd" id="3_u001w"]
 
 [sub_resource type="Theme" id="Theme_fnul3"]
@@ -102,13 +102,13 @@ text = "Spawn T1"
 script = ExtResource("1_fnul3")
 metadata/_edit_lock_ = true
 
-[node name="spawn_wave" type="Button" parent="buttons"]
+[node name="start_game" type="Button" parent="buttons"]
 layout_mode = 0
 offset_left = 797.0
 offset_top = 365.0
 offset_right = 950.0
 offset_bottom = 445.0
-text = "Spawn Wave"
+text = "Start Game"
 script = ExtResource("2_513t2")
 metadata/_edit_lock_ = true
 
@@ -126,7 +126,7 @@ metadata/_edit_lock_ = true
 anchors_preset = 0
 offset_top = 218.0
 offset_right = 183.0
-offset_bottom = 332.0
+offset_bottom = 385.0
 
 [node name="wave" type="Label" parent="wave_data"]
 layout_mode = 1
@@ -183,5 +183,67 @@ grow_horizontal = 2
 horizontal_alignment = 1
 metadata/_edit_lock_ = true
 
+[node name="time" type="Label" parent="wave_data"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_top = 100.0
+offset_right = 20.0
+offset_bottom = 123.0
+grow_horizontal = 2
+text = "Time"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="time_value" type="Label" parent="wave_data"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_top = 120.0
+offset_right = 20.0
+offset_bottom = 143.0
+grow_horizontal = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="lives_data" type="Control" parent="."]
+anchors_preset = 0
+offset_top = 480.0
+offset_right = 183.0
+offset_bottom = 520.0
+
+[node name="lives" type="Label" parent="lives_data"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "Lives"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="lives_value" type="Label" parent="lives_data"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_top = 20.0
+offset_right = 20.0
+offset_bottom = 43.0
+grow_horizontal = 2
+text = "99"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [connection signal="pressed" from="buttons/spawn_t1" to="buttons/spawn_t1" method="_on_pressed"]
-[connection signal="pressed" from="buttons/spawn_wave" to="buttons/spawn_wave" method="_on_pressed"]
+[connection signal="pressed" from="buttons/start_game" to="buttons/start_game" method="_on_pressed"]
