@@ -163,56 +163,58 @@ func _on_merge():
 		return
 	var selected_copy = selected.duplicate()
 	#takes last unit in selection, pop also removes it from the list itself for later checks
-	var main_unit = selected_copy.pop_back()
-	#list of units found for the recipe
-	var input_units = []
-	#keeps track of which recipe was successful
-	var recipe_unit
-	for key in main_unit.recipe_data.list:
-		recipe_unit = key
-		var merge_possible = true
-		var unit_found = false
-		for unit in main_unit.recipe_data.list[key]:
-			for selected_unit in selected_copy:
-				#loops through all selected units to see if any of them match the currently
-				#needed unit for the recipe
-				if(selected_unit.unit_data.type == unit && !input_units.has(selected_unit)):
-					unit_found = true
-					input_units.push_back(selected_unit)
+	for i in selected_copy:
+		var main_unit = selected_copy.pop_back()
+		#list of units found for the recipe
+		var input_units = []
+		#keeps track of which recipe was successful
+		var recipe_unit
+		for key in main_unit.recipe_data.list:
+			recipe_unit = key
+			var merge_possible = true
+			var unit_found = false
+			for unit in main_unit.recipe_data.list[key]:
+				for selected_unit in selected_copy:
+					#loops through all selected units to see if any of them match the currently
+					#needed unit for the recipe
+					if(selected_unit.unit_data.type == unit && !input_units.has(selected_unit)):
+						unit_found = true
+						input_units.push_back(selected_unit)
+						break
+				if(unit_found == false):
+					#if the unit is not found, show that merge isnt possible and break
+					merge_possible = false
 					break
-			if(unit_found == false):
-				#if the unit is not found, show that merge isnt possible and break
-				merge_possible = false
+				else:
+					#resets unit_found for next iteration in case recipe needs more than 1 unit
+					unit_found = false
+			if(merge_possible == true):
+				#break here if merge is possible to show that you have found a successful recipe
 				break
 			else:
-				#resets unit_found for next iteration in case recipe needs more than 1 unit
-				unit_found = false
-		if(merge_possible == true):
-			#break here if merge is possible to show that you have found a successful recipe
-			break
-		else:
-			#if the current recipe is not valid, reset your input units and check the next key
-			input_units = []
-	# input units will be present on successful recipe
-	if(input_units != []):
-		var unit_scene_path = "res://scenes/units/" + recipe_unit + ".tscn"
-		var instance = load(unit_scene_path).instantiate()
-		var unit_data_path = "res://resources/units/" + recipe_unit + "/" + recipe_unit + ".tres"
-		instance.unit_data = load(unit_data_path).duplicate()
-		var unit_recipe_path = "res://resources/units/" + recipe_unit + "/" + recipe_unit + "_recipe.tres"
-		instance.recipe_data = load(unit_recipe_path).duplicate()
-		var spawn_point = find_open_spawn_point()
-		if(spawn_point == null):
-			print("No free space!")
-		else:
-			instance.position = spawn_point.global_position
-			get_tree().get_root().get_node("game").get_node("player_units").add_child(instance)
-			#merged unit is now spawned, free the others
-			selected.pop_at(selected.find(main_unit))
-			main_unit.queue_free()
-			for unit in input_units:
-				selected.pop_at(selected.find(unit))
-				unit.queue_free()
+				#if the current recipe is not valid, reset your input units and check the next key
+				input_units = []
+		# input units will be present on successful recipe
+		if(input_units != []):
+			var unit_scene_path = "res://scenes/units/" + recipe_unit + ".tscn"
+			var instance = load(unit_scene_path).instantiate()
+			var unit_data_path = "res://resources/units/" + recipe_unit + "/" + recipe_unit + ".tres"
+			instance.unit_data = load(unit_data_path).duplicate()
+			var unit_recipe_path = "res://resources/units/" + recipe_unit + "/" + recipe_unit + "_recipe.tres"
+			instance.recipe_data = load(unit_recipe_path).duplicate()
+			var spawn_point = find_open_spawn_point()
+			if(spawn_point == null):
+				print("No free space!")
+			else:
+				instance.position = spawn_point.global_position
+				get_tree().get_root().get_node("game").get_node("player_units").add_child(instance)
+				#merged unit is now spawned, free the others
+				selected.pop_at(selected.find(main_unit))
+				main_unit.queue_free()
+				for unit in input_units:
+					selected.pop_at(selected.find(unit))
+					unit.queue_free()
+				return
 
 func find_open_spawn_point():
 	var spawn_areas = get_tree().get_root().get_node("game/player_spawn_areas").get_children()

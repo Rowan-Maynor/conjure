@@ -3,6 +3,10 @@ extends Button
 var t1_units = [
 	"pup",
 	"imp",
+	"drop",
+	"gator",
+	"guppy",
+	"ember",
 ]
 
 signal spend_mana(ammount)

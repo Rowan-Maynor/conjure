@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Unit_Data" load_steps=2 format=3 uid="uid://cyni0n7gb81ts"]
+
+[ext_resource type="Script" uid="uid://db2pd7vctcukq" path="res://resources/resource_scripts/unit_data.gd" id="1_s4bvm"]
+
+[resource]
+script = ExtResource("1_s4bvm")
+damage = 1
+attack_range = 100
+attack_speed = 1.0
+health = 10
+speed = 150
+element = "fire"
+type = "ember"
+control = "player"
+projectile = "spear"
+metadata/_custom_type_script = "uid://db2pd7vctcukq"
