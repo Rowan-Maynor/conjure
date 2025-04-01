@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="Recipe_Data" load_steps=2 format=3 uid="uid://dyailt1c4dwjp"]
+
+[ext_resource type="Script" uid="uid://dv81udx7kpjs1" path="res://resources/resource_scripts/recipe_data.gd" id="1_63dn4"]
+
+[resource]
+script = ExtResource("1_63dn4")
+list = {}
+metadata/_custom_type_script = "uid://dv81udx7kpjs1"

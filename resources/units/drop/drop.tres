@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Unit_Data" load_steps=2 format=3 uid="uid://tl60y21s3gd7"]
+
+[ext_resource type="Script" uid="uid://db2pd7vctcukq" path="res://resources/resource_scripts/unit_data.gd" id="1_rc5g8"]
+
+[resource]
+script = ExtResource("1_rc5g8")
+damage = 2
+attack_range = 200
+attack_speed = 2.0
+health = 10
+speed = 100
+element = "water"
+type = "drop"
+control = "player"
+projectile = "spear"
+metadata/_custom_type_script = "uid://db2pd7vctcukq"

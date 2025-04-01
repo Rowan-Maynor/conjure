@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Unit_Data" load_steps=2 format=3 uid="uid://b34rdft8kj2v1"]
+
+[ext_resource type="Script" uid="uid://db2pd7vctcukq" path="res://resources/resource_scripts/unit_data.gd" id="1_rm71c"]
+
+[resource]
+script = ExtResource("1_rm71c")
+damage = 20
+attack_range = 250
+attack_speed = 2.0
+health = 10
+speed = 100
+element = "fire"
+type = "demon"
+control = "player"
+projectile = "spear"
+metadata/_custom_type_script = "uid://db2pd7vctcukq"
