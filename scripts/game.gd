@@ -135,10 +135,6 @@ func update_player_data_ui():
 	$"Main-ui/player_data/exp".text = "XP: " + str(int(player_data.xp))
 	$"Main-ui/player_data/tp".text = "Knowledge: " + str(int(player_data.knowledge))
 
-func update_wave_data_ui():
-	$"Main-ui/wave_data/wave_value".text = str(wave)
-	$"Main-ui/wave_data/waves_remaining_value".text = str(waves_remaining)
-
 func _on_wave_delay_timeout() -> void:
 	if(waves_remaining > 0):
 		spawn_wave()
@@ -146,6 +142,8 @@ func _on_wave_delay_timeout() -> void:
 		$wave_delay.stop()
 
 func spawn_wave():
+	$"Main-ui/wave_data/wave_value".text = str(wave)
+	$"Main-ui/wave_data/status_value".text = "Spawning"
 	var spawn_areas = get_tree().get_root().get_node("game/enemy_spawn_areas").get_children()
 	for spawn_point in spawn_areas:
 		var unit = load(wave_data.unit).instantiate()
@@ -155,8 +153,8 @@ func spawn_wave():
 		get_tree().get_root().get_node("game").get_node("enemy_units").add_child(unit)
 	waves_remaining -= 1
 	if(waves_remaining == 0):
+		$"Main-ui/wave_data/status_value".text = "Defend"
 		$wave_time.start()
-	update_wave_data_ui()
 
 func _on_merge():
 	if(selected == []):
@@ -239,6 +237,7 @@ func _on_wave_time_timeout() -> void:
 	if($enemy_units.get_child_count() == 0):
 		$wave_time.stop()
 		wave_time = 10
+		$"Main-ui/wave_data/status_value".text = "Break"
 		$"Main-ui/wave_data/time_value".text = str(wave_time)
 		$wait_time.start()
 	elif(wave_time > 0):
@@ -251,10 +250,11 @@ func _on_wave_time_timeout() -> void:
 		for enemy in remaining_enemies.get_children():
 			enemy.die()
 		if(lives <= 0):
-			$"Main-ui/wave_data/time_value".text = "YOU LOSE BUSTER"
+			$"Main-ui/wave_data/status_value".text = "YOU LOSE BUSTER"
 		$wave_time.stop()
 		if(lives > 0):
 			wave_time = 10
+			$"Main-ui/wave_data/status_value".text = "Break"
 			$wait_time.start()
 
 
@@ -269,7 +269,7 @@ func _on_wait_time_timeout() -> void:
 func next_wave():
 	wave += 1
 	if(wave > wave_max):
-		$"Main-ui/wave_data/time_value".text = "YOU WIN BUSTER"
+		$"Main-ui/wave_data/status_value".text = "YOU WIN BUSTER"
 		$"Main-ui/buttons/start_game".disabled = false
 		return
 	wave_time = 75

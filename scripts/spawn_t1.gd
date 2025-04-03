@@ -7,6 +7,9 @@ var t1_units = [
 	"gator",
 	"guppy",
 	"ember",
+	"shrub",
+	"pebble",
+	"monkey"
 ]
 
 signal spend_mana(ammount)

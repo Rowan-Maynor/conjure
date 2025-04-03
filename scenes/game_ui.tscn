@@ -156,7 +156,7 @@ grow_horizontal = 2
 horizontal_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="waves_remaining" type="Label" parent="wave_data"]
+[node name="status" type="Label" parent="wave_data"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -167,10 +167,12 @@ offset_right = 65.0
 offset_bottom = 73.0
 grow_horizontal = 2
 theme = SubResource("Theme_rns2u")
-text = "Waves Remaining"
+text = "Status"
+horizontal_alignment = 1
+vertical_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="waves_remaining_value" type="Label" parent="wave_data"]
+[node name="status_value" type="Label" parent="wave_data"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
