@@ -244,6 +244,7 @@ func _on_wave_time_timeout() -> void:
 		wave_time -= 1
 		$"Main-ui/wave_data/time_value".text = str(wave_time)
 	else:
+		$wave_time.stop()
 		var remaining_enemies = $enemy_units
 		lives -= remaining_enemies.get_child_count()
 		$"Main-ui/lives_data/lives_value".text = str(lives)
@@ -251,7 +252,6 @@ func _on_wave_time_timeout() -> void:
 			enemy.die()
 		if(lives <= 0):
 			$"Main-ui/wave_data/status_value".text = "YOU LOSE BUSTER"
-		$wave_time.stop()
 		if(lives > 0):
 			wave_time = 10
 			$"Main-ui/wave_data/status_value".text = "Break"
@@ -285,7 +285,10 @@ func _on_mana_spent(ammount):
 	$"Main-ui/resources/mana".text = "Mana: " + str(mana)
 
 func _on_died(_body):
-	kills += 1
-	if(kills % 5 == 0):
-		mana += 1
-		$"Main-ui/resources/mana".text = "Mana: " + str(mana)
+	if($wave_time.is_stopped() == true):
+		return
+	else:
+		kills += 1
+		if(kills % 5 == 0):
+			mana += 1
+			$"Main-ui/resources/mana".text = "Mana: " + str(mana)
