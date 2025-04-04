@@ -223,7 +223,7 @@ func find_open_spawn_point():
 	return null
 
 func start_game():
-	$"Main-ui/buttons/start_game".disabled = true
+	$"Main-ui/buttons/start_game".queue_free()
 	wave_data = load("res://resources/waves/wave_1/wave_properties.tres")
 	wave = 1
 	waves_remaining = wave_data.wave_count

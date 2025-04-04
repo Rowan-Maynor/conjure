@@ -94,20 +94,20 @@ offset_bottom = 40.0
 
 [node name="spawn_t1" type="Button" parent="buttons"]
 layout_mode = 0
-offset_left = 796.0
-offset_top = 450.0
-offset_right = 952.0
-offset_bottom = 534.0
-text = "Spawn T1"
+offset_left = 797.0
+offset_top = 403.0
+offset_right = 838.0
+offset_bottom = 444.0
+text = "T1"
 script = ExtResource("1_fnul3")
 metadata/_edit_lock_ = true
 
 [node name="start_game" type="Button" parent="buttons"]
 layout_mode = 0
-offset_left = 797.0
-offset_top = 365.0
-offset_right = 950.0
-offset_bottom = 445.0
+offset_left = 398.0
+offset_top = 493.0
+offset_right = 551.0
+offset_bottom = 534.0
 text = "Start Game"
 script = ExtResource("2_513t2")
 metadata/_edit_lock_ = true
@@ -115,9 +115,9 @@ metadata/_edit_lock_ = true
 [node name="merge" type="Button" parent="buttons"]
 layout_mode = 0
 offset_left = 796.0
-offset_top = 275.0
+offset_top = 450.0
 offset_right = 952.0
-offset_bottom = 359.0
+offset_bottom = 534.0
 text = "Merge"
 script = ExtResource("3_u001w")
 metadata/_edit_lock_ = true
