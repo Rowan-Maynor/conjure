@@ -185,7 +185,7 @@ func attack():
 		attacked_target = current_target
 		handle_attack_anim((current_target.position - position).normalized())
 		$attack_speed.start()
-		$projectile_spawn_delay.start()
+		$attack_spawn_delay.start()
 
 func die():
 	#is_attacking used so that animation plays instead of more movement
@@ -262,28 +262,28 @@ func handle_damage(value):
 		die()
 		return
 
-func _on_projectile_contact(body, damage):
+func _on_attack_contact(body, damage):
 	body.handle_damage(damage)
 
 
-func _on_projectile_spawn_delay_timeout() -> void:
-	var projectile_instance = load(
-		"res://scenes/projectiles/" + unit_data.projectile + ".tscn").instantiate()
-	projectile_instance.projectile_data = load(
-		"res://resources/projectiles/" + unit_data.projectile + ".tres").duplicate()
-	if(projectile_instance.projectile_data.type == "melee"):
-		projectile_instance.position = attacked_target.position
+func _on_attack_spawn_delay_timeout() -> void:
+	var attack_instance = load(
+		"res://scenes/attacks/" + unit_data.attack + ".tscn").instantiate()
+	attack_instance.attack_data = load(
+		"res://resources/attacks/" + unit_data.attack + ".tres").duplicate()
+	if(attack_instance.attack_data.type == "melee"):
+		attack_instance.position = attacked_target.position
 	else:
 		if($AnimatedSprite2D.flip_h == false):
-			projectile_instance.position.x = self.position.x + 10.0
-			projectile_instance.position.y = self.position.y - 5.0
+			attack_instance.position.x = self.position.x + 10.0
+			attack_instance.position.y = self.position.y - 5.0
 		if($AnimatedSprite2D.flip_h == true):
-			projectile_instance.position.x = self.position.x - 5.0
-			projectile_instance.position.y = self.position.y - 5.0
-	projectile_instance.current_target = attacked_target
-	projectile_instance.damage = unit_data.damage
-	projectile_instance.projectile_contact.connect(_on_projectile_contact)
-	get_tree().get_root().get_node("game").add_child(projectile_instance)
+			attack_instance.position.x = self.position.x - 5.0
+			attack_instance.position.y = self.position.y - 5.0
+	attack_instance.current_target = attacked_target
+	attack_instance.damage = unit_data.damage
+	attack_instance.attack_contact.connect(_on_attack_contact)
+	get_tree().get_root().get_node("game").add_child(attack_instance)
 
 
 func _on_animated_sprite_2d_animation_finished() -> void:

@@ -1,5 +1,5 @@
 extends Resource
-class_name Projectile_Data
+class_name Attack_Data
 
 @export var speed: int
 

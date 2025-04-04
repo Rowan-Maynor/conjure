@@ -37,19 +37,19 @@ func _ready():
 func _input(_event: InputEvent) -> void:
 	if(Input.is_action_just_pressed("right_click")):
 		for unit in selected:
-			unit.get_node("projectile_spawn_delay").stop()
+			unit.get_node("attack_spawn_delay").stop()
 			unit.reset_target()
 			unit.current_command = "move"
 			unit.move_position = get_global_mouse_position()
 	if(Input.is_action_just_pressed("stop_movement")):
 		for unit in selected:
-			unit.get_node("projectile_spawn_delay").stop()
+			unit.get_node("attack_spawn_delay").stop()
 			unit.reset_target()
 			unit.current_command = "idle"
 			unit.find_new_target()
 	if(Input.is_action_just_pressed("hold_position")):
 		for unit in selected:
-			unit.get_node("projectile_spawn_delay").stop()
+			unit.get_node("attack_spawn_delay").stop()
 			unit.reset_target()
 			unit.current_command = "hold"
 			unit.find_new_target()

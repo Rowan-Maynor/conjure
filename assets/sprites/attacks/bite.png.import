@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b186kbch2wvli"
-path="res://.godot/imported/imp_spear.png-ef5214557cc5367e97a68259cd041679.ctex"
+uid="uid://bgxkqq1wgivdg"
+path="res://.godot/imported/bite.png-548e8d644955d41f4f5a66f16306b510.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/projectiles/imp_spear.png"
-dest_files=["res://.godot/imported/imp_spear.png-ef5214557cc5367e97a68259cd041679.ctex"]
+source_file="res://assets/sprites/attacks/bite.png"
+dest_files=["res://.godot/imported/bite.png-548e8d644955d41f4f5a66f16306b510.ctex"]
 
 [params]
 
