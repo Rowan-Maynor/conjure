@@ -24,12 +24,15 @@ var drag_start = Vector2.ZERO
 #selectors for UI elements
 @onready var mana_ui_value = $"CanvasLayer/Main-ui/resource_container/NinePatchRect/GridContainer/mana_container/mana_value"
 @onready var research_ui_value = $"CanvasLayer/Main-ui/resource_container/NinePatchRect/GridContainer/research_container/research_value"
+@onready var wave_ui_value = $"CanvasLayer/Main-ui/wave_data_container/HBoxContainer/VBoxContainer/wave_value"
+@onready var status_ui_value = $"CanvasLayer/Main-ui/wave_data_container/HBoxContainer/VBoxContainer/status_value"
+@onready var time_ui_value = $"CanvasLayer/Main-ui/wave_data_container/HBoxContainer/VBoxContainer/time_value"
 
 func _ready():
 	player_data = load("res://resources/player/player_data.tres")
 	update_player_data_ui()
-	$"CanvasLayer/Main-ui/buttons/merge".connect("merge", _on_merge)
-	$"CanvasLayer/Main-ui/buttons/spawn_t1".connect("spend_mana", _on_mana_spent)
+	$"CanvasLayer/Main-ui/merge_button".connect("merge", _on_merge)
+	$"CanvasLayer/Main-ui/spawn_t1_button".connect("spend_mana", _on_mana_spent)
 	mana_ui_value.text = str(mana)
 	research_ui_value.text = str(research)
 	
@@ -147,8 +150,8 @@ func _on_wave_delay_timeout() -> void:
 		$wave_delay.stop()
 
 func spawn_wave():
-	$"CanvasLayer/Main-ui/wave_data/wave_value".text = str(wave)
-	$"CanvasLayer/Main-ui/wave_data/status_value".text = "Spawning"
+	wave_ui_value.text = str(wave)
+	status_ui_value.text = "Spawning"
 	var spawn_areas = get_tree().get_root().get_node("game/enemy_spawn_areas").get_children()
 	for spawn_point in spawn_areas:
 		var unit = load(wave_data.unit).instantiate()
@@ -158,7 +161,7 @@ func spawn_wave():
 		get_tree().get_root().get_node("game").get_node("enemy_units").add_child(unit)
 	waves_remaining -= 1
 	if(waves_remaining == 0):
-		$"CanvasLayer/Main-ui/wave_data/status_value".text = "Defend"
+		status_ui_value.text = "Defend"
 		$wave_time.start()
 
 func _on_merge():
@@ -228,12 +231,12 @@ func find_open_spawn_point():
 	return null
 
 func start_game():
-	$"CanvasLayer/Main-ui/buttons/start_game".queue_free()
+	$"CanvasLayer/Main-ui/start_game_button".queue_free()
 	wave_data = load("res://resources/waves/wave_1/wave_properties.tres")
 	wave = 1
 	waves_remaining = wave_data.wave_count
 	wave_time = 75
-	$"CanvasLayer/Main-ui/wave_data/time_value".text = str(wave_time)
+	time_ui_value.text = str(wave_time)
 	$"CanvasLayer/Main-ui/lives_data/lives_value".text = str(lives)
 	spawn_wave()
 	$wave_delay.start()
@@ -242,12 +245,12 @@ func _on_wave_time_timeout() -> void:
 	if($enemy_units.get_child_count() == 0):
 		$wave_time.stop()
 		wave_time = 10
-		$"CanvasLayer/Main-ui/wave_data/status_value".text = "Break"
-		$"CanvasLayer/Main-ui/wave_data/time_value".text = str(wave_time)
+		status_ui_value.text = "Break"
+		time_ui_value.text = str(wave_time)
 		$wait_time.start()
 	elif(wave_time > 0):
 		wave_time -= 1
-		$"CanvasLayer/Main-ui/wave_data/time_value".text = str(wave_time)
+		time_ui_value.text = str(wave_time)
 	else:
 		$wave_time.stop()
 		var remaining_enemies = $enemy_units
@@ -256,17 +259,17 @@ func _on_wave_time_timeout() -> void:
 		for enemy in remaining_enemies.get_children():
 			enemy.die()
 		if(lives <= 0):
-			$"CanvasLayer/Main-ui/wave_data/status_value".text = "YOU LOSE BUSTER"
+			status_ui_value.text = "LOSE"
 		if(lives > 0):
 			wave_time = 10
-			$"CanvasLayer/Main-ui/wave_data/status_value".text = "Break"
+			status_ui_value.text = "Break"
 			$wait_time.start()
 
 
 func _on_wait_time_timeout() -> void:
 	if(wave_time > 0):
 		wave_time -= 1
-		$"CanvasLayer/Main-ui/wave_data/time_value".text = str(wave_time)
+		time_ui_value.text = str(wave_time)
 	else:
 		$wait_time.stop()
 		next_wave()
@@ -274,10 +277,10 @@ func _on_wait_time_timeout() -> void:
 func next_wave():
 	wave += 1
 	if(wave > wave_max):
-		$"CanvasLayer/Main-ui/wave_data/status_value".text = "YOU WIN BUSTER"
+		status_ui_value.text = "WIN"
 		return
 	wave_time = 75
-	$"CanvasLayer/Main-ui/wave_data/time_value".text = str(wave_time)
+	time_ui_value.text = str(wave_time)
 	var wave_path = "res://resources/waves/wave_" + str(wave) + "/wave_properties.tres"
 	wave_data = load(wave_path)
 	waves_remaining = wave_data.wave_count

@@ -155,131 +155,6 @@ offset_bottom = 138.0
 text = "Knowledge:"
 metadata/_edit_lock_ = true
 
-[node name="buttons" type="Control" parent="."]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="spawn_t1" type="Button" parent="buttons"]
-layout_mode = 0
-offset_left = 797.0
-offset_top = 403.0
-offset_right = 838.0
-offset_bottom = 444.0
-text = "T1"
-script = ExtResource("1_fnul3")
-metadata/_edit_lock_ = true
-
-[node name="start_game" type="Button" parent="buttons"]
-layout_mode = 0
-offset_left = 398.0
-offset_top = 493.0
-offset_right = 551.0
-offset_bottom = 534.0
-text = "Start Game"
-script = ExtResource("2_513t2")
-metadata/_edit_lock_ = true
-
-[node name="merge" type="Button" parent="buttons"]
-layout_mode = 0
-offset_left = 796.0
-offset_top = 450.0
-offset_right = 952.0
-offset_bottom = 534.0
-text = "Merge"
-script = ExtResource("3_u001w")
-metadata/_edit_lock_ = true
-
-[node name="wave_data" type="Control" parent="."]
-anchors_preset = 0
-offset_top = 218.0
-offset_right = 183.0
-offset_bottom = 385.0
-
-[node name="wave" type="Label" parent="wave_data"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -20.0
-offset_right = 20.0
-offset_bottom = 22.0
-grow_horizontal = 2
-text = "Wave"
-horizontal_alignment = 1
-vertical_alignment = 1
-metadata/_edit_lock_ = true
-
-[node name="wave_value" type="Label" parent="wave_data"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -23.0
-offset_top = 20.0
-offset_right = 23.0
-offset_bottom = 43.0
-grow_horizontal = 2
-horizontal_alignment = 1
-metadata/_edit_lock_ = true
-
-[node name="status" type="Label" parent="wave_data"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -65.0
-offset_top = 50.0
-offset_right = 65.0
-offset_bottom = 73.0
-grow_horizontal = 2
-text = "Status"
-horizontal_alignment = 1
-vertical_alignment = 1
-metadata/_edit_lock_ = true
-
-[node name="status_value" type="Label" parent="wave_data"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -23.0
-offset_top = 70.0
-offset_right = 23.0
-offset_bottom = 93.0
-grow_horizontal = 2
-horizontal_alignment = 1
-metadata/_edit_lock_ = true
-
-[node name="time" type="Label" parent="wave_data"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -20.0
-offset_top = 100.0
-offset_right = 20.0
-offset_bottom = 123.0
-grow_horizontal = 2
-text = "Time"
-horizontal_alignment = 1
-vertical_alignment = 1
-metadata/_edit_lock_ = true
-
-[node name="time_value" type="Label" parent="wave_data"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -20.0
-offset_top = 120.0
-offset_right = 20.0
-offset_bottom = 143.0
-grow_horizontal = 2
-horizontal_alignment = 1
-vertical_alignment = 1
-metadata/_edit_lock_ = true
-
 [node name="lives_data" type="Control" parent="."]
 anchors_preset = 0
 offset_top = 480.0
@@ -313,5 +188,122 @@ text = "99"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[connection signal="pressed" from="buttons/spawn_t1" to="buttons/spawn_t1" method="_on_pressed"]
-[connection signal="pressed" from="buttons/start_game" to="buttons/start_game" method="_on_pressed"]
+[node name="wave_data_container" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 45.0
+offset_top = -70.0
+offset_right = 165.0
+offset_bottom = 142.0
+grow_vertical = 2
+
+[node name="HBoxContainer" type="MarginContainer" parent="wave_data_container"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_right = 15
+metadata/_edit_lock_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="wave_data_container/HBoxContainer"]
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="wave" type="Label" parent="wave_data_container/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Wave"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="wave_value" type="Label" parent="wave_data_container/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="HSeparator" type="HSeparator" parent="wave_data_container/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="status" type="Label" parent="wave_data_container/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Status"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="status_value" type="Label" parent="wave_data_container/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="HSeparator2" type="HSeparator" parent="wave_data_container/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="time" type="Label" parent="wave_data_container/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Time"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="time_value" type="Label" parent="wave_data_container/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="spawn_t1_button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -170.0
+offset_top = -150.0
+offset_right = -129.0
+offset_bottom = -104.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "T1"
+script = ExtResource("1_fnul3")
+metadata/_edit_lock_ = true
+
+[node name="start_game_button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -76.5
+offset_top = -46.0
+offset_right = 76.5
+grow_horizontal = 2
+grow_vertical = 0
+text = "Start Game"
+script = ExtResource("2_513t2")
+metadata/_edit_lock_ = true
+
+[node name="merge_button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -170.0
+offset_top = -95.0
+offset_right = -14.0
+offset_bottom = -11.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Merge"
+script = ExtResource("3_u001w")
+metadata/_edit_lock_ = true
+
+[connection signal="pressed" from="spawn_t1_button" to="spawn_t1_button" method="_on_pressed"]
+[connection signal="pressed" from="start_game_button" to="start_game_button" method="_on_pressed"]
