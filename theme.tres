@@ -1,0 +1,55 @@
+[gd_resource type="Theme" load_steps=11 format=3 uid="uid://d30qa4wpnelg3"]
+
+[ext_resource type="FontFile" uid="uid://p8lxcoxmb85e" path="res://assets/font/m3x6.ttf" id="1_e1x85"]
+[ext_resource type="Texture2D" uid="uid://c58jrruuo67b1" path="res://assets/ui/9patchrect_hover.png" id="2_110ce"]
+[ext_resource type="Texture2D" uid="uid://bgej3mom5dldl" path="res://assets/ui/9patchrect.png" id="2_cjfk0"]
+[ext_resource type="Texture2D" uid="uid://drbjxo526uvbt" path="res://assets/ui/9patchrect_active.png" id="4_05tig"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_110ce"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1rmny"]
+texture = ExtResource("2_110ce")
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_05tig"]
+texture = ExtResource("2_110ce")
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vj6dk"]
+texture = ExtResource("2_cjfk0")
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mihib"]
+texture = ExtResource("4_05tig")
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_110ce"]
+texture = ExtResource("2_cjfk0")
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
+
+[resource]
+Button/font_sizes/font_size = 32
+Button/fonts/font = ExtResource("1_e1x85")
+Button/styles/focus = SubResource("StyleBoxEmpty_110ce")
+Button/styles/hover = SubResource("StyleBoxTexture_1rmny")
+Button/styles/hover_pressed = SubResource("StyleBoxTexture_05tig")
+Button/styles/normal = SubResource("StyleBoxTexture_vj6dk")
+Button/styles/pressed = SubResource("StyleBoxTexture_mihib")
+Label/font_sizes/font_size = 32
+Label/fonts/font = ExtResource("1_e1x85")
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_110ce")

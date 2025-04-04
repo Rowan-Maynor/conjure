@@ -271,6 +271,7 @@ func _on_attack_spawn_delay_timeout() -> void:
 		"res://scenes/attacks/" + unit_data.attack + ".tscn").instantiate()
 	attack_instance.attack_data = load(
 		"res://resources/attacks/" + unit_data.attack + ".tres").duplicate()
+	attack_instance.z_index = 2
 	if(attack_instance.attack_data.type == "melee"):
 		attack_instance.position = attacked_target.position
 	else:
