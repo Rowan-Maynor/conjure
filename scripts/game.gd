@@ -22,24 +22,19 @@ var drag_start = Vector2.ZERO
 @onready var selection_collision = $selection_area/CollisionShape2D
 
 #selectors for UI elements
-@onready var mana_ui_value = $"CanvasLayer/Main-ui/resource_container/NinePatchRect/GridContainer/mana_container/mana_value"
-@onready var research_ui_value = $"CanvasLayer/Main-ui/resource_container/NinePatchRect/GridContainer/research_container/research_value"
+@onready var mana_ui_value = $"CanvasLayer/Main-ui/resource_container/GridContainer/mana_container/mana_value"
+@onready var research_ui_value = $"CanvasLayer/Main-ui/resource_container/GridContainer/research_container/research_value"
 @onready var wave_ui_value = $"CanvasLayer/Main-ui/wave_data_container/HBoxContainer/VBoxContainer/wave_value"
 @onready var status_ui_value = $"CanvasLayer/Main-ui/wave_data_container/HBoxContainer/VBoxContainer/status_value"
 @onready var time_ui_value = $"CanvasLayer/Main-ui/wave_data_container/HBoxContainer/VBoxContainer/time_value"
+@onready var lives_ui_value = $"CanvasLayer/Main-ui/lives_data_container/VBoxContainer/life_value"
 
 func _ready():
 	player_data = load("res://resources/player/player_data.tres")
-	update_player_data_ui()
 	$"CanvasLayer/Main-ui/merge_button".connect("merge", _on_merge)
 	$"CanvasLayer/Main-ui/spawn_t1_button".connect("spend_mana", _on_mana_spent)
 	mana_ui_value.text = str(mana)
 	research_ui_value.text = str(research)
-	
-	await get_tree().create_timer(1.0).timeout
-	
-	player_data.level += 1
-	update_player_data_ui()
 	save()
 
 func _input(_event: InputEvent) -> void:
@@ -138,10 +133,6 @@ func _get_rect_start_position():
 	
 	return new_position
 
-func update_player_data_ui():
-	$"CanvasLayer/Main-ui/player_data/level".text = "Level: " + str(int(player_data.level))
-	$"CanvasLayer/Main-ui/player_data/exp".text = "XP: " + str(int(player_data.xp))
-	$"CanvasLayer/Main-ui/player_data/tp".text = "Knowledge: " + str(int(player_data.knowledge))
 
 func _on_wave_delay_timeout() -> void:
 	if(waves_remaining > 0):
@@ -237,7 +228,7 @@ func start_game():
 	waves_remaining = wave_data.wave_count
 	wave_time = 75
 	time_ui_value.text = str(wave_time)
-	$"CanvasLayer/Main-ui/lives_data/lives_value".text = str(lives)
+	lives_ui_value.text = str(lives)
 	spawn_wave()
 	$wave_delay.start()
 
@@ -255,7 +246,7 @@ func _on_wave_time_timeout() -> void:
 		$wave_time.stop()
 		var remaining_enemies = $enemy_units
 		lives -= remaining_enemies.get_child_count()
-		$"CanvasLayer/Main-ui/lives_data/lives_value".text = str(lives)
+		lives_ui_value.text = str(lives)
 		for enemy in remaining_enemies.get_children():
 			enemy.die()
 		if(lives <= 0):
