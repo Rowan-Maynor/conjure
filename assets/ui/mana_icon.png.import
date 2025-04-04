@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b186kbch2wvli"
-path="res://.godot/imported/imp_spear.png-ef5214557cc5367e97a68259cd041679.ctex"
+uid="uid://btxayetjurgst"
+path="res://.godot/imported/mana_icon.png-102dc9c04c82d7a9a1dcb671f5b1b0f6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/projectiles/imp_spear.png"
-dest_files=["res://.godot/imported/imp_spear.png-ef5214557cc5367e97a68259cd041679.ctex"]
+source_file="res://assets/ui/mana_icon.png"
+dest_files=["res://.godot/imported/mana_icon.png-102dc9c04c82d7a9a1dcb671f5b1b0f6.ctex"]
 
 [params]
 

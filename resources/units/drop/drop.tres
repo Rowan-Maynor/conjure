@@ -12,5 +12,5 @@ speed = 100
 element = "water"
 type = "drop"
 control = "player"
-projectile = "spear"
+attack = "bite"
 metadata/_custom_type_script = "uid://db2pd7vctcukq"

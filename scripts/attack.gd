@@ -1,16 +1,19 @@
 extends CharacterBody2D
 
-@export var projectile_data: Projectile_Data
+@export var attack_data: Attack_Data
 
-#TODO current_target will be set by unit that shoots projectile, but kept track of here
+#TODO current_target will be set by unit that attacks, but kept track of here
 @export var current_target = null
-#this will keep track of how far ABOVE the sprite for the projectile to make contact
+#this will keep track of how far ABOVE the sprite for the attack to make contact
 var y_diff = 10.0
 @export var enemy_position = Vector2()
-#damage needs to be calculated by the unit and passed to the projectile which will then also be
+#damage needs to be calculated by the unit and passed to the attack which will then also be
 #passed in the emit signal so the enemy knows how much damage to take
 @export var damage: int
 #needs to emit signal when position == curren_target.position
+func _ready() -> void:
+	if(attack_data.type == "melee"):
+		emit_signal("attack_contact", current_target, damage)
 
 func _physics_process(_delta:float) -> void:
 	if(current_target == null):
@@ -25,17 +28,22 @@ func _physics_process(_delta:float) -> void:
 	enemy_position.x = current_target.position.x
 	enemy_position.y = current_target.position.y - y_diff
 	
-	if($Sprite2D):
+	if(attack_data.type != "melee"):
 		$Sprite2D.look_at(enemy_position)
+		
 	
-	if(position.distance_to(enemy_position) < 6):
-		emit_signal("projectile_contact", current_target, damage)
+	if(position.distance_to(enemy_position) < 6 && attack_data.type != "melee"):
+		emit_signal("attack_contact", current_target, damage)
 		self.queue_free()
 	
-	elif(position.distance_to(enemy_position) > 3):
+	elif(position.distance_to(enemy_position) > 3 && attack_data.type != "melee"):
 		var target_position = (enemy_position - position).normalized()
-		velocity = target_position * projectile_data.speed
+		velocity = target_position * attack_data.speed
 		move_and_slide()
 	
 #emit signal needs to pass its current_target so the unit that needs to be damaged is recognized
-signal projectile_contact(body, damage)
+signal attack_contact(body, damage)
+
+
+func _on_animated_sprite_2d_animation_finished() -> void:
+	self.queue_free()

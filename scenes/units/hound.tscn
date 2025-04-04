@@ -311,7 +311,7 @@ show_percentage = false
 wait_time = 0.4
 one_shot = true
 
-[node name="projectile_spawn_delay" type="Timer" parent="."]
+[node name="attack_spawn_delay" type="Timer" parent="."]
 wait_time = 0.3
 one_shot = true
 
@@ -320,4 +320,4 @@ one_shot = true
 [connection signal="body_exited" from="attack_range" to="." method="_on_attack_range_body_exited"]
 [connection signal="timeout" from="attack_speed" to="." method="_on_attack_speed_timeout"]
 [connection signal="timeout" from="attack_animation_speed" to="." method="_on_attack_animation_speed_timeout"]
-[connection signal="timeout" from="projectile_spawn_delay" to="." method="_on_projectile_spawn_delay_timeout"]
+[connection signal="timeout" from="attack_spawn_delay" to="." method="_on_attack_spawn_delay_timeout"]
