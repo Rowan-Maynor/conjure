@@ -11,6 +11,9 @@ var y_diff = 10.0
 #passed in the emit signal so the enemy knows how much damage to take
 @export var damage: int
 #needs to emit signal when position == curren_target.position
+func _ready() -> void:
+	if(attack_data.type == "melee"):
+		emit_signal("attack_contact", current_target, damage)
 
 func _physics_process(_delta:float) -> void:
 	if(current_target == null):
@@ -25,17 +28,22 @@ func _physics_process(_delta:float) -> void:
 	enemy_position.x = current_target.position.x
 	enemy_position.y = current_target.position.y - y_diff
 	
-	if($Sprite2D):
+	if(attack_data.type != "melee"):
 		$Sprite2D.look_at(enemy_position)
+		
 	
-	if(position.distance_to(enemy_position) < 6):
+	if(position.distance_to(enemy_position) < 6 && attack_data.type != "melee"):
 		emit_signal("attack_contact", current_target, damage)
 		self.queue_free()
 	
-	elif(position.distance_to(enemy_position) > 3):
+	elif(position.distance_to(enemy_position) > 3 && attack_data.type != "melee"):
 		var target_position = (enemy_position - position).normalized()
 		velocity = target_position * attack_data.speed
 		move_and_slide()
 	
 #emit signal needs to pass its current_target so the unit that needs to be damaged is recognized
 signal attack_contact(body, damage)
+
+
+func _on_animated_sprite_2d_animation_finished() -> void:
+	self.queue_free()

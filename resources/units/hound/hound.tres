@@ -12,5 +12,5 @@ speed = 200
 element = "fire"
 type = "hound"
 control = "player"
-attack = "spear"
+attack = "bite"
 metadata/_custom_type_script = "uid://db2pd7vctcukq"
