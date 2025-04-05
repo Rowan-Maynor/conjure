@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Wave_Data" load_steps=2 format=3 uid="uid://d3kshq3h2cl7v"]
+
+[ext_resource type="Script" uid="uid://umr4b0y202fc" path="res://resources/resource_scripts/wave_data.gd" id="1_c8lju"]
+
+[resource]
+script = ExtResource("1_c8lju")
+unit = "res://scenes/units/pup.tscn"
+wave_count = 4
+metadata/_custom_type_script = "uid://umr4b0y202fc"
