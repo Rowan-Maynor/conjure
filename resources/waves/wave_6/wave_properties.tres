@@ -4,6 +4,6 @@
 
 [resource]
 script = ExtResource("1_3w4he")
-unit = "res://scenes/units/guppy.tscn"
-wave_count = 3
+unit = "res://scenes/units/monkey.tscn"
+wave_count = 4
 metadata/_custom_type_script = "uid://umr4b0y202fc"
