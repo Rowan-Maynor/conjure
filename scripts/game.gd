@@ -27,7 +27,7 @@ var drag_start = Vector2.ZERO
 @onready var wave_ui_value = $"CanvasLayer/Main-ui/wave_data_container/HBoxContainer/VBoxContainer/wave_value"
 @onready var time_ui_value = $"CanvasLayer/Main-ui/wave_data_container/HBoxContainer/VBoxContainer/time_value"
 @onready var lives_ui_value = $"CanvasLayer/Main-ui/lives_data_container/VBoxContainer/life_value"
-@onready var basic_spawn_button = $"CanvasLayer/Main-ui/mana_buttons/HBoxContainer/VBoxContainer/basic_spawn_button"
+@onready var basic_spawn_button = $"CanvasLayer/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer/basic_spawn_button"
 @onready var text_box_container = $"CanvasLayer/Main-ui/text_box/ScrollContainer/VBoxContainer"
 
 func _ready():
