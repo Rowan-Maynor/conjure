@@ -25,14 +25,15 @@ var drag_start = Vector2.ZERO
 @onready var mana_ui_value = $"CanvasLayer/Main-ui/resource_container/GridContainer/mana_container/mana_value"
 @onready var research_ui_value = $"CanvasLayer/Main-ui/resource_container/GridContainer/research_container/research_value"
 @onready var wave_ui_value = $"CanvasLayer/Main-ui/wave_data_container/HBoxContainer/VBoxContainer/wave_value"
-@onready var status_ui_value = $"CanvasLayer/Main-ui/wave_data_container/HBoxContainer/VBoxContainer/status_value"
 @onready var time_ui_value = $"CanvasLayer/Main-ui/wave_data_container/HBoxContainer/VBoxContainer/time_value"
 @onready var lives_ui_value = $"CanvasLayer/Main-ui/lives_data_container/VBoxContainer/life_value"
+@onready var basic_spawn_button = $"CanvasLayer/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer/basic_spawn_button"
+@onready var text_box_container = $"CanvasLayer/Main-ui/text_box/ScrollContainer/VBoxContainer"
 
 func _ready():
 	player_data = load("res://resources/player/player_data.tres")
 	$"CanvasLayer/Main-ui/merge_button".connect("merge", _on_merge)
-	$"CanvasLayer/Main-ui/spawn_t1_button".connect("spend_mana", _on_mana_spent)
+	basic_spawn_button.connect("spend_mana", _on_mana_spent)
 	mana_ui_value.text = str(mana)
 	research_ui_value.text = str(research)
 	save()
@@ -141,8 +142,9 @@ func _on_wave_delay_timeout() -> void:
 		$wave_delay.stop()
 
 func spawn_wave():
+	if(waves_remaining == wave_data.wave_count):
+		add_status_message("Wave " + str(wave) + " starting", Color.hex(0xafafafff))
 	wave_ui_value.text = str(wave)
-	status_ui_value.text = "Spawning"
 	var spawn_areas = get_tree().get_root().get_node("game/enemy_spawn_areas").get_children()
 	for spawn_point in spawn_areas:
 		var unit = load(wave_data.unit).instantiate()
@@ -152,7 +154,6 @@ func spawn_wave():
 		get_tree().get_root().get_node("game").get_node("enemy_units").add_child(unit)
 	waves_remaining -= 1
 	if(waves_remaining == 0):
-		status_ui_value.text = "Defend"
 		$wave_time.start()
 
 func _on_merge():
@@ -201,10 +202,11 @@ func _on_merge():
 			instance.recipe_data = load(unit_recipe_path).duplicate()
 			var spawn_point = find_open_spawn_point()
 			if(spawn_point == null):
-				print("No free space!")
+				add_status_message("No free space", Color.hex(0xff3e3eff))
 			else:
 				instance.position = spawn_point.global_position
 				get_tree().get_root().get_node("game").get_node("player_units").add_child(instance)
+				add_status_message("Conjured " + instance.unit_data.type)
 				#merged unit is now spawned, free the others
 				selected.pop_at(selected.find(main_unit))
 				main_unit.queue_free()
@@ -232,11 +234,14 @@ func start_game():
 	spawn_wave()
 	$wave_delay.start()
 
+func restart_game():
+	get_tree().change_scene_to_file("res://scenes/game.tscn")
+
 func _on_wave_time_timeout() -> void:
 	if($enemy_units.get_child_count() == 0):
 		$wave_time.stop()
 		wave_time = 10
-		status_ui_value.text = "Break"
+		add_status_message("Break (10s)", Color.hex(0xafafafff))
 		time_ui_value.text = str(wave_time)
 		$wait_time.start()
 	elif(wave_time > 0):
@@ -246,14 +251,17 @@ func _on_wave_time_timeout() -> void:
 		$wave_time.stop()
 		var remaining_enemies = $enemy_units
 		lives -= remaining_enemies.get_child_count()
+		add_status_message("lives -" + str(remaining_enemies.get_child_count()), Color.hex(0xff3e3eff))
 		lives_ui_value.text = str(lives)
 		for enemy in remaining_enemies.get_children():
 			enemy.die()
 		if(lives <= 0):
-			status_ui_value.text = "LOSE"
+			var lose_screen = load("res://scenes/lose_screen.tscn").instantiate()
+			get_tree().get_root().get_node("game").get_node("CanvasLayer").add_child(lose_screen)
+			return
 		if(lives > 0):
 			wave_time = 10
-			status_ui_value.text = "Break"
+			add_status_message("Break (10s)", Color.hex(0xafafafff))
 			$wait_time.start()
 
 
@@ -268,7 +276,8 @@ func _on_wait_time_timeout() -> void:
 func next_wave():
 	wave += 1
 	if(wave > wave_max):
-		status_ui_value.text = "WIN"
+		var win_screen = load("res://scenes/win_screen.tscn").instantiate()
+		get_tree().get_root().get_node("game").get_node("CanvasLayer").add_child(win_screen)
 		return
 	wave_time = 75
 	time_ui_value.text = str(wave_time)
@@ -290,3 +299,14 @@ func _on_died(_body):
 		if(kills % 5 == 0):
 			mana += 1
 			mana_ui_value.text = str(mana)
+
+func add_status_message(message, color = Color.hex(0xffffffff)):
+	var label = Label.new()
+	label.add_theme_font_size_override("font_size", 16)
+	label.set("theme_override_colors/font_color", color)
+	label.text = message
+	label.set_autowrap_mode(TextServer.AUTOWRAP_WORD)
+	var separator = HSeparator.new()
+	if(text_box_container.get_child_count() != 0):
+		text_box_container.add_child(separator)
+	text_box_container.add_child(label)
