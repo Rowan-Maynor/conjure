@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://b578nkptq5xnm"]
+[gd_scene load_steps=11 format=3 uid="uid://b578nkptq5xnm"]
 
 [ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_e0pfi"]
 [ext_resource type="Script" uid="uid://mivjt0t7mpqb" path="res://scripts/spawn_t1.gd" id="1_fnul3"]
@@ -6,7 +6,10 @@
 [ext_resource type="Texture2D" uid="uid://btxayetjurgst" path="res://assets/ui/mana_icon.png" id="2_e0pfi"]
 [ext_resource type="Texture2D" uid="uid://dr70g110va4hx" path="res://assets/ui/knowledge_icon.png" id="3_o3bws"]
 [ext_resource type="Script" uid="uid://i66x3auk3nqu" path="res://scripts/merge.gd" id="3_u001w"]
+[ext_resource type="Script" uid="uid://begukndqlpqm5" path="res://scripts/mana_tab_button.gd" id="7_o3bws"]
+[ext_resource type="Script" uid="uid://nm8htu8iujii" path="res://scripts/research_tab_button.gd" id="8_3huio"]
 [ext_resource type="Texture2D" uid="uid://cl7wm4vb5hdaa" path="res://assets/ui/life_icon.png" id="8_o3bws"]
+[ext_resource type="Script" uid="uid://ycbw53qy6rik" path="res://scripts/scroll_container.gd" id="10_sjwyb"]
 
 [node name="Main-ui" type="Control"]
 layout_mode = 3
@@ -103,7 +106,7 @@ anchor_bottom = 0.5
 offset_left = 45.0
 offset_top = -170.0
 offset_right = 165.0
-offset_bottom = 42.0
+offset_bottom = -20.0
 grow_vertical = 2
 
 [node name="HBoxContainer" type="MarginContainer" parent="wave_data_container"]
@@ -129,22 +132,6 @@ horizontal_alignment = 1
 metadata/_edit_lock_ = true
 
 [node name="HSeparator" type="HSeparator" parent="wave_data_container/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-metadata/_edit_lock_ = true
-
-[node name="status" type="Label" parent="wave_data_container/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-text = "Status"
-horizontal_alignment = 1
-vertical_alignment = 1
-metadata/_edit_lock_ = true
-
-[node name="status_value" type="Label" parent="wave_data_container/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-horizontal_alignment = 1
-metadata/_edit_lock_ = true
-
-[node name="HSeparator2" type="HSeparator" parent="wave_data_container/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 metadata/_edit_lock_ = true
 
@@ -190,23 +177,6 @@ text = "0"
 horizontal_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="spawn_t1_button" type="Button" parent="."]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -170.0
-offset_top = -150.0
-offset_right = -129.0
-offset_bottom = -104.0
-grow_horizontal = 0
-grow_vertical = 0
-text = "T1"
-script = ExtResource("1_fnul3")
-metadata/_edit_lock_ = true
-
 [node name="start_game_button" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = 7
@@ -241,5 +211,134 @@ text = "Merge"
 script = ExtResource("3_u001w")
 metadata/_edit_lock_ = true
 
-[connection signal="pressed" from="spawn_t1_button" to="spawn_t1_button" method="_on_pressed"]
+[node name="mana_tab_button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -48.0
+offset_top = -150.0
+offset_right = 18.0
+offset_bottom = -98.0
+grow_horizontal = 0
+grow_vertical = 2
+text = " "
+icon = ExtResource("2_e0pfi")
+script = ExtResource("7_o3bws")
+
+[node name="research_tab_button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -48.0
+offset_top = -100.0
+offset_right = 18.0
+offset_bottom = -48.0
+grow_horizontal = 0
+grow_vertical = 2
+text = " "
+icon = ExtResource("3_o3bws")
+script = ExtResource("8_3huio")
+
+[node name="mana_buttons" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -160.0
+offset_right = 84.0
+offset_bottom = 140.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="mana_buttons"]
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="mana_buttons/HBoxContainer"]
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="basic_spawn_button" type="Button" parent="mana_buttons/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+text = "T1"
+script = ExtResource("1_fnul3")
+metadata/_edit_lock_ = true
+
+[node name="right_margin" type="Control" parent="mana_buttons/HBoxContainer"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="research_tab_buttons" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -160.0
+offset_right = 84.0
+offset_bottom = 140.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="research_tab_buttons"]
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="research_tab_buttons/HBoxContainer"]
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="basic_spawn_button" type="Button" parent="research_tab_buttons/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+text = "T1"
+script = ExtResource("1_fnul3")
+metadata/_edit_lock_ = true
+
+[node name="right_margin" type="Control" parent="research_tab_buttons/HBoxContainer"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="text_box" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -270.0
+offset_right = 210.0
+offset_bottom = -10.0
+grow_vertical = 0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="text_box"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
+script = ExtResource("10_sjwyb")
+metadata/_edit_lock_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="text_box/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+metadata/_edit_lock_ = true
+
 [connection signal="pressed" from="start_game_button" to="start_game_button" method="_on_pressed"]
+[connection signal="pressed" from="mana_tab_button" to="mana_tab_button" method="_on_pressed"]
+[connection signal="pressed" from="research_tab_button" to="research_tab_button" method="_on_pressed"]
+[connection signal="pressed" from="mana_buttons/HBoxContainer/VBoxContainer/basic_spawn_button" to="mana_buttons/HBoxContainer/VBoxContainer/basic_spawn_button" method="_on_pressed"]
+[connection signal="pressed" from="research_tab_buttons/HBoxContainer/VBoxContainer/basic_spawn_button" to="research_tab_buttons/HBoxContainer/VBoxContainer/basic_spawn_button" method="_on_pressed"]

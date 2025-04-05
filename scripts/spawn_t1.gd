@@ -26,13 +26,14 @@ func _on_pressed():
 		instance.recipe_data = load(unit_recipe_path).duplicate()
 		var spawn_point = find_open_spawn_point(spawn_areas)
 		if(spawn_point == null):
-			print("No free space!")
+			get_tree().get_root().get_node("game").add_status_message("No free space")
 		else:
 			instance.position = spawn_point.global_position
 			get_tree().get_root().get_node("game").get_node("player_units").add_child(instance)
+			get_tree().get_root().get_node("game").add_status_message("Conjured " + instance.unit_data.type)
 			emit_signal("spend_mana", 5)
 	else:
-		print("Not enough mana!")
+		get_tree().get_root().get_node("game").add_status_message("Not enough mana")
 func find_open_spawn_point(spawn_areas):
 	for area in spawn_areas:
 		var units = area.has_overlapping_bodies()
