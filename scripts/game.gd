@@ -143,7 +143,7 @@ func _on_wave_delay_timeout() -> void:
 
 func spawn_wave():
 	if(waves_remaining == wave_data.wave_count):
-		add_status_message("Wave " + str(wave) + " starting")
+		add_status_message("Wave " + str(wave) + " starting", Color.hex(0xafafafff))
 	wave_ui_value.text = str(wave)
 	var spawn_areas = get_tree().get_root().get_node("game/enemy_spawn_areas").get_children()
 	for spawn_point in spawn_areas:
@@ -202,7 +202,7 @@ func _on_merge():
 			instance.recipe_data = load(unit_recipe_path).duplicate()
 			var spawn_point = find_open_spawn_point()
 			if(spawn_point == null):
-				add_status_message("No free space")
+				add_status_message("No free space", Color.hex(0xff3e3eff))
 			else:
 				instance.position = spawn_point.global_position
 				get_tree().get_root().get_node("game").get_node("player_units").add_child(instance)
@@ -238,7 +238,7 @@ func _on_wave_time_timeout() -> void:
 	if($enemy_units.get_child_count() == 0):
 		$wave_time.stop()
 		wave_time = 10
-		add_status_message("Break (10s)")
+		add_status_message("Break (10s)", Color.hex(0xafafafff))
 		time_ui_value.text = str(wave_time)
 		$wait_time.start()
 	elif(wave_time > 0):
@@ -248,15 +248,15 @@ func _on_wave_time_timeout() -> void:
 		$wave_time.stop()
 		var remaining_enemies = $enemy_units
 		lives -= remaining_enemies.get_child_count()
-		add_status_message("lives -" + str(remaining_enemies.get_child_count()))
+		add_status_message("lives -" + str(remaining_enemies.get_child_count()), Color.hex(0xff3e3eff))
 		lives_ui_value.text = str(lives)
 		for enemy in remaining_enemies.get_children():
 			enemy.die()
 		if(lives <= 0):
-			add_status_message("You lose")
+			add_status_message("You lose", Color.hex(0xff3e3eff))
 		if(lives > 0):
 			wave_time = 10
-			add_status_message("Break (10s)")
+			add_status_message("Break (10s)", Color.hex(0xafafafff))
 			$wait_time.start()
 
 
@@ -271,7 +271,7 @@ func _on_wait_time_timeout() -> void:
 func next_wave():
 	wave += 1
 	if(wave > wave_max):
-		add_status_message("You win")
+		add_status_message("You win", Color.hex(0xfffd7aff))
 		return
 	wave_time = 75
 	time_ui_value.text = str(wave_time)
@@ -294,9 +294,10 @@ func _on_died(_body):
 			mana += 1
 			mana_ui_value.text = str(mana)
 
-func add_status_message(message):
+func add_status_message(message, color = Color.hex(0xffffffff)):
 	var label = Label.new()
-	label.set("theme_override_font_sizes/font_size", 16)
+	label.add_theme_font_size_override("font_size", 16)
+	label.set("theme_override_colors/font_color", color)
 	label.text = message
 	label.set_autowrap_mode(TextServer.AUTOWRAP_WORD)
 	var separator = HSeparator.new()
