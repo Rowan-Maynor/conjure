@@ -11,7 +11,7 @@ var kills = 0
 #handles wave information
 @export var wave_data: Wave_Data
 var wave
-var wave_max = 3
+var wave_max = 10
 var waves_remaining
 var wave_time
 

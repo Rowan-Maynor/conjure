@@ -16,31 +16,29 @@ func _ready() -> void:
 		emit_signal("attack_contact", current_target, damage)
 
 func _physics_process(_delta:float) -> void:
-	if(current_target == null):
-		queue_free()
-		return
-	if(!is_instance_valid(current_target)):
-		queue_free()
-		return
-	if(current_target.is_queued_for_deletion()):
-		queue_free()
-		return
-	enemy_position.x = current_target.position.x
-	enemy_position.y = current_target.position.y - y_diff
-	
 	if(attack_data.type != "melee"):
+		if(current_target == null):
+			queue_free()
+			return
+		if(!is_instance_valid(current_target)):
+			queue_free()
+			return
+		if(current_target.is_queued_for_deletion()):
+			queue_free()
+			return
+		enemy_position.x = current_target.position.x
+		enemy_position.y = current_target.position.y - y_diff
 		$Sprite2D.look_at(enemy_position)
 		
-	
-	if(position.distance_to(enemy_position) < 6 && attack_data.type != "melee"):
-		emit_signal("attack_contact", current_target, damage)
-		self.queue_free()
-	
-	elif(position.distance_to(enemy_position) > 3 && attack_data.type != "melee"):
-		var target_position = (enemy_position - position).normalized()
-		velocity = target_position * attack_data.speed
-		move_and_slide()
-	
+		if(position.distance_to(enemy_position) < 6):
+			emit_signal("attack_contact", current_target, damage)
+			self.queue_free()
+		
+		elif(position.distance_to(enemy_position) > 3):
+			var target_position = (enemy_position - position).normalized()
+			velocity = target_position * attack_data.speed
+			move_and_slide()
+
 #emit signal needs to pass its current_target so the unit that needs to be damaged is recognized
 signal attack_contact(body, damage)
 

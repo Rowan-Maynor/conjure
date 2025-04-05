@@ -267,24 +267,25 @@ func _on_attack_contact(body, damage):
 
 
 func _on_attack_spawn_delay_timeout() -> void:
-	var attack_instance = load(
-		"res://scenes/attacks/" + unit_data.attack + ".tscn").instantiate()
-	attack_instance.attack_data = load(
-		"res://resources/attacks/" + unit_data.attack + ".tres").duplicate()
-	attack_instance.z_index = 2
-	if(attack_instance.attack_data.type == "melee"):
-		attack_instance.position = attacked_target.position
-	else:
-		if($AnimatedSprite2D.flip_h == false):
-			attack_instance.position.x = self.position.x + 10.0
-			attack_instance.position.y = self.position.y - 5.0
-		if($AnimatedSprite2D.flip_h == true):
-			attack_instance.position.x = self.position.x - 5.0
-			attack_instance.position.y = self.position.y - 5.0
-	attack_instance.current_target = attacked_target
-	attack_instance.damage = unit_data.damage
-	attack_instance.attack_contact.connect(_on_attack_contact)
-	get_tree().get_root().get_node("game").add_child(attack_instance)
+	if(attacked_target != null && is_instance_valid(attacked_target)):
+		var attack_instance = load(
+			"res://scenes/attacks/" + unit_data.attack + ".tscn").instantiate()
+		attack_instance.attack_data = load(
+			"res://resources/attacks/" + unit_data.attack + ".tres").duplicate()
+		attack_instance.z_index = 2
+		if(attack_instance.attack_data.type == "melee"):
+			attack_instance.position = attacked_target.position
+		else:
+			if($AnimatedSprite2D.flip_h == false):
+				attack_instance.position.x = self.position.x + 10.0
+				attack_instance.position.y = self.position.y - 5.0
+			if($AnimatedSprite2D.flip_h == true):
+				attack_instance.position.x = self.position.x - 5.0
+				attack_instance.position.y = self.position.y - 5.0
+		attack_instance.current_target = attacked_target
+		attack_instance.damage = unit_data.damage
+		attack_instance.attack_contact.connect(_on_attack_contact)
+		get_tree().get_root().get_node("game").add_child(attack_instance)
 
 
 func _on_animated_sprite_2d_animation_finished() -> void:

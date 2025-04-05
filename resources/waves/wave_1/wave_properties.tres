@@ -4,6 +4,6 @@
 
 [resource]
 script = ExtResource("1_bkq04")
-unit = "res://scenes/units/imp.tscn"
+unit = "res://scenes/units/ember.tscn"
 wave_count = 3
 metadata/_custom_type_script = "uid://umr4b0y202fc"
