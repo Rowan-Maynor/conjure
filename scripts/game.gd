@@ -234,6 +234,9 @@ func start_game():
 	spawn_wave()
 	$wave_delay.start()
 
+func restart_game():
+	get_tree().change_scene_to_file("res://scenes/game.tscn")
+
 func _on_wave_time_timeout() -> void:
 	if($enemy_units.get_child_count() == 0):
 		$wave_time.stop()
@@ -253,7 +256,9 @@ func _on_wave_time_timeout() -> void:
 		for enemy in remaining_enemies.get_children():
 			enemy.die()
 		if(lives <= 0):
-			add_status_message("You lose", Color.hex(0xff3e3eff))
+			var lose_screen = load("res://scenes/lose_screen.tscn").instantiate()
+			get_tree().get_root().get_node("game").get_node("CanvasLayer").add_child(lose_screen)
+			return
 		if(lives > 0):
 			wave_time = 10
 			add_status_message("Break (10s)", Color.hex(0xafafafff))
@@ -271,7 +276,8 @@ func _on_wait_time_timeout() -> void:
 func next_wave():
 	wave += 1
 	if(wave > wave_max):
-		add_status_message("You win", Color.hex(0xfffd7aff))
+		var win_screen = load("res://scenes/win_screen.tscn").instantiate()
+		get_tree().get_root().get_node("game").get_node("CanvasLayer").add_child(win_screen)
 		return
 	wave_time = 75
 	time_ui_value.text = str(wave_time)
