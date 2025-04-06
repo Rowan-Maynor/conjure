@@ -1,39 +1,40 @@
-[gd_resource type="Theme" load_steps=11 format=3 uid="uid://d30qa4wpnelg3"]
+[gd_resource type="Theme" load_steps=12 format=3 uid="uid://d30qa4wpnelg3"]
 
 [ext_resource type="FontFile" uid="uid://p8lxcoxmb85e" path="res://assets/font/m3x6.ttf" id="1_e1x85"]
-[ext_resource type="Texture2D" uid="uid://c58jrruuo67b1" path="res://assets/ui/9patchrect_hover.png" id="2_110ce"]
+[ext_resource type="Texture2D" uid="uid://bld3f3s5pf7xh" path="res://assets/ui/9patchrect_button_hover.png" id="2_1rmny"]
 [ext_resource type="Texture2D" uid="uid://bgej3mom5dldl" path="res://assets/ui/9patchrect.png" id="2_cjfk0"]
-[ext_resource type="Texture2D" uid="uid://drbjxo526uvbt" path="res://assets/ui/9patchrect_active.png" id="4_05tig"]
+[ext_resource type="Texture2D" uid="uid://cyieylvt67mqg" path="res://assets/ui/9patchrect_button.png" id="3_05tig"]
+[ext_resource type="Texture2D" uid="uid://c6y1eih1jbdrf" path="res://assets/ui/9patchrect_button_active.png" id="5_mihib"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_110ce"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1rmny"]
-texture = ExtResource("2_110ce")
-texture_margin_left = 10.0
-texture_margin_top = 10.0
-texture_margin_right = 10.0
-texture_margin_bottom = 10.0
+texture = ExtResource("2_1rmny")
+texture_margin_left = 9.0
+texture_margin_top = 9.0
+texture_margin_right = 9.0
+texture_margin_bottom = 9.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_05tig"]
-texture = ExtResource("2_110ce")
-texture_margin_left = 10.0
-texture_margin_top = 10.0
-texture_margin_right = 10.0
-texture_margin_bottom = 10.0
+texture = ExtResource("2_1rmny")
+texture_margin_left = 9.0
+texture_margin_top = 9.0
+texture_margin_right = 9.0
+texture_margin_bottom = 9.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vj6dk"]
-texture = ExtResource("2_cjfk0")
-texture_margin_left = 10.0
-texture_margin_top = 10.0
-texture_margin_right = 10.0
-texture_margin_bottom = 10.0
+texture = ExtResource("3_05tig")
+texture_margin_left = 9.0
+texture_margin_top = 9.0
+texture_margin_right = 9.0
+texture_margin_bottom = 9.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mihib"]
-texture = ExtResource("4_05tig")
-texture_margin_left = 10.0
-texture_margin_top = 10.0
-texture_margin_right = 10.0
-texture_margin_bottom = 10.0
+texture = ExtResource("5_mihib")
+texture_margin_left = 9.0
+texture_margin_top = 9.0
+texture_margin_right = 9.0
+texture_margin_bottom = 9.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_110ce"]
 texture = ExtResource("2_cjfk0")

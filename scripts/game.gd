@@ -5,7 +5,7 @@ extends Node2D
 
 #resource values
 var lives = 30
-var mana = 25
+var mana = 100
 var research = 0
 var kills = 0
 
@@ -35,7 +35,6 @@ var drag_start = Vector2.ZERO
 #general functions
 func _ready():
 	player_data = load("res://resources/player/player_data.tres")
-	$"CanvasLayer/Main-ui/merge_button".connect("merge", _on_merge)
 	basic_spawn_button.connect("spend_mana", _on_mana_spent)
 	mana_ui_value.text = str(mana)
 	research_ui_value.text = str(research)
@@ -118,6 +117,15 @@ func _select_units():
 			selected.append(body)
 			var selection_sprite = body.get_node("selection_sprite")
 			selection_sprite.visible = true
+	
+	if(selected.size() != 0):
+		if($CanvasLayer.has_node("UnitDataPanel")):
+			update_unit_panel(selected[selected.size() - 1])
+		else:
+			create_unit_panel(selected[selected.size() - 1])
+	
+	if(selected.size() == 0 && $CanvasLayer.has_node("UnitDataPanel")):
+		$CanvasLayer.get_node("UnitDataPanel").queue_free()
 
 func _get_rect_start_position():
 	var new_position = Vector2.ZERO
@@ -134,6 +142,59 @@ func _get_rect_start_position():
 		new_position.y = mouse_position.y
 	
 	return new_position
+
+#functions related to unit panel
+func create_unit_panel(unit):
+	var panel_ui_scene = load("res://scenes/ui_components/unit_data_panel.tscn").instantiate()
+	#this is used to delete the panel when selection removed
+	panel_ui_scene.add_to_group("unit_panel")
+	
+	#update panel sprite
+	var sprite_node = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_sprite")
+	var unit_sprite = load("res://assets/sprites/units/" + unit.unit_data.type + "/base.png")
+	sprite_node.texture = unit_sprite
+	
+	#update panel data
+	var attack_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_data_container/unit_data_left/attack_value")
+	var attack_speed_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_data_container/unit_data_left/attack_speed_value")
+	var range_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_data_container/unit_data_left/range_value")
+	var critical_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_data_container/unit_data_right/critical_value")
+	var speed_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_data_container/unit_data_right/speed_value")
+	var element_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_data_container/unit_data_right/element_value")
+	attack_value.text = str(unit.unit_data.damage)
+	attack_speed_value.text = str(unit.unit_data.attack_speed)
+	range_value.text = str(unit.unit_data.attack_range)
+	critical_value.text = "0"
+	speed_value.text = str(unit.unit_data.speed)
+	element_value.text = str(unit.unit_data.element)
+	
+	#atatch panel to canvas
+	get_tree().get_root().get_node("game/CanvasLayer").add_child(panel_ui_scene)
+	
+	#connect merge button functionality
+	$"CanvasLayer/UnitDataPanel/PanelContainer/VBoxContainer/buttons_container/merge_button".connect("merge", _on_merge)
+
+func update_unit_panel(unit):
+	var panel_ui_scene = $CanvasLayer.get_node("UnitDataPanel")
+	
+	#update sprite
+	var sprite_node = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_sprite")
+	var unit_sprite = load("res://assets/sprites/units/" + unit.unit_data.type + "/base.png")
+	sprite_node.texture = unit_sprite
+	
+	#update values
+	var attack_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_data_container/unit_data_left/attack_value")
+	var attack_speed_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_data_container/unit_data_left/attack_speed_value")
+	var range_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_data_container/unit_data_left/range_value")
+	var critical_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_data_container/unit_data_right/critical_value")
+	var speed_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_data_container/unit_data_right/speed_value")
+	var element_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_data_container/unit_data_right/element_value")
+	attack_value.text = str(unit.unit_data.damage)
+	attack_speed_value.text = str(unit.unit_data.attack_speed)
+	range_value.text = str(unit.unit_data.attack_range)
+	critical_value.text = "0"
+	speed_value.text = str(unit.unit_data.speed)
+	element_value.text = str(unit.unit_data.element)
 
 #functions related to game state
 func start_game():
@@ -299,6 +360,10 @@ func _on_merge():
 				for unit in input_units:
 					selected.pop_at(selected.find(unit))
 					unit.queue_free()
+				if(selected.size() > 0):
+					update_unit_panel(selected[selected.size() - 1])
+				else:
+					$CanvasLayer.get_node("UnitDataPanel").queue_free()
 				return
 
 #helper functions

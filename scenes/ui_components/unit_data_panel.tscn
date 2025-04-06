@@ -1,9 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://bt0euvkcwgb5g"]
+[gd_scene load_steps=6 format=3 uid="uid://bt0euvkcwgb5g"]
 
 [ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_q772p"]
 [ext_resource type="Texture2D" uid="uid://c3hrdspg5ggxk" path="res://assets/sprites/units/shrub/base.png" id="2_ypfds"]
+[ext_resource type="Texture2D" uid="uid://by14vhv3y7icb" path="res://assets/ui/merge_icon.png" id="3_c8xa7"]
+[ext_resource type="Script" uid="uid://i66x3auk3nqu" path="res://scripts/merge.gd" id="4_bwqth"]
+[ext_resource type="Texture2D" uid="uid://cxmqxh2veh5mk" path="res://assets/ui/stop_icon.png" id="4_o56ib"]
 
 [node name="UnitDataPanel" type="Control"]
+z_index = -1
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -154,6 +158,10 @@ custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+icon = ExtResource("3_c8xa7")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("4_bwqth")
 
 [node name="mid_spacing" type="Control" parent="PanelContainer/VBoxContainer/buttons_container"]
 custom_minimum_size = Vector2(20, 0)
@@ -166,23 +174,30 @@ columns = 3
 [node name="stop_button" type="Button" parent="PanelContainer/VBoxContainer/buttons_container/GridContainer"]
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
+icon = ExtResource("4_o56ib")
+icon_alignment = 1
 
 [node name="hold_button" type="Button" parent="PanelContainer/VBoxContainer/buttons_container/GridContainer"]
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
+icon = ExtResource("4_o56ib")
 
 [node name="attack_button" type="Button" parent="PanelContainer/VBoxContainer/buttons_container/GridContainer"]
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
+icon = ExtResource("4_o56ib")
 
 [node name="infuse_1" type="Button" parent="PanelContainer/VBoxContainer/buttons_container/GridContainer"]
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
+icon = ExtResource("4_o56ib")
 
 [node name="infuse_2" type="Button" parent="PanelContainer/VBoxContainer/buttons_container/GridContainer"]
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
+icon = ExtResource("4_o56ib")
 
 [node name="infuse_3" type="Button" parent="PanelContainer/VBoxContainer/buttons_container/GridContainer"]
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
+icon = ExtResource("4_o56ib")
