@@ -2,15 +2,15 @@ extends CharacterBody2D
 
 @export var attack_data: Attack_Data
 
-#TODO current_target will be set by unit that attacks, but kept track of here
+#current_target will be set by unit that attacks, but kept track of here
 @export var current_target = null
+
 #this will keep track of how far ABOVE the sprite for the attack to make contact
 var y_diff = 10.0
+
 @export var enemy_position = Vector2()
-#damage needs to be calculated by the unit and passed to the attack which will then also be
-#passed in the emit signal so the enemy knows how much damage to take
 @export var damage: int
-#needs to emit signal when position == curren_target.position
+
 func _ready() -> void:
 	if(attack_data.type == "melee"):
 		emit_signal("attack_contact", current_target, damage)
@@ -39,7 +39,6 @@ func _physics_process(_delta:float) -> void:
 			velocity = target_position * attack_data.speed
 			move_and_slide()
 
-#emit signal needs to pass its current_target so the unit that needs to be damaged is recognized
 signal attack_contact(body, damage)
 
 

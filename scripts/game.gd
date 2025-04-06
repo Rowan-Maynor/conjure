@@ -1,21 +1,23 @@
 extends Node2D
 
-#handles player save data
+#player save data
 @export var player_data: Player_Data
 
+#resource values
 var lives = 30
 var mana = 25
 var research = 0
 var kills = 0
 
-#handles wave information
+#wave information
 @export var wave_data: Wave_Data
 var wave
 var wave_max = 10
 var waves_remaining
+var default_wave_time = 75
 var wave_time
 
-#handles drag select
+#drag select
 var selected = []
 var drag_start = Vector2.ZERO
 @onready var selection_area = $selection_area
@@ -30,6 +32,7 @@ var drag_start = Vector2.ZERO
 @onready var basic_spawn_button = $"CanvasLayer/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer/basic_spawn_button"
 @onready var text_box_container = $"CanvasLayer/Main-ui/text_box/ScrollContainer/VBoxContainer"
 
+#general functions
 func _ready():
 	player_data = load("res://resources/player/player_data.tres")
 	$"CanvasLayer/Main-ui/merge_button".connect("merge", _on_merge)
@@ -73,12 +76,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			_select_units()
 			drag_start = Vector2.ZERO
 
-func save():
-	ResourceSaver.save(player_data, "res://resources/player/player_data.tres")
-
 func _process(_delta):
 	queue_redraw()
 
+#functions related to unit selection
 func _draw():
 	if (drag_start == Vector2.ZERO):
 		return
@@ -134,13 +135,22 @@ func _get_rect_start_position():
 	
 	return new_position
 
+#functions related to game state
+func start_game():
+	$"CanvasLayer/Main-ui/start_game_button".queue_free()
+	wave_data = load("res://resources/waves/wave_1/wave_properties.tres")
+	wave = 1
+	waves_remaining = wave_data.wave_count
+	wave_time = default_wave_time
+	time_ui_value.text = str(wave_time)
+	lives_ui_value.text = str(lives)
+	spawn_wave()
+	$wave_delay.start()
 
-func _on_wave_delay_timeout() -> void:
-	if(waves_remaining > 0):
-		spawn_wave()
-	else:
-		$wave_delay.stop()
+func restart_game():
+	get_tree().change_scene_to_file("res://scenes/game.tscn")
 
+#functions related to spawning waves
 func spawn_wave():
 	if(waves_remaining == wave_data.wave_count):
 		add_status_message("Wave " + str(wave) + " starting", Color.hex(0xafafafff))
@@ -155,6 +165,82 @@ func spawn_wave():
 	waves_remaining -= 1
 	if(waves_remaining == 0):
 		$wave_time.start()
+
+func next_wave():
+	wave += 1
+	wave_time = default_wave_time
+	time_ui_value.text = str(wave_time)
+	var wave_path = "res://resources/waves/wave_" + str(wave) + "/wave_properties.tres"
+	wave_data = load(wave_path)
+	waves_remaining = wave_data.wave_count
+	spawn_wave()
+	$wave_delay.start()
+
+#functions that handle game timers
+func _on_wave_time_timeout() -> void:
+	if($enemy_units.get_child_count() == 0):
+		if(wave == wave_max):
+			var win_screen = load("res://scenes/win_screen.tscn").instantiate()
+			get_tree().get_root().get_node("game").get_node("CanvasLayer").add_child(win_screen)
+			return
+		else:
+			$wave_time.stop()
+			wave_time = 10
+			add_status_message("Break (10 seconds)", Color.hex(0xafafafff))
+			time_ui_value.text = str(wave_time)
+			$wait_time.start()
+	elif(wave_time > 0):
+		wave_time -= 1
+		time_ui_value.text = str(wave_time)
+	else:
+		$wave_time.stop()
+		var remaining_enemies = $enemy_units
+		lives -= remaining_enemies.get_child_count()
+		add_status_message("lives -" + str(remaining_enemies.get_child_count()), Color.hex(0xff3e3eff))
+		lives_ui_value.text = str(lives)
+		for enemy in remaining_enemies.get_children():
+			enemy.die()
+		if(lives <= 0):
+			var lose_screen = load("res://scenes/lose_screen.tscn").instantiate()
+			get_tree().get_root().get_node("game").get_node("CanvasLayer").add_child(lose_screen)
+			return
+		if(lives > 0):
+			if(wave == wave_max):
+				var win_screen = load("res://scenes/win_screen.tscn").instantiate()
+				get_tree().get_root().get_node("game").get_node("CanvasLayer").add_child(win_screen)
+				return
+			else:
+				wave_time = 10
+				add_status_message("Break (10 seconds)", Color.hex(0xafafafff))
+				$wait_time.start()
+
+func _on_wait_time_timeout() -> void:
+	if(wave_time > 0):
+		wave_time -= 1
+		time_ui_value.text = str(wave_time)
+	else:
+		$wait_time.stop()
+		next_wave()
+
+func _on_wave_delay_timeout() -> void:
+	if(waves_remaining > 0):
+		spawn_wave()
+	else:
+		$wave_delay.stop()
+
+#functions that handle signals from other nodes
+func _on_mana_spent(ammount):
+	mana -= ammount
+	mana_ui_value.text = str(mana)
+
+func _on_died(_body):
+	if($wave_time.is_stopped() == true):
+		return
+	else:
+		kills += 1
+		if(kills % 5 == 0):
+			mana += 1
+			mana_ui_value.text = str(mana)
 
 func _on_merge():
 	if(selected == []):
@@ -215,97 +301,7 @@ func _on_merge():
 					unit.queue_free()
 				return
 
-func find_open_spawn_point():
-	var spawn_areas = get_tree().get_root().get_node("game/player_spawn_areas").get_children()
-	for area in spawn_areas:
-		var units = area.has_overlapping_bodies()
-		if(units == false):
-			return area
-	return null
-
-func start_game():
-	$"CanvasLayer/Main-ui/start_game_button".queue_free()
-	wave_data = load("res://resources/waves/wave_1/wave_properties.tres")
-	wave = 1
-	waves_remaining = wave_data.wave_count
-	wave_time = 75
-	time_ui_value.text = str(wave_time)
-	lives_ui_value.text = str(lives)
-	spawn_wave()
-	$wave_delay.start()
-
-func restart_game():
-	get_tree().change_scene_to_file("res://scenes/game.tscn")
-
-func _on_wave_time_timeout() -> void:
-	if($enemy_units.get_child_count() == 0):
-		if(wave == wave_max):
-			var win_screen = load("res://scenes/win_screen.tscn").instantiate()
-			get_tree().get_root().get_node("game").get_node("CanvasLayer").add_child(win_screen)
-			return
-		else:
-			$wave_time.stop()
-			wave_time = 10
-			add_status_message("Break (10 seconds)", Color.hex(0xafafafff))
-			time_ui_value.text = str(wave_time)
-			$wait_time.start()
-	elif(wave_time > 0):
-		wave_time -= 1
-		time_ui_value.text = str(wave_time)
-	else:
-		$wave_time.stop()
-		var remaining_enemies = $enemy_units
-		lives -= remaining_enemies.get_child_count()
-		add_status_message("lives -" + str(remaining_enemies.get_child_count()), Color.hex(0xff3e3eff))
-		lives_ui_value.text = str(lives)
-		for enemy in remaining_enemies.get_children():
-			enemy.die()
-		if(lives <= 0):
-			var lose_screen = load("res://scenes/lose_screen.tscn").instantiate()
-			get_tree().get_root().get_node("game").get_node("CanvasLayer").add_child(lose_screen)
-			return
-		if(lives > 0):
-			if(wave == wave_max):
-				var win_screen = load("res://scenes/win_screen.tscn").instantiate()
-				get_tree().get_root().get_node("game").get_node("CanvasLayer").add_child(win_screen)
-				return
-			else:
-				wave_time = 10
-				add_status_message("Break (10 seconds)", Color.hex(0xafafafff))
-				$wait_time.start()
-
-
-func _on_wait_time_timeout() -> void:
-	if(wave_time > 0):
-		wave_time -= 1
-		time_ui_value.text = str(wave_time)
-	else:
-		$wait_time.stop()
-		next_wave()
-
-func next_wave():
-	wave += 1
-	wave_time = 75
-	time_ui_value.text = str(wave_time)
-	var wave_path = "res://resources/waves/wave_" + str(wave) + "/wave_properties.tres"
-	wave_data = load(wave_path)
-	waves_remaining = wave_data.wave_count
-	spawn_wave()
-	$wave_delay.start()
-
-func _on_mana_spent(ammount):
-	mana -= ammount
-	mana_ui_value.text = str(mana)
-
-func _on_died(_body):
-	if($wave_time.is_stopped() == true):
-		return
-	else:
-		kills += 1
-		if(kills % 5 == 0):
-			mana += 1
-			mana_ui_value.text = str(mana)
-
+#helper functions
 func add_status_message(message, color = Color.hex(0xffffffff)):
 	var label = Label.new()
 	label.add_theme_font_size_override("font_size", 16)
@@ -316,3 +312,14 @@ func add_status_message(message, color = Color.hex(0xffffffff)):
 	if(text_box_container.get_child_count() != 0):
 		text_box_container.add_child(separator)
 	text_box_container.add_child(label)
+
+func find_open_spawn_point():
+	var spawn_areas = get_tree().get_root().get_node("game/player_spawn_areas").get_children()
+	for area in spawn_areas:
+		var units = area.has_overlapping_bodies()
+		if(units == false):
+			return area
+	return null
+
+func save():
+	ResourceSaver.save(player_data, "res://resources/player/player_data.tres")
