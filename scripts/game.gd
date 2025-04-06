@@ -239,11 +239,16 @@ func restart_game():
 
 func _on_wave_time_timeout() -> void:
 	if($enemy_units.get_child_count() == 0):
-		$wave_time.stop()
-		wave_time = 10
-		add_status_message("Break (10s)", Color.hex(0xafafafff))
-		time_ui_value.text = str(wave_time)
-		$wait_time.start()
+		if(wave == wave_max):
+			var win_screen = load("res://scenes/win_screen.tscn").instantiate()
+			get_tree().get_root().get_node("game").get_node("CanvasLayer").add_child(win_screen)
+			return
+		else:
+			$wave_time.stop()
+			wave_time = 10
+			add_status_message("Break (10 seconds)", Color.hex(0xafafafff))
+			time_ui_value.text = str(wave_time)
+			$wait_time.start()
 	elif(wave_time > 0):
 		wave_time -= 1
 		time_ui_value.text = str(wave_time)
@@ -260,9 +265,14 @@ func _on_wave_time_timeout() -> void:
 			get_tree().get_root().get_node("game").get_node("CanvasLayer").add_child(lose_screen)
 			return
 		if(lives > 0):
-			wave_time = 10
-			add_status_message("Break (10s)", Color.hex(0xafafafff))
-			$wait_time.start()
+			if(wave == wave_max):
+				var win_screen = load("res://scenes/win_screen.tscn").instantiate()
+				get_tree().get_root().get_node("game").get_node("CanvasLayer").add_child(win_screen)
+				return
+			else:
+				wave_time = 10
+				add_status_message("Break (10 seconds)", Color.hex(0xafafafff))
+				$wait_time.start()
 
 
 func _on_wait_time_timeout() -> void:
@@ -275,10 +285,6 @@ func _on_wait_time_timeout() -> void:
 
 func next_wave():
 	wave += 1
-	if(wave > wave_max):
-		var win_screen = load("res://scenes/win_screen.tscn").instantiate()
-		get_tree().get_root().get_node("game").get_node("CanvasLayer").add_child(win_screen)
-		return
 	wave_time = 75
 	time_ui_value.text = str(wave_time)
 	var wave_path = "res://resources/waves/wave_" + str(wave) + "/wave_properties.tres"
