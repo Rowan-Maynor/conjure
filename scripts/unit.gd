@@ -259,6 +259,8 @@ func _on_attack_spawn_delay_timeout() -> void:
 		attack_instance.z_index = 2
 		if(attack_instance.attack_data.type == "melee"):
 			attack_instance.position = attacked_target.position
+			if($AnimatedSprite2D.flip_h == true):
+				attack_instance.get_node("AnimatedSprite2D").flip_h = true
 		else:
 			if($AnimatedSprite2D.flip_h == false):
 				attack_instance.position.x = self.position.x + 10.0

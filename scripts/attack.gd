@@ -26,9 +26,11 @@ func _physics_process(_delta:float) -> void:
 		if(current_target.is_queued_for_deletion()):
 			queue_free()
 			return
+		
 		enemy_position.x = current_target.position.x
 		enemy_position.y = current_target.position.y - y_diff
-		$Sprite2D.look_at(enemy_position)
+		
+		$AnimatedSprite2D.look_at(enemy_position)
 		
 		if(position.distance_to(enemy_position) < 6):
 			emit_signal("attack_contact", current_target, damage)

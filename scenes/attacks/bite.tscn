@@ -91,7 +91,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_jp2wh")
 }],
 "loop": false,
-"name": &"melee",
+"name": &"default",
 "speed": 30.0
 }]
 
@@ -105,8 +105,7 @@ script = ExtResource("1_2yoty")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_d4uho")
-animation = &"melee"
-autoplay = "melee"
+autoplay = "default"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_b06ij")

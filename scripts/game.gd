@@ -5,7 +5,7 @@ extends Node2D
 
 #resource values
 var lives = 30
-var mana = 100
+var mana = 25
 var research = 0
 var kills = 0
 
