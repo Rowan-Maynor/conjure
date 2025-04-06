@@ -1,0 +1,188 @@
+[gd_scene load_steps=3 format=3 uid="uid://bt0euvkcwgb5g"]
+
+[ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_q772p"]
+[ext_resource type="Texture2D" uid="uid://c3hrdspg5ggxk" path="res://assets/sprites/units/shrub/base.png" id="2_ypfds"]
+
+[node name="UnitDataPanel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("1_q772p")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(200, 300)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -210.0
+offset_top = -310.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="unit_sprite" type="TextureRect" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("2_ypfds")
+stretch_mode = 3
+
+[node name="unit_data_container" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="unit_data_left" type="VBoxContainer" parent="PanelContainer/VBoxContainer/unit_data_container"]
+layout_mode = 2
+
+[node name="attack" type="Label" parent="PanelContainer/VBoxContainer/unit_data_container/unit_data_left"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Attack"
+horizontal_alignment = 1
+
+[node name="attack_value" type="Label" parent="PanelContainer/VBoxContainer/unit_data_container/unit_data_left"]
+clip_contents = true
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "0"
+horizontal_alignment = 1
+
+[node name="attack_speed" type="Label" parent="PanelContainer/VBoxContainer/unit_data_container/unit_data_left"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Attack Speed"
+horizontal_alignment = 1
+
+[node name="attack_speed_value" type="Label" parent="PanelContainer/VBoxContainer/unit_data_container/unit_data_left"]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "0"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="range" type="Label" parent="PanelContainer/VBoxContainer/unit_data_container/unit_data_left"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Range"
+horizontal_alignment = 1
+
+[node name="range_value" type="Label" parent="PanelContainer/VBoxContainer/unit_data_container/unit_data_left"]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "0"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="unit_data_right" type="VBoxContainer" parent="PanelContainer/VBoxContainer/unit_data_container"]
+layout_mode = 2
+
+[node name="critical" type="Label" parent="PanelContainer/VBoxContainer/unit_data_container/unit_data_right"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "critical"
+horizontal_alignment = 1
+
+[node name="critical_value" type="Label" parent="PanelContainer/VBoxContainer/unit_data_container/unit_data_right"]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "0"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="speed" type="Label" parent="PanelContainer/VBoxContainer/unit_data_container/unit_data_right"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Speed"
+horizontal_alignment = 1
+
+[node name="speed_value" type="Label" parent="PanelContainer/VBoxContainer/unit_data_container/unit_data_right"]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "0"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="element" type="Label" parent="PanelContainer/VBoxContainer/unit_data_container/unit_data_right"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Element"
+horizontal_alignment = 1
+
+[node name="element_value" type="Label" parent="PanelContainer/VBoxContainer/unit_data_container/unit_data_right"]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Earth"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="spacing_before" type="Control" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="spacing_after" type="Control" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+
+[node name="buttons_container" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="left_spacing" type="Control" parent="PanelContainer/VBoxContainer/buttons_container"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="merge_button" type="Button" parent="PanelContainer/VBoxContainer/buttons_container"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="mid_spacing" type="Control" parent="PanelContainer/VBoxContainer/buttons_container"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="PanelContainer/VBoxContainer/buttons_container"]
+layout_mode = 2
+columns = 3
+
+[node name="stop_button" type="Button" parent="PanelContainer/VBoxContainer/buttons_container/GridContainer"]
+custom_minimum_size = Vector2(25, 25)
+layout_mode = 2
+
+[node name="hold_button" type="Button" parent="PanelContainer/VBoxContainer/buttons_container/GridContainer"]
+custom_minimum_size = Vector2(25, 25)
+layout_mode = 2
+
+[node name="attack_button" type="Button" parent="PanelContainer/VBoxContainer/buttons_container/GridContainer"]
+custom_minimum_size = Vector2(25, 25)
+layout_mode = 2
+
+[node name="infuse_1" type="Button" parent="PanelContainer/VBoxContainer/buttons_container/GridContainer"]
+custom_minimum_size = Vector2(25, 25)
+layout_mode = 2
+
+[node name="infuse_2" type="Button" parent="PanelContainer/VBoxContainer/buttons_container/GridContainer"]
+custom_minimum_size = Vector2(25, 25)
+layout_mode = 2
+
+[node name="infuse_3" type="Button" parent="PanelContainer/VBoxContainer/buttons_container/GridContainer"]
+custom_minimum_size = Vector2(25, 25)
+layout_mode = 2
