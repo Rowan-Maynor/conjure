@@ -34,6 +34,7 @@ func _on_pressed():
 			emit_signal("spend_mana", 5)
 	else:
 		get_tree().get_root().get_node("game").add_status_message("Not enough mana", Color.hex(0xff3e3eff))
+
 func find_open_spawn_point(spawn_areas):
 	for area in spawn_areas:
 		var units = area.has_overlapping_bodies()

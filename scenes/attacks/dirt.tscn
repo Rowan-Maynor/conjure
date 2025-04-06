@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://dja4bmnkaqqd8"]
+
+[ext_resource type="Script" uid="uid://b846axt7uv25l" path="res://scripts/attack.gd" id="1_02ntp"]
+[ext_resource type="Texture2D" uid="uid://yejj56ragh5w" path="res://assets/sprites/attacks/dirt.png" id="3_oeftt"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tiusm"]
+atlas = ExtResource("3_oeftt")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_d4uho"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tiusm")
+}],
+"loop": true,
+"name": &"default",
+"speed": 30.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_b06ij"]
+radius = 3.0
+
+[node name="Dirt" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 8
+script = ExtResource("1_02ntp")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_d4uho")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_b06ij")
+
+[connection signal="animation_changed" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_changed"]

@@ -12,5 +12,5 @@ speed = 200
 element = "earth"
 type = "monkey"
 control = "player"
-attack = "spear"
+attack = "dirt"
 metadata/_custom_type_script = "uid://db2pd7vctcukq"

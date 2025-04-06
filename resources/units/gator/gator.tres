@@ -12,5 +12,5 @@ speed = 50
 element = "water"
 type = "gator"
 control = "player"
-attack = "bite"
+attack = "chomp"
 metadata/_custom_type_script = "uid://db2pd7vctcukq"

@@ -3,12 +3,14 @@ extends CharacterBody2D
 @export var unit_data: Unit_Data
 @export var recipe_data: Recipe_Data
 
+#targeting
 var current_command = "idle"
 var current_target = null
+
 #this is for cases where the attack starts, but target exits attack range, resetting current_target
 var attacked_target = null
 
-#variables for navigation
+#navigation
 var move_position = Vector2()
 var target_position = Vector2()
 var chase = false
@@ -18,6 +20,7 @@ var enemy_direction = "down"
 #used to prevent animation overlap
 var is_attacking = false
 
+#general functions
 func _ready():
 	#this prevents units from running to (0, 0) on spawn
 	move_position = position
@@ -87,6 +90,25 @@ func _physics_process(_delta: float) -> void:
 		if(current_command == "move"):
 			current_command = "idle"
 
+#basic functionalities
+func attack():
+	if(current_target == null):
+		return
+	if($attack_speed.is_stopped()):
+		attacked_target = current_target
+		handle_attack_anim((current_target.position - position).normalized())
+		$attack_speed.start()
+		$attack_spawn_delay.start()
+
+func die():
+	#is_attacking used so that animation plays instead of more movement
+	is_attacking = true
+	move_position = position
+	$CollisionShape2D.set_deferred("disabled", true)
+	$AnimatedSprite2D.play("death")
+	emit_signal("died", self)
+
+#functions related to animations
 func handle_anim(vector):
 	if(vector.x > 0):
 		$AnimatedSprite2D.flip_h = false
@@ -105,7 +127,13 @@ func handle_attack_anim(vector):
 		$AnimatedSprite2D.play("attack")
 	$attack_animation_speed.start()
 
-#used for enemies pathing around square
+func _on_animated_sprite_2d_animation_finished() -> void:
+	if($AnimatedSprite2D.animation == "death"):
+		queue_free()
+	else:
+		return
+
+#functions related to enemy pathing
 func update_target_position(target):
 	nav.set_target_position(target)
 
@@ -138,6 +166,7 @@ func enemy_change_direction(direction):
 		target_position.y += rng.randf_range(-variance, variance)
 		update_target_position(target_position)
 
+#functions related to player unit aggro
 func _on_attack_range_body_entered(body: Node2D) -> void:
 	#only allow players to attack enemies, not vice versa
 	if(unit_data.control == "enemy"):
@@ -178,55 +207,6 @@ func _on_attack_range_body_exited(body: Node2D) -> void:
 		if(current_command == "hold"):
 			reset_target()
 
-func attack():
-	if(current_target == null):
-		return
-	if($attack_speed.is_stopped()):
-		attacked_target = current_target
-		handle_attack_anim((current_target.position - position).normalized())
-		$attack_speed.start()
-		$attack_spawn_delay.start()
-
-func die():
-	#is_attacking used so that animation plays instead of more movement
-	is_attacking = true
-	move_position = position
-	$CollisionShape2D.set_deferred("disabled", true)
-	$AnimatedSprite2D.play("death")
-	emit_signal("died", self)
-
-signal died(body)
-
-func _on_died(body):
-	if (current_target == body):
-		reset_target()
-		if(current_command != "hold"):
-			current_command = "idle"
-		find_new_target()
-
-func _on_attack_speed_timeout() -> void:
-	$attack_speed.stop()
-	var units_in_range = $attack_range.get_overlapping_bodies()
-	if(current_target != null && units_in_range.has(current_target)):
-		attack()
-	elif(current_command == "hold" || current_command == "idle"):
-		if(current_target == null):
-			find_new_target()
-
-func find_lowest_health_target(targets):
-	#TODO probably gotta change lowest to nearest target
-	if(targets == null):
-		return
-	var lowest_health_target = null
-	for target in targets:
-		if(target.unit_data.control == "player"):
-			continue
-		if (lowest_health_target == null):
-			lowest_health_target = target
-		if (target.unit_data.health < lowest_health_target.unit_data.health):
-			lowest_health_target = target
-	return lowest_health_target
-	
 func find_new_target():
 	var units = $attack_range.get_overlapping_bodies()
 	var enemy_units = []
@@ -247,24 +227,28 @@ func reset_target():
 	current_target = null
 	move_position = self.position
 
+func _on_died(body):
+	if (current_target == body):
+		reset_target()
+		if(current_command != "hold"):
+			current_command = "idle"
+		find_new_target()
+
+#functions related to handleing unit attacks
+func _on_attack_speed_timeout() -> void:
+	$attack_speed.stop()
+	var units_in_range = $attack_range.get_overlapping_bodies()
+	if(current_target != null && units_in_range.has(current_target)):
+		attack()
+	elif(current_command == "hold" || current_command == "idle"):
+		if(current_target == null):
+			find_new_target()
+
 func _on_attack_animation_speed_timeout() -> void:
 	is_attacking = false
 
-	
-func handle_damage(value):
-	if(unit_data.health <= 0):
-		return
-	self.unit_data.health -= value
-	$health_bar.value = unit_data.health
-	if($health_bar.value < $health_bar.max_value):
-		$health_bar.visible = true
-	if(unit_data.health <= 0):
-		die()
-		return
-
 func _on_attack_contact(body, damage):
 	body.handle_damage(damage)
-
 
 func _on_attack_spawn_delay_timeout() -> void:
 	if(attacked_target != null && is_instance_valid(attacked_target)):
@@ -275,6 +259,8 @@ func _on_attack_spawn_delay_timeout() -> void:
 		attack_instance.z_index = 2
 		if(attack_instance.attack_data.type == "melee"):
 			attack_instance.position = attacked_target.position
+			if($AnimatedSprite2D.flip_h == true):
+				attack_instance.get_node("AnimatedSprite2D").flip_h = true
 		else:
 			if($AnimatedSprite2D.flip_h == false):
 				attack_instance.position.x = self.position.x + 10.0
@@ -287,9 +273,31 @@ func _on_attack_spawn_delay_timeout() -> void:
 		attack_instance.attack_contact.connect(_on_attack_contact)
 		get_tree().get_root().get_node("game").add_child(attack_instance)
 
-
-func _on_animated_sprite_2d_animation_finished() -> void:
-	if($AnimatedSprite2D.animation == "death"):
-		queue_free()
-	else:
+#helper functions
+func find_lowest_health_target(targets):
+	#TODO probably gotta change lowest to nearest target
+	if(targets == null):
 		return
+	var lowest_health_target = null
+	for target in targets:
+		if(target.unit_data.control == "player"):
+			continue
+		if (lowest_health_target == null):
+			lowest_health_target = target
+		if (target.unit_data.health < lowest_health_target.unit_data.health):
+			lowest_health_target = target
+	return lowest_health_target
+
+func handle_damage(value):
+	if(unit_data.health <= 0):
+		return
+	self.unit_data.health -= value
+	$health_bar.value = unit_data.health
+	if($health_bar.value < $health_bar.max_value):
+		$health_bar.visible = true
+	if(unit_data.health <= 0):
+		die()
+		return
+
+#signals
+signal died(body)

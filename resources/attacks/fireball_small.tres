@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Attack_Data" load_steps=2 format=3 uid="uid://buvbuanjqfrpq"]
+
+[ext_resource type="Script" uid="uid://1di4gpx0ip0c" path="res://resources/resource_scripts/attack_data.gd" id="1_mpcdw"]
+
+[resource]
+script = ExtResource("1_mpcdw")
+speed = 600
+type = "single_target"
+metadata/_custom_type_script = "uid://1di4gpx0ip0c"

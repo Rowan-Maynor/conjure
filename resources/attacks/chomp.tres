@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Attack_Data" load_steps=2 format=3 uid="uid://cmdxaghwcisj1"]
+
+[ext_resource type="Script" uid="uid://1di4gpx0ip0c" path="res://resources/resource_scripts/attack_data.gd" id="1_r03jq"]
+
+[resource]
+script = ExtResource("1_r03jq")
+speed = 1000
+type = "melee"
+metadata/_custom_type_script = "uid://1di4gpx0ip0c"
