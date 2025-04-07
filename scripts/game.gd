@@ -29,13 +29,13 @@ var drag_start = Vector2.ZERO
 @onready var wave_ui_value = $"CanvasLayer/Main-ui/wave_data_container/HBoxContainer/VBoxContainer/wave_value"
 @onready var time_ui_value = $"CanvasLayer/Main-ui/wave_data_container/HBoxContainer/VBoxContainer/time_value"
 @onready var lives_ui_value = $"CanvasLayer/Main-ui/lives_data_container/VBoxContainer/life_value"
-@onready var basic_spawn_button = $"CanvasLayer/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer/basic_spawn_button"
+@onready var basic_summon_button = $"CanvasLayer/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button"
 @onready var text_box_container = $"CanvasLayer/Main-ui/text_box/ScrollContainer/VBoxContainer"
 
 #general functions
 func _ready():
 	player_data = load("res://resources/player/player_data.tres")
-	basic_spawn_button.connect("spend_mana", _on_mana_spent)
+	basic_summon_button.connect("spend_mana", _on_mana_spent)
 	mana_ui_value.text = str(mana)
 	research_ui_value.text = str(research)
 	save()
@@ -377,6 +377,10 @@ func add_status_message(message, color = Color.hex(0xffffffff)):
 	if(text_box_container.get_child_count() != 0):
 		text_box_container.add_child(separator)
 	text_box_container.add_child(label)
+	
+	if(text_box_container.get_child_count() > 20):
+		text_box_container.get_child(0).queue_free()
+		text_box_container.get_child(1).queue_free()
 
 func find_open_spawn_point():
 	var spawn_areas = get_tree().get_root().get_node("game/player_spawn_areas").get_children()

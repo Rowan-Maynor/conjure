@@ -12,9 +12,14 @@ var t1_units = [
 	"monkey"
 ]
 
+@onready var timer = get_tree().get_root().get_node("game/CanvasLayer/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_cooldown")
+
 signal spend_mana(ammount)
 
 func _on_pressed():
+	summon_unit()
+
+func summon_unit():
 	if(get_tree().get_root().get_node("game").mana >= 5):
 		var spawn_areas = get_tree().get_root().get_node("game/player_spawn_areas").get_children()
 		var unit = t1_units.pick_random()
@@ -41,3 +46,15 @@ func find_open_spawn_point(spawn_areas):
 		if(units == false):
 			return area
 	return null
+
+
+func _on_button_down() -> void:
+	timer.start()
+
+
+func _on_button_up() -> void:
+	timer.stop()
+
+
+func _on_basic_summon_cooldown_timeout() -> void:
+	summon_unit()
