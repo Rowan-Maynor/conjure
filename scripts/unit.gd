@@ -305,7 +305,7 @@ func handle_damage(value, element):
 	self.unit_data.health -= final_damage
 	var damage_number_position: Vector2
 	damage_number_position.x = self.global_position.x
-	damage_number_position.y = self.global_position.y - 10
+	damage_number_position.y = self.global_position.y - 25
 	damage_number(final_damage, damage_number_position, false)
 	$health_bar.value = unit_data.health
 	if($health_bar.value < $health_bar.max_value):
