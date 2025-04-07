@@ -14,7 +14,7 @@ var kills = 0
 var wave
 var wave_max = 10
 var waves_remaining
-var default_wave_time = 75
+var default_wave_time = 5
 var wave_time
 
 #drag select
