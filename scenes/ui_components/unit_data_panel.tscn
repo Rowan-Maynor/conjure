@@ -49,8 +49,14 @@ layout_mode = 2
 texture = ExtResource("2_ypfds")
 stretch_mode = 3
 
+[node name="unit_type" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Shrub"
+horizontal_alignment = 1
+clip_text = true
+
 [node name="PanelContainer" type="PanelContainer" parent="PanelContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 150)
+custom_minimum_size = Vector2(0, 120)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_y614m")
 
@@ -152,15 +158,7 @@ text = "Earth"
 horizontal_alignment = 1
 clip_text = true
 
-[node name="spacing_before" type="Control" parent="PanelContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 5)
-layout_mode = 2
-
 [node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="spacing_after" type="Control" parent="PanelContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 5)
 layout_mode = 2
 
 [node name="buttons_container" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]

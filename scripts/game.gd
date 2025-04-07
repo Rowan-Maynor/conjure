@@ -152,25 +152,7 @@ func create_unit_panel(unit):
 	var panel_ui_scene = load("res://scenes/ui_components/unit_data_panel.tscn").instantiate()
 	#this is used to delete the panel when selection removed
 	panel_ui_scene.add_to_group("unit_panel")
-	
-	#update panel sprite
-	var sprite_node = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_sprite")
-	var unit_sprite = load("res://assets/sprites/units/" + unit.unit_data.type + "/base.png")
-	sprite_node.texture = unit_sprite
-	
-	#update panel data
-	var attack_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_left/attack_value")
-	var attack_speed_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_left/attack_speed_value")
-	var range_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_left/range_value")
-	var critical_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_right/critical_value")
-	var speed_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_right/speed_value")
-	var element_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_right/element_value")
-	attack_value.text = str(unit.unit_data.damage)
-	attack_speed_value.text = str(unit.unit_data.attack_speed)
-	range_value.text = str(unit.unit_data.attack_range)
-	critical_value.text = "0"
-	speed_value.text = str(unit.unit_data.speed)
-	element_value.text = str(unit.unit_data.element)
+	update_unit_panel_values(unit, panel_ui_scene)
 	
 	#atatch panel to canvas
 	get_tree().get_root().get_node("game/CanvasLayer").add_child(panel_ui_scene)
@@ -180,7 +162,9 @@ func create_unit_panel(unit):
 
 func update_unit_panel(unit):
 	var panel_ui_scene = $CanvasLayer.get_node("UnitDataPanel")
-	
+	update_unit_panel_values(unit, panel_ui_scene)
+
+func update_unit_panel_values(unit, panel_ui_scene):
 	#update sprite
 	var sprite_node = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_sprite")
 	var unit_sprite = load("res://assets/sprites/units/" + unit.unit_data.type + "/base.png")
@@ -193,12 +177,14 @@ func update_unit_panel(unit):
 	var critical_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_right/critical_value")
 	var speed_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_right/speed_value")
 	var element_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_right/element_value")
+	var unit_type_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_type")
 	attack_value.text = str(unit.unit_data.damage)
 	attack_speed_value.text = str(unit.unit_data.attack_speed)
 	range_value.text = str(unit.unit_data.attack_range)
 	critical_value.text = "0"
 	speed_value.text = str(unit.unit_data.speed)
 	element_value.text = str(unit.unit_data.element)
+	unit_type_value.text = unit.unit_data.type
 
 #functions related to game state
 func start_game():
