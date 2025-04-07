@@ -247,8 +247,8 @@ func _on_attack_speed_timeout() -> void:
 func _on_attack_animation_speed_timeout() -> void:
 	is_attacking = false
 
-func _on_attack_contact(body, damage):
-	body.handle_damage(damage)
+func _on_attack_contact(body, damage, element):
+	body.handle_damage(damage, element)
 
 func _on_attack_spawn_delay_timeout() -> void:
 	if(attacked_target != null && is_instance_valid(attacked_target)):
@@ -270,6 +270,7 @@ func _on_attack_spawn_delay_timeout() -> void:
 				attack_instance.position.y = self.position.y - 5.0
 		attack_instance.current_target = attacked_target
 		attack_instance.damage = unit_data.damage
+		attack_instance.element = unit_data.element
 		attack_instance.attack_contact.connect(_on_attack_contact)
 		get_tree().get_root().get_node("game").add_child(attack_instance)
 
@@ -288,20 +289,64 @@ func find_lowest_health_target(targets):
 			lowest_health_target = target
 	return lowest_health_target
 
-func handle_damage(value):
+#damage functions
+func handle_damage(value, element):
+	var is_element_advantage = check_for_element_advantage(element)
+	var is_element_disadvantage = check_for_element_disadvantage(element)
+	var final_damage = value
+	
+	if(is_element_advantage):
+		final_damage = ceil(final_damage * 1.2)
+	elif(is_element_disadvantage):
+		final_damage = floor(final_damage * 0.8)
+	
 	if(unit_data.health <= 0):
 		return
-	self.unit_data.health -= value
+	self.unit_data.health -= final_damage
 	var damage_number_position: Vector2
 	damage_number_position.x = self.global_position.x
 	damage_number_position.y = self.global_position.y - 10
-	damage_number(value, damage_number_position, false)
+	damage_number(final_damage, damage_number_position, false)
 	$health_bar.value = unit_data.health
 	if($health_bar.value < $health_bar.max_value):
 		$health_bar.visible = true
 	if(unit_data.health <= 0):
 		die()
 		return
+
+func check_for_element_advantage(element):
+	if(unit_data.element == "fire"):
+		if(element == "water"):
+			return true
+		else:
+			return false
+	elif(unit_data.element == "earth"):
+		if(element == "fire"):
+			return true
+		else:
+			return false
+	if(unit_data.element == "water"):
+		if(element == "earth"):
+			return true
+		else:
+			return false
+
+func check_for_element_disadvantage(element):
+	if(unit_data.element == "fire"):
+		if(element == "earth"):
+			return true
+		else:
+			return false
+	elif(unit_data.element == "earth"):
+		if(element == "water"):
+			return true
+		else:
+			return false
+	if(unit_data.element == "water"):
+		if(element == "fire"):
+			return true
+		else:
+			return false
 
 func damage_number(value: int, hit_position: Vector2, is_critical = false):
 	var number_label = Label.new()
@@ -328,6 +373,6 @@ func damage_number(value: int, hit_position: Vector2, is_critical = false):
 	tween.set_parallel(true)
 	tween.tween_property(number_label, "position", tween_position, 1)
 	tween.tween_callback(number_label.queue_free).set_delay(1)
-	
+
 #signals
 signal died(body)

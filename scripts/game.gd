@@ -14,7 +14,7 @@ var kills = 0
 var wave
 var wave_max = 10
 var waves_remaining
-var default_wave_time = 5
+var default_wave_time = 75
 var wave_time
 
 #drag select
@@ -43,6 +43,11 @@ func _ready():
 	save()
 
 func _input(_event: InputEvent) -> void:
+	if(Input.is_action_just_pressed("toggle_fullscreen")):
+		if(DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN):
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+		else:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
 	if(Input.is_action_just_pressed("pause")):
 		var pause_menu = load("res://scenes/pause_menu.tscn").instantiate()
 		get_tree().get_root().get_node("game/pause_menu_canvas").add_child(pause_menu)
