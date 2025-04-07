@@ -41,6 +41,10 @@ func _ready():
 	save()
 
 func _input(_event: InputEvent) -> void:
+	if(Input.is_action_just_pressed("pause")):
+		var pause_menu = load("res://scenes/pause_menu.tscn").instantiate()
+		get_tree().get_root().get_node("game/pause_menu_canvas").add_child(pause_menu)
+		get_tree().paused = true
 	if(Input.is_action_just_pressed("right_click")):
 		for unit in selected:
 			unit.get_node("attack_spawn_delay").stop()
