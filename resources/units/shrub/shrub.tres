@@ -12,5 +12,5 @@ speed = 150
 element = "earth"
 type = "shrub"
 control = "player"
-attack = "spear"
+attack = "leaf"
 metadata/_custom_type_script = "uid://db2pd7vctcukq"
