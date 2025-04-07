@@ -1,17 +1,17 @@
-[gd_scene load_steps=6 format=3 uid="uid://b6hadb8g4dxbg"]
+[gd_scene load_steps=6 format=3 uid="uid://b784tkkocmcm0"]
 
-[ext_resource type="Script" uid="uid://b846axt7uv25l" path="res://scripts/attack.gd" id="1_554un"]
-[ext_resource type="Texture2D" uid="uid://b186kbch2wvli" path="res://assets/sprites/attacks/imp_spear.png" id="2_554un"]
+[ext_resource type="Script" uid="uid://b846axt7uv25l" path="res://scripts/attack.gd" id="1_oo6q1"]
+[ext_resource type="Texture2D" uid="uid://bujjbx3juci1v" path="res://assets/sprites/attacks/leaf.png" id="2_oo6q1"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_54eea"]
-atlas = ExtResource("2_554un")
+[sub_resource type="AtlasTexture" id="AtlasTexture_ca74b"]
+atlas = ExtResource("2_oo6q1")
 region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_kjjnj"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_54eea")
+"texture": SubResource("AtlasTexture_ca74b")
 }],
 "loop": true,
 "name": &"default",
@@ -21,8 +21,8 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_554un"]
 radius = 1.0
 
-[node name="Spear" type="CharacterBody2D"]
-script = ExtResource("1_554un")
+[node name="Leaf" type="CharacterBody2D"]
+script = ExtResource("1_oo6q1")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_kjjnj")
