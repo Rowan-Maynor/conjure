@@ -285,7 +285,7 @@ func _on_wave_delay_timeout() -> void:
 func _on_mana_spent(ammount):
 	mana -= ammount
 	mana_ui_value.text = str(mana)
-	update_buttons()
+	update_mana_buttons()
 
 func _on_died(_body):
 	if($wave_time.is_stopped() == true):
@@ -295,7 +295,7 @@ func _on_died(_body):
 		if(kills % 5 == 0):
 			mana += 1
 			mana_ui_value.text = str(mana)
-			update_buttons()
+			update_mana_buttons()
 
 func _on_merge():
 	if(selected == []):
@@ -387,7 +387,7 @@ func find_open_spawn_point():
 func save():
 	ResourceSaver.save(player_data, "res://resources/player/player_data.tres")
 
-func update_buttons():
+func update_mana_buttons():
 	#disable checks
 	if(mana < 5):
 		basic_summon_button.disabled = true
