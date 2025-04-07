@@ -290,13 +290,13 @@ metadata/_edit_lock_ = true
 layout_mode = 2
 metadata/_edit_lock_ = true
 
-[node name="basic_spawn_button" type="Button" parent="research_tab_buttons/HBoxContainer/VBoxContainer"]
+[node name="basic_study_button" type="Button" parent="research_tab_buttons/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
+disabled = true
 icon = ExtResource("10_5kh4o")
 icon_alignment = 1
 expand_icon = true
-script = ExtResource("1_fnul3")
 metadata/_edit_lock_ = true
 
 [node name="right_margin" type="Control" parent="research_tab_buttons/HBoxContainer"]
@@ -335,4 +335,4 @@ metadata/_edit_lock_ = true
 [connection signal="button_up" from="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button" method="_on_button_up"]
 [connection signal="pressed" from="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button" method="_on_pressed"]
 [connection signal="timeout" from="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_cooldown" to="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button" method="_on_basic_summon_cooldown_timeout"]
-[connection signal="pressed" from="research_tab_buttons/HBoxContainer/VBoxContainer/basic_spawn_button" to="research_tab_buttons/HBoxContainer/VBoxContainer/basic_spawn_button" method="_on_pressed"]
+[connection signal="pressed" from="research_tab_buttons/HBoxContainer/VBoxContainer/basic_study_button" to="research_tab_buttons/HBoxContainer/VBoxContainer/basic_study_button" method="_on_pressed"]
