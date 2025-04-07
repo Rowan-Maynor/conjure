@@ -29,18 +29,29 @@ var drag_start = Vector2.ZERO
 @onready var wave_ui_value = $"CanvasLayer/Main-ui/wave_data_container/HBoxContainer/VBoxContainer/wave_value"
 @onready var time_ui_value = $"CanvasLayer/Main-ui/wave_data_container/HBoxContainer/VBoxContainer/time_value"
 @onready var lives_ui_value = $"CanvasLayer/Main-ui/lives_data_container/VBoxContainer/life_value"
-@onready var basic_spawn_button = $"CanvasLayer/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer/basic_spawn_button"
 @onready var text_box_container = $"CanvasLayer/Main-ui/text_box/ScrollContainer/VBoxContainer"
+
+#button paths
+@onready var basic_summon_button = $"CanvasLayer/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button"
 
 #general functions
 func _ready():
 	player_data = load("res://resources/player/player_data.tres")
-	basic_spawn_button.connect("spend_mana", _on_mana_spent)
+	basic_summon_button.connect("spend_mana", _on_mana_spent)
 	mana_ui_value.text = str(mana)
 	research_ui_value.text = str(research)
 	save()
 
 func _input(_event: InputEvent) -> void:
+	if(Input.is_action_just_pressed("toggle_fullscreen")):
+		if(DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN):
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+		else:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
+	if(Input.is_action_just_pressed("pause")):
+		var pause_menu = load("res://scenes/pause_menu.tscn").instantiate()
+		get_tree().get_root().get_node("game/pause_menu_canvas").add_child(pause_menu)
+		get_tree().paused = true
 	if(Input.is_action_just_pressed("right_click")):
 		for unit in selected:
 			unit.get_node("attack_spawn_delay").stop()
@@ -148,25 +159,7 @@ func create_unit_panel(unit):
 	var panel_ui_scene = load("res://scenes/ui_components/unit_data_panel.tscn").instantiate()
 	#this is used to delete the panel when selection removed
 	panel_ui_scene.add_to_group("unit_panel")
-	
-	#update panel sprite
-	var sprite_node = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_sprite")
-	var unit_sprite = load("res://assets/sprites/units/" + unit.unit_data.type + "/base.png")
-	sprite_node.texture = unit_sprite
-	
-	#update panel data
-	var attack_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_data_container/unit_data_left/attack_value")
-	var attack_speed_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_data_container/unit_data_left/attack_speed_value")
-	var range_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_data_container/unit_data_left/range_value")
-	var critical_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_data_container/unit_data_right/critical_value")
-	var speed_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_data_container/unit_data_right/speed_value")
-	var element_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_data_container/unit_data_right/element_value")
-	attack_value.text = str(unit.unit_data.damage)
-	attack_speed_value.text = str(unit.unit_data.attack_speed)
-	range_value.text = str(unit.unit_data.attack_range)
-	critical_value.text = "0"
-	speed_value.text = str(unit.unit_data.speed)
-	element_value.text = str(unit.unit_data.element)
+	update_unit_panel_values(unit, panel_ui_scene)
 	
 	#atatch panel to canvas
 	get_tree().get_root().get_node("game/CanvasLayer").add_child(panel_ui_scene)
@@ -176,25 +169,29 @@ func create_unit_panel(unit):
 
 func update_unit_panel(unit):
 	var panel_ui_scene = $CanvasLayer.get_node("UnitDataPanel")
-	
+	update_unit_panel_values(unit, panel_ui_scene)
+
+func update_unit_panel_values(unit, panel_ui_scene):
 	#update sprite
 	var sprite_node = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_sprite")
 	var unit_sprite = load("res://assets/sprites/units/" + unit.unit_data.type + "/base.png")
 	sprite_node.texture = unit_sprite
 	
 	#update values
-	var attack_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_data_container/unit_data_left/attack_value")
-	var attack_speed_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_data_container/unit_data_left/attack_speed_value")
-	var range_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_data_container/unit_data_left/range_value")
-	var critical_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_data_container/unit_data_right/critical_value")
-	var speed_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_data_container/unit_data_right/speed_value")
-	var element_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_data_container/unit_data_right/element_value")
+	var attack_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_left/attack_value")
+	var attack_speed_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_left/attack_speed_value")
+	var range_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_left/range_value")
+	var critical_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_right/critical_value")
+	var speed_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_right/speed_value")
+	var element_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_right/element_value")
+	var unit_type_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_type")
 	attack_value.text = str(unit.unit_data.damage)
 	attack_speed_value.text = str(unit.unit_data.attack_speed)
 	range_value.text = str(unit.unit_data.attack_range)
 	critical_value.text = "0"
 	speed_value.text = str(unit.unit_data.speed)
 	element_value.text = str(unit.unit_data.element)
+	unit_type_value.text = unit.unit_data.type
 
 #functions related to game state
 func start_game():
@@ -293,6 +290,7 @@ func _on_wave_delay_timeout() -> void:
 func _on_mana_spent(ammount):
 	mana -= ammount
 	mana_ui_value.text = str(mana)
+	update_mana_buttons()
 
 func _on_died(_body):
 	if($wave_time.is_stopped() == true):
@@ -302,6 +300,7 @@ func _on_died(_body):
 		if(kills % 5 == 0):
 			mana += 1
 			mana_ui_value.text = str(mana)
+			update_mana_buttons()
 
 func _on_merge():
 	if(selected == []):
@@ -377,6 +376,10 @@ func add_status_message(message, color = Color.hex(0xffffffff)):
 	if(text_box_container.get_child_count() != 0):
 		text_box_container.add_child(separator)
 	text_box_container.add_child(label)
+	
+	if(text_box_container.get_child_count() > 20):
+		text_box_container.get_child(0).queue_free()
+		text_box_container.get_child(1).queue_free()
 
 func find_open_spawn_point():
 	var spawn_areas = get_tree().get_root().get_node("game/player_spawn_areas").get_children()
@@ -388,3 +391,13 @@ func find_open_spawn_point():
 
 func save():
 	ResourceSaver.save(player_data, "res://resources/player/player_data.tres")
+
+func update_mana_buttons():
+	#disable checks
+	if(mana < 5):
+		basic_summon_button.disabled = true
+		basic_summon_button._on_button_up()
+	
+	#enable checks
+	if(mana >= 5):
+		basic_summon_button.disabled = false

@@ -1,10 +1,18 @@
-[gd_scene load_steps=6 format=3 uid="uid://bt0euvkcwgb5g"]
+[gd_scene load_steps=8 format=3 uid="uid://bt0euvkcwgb5g"]
 
 [ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_q772p"]
 [ext_resource type="Texture2D" uid="uid://c3hrdspg5ggxk" path="res://assets/sprites/units/shrub/base.png" id="2_ypfds"]
+[ext_resource type="Texture2D" uid="uid://bld3f3s5pf7xh" path="res://assets/ui/9patchrect_button_hover.png" id="3_bwqth"]
 [ext_resource type="Texture2D" uid="uid://by14vhv3y7icb" path="res://assets/ui/merge_icon.png" id="3_c8xa7"]
 [ext_resource type="Script" uid="uid://i66x3auk3nqu" path="res://scripts/merge.gd" id="4_bwqth"]
 [ext_resource type="Texture2D" uid="uid://cxmqxh2veh5mk" path="res://assets/ui/stop_icon.png" id="4_o56ib"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_y614m"]
+texture = ExtResource("3_bwqth")
+texture_margin_left = 9.0
+texture_margin_top = 9.0
+texture_margin_right = 9.0
+texture_margin_bottom = 9.0
 
 [node name="UnitDataPanel" type="Control"]
 z_index = -1
@@ -41,20 +49,31 @@ layout_mode = 2
 texture = ExtResource("2_ypfds")
 stretch_mode = 3
 
-[node name="unit_data_container" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+[node name="unit_type" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Shrub"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_y614m")
+
+[node name="unit_data_container" type="HBoxContainer" parent="PanelContainer/VBoxContainer/PanelContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="unit_data_left" type="VBoxContainer" parent="PanelContainer/VBoxContainer/unit_data_container"]
+[node name="unit_data_left" type="VBoxContainer" parent="PanelContainer/VBoxContainer/PanelContainer/unit_data_container"]
 layout_mode = 2
 
-[node name="attack" type="Label" parent="PanelContainer/VBoxContainer/unit_data_container/unit_data_left"]
+[node name="attack" type="Label" parent="PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_left"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Attack"
 horizontal_alignment = 1
 
-[node name="attack_value" type="Label" parent="PanelContainer/VBoxContainer/unit_data_container/unit_data_left"]
+[node name="attack_value" type="Label" parent="PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_left"]
 clip_contents = true
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
@@ -62,13 +81,13 @@ theme_override_font_sizes/font_size = 16
 text = "0"
 horizontal_alignment = 1
 
-[node name="attack_speed" type="Label" parent="PanelContainer/VBoxContainer/unit_data_container/unit_data_left"]
+[node name="attack_speed" type="Label" parent="PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_left"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Attack Speed"
 horizontal_alignment = 1
 
-[node name="attack_speed_value" type="Label" parent="PanelContainer/VBoxContainer/unit_data_container/unit_data_left"]
+[node name="attack_speed_value" type="Label" parent="PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_left"]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
@@ -76,13 +95,13 @@ text = "0"
 horizontal_alignment = 1
 clip_text = true
 
-[node name="range" type="Label" parent="PanelContainer/VBoxContainer/unit_data_container/unit_data_left"]
+[node name="range" type="Label" parent="PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_left"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Range"
 horizontal_alignment = 1
 
-[node name="range_value" type="Label" parent="PanelContainer/VBoxContainer/unit_data_container/unit_data_left"]
+[node name="range_value" type="Label" parent="PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_left"]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
@@ -90,16 +109,20 @@ text = "0"
 horizontal_alignment = 1
 clip_text = true
 
-[node name="unit_data_right" type="VBoxContainer" parent="PanelContainer/VBoxContainer/unit_data_container"]
+[node name="spacing_middle" type="Control" parent="PanelContainer/VBoxContainer/PanelContainer/unit_data_container"]
+custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="critical" type="Label" parent="PanelContainer/VBoxContainer/unit_data_container/unit_data_right"]
+[node name="unit_data_right" type="VBoxContainer" parent="PanelContainer/VBoxContainer/PanelContainer/unit_data_container"]
+layout_mode = 2
+
+[node name="critical" type="Label" parent="PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_right"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "critical"
 horizontal_alignment = 1
 
-[node name="critical_value" type="Label" parent="PanelContainer/VBoxContainer/unit_data_container/unit_data_right"]
+[node name="critical_value" type="Label" parent="PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_right"]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
@@ -107,13 +130,13 @@ text = "0"
 horizontal_alignment = 1
 clip_text = true
 
-[node name="speed" type="Label" parent="PanelContainer/VBoxContainer/unit_data_container/unit_data_right"]
+[node name="speed" type="Label" parent="PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_right"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Speed"
 horizontal_alignment = 1
 
-[node name="speed_value" type="Label" parent="PanelContainer/VBoxContainer/unit_data_container/unit_data_right"]
+[node name="speed_value" type="Label" parent="PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_right"]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
@@ -121,13 +144,13 @@ text = "0"
 horizontal_alignment = 1
 clip_text = true
 
-[node name="element" type="Label" parent="PanelContainer/VBoxContainer/unit_data_container/unit_data_right"]
+[node name="element" type="Label" parent="PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_right"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Element"
 horizontal_alignment = 1
 
-[node name="element_value" type="Label" parent="PanelContainer/VBoxContainer/unit_data_container/unit_data_right"]
+[node name="element_value" type="Label" parent="PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_right"]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
@@ -135,15 +158,7 @@ text = "Earth"
 horizontal_alignment = 1
 clip_text = true
 
-[node name="spacing_before" type="Control" parent="PanelContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 25)
-layout_mode = 2
-
 [node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="spacing_after" type="Control" parent="PanelContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 5)
 layout_mode = 2
 
 [node name="buttons_container" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]

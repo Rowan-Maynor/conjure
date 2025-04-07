@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://b7lxcnqenmdra"]
+[gd_scene load_steps=2 format=3 uid="uid://b7lxcnqenmdra"]
 
 [ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_1n1m7"]
-[ext_resource type="Script" uid="uid://k73sqi8yrb2k" path="res://scripts/restart_button.gd" id="2_73mov"]
 
 [node name="LoseScreen" type="Control"]
 layout_mode = 3
@@ -32,23 +31,3 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 128
 text = "You Lose."
 horizontal_alignment = 1
-
-[node name="Button" type="Button" parent="."]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -100.0
-offset_top = 10.0
-offset_right = 100.0
-offset_bottom = 81.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 64
-text = "Restart"
-script = ExtResource("2_73mov")
-
-[connection signal="pressed" from="Button" to="Button" method="_on_pressed"]

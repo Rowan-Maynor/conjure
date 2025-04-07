@@ -1,10 +1,17 @@
-[gd_resource type="Theme" load_steps=12 format=3 uid="uid://d30qa4wpnelg3"]
+[gd_resource type="Theme" load_steps=13 format=3 uid="uid://d30qa4wpnelg3"]
 
 [ext_resource type="FontFile" uid="uid://p8lxcoxmb85e" path="res://assets/font/m3x6.ttf" id="1_e1x85"]
 [ext_resource type="Texture2D" uid="uid://bld3f3s5pf7xh" path="res://assets/ui/9patchrect_button_hover.png" id="2_1rmny"]
 [ext_resource type="Texture2D" uid="uid://bgej3mom5dldl" path="res://assets/ui/9patchrect.png" id="2_cjfk0"]
 [ext_resource type="Texture2D" uid="uid://cyieylvt67mqg" path="res://assets/ui/9patchrect_button.png" id="3_05tig"]
 [ext_resource type="Texture2D" uid="uid://c6y1eih1jbdrf" path="res://assets/ui/9patchrect_button_active.png" id="5_mihib"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yin2u"]
+texture = ExtResource("2_1rmny")
+texture_margin_left = 9.0
+texture_margin_top = 9.0
+texture_margin_right = 9.0
+texture_margin_bottom = 9.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_110ce"]
 
@@ -46,6 +53,7 @@ texture_margin_bottom = 10.0
 [resource]
 Button/font_sizes/font_size = 32
 Button/fonts/font = ExtResource("1_e1x85")
+Button/styles/disabled = SubResource("StyleBoxTexture_yin2u")
 Button/styles/focus = SubResource("StyleBoxEmpty_110ce")
 Button/styles/hover = SubResource("StyleBoxTexture_1rmny")
 Button/styles/hover_pressed = SubResource("StyleBoxTexture_05tig")

@@ -11,13 +11,13 @@ var is_open = false
 
 func _ready():
 	self_closed_position.x = 912
-	self_closed_position.y = 120
+	self_closed_position.y = 100
 	self_open_position.x = self_closed_position.x - shift_ammount
-	self_open_position.y = 120
+	self_open_position.y = 100
 	tab_closed_position.x = 960
-	tab_closed_position.y = 110
+	tab_closed_position.y = 90
 	tab_open_position.x = tab_closed_position.x - shift_ammount
-	tab_open_position.y = 110
+	tab_open_position.y = 90
 
 func _physics_process(_delta: float) -> void:
 	if(is_open == true):
