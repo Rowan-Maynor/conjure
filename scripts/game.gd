@@ -159,12 +159,12 @@ func create_unit_panel(unit):
 	sprite_node.texture = unit_sprite
 	
 	#update panel data
-	var attack_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_data_container/unit_data_left/attack_value")
-	var attack_speed_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_data_container/unit_data_left/attack_speed_value")
-	var range_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_data_container/unit_data_left/range_value")
-	var critical_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_data_container/unit_data_right/critical_value")
-	var speed_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_data_container/unit_data_right/speed_value")
-	var element_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_data_container/unit_data_right/element_value")
+	var attack_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_left/attack_value")
+	var attack_speed_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_left/attack_speed_value")
+	var range_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_left/range_value")
+	var critical_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_right/critical_value")
+	var speed_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_right/speed_value")
+	var element_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_right/element_value")
 	attack_value.text = str(unit.unit_data.damage)
 	attack_speed_value.text = str(unit.unit_data.attack_speed)
 	range_value.text = str(unit.unit_data.attack_range)
@@ -187,12 +187,12 @@ func update_unit_panel(unit):
 	sprite_node.texture = unit_sprite
 	
 	#update values
-	var attack_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_data_container/unit_data_left/attack_value")
-	var attack_speed_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_data_container/unit_data_left/attack_speed_value")
-	var range_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_data_container/unit_data_left/range_value")
-	var critical_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_data_container/unit_data_right/critical_value")
-	var speed_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_data_container/unit_data_right/speed_value")
-	var element_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_data_container/unit_data_right/element_value")
+	var attack_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_left/attack_value")
+	var attack_speed_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_left/attack_speed_value")
+	var range_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_left/range_value")
+	var critical_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_right/critical_value")
+	var speed_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_right/speed_value")
+	var element_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_right/element_value")
 	attack_value.text = str(unit.unit_data.damage)
 	attack_speed_value.text = str(unit.unit_data.attack_speed)
 	range_value.text = str(unit.unit_data.attack_range)

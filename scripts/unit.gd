@@ -292,6 +292,10 @@ func handle_damage(value):
 	if(unit_data.health <= 0):
 		return
 	self.unit_data.health -= value
+	var damage_number_position: Vector2
+	damage_number_position.x = self.global_position.x
+	damage_number_position.y = self.global_position.y - 10
+	damage_number(value, damage_number_position, false)
 	$health_bar.value = unit_data.health
 	if($health_bar.value < $health_bar.max_value):
 		$health_bar.visible = true
@@ -299,5 +303,31 @@ func handle_damage(value):
 		die()
 		return
 
+func damage_number(value: int, hit_position: Vector2, is_critical = false):
+	var number_label = Label.new()
+	number_label.position = hit_position
+	number_label.text = str(value)
+	number_label.z_index = 5
+	
+	var color = Color.hex(0xffffffff)
+	if(is_critical == true):
+		color = Color.hex(0xff3e3eff)
+		
+	var label_theme = load("res://theme.tres")
+	
+	number_label.theme = label_theme
+	number_label.add_theme_font_size_override("font_size", 16)
+	number_label.set("theme_override_colors/font_color", color)
+	
+	get_tree().get_root().get_node("game").add_child(number_label)
+	
+	var tween_position: Vector2
+	tween_position.x = number_label.position.x
+	tween_position.y = number_label.position.y - 24
+	var tween = get_tree().create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(number_label, "position", tween_position, 1)
+	tween.tween_callback(number_label.queue_free).set_delay(1)
+	
 #signals
 signal died(body)
