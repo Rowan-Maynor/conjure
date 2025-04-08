@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://b578nkptq5xnm"]
+[gd_scene load_steps=21 format=3 uid="uid://b578nkptq5xnm"]
 
 [ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_e0pfi"]
 [ext_resource type="Script" uid="uid://mivjt0t7mpqb" path="res://scripts/spawn_t1.gd" id="1_fnul3"]
@@ -9,10 +9,12 @@
 [ext_resource type="Script" uid="uid://nm8htu8iujii" path="res://scripts/research_tab_button.gd" id="8_3huio"]
 [ext_resource type="Texture2D" uid="uid://cl7wm4vb5hdaa" path="res://assets/ui/life_icon.png" id="8_o3bws"]
 [ext_resource type="Texture2D" uid="uid://dkgytjkrmkld5" path="res://assets/ui/basic_summon_icon.png" id="8_sjwyb"]
+[ext_resource type="Texture2D" uid="uid://bw6lrrm0dqepo" path="res://assets/ui/intermediate_summon_icon.png" id="10_0dnje"]
 [ext_resource type="Texture2D" uid="uid://l1sm7m1osoxf" path="res://assets/ui/basic_study_icon.png" id="10_5kh4o"]
 [ext_resource type="Script" uid="uid://ycbw53qy6rik" path="res://scripts/scroll_container.gd" id="10_sjwyb"]
 [ext_resource type="Texture2D" uid="uid://7lunf2txgimd" path="res://assets/ui/fire_icon_large.png" id="11_1kaiv"]
 [ext_resource type="Script" uid="uid://bbevrqimace2g" path="res://scripts/basic_study_button.gd" id="11_ihktq"]
+[ext_resource type="Texture2D" uid="uid://67vgqvnx64tf" path="res://assets/ui/advanced_summon_icon.png" id="11_lab56"]
 [ext_resource type="Script" uid="uid://bomlg00kukgud" path="res://scripts/fire_research_button.gd" id="12_ihktq"]
 [ext_resource type="Texture2D" uid="uid://crrwymt4qu6f6" path="res://assets/ui/water_icon_large.png" id="12_upmhx"]
 [ext_resource type="Texture2D" uid="uid://kvxxjsd6abmv" path="res://assets/ui/earth_icon_large.png" id="13_ihktq"]
@@ -240,7 +242,7 @@ icon = ExtResource("3_o3bws")
 script = ExtResource("8_3huio")
 
 [node name="mana_tab_buttons" type="PanelContainer" parent="."]
-custom_minimum_size = Vector2(0, 300)
+custom_minimum_size = Vector2(0, 180)
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -249,7 +251,6 @@ anchor_right = 1.0
 anchor_bottom = 0.5
 offset_top = -180.0
 offset_right = 138.0
-offset_bottom = 120.0
 grow_horizontal = 0
 grow_vertical = 2
 metadata/_edit_lock_ = true
@@ -272,6 +273,30 @@ script = ExtResource("1_fnul3")
 metadata/_edit_lock_ = true
 
 [node name="basic_summon_cooldown" type="Timer" parent="mana_tab_buttons/HBoxContainer/VBoxContainer"]
+wait_time = 0.15
+
+[node name="intermediate_summon_button" type="Button" parent="mana_tab_buttons/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+disabled = true
+icon = ExtResource("10_0dnje")
+icon_alignment = 1
+expand_icon = true
+metadata/_edit_lock_ = true
+
+[node name="intermediate_summon_cooldown" type="Timer" parent="mana_tab_buttons/HBoxContainer/VBoxContainer"]
+wait_time = 0.15
+
+[node name="advanced_summon_button" type="Button" parent="mana_tab_buttons/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+disabled = true
+icon = ExtResource("11_lab56")
+icon_alignment = 1
+expand_icon = true
+metadata/_edit_lock_ = true
+
+[node name="advanced_summon_cooldown" type="Timer" parent="mana_tab_buttons/HBoxContainer/VBoxContainer"]
 wait_time = 0.15
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="mana_tab_buttons/HBoxContainer"]
