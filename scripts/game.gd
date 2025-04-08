@@ -47,6 +47,7 @@ func _ready():
 	mana_ui_value.text = str(mana)
 	research_ui_value.text = str(research)
 	update_mana_buttons()
+	update_research_buttons()
 	save()
 
 func _input(_event: InputEvent) -> void:
@@ -402,21 +403,32 @@ func save():
 func gain_research(ammount):
 	research += ammount
 	research_ui_value.text = str(research)
+	update_research_buttons()
+
+func spend_research(ammount):
+	research -= ammount
+	research_ui_value.text = str(research)
+	update_research_buttons()
 
 func update_mana_buttons():
 	#disable checks
 	if(mana < 5):
 		basic_summon_button.disabled = true
 		basic_summon_button._on_button_up()
-	if(mana < fire_research_button.cost):
-		fire_research_button.disabled = true
 	if(mana < 1):
 		basic_study_button.disabled = true
 	
 	#enable checks
 	if(mana >= 5):
 		basic_summon_button.disabled = false
-	if(mana >= fire_research_button.cost):
-		fire_research_button.disabled = false
 	if(mana >= 1):
 		basic_study_button.disabled = false
+
+func update_research_buttons():
+	#disable checks
+	if(research < fire_research_button.cost):
+		fire_research_button.disabled = true
+
+	#enable checks
+	if(research >= fire_research_button.cost):
+		fire_research_button.disabled = false
