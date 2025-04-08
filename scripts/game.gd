@@ -9,6 +9,11 @@ var mana = 25
 var research = 0
 var kills = 0
 
+#element research values
+var fire_research_value = 1.0
+var water_research_value = 1.0
+var earth_research_value = 1.0
+
 #wave information
 @export var wave_data: Wave_Data
 var wave
@@ -33,13 +38,14 @@ var drag_start = Vector2.ZERO
 
 #button paths
 @onready var basic_summon_button = $"CanvasLayer/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button"
+@onready var fire_research_button = $"CanvasLayer/Main-ui/research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_button"
 
 #general functions
 func _ready():
 	player_data = load("res://resources/player/player_data.tres")
-	basic_summon_button.connect("spend_mana", _on_mana_spent)
 	mana_ui_value.text = str(mana)
 	research_ui_value.text = str(research)
+	update_mana_buttons()
 	save()
 
 func _input(_event: InputEvent) -> void:
@@ -287,7 +293,7 @@ func _on_wave_delay_timeout() -> void:
 		$wave_delay.stop()
 
 #functions that handle signals from other nodes
-func _on_mana_spent(ammount):
+func spend_mana(ammount):
 	mana -= ammount
 	mana_ui_value.text = str(mana)
 	update_mana_buttons()
@@ -397,7 +403,11 @@ func update_mana_buttons():
 	if(mana < 5):
 		basic_summon_button.disabled = true
 		basic_summon_button._on_button_up()
+	if(mana < fire_research_button.cost):
+		fire_research_button.disabled = true
 	
 	#enable checks
 	if(mana >= 5):
 		basic_summon_button.disabled = false
+	if(mana >= fire_research_button.cost):
+		fire_research_button.disabled = false
