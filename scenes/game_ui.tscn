@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://b578nkptq5xnm"]
+[gd_scene load_steps=23 format=3 uid="uid://b578nkptq5xnm"]
 
 [ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_e0pfi"]
 [ext_resource type="Script" uid="uid://mivjt0t7mpqb" path="res://scripts/spawn_t1.gd" id="1_fnul3"]
@@ -18,6 +18,8 @@
 [ext_resource type="Script" uid="uid://bomlg00kukgud" path="res://scripts/fire_research_button.gd" id="12_ihktq"]
 [ext_resource type="Texture2D" uid="uid://crrwymt4qu6f6" path="res://assets/ui/water_icon_large.png" id="12_upmhx"]
 [ext_resource type="Texture2D" uid="uid://kvxxjsd6abmv" path="res://assets/ui/earth_icon_large.png" id="13_ihktq"]
+[ext_resource type="Texture2D" uid="uid://e5l6nhg6ww7r" path="res://assets/ui/intermediate_study_icon.png" id="14_gj1yn"]
+[ext_resource type="Texture2D" uid="uid://jp3h6hcst7ki" path="res://assets/ui/advanced_study_icon.png" id="15_5kjus"]
 [ext_resource type="Script" uid="uid://rofr8634d5w" path="res://scripts/water_research_button.gd" id="15_igvt4"]
 [ext_resource type="Script" uid="uid://dil33cctkytrr" path="res://scripts/earth_research_button.gd" id="17_x8pta"]
 
@@ -315,6 +317,27 @@ metadata/_edit_lock_ = true
 
 [node name="basic_study_cooldown" type="Timer" parent="mana_tab_buttons/HBoxContainer/VBoxContainer2"]
 wait_time = 0.15
+
+[node name="intermediate_study_button" type="Button" parent="mana_tab_buttons/HBoxContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+disabled = true
+icon = ExtResource("14_gj1yn")
+icon_alignment = 1
+expand_icon = true
+
+[node name="intermediate_study_cooldown" type="Timer" parent="mana_tab_buttons/HBoxContainer/VBoxContainer2"]
+wait_time = 0.15
+
+[node name="advanced_study_button" type="Button" parent="mana_tab_buttons/HBoxContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+disabled = true
+icon = ExtResource("15_5kjus")
+icon_alignment = 1
+expand_icon = true
+
+[node name="advanced_study_cooldown" type="Timer" parent="mana_tab_buttons/HBoxContainer/VBoxContainer2"]
 
 [node name="right_margin" type="Control" parent="mana_tab_buttons/HBoxContainer"]
 custom_minimum_size = Vector2(10, 0)
