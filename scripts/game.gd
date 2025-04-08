@@ -40,6 +40,7 @@ var drag_start = Vector2.ZERO
 @onready var basic_summon_button = $"CanvasLayer/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button"
 @onready var basic_study_button = $"CanvasLayer/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button"
 @onready var fire_research_button = $"CanvasLayer/Main-ui/research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_button"
+@onready var water_research_button = $"CanvasLayer/Main-ui/research_tab_buttons/HBoxContainer/VBoxContainer/water_research_button"
 
 #general functions
 func _ready():
@@ -429,7 +430,13 @@ func update_research_buttons():
 	#disable checks
 	if(research < fire_research_button.cost):
 		fire_research_button.disabled = true
+		fire_research_button._on_button_up()
+	if(research < water_research_button.cost):
+		water_research_button.disabled = true
+		water_research_button._on_button_up()
 
 	#enable checks
 	if(research >= fire_research_button.cost):
 		fire_research_button.disabled = false
+	if(research >= water_research_button.cost):
+		water_research_button.disabled = false

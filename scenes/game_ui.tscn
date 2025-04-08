@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://b578nkptq5xnm"]
+[gd_scene load_steps=18 format=3 uid="uid://b578nkptq5xnm"]
 
 [ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_e0pfi"]
 [ext_resource type="Script" uid="uid://mivjt0t7mpqb" path="res://scripts/spawn_t1.gd" id="1_fnul3"]
@@ -16,6 +16,7 @@
 [ext_resource type="Script" uid="uid://bomlg00kukgud" path="res://scripts/fire_upgrade_button.gd" id="12_ihktq"]
 [ext_resource type="Texture2D" uid="uid://crrwymt4qu6f6" path="res://assets/ui/water_icon_large.png" id="12_upmhx"]
 [ext_resource type="Texture2D" uid="uid://kvxxjsd6abmv" path="res://assets/ui/earth_icon_large.png" id="13_ihktq"]
+[ext_resource type="Script" uid="uid://rofr8634d5w" path="res://scripts/water_research_button.gd" id="15_igvt4"]
 
 [node name="Main-ui" type="Control"]
 layout_mode = 3
@@ -327,6 +328,9 @@ expand_icon = true
 script = ExtResource("12_ihktq")
 metadata/_edit_lock_ = true
 
+[node name="fire_research_cooldown" type="Timer" parent="research_tab_buttons/HBoxContainer/VBoxContainer"]
+wait_time = 0.15
+
 [node name="water_research_button" type="Button" parent="research_tab_buttons/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
@@ -334,7 +338,11 @@ disabled = true
 icon = ExtResource("12_upmhx")
 icon_alignment = 1
 expand_icon = true
+script = ExtResource("15_igvt4")
 metadata/_edit_lock_ = true
+
+[node name="water_research_cooldown" type="Timer" parent="research_tab_buttons/HBoxContainer/VBoxContainer"]
+wait_time = 0.15
 
 [node name="earth_research_button" type="Button" parent="research_tab_buttons/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(50, 50)
@@ -344,6 +352,9 @@ icon = ExtResource("13_ihktq")
 icon_alignment = 1
 expand_icon = true
 metadata/_edit_lock_ = true
+
+[node name="earth_research_cooldown" type="Timer" parent="research_tab_buttons/HBoxContainer/VBoxContainer"]
+wait_time = 0.15
 
 [node name="right_margin" type="Control" parent="research_tab_buttons/HBoxContainer"]
 custom_minimum_size = Vector2(10, 0)
@@ -386,4 +397,11 @@ metadata/_edit_lock_ = true
 [connection signal="button_up" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" method="_on_button_up"]
 [connection signal="pressed" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" method="_on_pressed"]
 [connection signal="timeout" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_cooldown" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" method="_on_basic_study_cooldown_timeout"]
+[connection signal="button_down" from="research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_button" to="research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_button" method="_on_button_down"]
+[connection signal="button_up" from="research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_button" to="research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_button" method="_on_button_up"]
 [connection signal="pressed" from="research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_button" to="research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_button" method="_on_pressed"]
+[connection signal="timeout" from="research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_cooldown" to="research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_button" method="_on_fire_research_cooldown_timeout"]
+[connection signal="button_down" from="research_tab_buttons/HBoxContainer/VBoxContainer/water_research_button" to="research_tab_buttons/HBoxContainer/VBoxContainer/water_research_button" method="_on_button_down"]
+[connection signal="button_up" from="research_tab_buttons/HBoxContainer/VBoxContainer/water_research_button" to="research_tab_buttons/HBoxContainer/VBoxContainer/water_research_button" method="_on_button_up"]
+[connection signal="pressed" from="research_tab_buttons/HBoxContainer/VBoxContainer/water_research_button" to="research_tab_buttons/HBoxContainer/VBoxContainer/water_research_button" method="_on_pressed"]
+[connection signal="timeout" from="research_tab_buttons/HBoxContainer/VBoxContainer/water_research_cooldown" to="research_tab_buttons/HBoxContainer/VBoxContainer/water_research_button" method="_on_water_research_cooldown_timeout"]
