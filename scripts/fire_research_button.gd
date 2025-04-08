@@ -14,6 +14,7 @@ func upgrade():
 		return
 	
 	get_tree().get_root().get_node("game").fire_research_value += .1
+	get_tree().get_root().get_node("game").spend_research(cost)
 	cost += 1
 	var damage_percentage = int(get_tree().get_root().get_node("game").fire_research_value * 100)
 	var message = "Fire research damage increased to " + str(damage_percentage) + "%"
@@ -21,8 +22,8 @@ func upgrade():
 	get_tree().get_root().get_node("game").add_status_message(message, color)
 	max_upgrades -= 1
 	
-	#spend research must come after upgrade decrement for UI to properly disable button
-	get_tree().get_root().get_node("game").spend_research(cost)
+	#call button update after cost increase and upgrade deduction
+	get_tree().get_root().get_node("game").update_research_buttons()
 	
 	if(get_tree().get_root().get_node("game/unit_panel").has_node("UnitDataPanel")):
 		var unit = get_tree().get_root().get_node("game").selected.back()

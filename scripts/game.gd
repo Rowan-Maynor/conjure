@@ -429,22 +429,22 @@ func update_mana_buttons():
 
 func update_research_buttons():
 	#disable checks
-	if(research < fire_research_button.cost or fire_research_button.max_upgrades == 0):
+	if(research < fire_research_button.cost || fire_research_button.max_upgrades == 0):
 		fire_research_button.disabled = true
 		fire_research_button._on_button_up()
-	if(research < water_research_button.cost or water_research_button.max_upgrades == 0):
+	if(research < water_research_button.cost || water_research_button.max_upgrades == 0):
 		water_research_button.disabled = true
 		water_research_button._on_button_up()
-	if(research < earth_research_button.cost or earth_research_button.max_upgrades == 0):
+	if(research < earth_research_button.cost || earth_research_button.max_upgrades == 0):
 		earth_research_button.disabled = true
 		earth_research_button._on_button_up()
 
 	#enable checks
-	if(research >= fire_research_button.cost and fire_research_button.max_upgrades > 0):
+	if(research >= fire_research_button.cost && fire_research_button.max_upgrades > 0):
 		fire_research_button.disabled = false
-	if(research >= water_research_button.cost and water_research_button.max_upgrades > 0):
+	if(research >= water_research_button.cost && water_research_button.max_upgrades > 0):
 		water_research_button.disabled = false
-	if(research >= earth_research_button.cost and earth_research_button.max_upgrades > 0):
+	if(research >= earth_research_button.cost && earth_research_button.max_upgrades > 0):
 		earth_research_button.disabled = false
 
 func calculate_final_damage(unit):
