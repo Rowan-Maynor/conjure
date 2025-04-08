@@ -1,6 +1,6 @@
 extends Button
 
-@onready var timer = get_tree().get_root().get_node("game/CanvasLayer/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_cooldown")
+@onready var timer = get_tree().get_root().get_node("game/main_ui/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_cooldown")
 
 func _on_pressed() -> void:
 	study()

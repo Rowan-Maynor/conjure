@@ -29,19 +29,19 @@ var drag_start = Vector2.ZERO
 @onready var selection_collision = $selection_area/CollisionShape2D
 
 #selectors for UI elements
-@onready var mana_ui_value = $"CanvasLayer/Main-ui/resource_container/GridContainer/mana_container/mana_value"
-@onready var research_ui_value = $"CanvasLayer/Main-ui/resource_container/GridContainer/research_container/research_value"
-@onready var wave_ui_value = $"CanvasLayer/Main-ui/wave_data_container/HBoxContainer/VBoxContainer/wave_value"
-@onready var time_ui_value = $"CanvasLayer/Main-ui/wave_data_container/HBoxContainer/VBoxContainer/time_value"
-@onready var lives_ui_value = $"CanvasLayer/Main-ui/lives_data_container/VBoxContainer/life_value"
-@onready var text_box_container = $"CanvasLayer/Main-ui/text_box/ScrollContainer/VBoxContainer"
+@onready var mana_ui_value = $"main_ui/Main-ui/resource_container/GridContainer/mana_container/mana_value"
+@onready var research_ui_value = $"main_ui/Main-ui/resource_container/GridContainer/research_container/research_value"
+@onready var wave_ui_value = $"main_ui/Main-ui/wave_data_container/HBoxContainer/VBoxContainer/wave_value"
+@onready var time_ui_value = $"main_ui/Main-ui/wave_data_container/HBoxContainer/VBoxContainer/time_value"
+@onready var lives_ui_value = $"main_ui/Main-ui/lives_data_container/VBoxContainer/life_value"
+@onready var text_box_container = $"main_ui/Main-ui/text_box/ScrollContainer/VBoxContainer"
 
 #button paths
-@onready var basic_summon_button = $"CanvasLayer/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button"
-@onready var basic_study_button = $"CanvasLayer/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button"
-@onready var fire_research_button = $"CanvasLayer/Main-ui/research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_button"
-@onready var water_research_button = $"CanvasLayer/Main-ui/research_tab_buttons/HBoxContainer/VBoxContainer/water_research_button"
-@onready var earth_research_button = $"CanvasLayer/Main-ui/research_tab_buttons/HBoxContainer/VBoxContainer/earth_research_button"
+@onready var basic_summon_button = $"main_ui/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button"
+@onready var basic_study_button = $"main_ui/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button"
+@onready var fire_research_button = $"main_ui/Main-ui/research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_button"
+@onready var water_research_button = $"main_ui/Main-ui/research_tab_buttons/HBoxContainer/VBoxContainer/water_research_button"
+@onready var earth_research_button = $"main_ui/Main-ui/research_tab_buttons/HBoxContainer/VBoxContainer/earth_research_button"
 
 #general functions
 func _ready():
@@ -140,13 +140,13 @@ func _select_units():
 			selection_sprite.visible = true
 	
 	if(selected.size() != 0):
-		if($CanvasLayer.has_node("UnitDataPanel")):
+		if($unit_panel.has_node("UnitDataPanel")):
 			update_unit_panel(selected[selected.size() - 1])
 		else:
 			create_unit_panel(selected[selected.size() - 1])
 	
-	if(selected.size() == 0 && $CanvasLayer.has_node("UnitDataPanel")):
-		$CanvasLayer.get_node("UnitDataPanel").queue_free()
+	if(selected.size() == 0 && $unit_panel.has_node("UnitDataPanel")):
+		$unit_panel.get_node("UnitDataPanel").queue_free()
 
 func _get_rect_start_position():
 	var new_position = Vector2.ZERO
@@ -172,13 +172,13 @@ func create_unit_panel(unit):
 	update_unit_panel_values(unit, panel_ui_scene)
 	
 	#atatch panel to canvas
-	get_tree().get_root().get_node("game/CanvasLayer").add_child(panel_ui_scene)
+	get_tree().get_root().get_node("game/unit_panel").add_child(panel_ui_scene)
 	
 	#connect merge button functionality
-	$"CanvasLayer/UnitDataPanel/PanelContainer/VBoxContainer/buttons_container/merge_button".connect("merge", _on_merge)
+	$"unit_panel/UnitDataPanel/PanelContainer/VBoxContainer/buttons_container/merge_button".connect("merge", _on_merge)
 
 func update_unit_panel(unit):
-	var panel_ui_scene = $CanvasLayer.get_node("UnitDataPanel")
+	var panel_ui_scene = $unit_panel.get_node("UnitDataPanel")
 	update_unit_panel_values(unit, panel_ui_scene)
 
 func update_unit_panel_values(unit, panel_ui_scene):
@@ -205,7 +205,7 @@ func update_unit_panel_values(unit, panel_ui_scene):
 
 #functions related to game state
 func start_game():
-	$"CanvasLayer/Main-ui/start_game_button".queue_free()
+	$"main_ui/Main-ui/start_game_button".queue_free()
 	wave_data = load("res://resources/waves/wave_1/wave_properties.tres")
 	wave = 1
 	waves_remaining = wave_data.wave_count
@@ -249,7 +249,7 @@ func _on_wave_time_timeout() -> void:
 	if($enemy_units.get_child_count() == 0):
 		if(wave == wave_max):
 			var win_screen = load("res://scenes/win_screen.tscn").instantiate()
-			get_tree().get_root().get_node("game").get_node("CanvasLayer").add_child(win_screen)
+			get_tree().get_root().get_node("game").get_node("main_ui").add_child(win_screen)
 			return
 		else:
 			$wave_time.stop()
@@ -270,12 +270,12 @@ func _on_wave_time_timeout() -> void:
 			enemy.die()
 		if(lives <= 0):
 			var lose_screen = load("res://scenes/lose_screen.tscn").instantiate()
-			get_tree().get_root().get_node("game").get_node("CanvasLayer").add_child(lose_screen)
+			get_tree().get_root().get_node("game").get_node("main_ui").add_child(lose_screen)
 			return
 		if(lives > 0):
 			if(wave == wave_max):
 				var win_screen = load("res://scenes/win_screen.tscn").instantiate()
-				get_tree().get_root().get_node("game").get_node("CanvasLayer").add_child(win_screen)
+				get_tree().get_root().get_node("game").get_node("main_ui").add_child(win_screen)
 				return
 			else:
 				wave_time = 10
@@ -372,7 +372,7 @@ func _on_merge():
 				if(selected.size() > 0):
 					update_unit_panel(selected[selected.size() - 1])
 				else:
-					$CanvasLayer.get_node("UnitDataPanel").queue_free()
+					$unit_panel.get_node("UnitDataPanel").queue_free()
 				return
 
 #helper functions

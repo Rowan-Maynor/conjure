@@ -171,11 +171,14 @@ metadata/_edit_lock_ = true
 
 [node name="pause_menu_canvas" type="CanvasLayer" parent="."]
 process_mode = 3
+layer = 3
+
+[node name="main_ui" type="CanvasLayer" parent="."]
 layer = 2
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="Main-ui" parent="main_ui" instance=ExtResource("10_264po")]
 
-[node name="Main-ui" parent="CanvasLayer" instance=ExtResource("10_264po")]
+[node name="unit_panel" type="CanvasLayer" parent="."]
 
 [node name="boundries" type="StaticBody2D" parent="."]
 visible = false

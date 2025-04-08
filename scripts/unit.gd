@@ -295,6 +295,13 @@ func handle_damage(value, element):
 	var is_element_disadvantage = check_for_element_disadvantage(element)
 	var final_damage = value
 	
+	if(element == "fire"):
+		final_damage = floor(final_damage * get_tree().get_root().get_node("game").fire_research_value)
+	elif(element == "water"):
+		final_damage = floor(final_damage * get_tree().get_root().get_node("game").water_research_value)
+	elif(element == "earth"):
+		final_damage = floor(final_damage * get_tree().get_root().get_node("game").earth_research_value)
+
 	if(is_element_advantage):
 		final_damage = ceil(final_damage * 1.2)
 	elif(is_element_disadvantage):

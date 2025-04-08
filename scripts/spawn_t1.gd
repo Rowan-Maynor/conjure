@@ -12,7 +12,7 @@ var t1_units = [
 	"monkey"
 ]
 
-@onready var timer = get_tree().get_root().get_node("game/CanvasLayer/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_cooldown")
+@onready var timer = get_tree().get_root().get_node("game/main_ui/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_cooldown")
 
 func _on_pressed():
 	summon_unit()

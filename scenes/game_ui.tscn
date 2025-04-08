@@ -297,7 +297,7 @@ layout_mode = 2
 metadata/_edit_lock_ = true
 
 [node name="research_tab_buttons" type="PanelContainer" parent="."]
-custom_minimum_size = Vector2(0, 300)
+custom_minimum_size = Vector2(0, 180)
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -306,10 +306,8 @@ anchor_right = 1.0
 anchor_bottom = 0.5
 offset_top = -180.0
 offset_right = 84.0
-offset_bottom = 120.0
 grow_horizontal = 0
 grow_vertical = 2
-metadata/_edit_lock_ = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="research_tab_buttons"]
 layout_mode = 2
