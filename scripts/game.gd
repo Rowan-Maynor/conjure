@@ -38,6 +38,7 @@ var drag_start = Vector2.ZERO
 
 #button paths
 @onready var basic_summon_button = $"CanvasLayer/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button"
+@onready var basic_study_button = $"CanvasLayer/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button"
 @onready var fire_research_button = $"CanvasLayer/Main-ui/research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_button"
 
 #general functions
@@ -398,6 +399,10 @@ func find_open_spawn_point():
 func save():
 	ResourceSaver.save(player_data, "res://resources/player/player_data.tres")
 
+func gain_research(ammount):
+	research += ammount
+	research_ui_value.text = str(research)
+
 func update_mana_buttons():
 	#disable checks
 	if(mana < 5):
@@ -405,9 +410,13 @@ func update_mana_buttons():
 		basic_summon_button._on_button_up()
 	if(mana < fire_research_button.cost):
 		fire_research_button.disabled = true
+	if(mana < 1):
+		basic_study_button.disabled = true
 	
 	#enable checks
 	if(mana >= 5):
 		basic_summon_button.disabled = false
 	if(mana >= fire_research_button.cost):
 		fire_research_button.disabled = false
+	if(mana >= 1):
+		basic_study_button.disabled = false
