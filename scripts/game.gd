@@ -417,6 +417,7 @@ func update_mana_buttons():
 		basic_summon_button._on_button_up()
 	if(mana < 1):
 		basic_study_button.disabled = true
+		basic_study_button._on_button_up()
 	
 	#enable checks
 	if(mana >= 5):

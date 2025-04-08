@@ -286,6 +286,9 @@ expand_icon = true
 script = ExtResource("11_ihktq")
 metadata/_edit_lock_ = true
 
+[node name="basic_study_cooldown" type="Timer" parent="mana_tab_buttons/HBoxContainer/VBoxContainer2"]
+wait_time = 0.15
+
 [node name="right_margin" type="Control" parent="mana_tab_buttons/HBoxContainer"]
 custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
@@ -379,5 +382,8 @@ metadata/_edit_lock_ = true
 [connection signal="button_up" from="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button" method="_on_button_up"]
 [connection signal="pressed" from="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button" method="_on_pressed"]
 [connection signal="timeout" from="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_cooldown" to="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button" method="_on_basic_summon_cooldown_timeout"]
+[connection signal="button_down" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" method="_on_button_down"]
+[connection signal="button_up" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" method="_on_button_up"]
 [connection signal="pressed" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" method="_on_pressed"]
+[connection signal="timeout" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_cooldown" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" method="_on_basic_study_cooldown_timeout"]
 [connection signal="pressed" from="research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_button" to="research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_button" method="_on_pressed"]
