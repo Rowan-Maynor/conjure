@@ -13,7 +13,7 @@
 [ext_resource type="Script" uid="uid://ycbw53qy6rik" path="res://scripts/scroll_container.gd" id="10_sjwyb"]
 [ext_resource type="Texture2D" uid="uid://7lunf2txgimd" path="res://assets/ui/fire_icon_large.png" id="11_1kaiv"]
 [ext_resource type="Script" uid="uid://bbevrqimace2g" path="res://scripts/basic_study_button.gd" id="11_ihktq"]
-[ext_resource type="Script" uid="uid://bomlg00kukgud" path="res://scripts/fire_upgrade_button.gd" id="12_ihktq"]
+[ext_resource type="Script" uid="uid://bomlg00kukgud" path="res://scripts/fire_research_button.gd" id="12_ihktq"]
 [ext_resource type="Texture2D" uid="uid://crrwymt4qu6f6" path="res://assets/ui/water_icon_large.png" id="12_upmhx"]
 [ext_resource type="Texture2D" uid="uid://kvxxjsd6abmv" path="res://assets/ui/earth_icon_large.png" id="13_ihktq"]
 [ext_resource type="Script" uid="uid://rofr8634d5w" path="res://scripts/water_research_button.gd" id="15_igvt4"]
