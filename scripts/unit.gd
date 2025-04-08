@@ -295,17 +295,27 @@ func handle_damage(value, element):
 	var is_element_disadvantage = check_for_element_disadvantage(element)
 	var final_damage = value
 	
+	#apply research damage increase
+	if(element == "fire"):
+		final_damage = floor(final_damage * get_tree().get_root().get_node("game").fire_research_value)
+	elif(element == "water"):
+		final_damage = floor(final_damage * get_tree().get_root().get_node("game").water_research_value)
+	elif(element == "earth"):
+		final_damage = floor(final_damage * get_tree().get_root().get_node("game").earth_research_value)
+	
+	#apply element advantage/disadvantage
 	if(is_element_advantage):
 		final_damage = ceil(final_damage * 1.2)
 	elif(is_element_disadvantage):
 		final_damage = floor(final_damage * 0.8)
 	
+	#deal final damage
 	if(unit_data.health <= 0):
 		return
 	self.unit_data.health -= final_damage
 	var damage_number_position: Vector2
 	damage_number_position.x = self.global_position.x
-	damage_number_position.y = self.global_position.y - 10
+	damage_number_position.y = self.global_position.y - 25
 	damage_number(final_damage, damage_number_position, false)
 	$health_bar.value = unit_data.health
 	if($health_bar.value < $health_bar.max_value):

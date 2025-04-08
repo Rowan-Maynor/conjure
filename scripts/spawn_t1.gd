@@ -12,9 +12,7 @@ var t1_units = [
 	"monkey"
 ]
 
-@onready var timer = get_tree().get_root().get_node("game/CanvasLayer/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_cooldown")
-
-signal spend_mana(ammount)
+@onready var timer = get_tree().get_root().get_node("game/main_ui/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_cooldown")
 
 func _on_pressed():
 	summon_unit()
@@ -36,7 +34,7 @@ func summon_unit():
 			instance.position = spawn_point.global_position
 			get_tree().get_root().get_node("game").get_node("player_units").add_child(instance)
 			get_tree().get_root().get_node("game").add_status_message("Conjured " + instance.unit_data.type)
-			emit_signal("spend_mana", 5)
+			get_tree().get_root().get_node("game").spend_mana(5)
 	else:
 		get_tree().get_root().get_node("game").add_status_message("Not enough mana", Color.hex(0xff3e3eff))
 

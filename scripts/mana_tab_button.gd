@@ -1,6 +1,6 @@
 extends Button
 
-var shift_ammount = 65
+var shift_ammount = 120
 var self_closed_position: Vector2
 var self_open_position: Vector2
 var tab_closed_position: Vector2
