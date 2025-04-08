@@ -14,6 +14,10 @@ func upgrade():
 	var message = "Water research damage increased to " + str(damage_percentage) + "%"
 	var color = Color.hex(0xa778e8ff)
 	get_tree().get_root().get_node("game").add_status_message(message, color)
+	
+	if(get_tree().get_root().get_node("game/unit_panel").has_node("UnitDataPanel")):
+		var unit = get_tree().get_root().get_node("game").selected.back()
+		get_tree().get_root().get_node("game").update_unit_panel(unit)
 
 func _on_water_research_cooldown_timeout() -> void:
 	upgrade()

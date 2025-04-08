@@ -187,7 +187,7 @@ func update_unit_panel_values(unit, panel_ui_scene):
 	var unit_sprite = load("res://assets/sprites/units/" + unit.unit_data.type + "/base.png")
 	sprite_node.texture = unit_sprite
 	
-	#update values
+	#value selectors
 	var attack_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_left/attack_value")
 	var attack_speed_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_left/attack_speed_value")
 	var range_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_left/range_value")
@@ -195,13 +195,13 @@ func update_unit_panel_values(unit, panel_ui_scene):
 	var speed_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_right/speed_value")
 	var element_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_right/element_value")
 	var unit_type_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_type")
-	attack_value.text = str(unit.unit_data.damage)
 	attack_speed_value.text = str(unit.unit_data.attack_speed)
 	range_value.text = str(unit.unit_data.attack_range)
 	critical_value.text = "0"
 	speed_value.text = str(unit.unit_data.speed)
 	element_value.text = str(unit.unit_data.element)
 	unit_type_value.text = unit.unit_data.type
+	attack_value.text = str(calculate_final_damage(unit))
 
 #functions related to game state
 func start_game():
@@ -446,3 +446,17 @@ func update_research_buttons():
 		water_research_button.disabled = false
 	if(research >= earth_research_button.cost):
 		earth_research_button.disabled = false
+
+func calculate_final_damage(unit):
+	var final_damage = unit.unit_data.damage
+	
+	#apply research damage increase
+	if(unit.unit_data.element == "fire"):
+		final_damage = floori(unit.unit_data.damage * fire_research_value)
+	elif(unit.unit_data.element == "water"):
+		final_damage = floori(unit.unit_data.damage * water_research_value)
+	elif(unit.unit_data.element == "earth"):
+		final_damage = floori(unit.unit_data.damage * earth_research_value)
+	
+	#return the value
+	return final_damage
