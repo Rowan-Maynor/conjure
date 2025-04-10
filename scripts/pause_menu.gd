@@ -20,3 +20,8 @@ func _on_exit_game_button_pressed() -> void:
 func _on_restart_game_button_pressed() -> void:
 	resume()
 	get_tree().reload_current_scene()
+
+
+func _on_main_menu_button_pressed() -> void:
+	resume()
+	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")

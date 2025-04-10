@@ -1,0 +1,69 @@
+[gd_scene load_steps=3 format=3 uid="uid://ce0lxn43ir0fs"]
+
+[ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_l6cm7"]
+[ext_resource type="Script" uid="uid://btia3rnj36sf0" path="res://scripts/play_button.gd" id="2_ekxnf"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_l6cm7")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -82.0
+offset_right = 160.0
+offset_bottom = 82.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="title" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/title"]
+layout_mode = 2
+theme_override_constants/margin_bottom = 20
+
+[node name="Label" type="Label" parent="VBoxContainer/title/MarginContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 128
+text = "Conjure"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="middle_spacing" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="buttons" type="PanelContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/buttons"]
+layout_mode = 2
+
+[node name="play_button" type="Button" parent="VBoxContainer/buttons/VBoxContainer"]
+layout_mode = 2
+text = "Play"
+script = ExtResource("2_ekxnf")
+
+[node name="options_button" type="Button" parent="VBoxContainer/buttons/VBoxContainer"]
+layout_mode = 2
+disabled = true
+text = "Options"
+
+[node name="quit_button" type="Button" parent="VBoxContainer/buttons/VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+
+[connection signal="pressed" from="VBoxContainer/buttons/VBoxContainer/play_button" to="VBoxContainer/buttons/VBoxContainer/play_button" method="_on_pressed"]

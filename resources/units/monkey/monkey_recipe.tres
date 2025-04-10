@@ -4,5 +4,7 @@
 
 [resource]
 script = ExtResource("1_vc0hj")
-list = {}
+list = {
+"idol": ["pebble"]
+}
 metadata/_custom_type_script = "uid://dv81udx7kpjs1"
