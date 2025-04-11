@@ -222,7 +222,6 @@ offset_right = 18.0
 offset_bottom = -118.0
 grow_horizontal = 0
 grow_vertical = 2
-text = " "
 icon = ExtResource("2_e0pfi")
 script = ExtResource("7_o3bws")
 

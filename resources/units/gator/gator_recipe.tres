@@ -4,5 +4,7 @@
 
 [resource]
 script = ExtResource("1_4wbqh")
-list = {}
+list = {
+"shaman": ["drop"]
+}
 metadata/_custom_type_script = "uid://dv81udx7kpjs1"
