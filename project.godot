@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="project-compound"
-run/main_scene="uid://dm76mg2k73lxk"
+run/main_scene="uid://ce0lxn43ir0fs"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
