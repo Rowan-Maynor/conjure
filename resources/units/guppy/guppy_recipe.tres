@@ -4,5 +4,7 @@
 
 [resource]
 script = ExtResource("1_4b8ju")
-list = {}
+list = {
+"skipper": ["gator"]
+}
 metadata/_custom_type_script = "uid://dv81udx7kpjs1"

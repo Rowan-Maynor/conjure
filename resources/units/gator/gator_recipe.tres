@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_4wbqh")
 list = {
-"shaman": ["drop"]
+"shaman": ["drop"],
+"skipper": ["guppy"]
 }
 metadata/_custom_type_script = "uid://dv81udx7kpjs1"
