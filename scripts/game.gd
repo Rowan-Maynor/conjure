@@ -9,6 +9,13 @@ var mana = 25
 var research = 0
 var kills = 0
 
+#bank values
+var bank_mana = 0.0
+var bank_interest = 1.10
+var auto_deposit = 0
+var interest_cost = 10
+var interest_max_upgrades = 5
+
 #element research values
 var fire_research_value = 1.0
 var water_research_value = 1.0
@@ -35,6 +42,9 @@ var drag_start = Vector2.ZERO
 @onready var time_ui_value = $"main_ui/Main-ui/wave_data_container/HBoxContainer/VBoxContainer/time_value"
 @onready var lives_ui_value = $"main_ui/Main-ui/lives_data_container/VBoxContainer/life_value"
 @onready var text_box_container = $"main_ui/Main-ui/text_box/ScrollContainer/VBoxContainer"
+@onready var bank_mana_value = $"main_ui/Main-ui/bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_data/values/bank_value"
+@onready var bank_interest_value = $"main_ui/Main-ui/bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_data/values/interest_value"
+@onready var auto_deposit_value = $"main_ui/Main-ui/bank_canvas/bank_container/HBoxContainer/VBoxContainer/auto_deposit_data/auto_deposit_value"
 
 #button paths
 @onready var basic_summon_button = $"main_ui/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button"
@@ -42,6 +52,11 @@ var drag_start = Vector2.ZERO
 @onready var fire_research_button = $"main_ui/Main-ui/research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_button"
 @onready var water_research_button = $"main_ui/Main-ui/research_tab_buttons/HBoxContainer/VBoxContainer/water_research_button"
 @onready var earth_research_button = $"main_ui/Main-ui/research_tab_buttons/HBoxContainer/VBoxContainer/earth_research_button"
+@onready var bank_deposit_1_button = $"main_ui/Main-ui/bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons/deposit_1_button"
+@onready var bank_deposit_10_button = $"main_ui/Main-ui/bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons/deposit_10_button"
+@onready var bank_withdraw_1_button = $"main_ui/Main-ui/bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons/withdraw_1_button"
+@onready var bank_withdraw_10_button = $"main_ui/Main-ui/bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons/withdraw_10_button"
+@onready var interest_increase_button = $"main_ui/Main-ui/bank_canvas/bank_container/HBoxContainer/VBoxContainer/interest_increase_button"
 
 #general functions
 func _ready():
@@ -253,6 +268,18 @@ func _on_wave_time_timeout() -> void:
 			return
 		else:
 			$wave_time.stop()
+			#handles bank interest
+			if(auto_deposit > 0):
+				if(mana < auto_deposit):
+					bank_deposit(mana)
+				else:
+					bank_deposit(auto_deposit)
+			var bank_mana_gained = (bank_mana * bank_interest) - bank_mana
+			bank_mana_gained = snapped(bank_mana_gained, 0.01)
+			add_status_message("Gained " + str(bank_mana_gained) + " bank mana", Color.hex(0x199fffff))
+			bank_mana += bank_mana_gained
+			bank_mana_value.text = str(bank_mana)
+			#sets up wait
 			wave_time = 10
 			add_status_message("Break (10 seconds)", Color.hex(0xafafafff))
 			time_ui_value.text = str(wave_time)
@@ -278,6 +305,18 @@ func _on_wave_time_timeout() -> void:
 				get_tree().get_root().get_node("game").get_node("main_ui").add_child(win_screen)
 				return
 			else:
+				#handles bank interest
+				if(auto_deposit > 0):
+					if(mana < auto_deposit):
+						bank_deposit(mana)
+					else:
+						bank_deposit(auto_deposit)
+				var bank_mana_gained = (bank_mana * bank_interest) - bank_mana
+				bank_mana_gained = snapped(bank_mana_gained, 0.01)
+				add_status_message("Gained " + str(bank_mana_gained) + " bank mana", Color.hex(0x199fffff))
+				bank_mana += bank_mana_gained
+				bank_mana_value.text = str(bank_mana)
+				#sets up wait
 				wave_time = 10
 				add_status_message("Break (10 seconds)", Color.hex(0xafafafff))
 				$wait_time.start()
@@ -387,7 +426,7 @@ func add_status_message(message, color = Color.hex(0xffffffff)):
 		text_box_container.add_child(separator)
 	text_box_container.add_child(label)
 	
-	if(text_box_container.get_child_count() > 20):
+	if(text_box_container.get_child_count() > 40):
 		text_box_container.get_child(0).queue_free()
 		text_box_container.get_child(1).queue_free()
 
@@ -420,12 +459,26 @@ func update_mana_buttons():
 	if(mana < 1):
 		basic_study_button.disabled = true
 		basic_study_button._on_button_up()
+		bank_deposit_1_button.disabled = true
+		bank_deposit_10_button.disabled = true
+	if(bank_mana < 1):
+		bank_withdraw_1_button.disabled = true
+		bank_withdraw_10_button.disabled = true
+	if(mana < interest_cost || interest_max_upgrades == 0):
+		interest_increase_button.disabled = true
 	
 	#enable checks
 	if(mana >= 5):
 		basic_summon_button.disabled = false
 	if(mana >= 1):
 		basic_study_button.disabled = false
+		bank_deposit_1_button.disabled = false
+		bank_deposit_10_button.disabled = false
+	if(bank_mana >= 1):
+		bank_withdraw_1_button.disabled = false
+		bank_withdraw_10_button.disabled = false
+	if(mana >= interest_cost && interest_max_upgrades > 0):
+		interest_increase_button.disabled = false
 
 func update_research_buttons():
 	#disable checks
@@ -460,3 +513,50 @@ func calculate_final_damage(unit):
 	
 	#return the value
 	return final_damage
+
+func bank_deposit(value):
+	if(value > mana):
+		bank_mana += mana
+		spend_mana(mana)
+		bank_mana_value.text = str(bank_mana)
+	else:
+		bank_mana += value
+		spend_mana(value)
+		bank_mana_value.text = str(bank_mana)
+
+func bank_withdraw(value):
+	if(value > bank_mana):
+		var remaining_bank = roundi(bank_mana)
+		bank_mana -= remaining_bank
+		mana += remaining_bank
+		update_mana_buttons()
+		mana_ui_value.text = str(mana)
+		bank_mana_value.text = str(bank_mana)
+	else:
+		mana += value
+		bank_mana -= value
+		update_mana_buttons()
+		mana_ui_value.text = str(mana)
+		bank_mana_value.text = str(bank_mana)
+
+func increase_auto_deposit():
+	auto_deposit += 1
+	auto_deposit_value.text = str(auto_deposit)
+
+func decrease_auto_deposit():
+	if(auto_deposit == 0):
+		return
+	auto_deposit -=1
+	auto_deposit_value.text = str(auto_deposit)
+
+func increase_interest():
+	if(interest_max_upgrades == 0):
+		return
+	if(mana < interest_cost):
+		return
+	var current_interest_cost = interest_cost
+	interest_max_upgrades -= 1
+	bank_interest += 0.01
+	interest_cost += 5
+	spend_mana(current_interest_cost)
+	bank_interest_value.text = str((bank_interest - 1.0) * 100) + "%"

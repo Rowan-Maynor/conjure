@@ -1,12 +1,19 @@
-[gd_scene load_steps=23 format=3 uid="uid://b578nkptq5xnm"]
+[gd_scene load_steps=31 format=3 uid="uid://b578nkptq5xnm"]
 
 [ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_e0pfi"]
 [ext_resource type="Script" uid="uid://mivjt0t7mpqb" path="res://scripts/spawn_t1.gd" id="1_fnul3"]
+[ext_resource type="Texture2D" uid="uid://cxxdtspbr32f8" path="res://assets/ui/side_tab_icon.png" id="2_36vcn"]
 [ext_resource type="Script" uid="uid://47d5d3lrt102" path="res://scripts/start_game.gd" id="2_513t2"]
 [ext_resource type="Texture2D" uid="uid://btxayetjurgst" path="res://assets/ui/mana_icon.png" id="2_e0pfi"]
+[ext_resource type="Script" uid="uid://57rdmv42p1bk" path="res://scripts/bank_tab_button.gd" id="3_2yflp"]
 [ext_resource type="Texture2D" uid="uid://dr70g110va4hx" path="res://assets/ui/knowledge_icon.png" id="3_o3bws"]
+[ext_resource type="Texture2D" uid="uid://bf35bcrhlk2sc" path="res://assets/ui/bank_icon.png" id="4_n74c5"]
+[ext_resource type="Script" uid="uid://pclnrcn07jo" path="res://scripts/bank_deposit_buttons.gd" id="5_2yflp"]
+[ext_resource type="Script" uid="uid://cmo45odd61fef" path="res://scripts/bank_withdraw_buttons.gd" id="6_n74c5"]
+[ext_resource type="Script" uid="uid://4i2q1tevt4ns" path="res://scripts/auto_deposit_decrease.gd" id="7_5v8bm"]
 [ext_resource type="Script" uid="uid://begukndqlpqm5" path="res://scripts/mana_tab_button.gd" id="7_o3bws"]
 [ext_resource type="Script" uid="uid://nm8htu8iujii" path="res://scripts/research_tab_button.gd" id="8_3huio"]
+[ext_resource type="Script" uid="uid://15ts8v444x0b" path="res://scripts/auto_deposit_increase.gd" id="8_8wu16"]
 [ext_resource type="Texture2D" uid="uid://cl7wm4vb5hdaa" path="res://assets/ui/life_icon.png" id="8_o3bws"]
 [ext_resource type="Texture2D" uid="uid://dkgytjkrmkld5" path="res://assets/ui/basic_summon_icon.png" id="8_sjwyb"]
 [ext_resource type="Texture2D" uid="uid://bw6lrrm0dqepo" path="res://assets/ui/intermediate_summon_icon.png" id="10_0dnje"]
@@ -22,6 +29,7 @@
 [ext_resource type="Texture2D" uid="uid://jp3h6hcst7ki" path="res://assets/ui/advanced_study_icon.png" id="15_5kjus"]
 [ext_resource type="Script" uid="uid://rofr8634d5w" path="res://scripts/water_research_button.gd" id="15_igvt4"]
 [ext_resource type="Script" uid="uid://dil33cctkytrr" path="res://scripts/earth_research_button.gd" id="17_x8pta"]
+[ext_resource type="Script" uid="uid://f6lnbkl0ebbn" path="res://scripts/interest_increase_button.gd" id="28_sdeak"]
 
 [node name="Main-ui" type="Control"]
 layout_mode = 3
@@ -35,6 +43,7 @@ theme = ExtResource("1_e0pfi")
 metadata/_edit_lock_ = true
 
 [node name="resource_container" type="PanelContainer" parent="."]
+z_index = 1
 custom_minimum_size = Vector2(150, 100)
 layout_mode = 1
 anchors_preset = -1
@@ -121,16 +130,19 @@ offset_top = -170.0
 offset_right = 165.0
 offset_bottom = -20.0
 grow_vertical = 2
+mouse_filter = 2
 metadata/_edit_lock_ = true
 
 [node name="HBoxContainer" type="MarginContainer" parent="wave_data_container"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_right = 15
 metadata/_edit_lock_ = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="wave_data_container/HBoxContainer"]
 layout_mode = 2
+mouse_filter = 2
 metadata/_edit_lock_ = true
 
 [node name="wave" type="Label" parent="wave_data_container/HBoxContainer/VBoxContainer"]
@@ -433,6 +445,187 @@ layout_mode = 2
 size_flags_horizontal = 3
 metadata/_edit_lock_ = true
 
+[node name="bank_canvas" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="bank_container" type="PanelContainer" parent="bank_canvas"]
+z_index = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -251.0
+offset_top = -225.0
+offset_bottom = 63.0
+grow_vertical = 2
+theme = ExtResource("1_e0pfi")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="bank_canvas/bank_container"]
+layout_mode = 2
+
+[node name="spacing" type="Control" parent="bank_canvas/bank_container/HBoxContainer"]
+custom_minimum_size = Vector2(15, 0)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="bank_canvas/bank_container/HBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="bank_icon" type="TextureRect" parent="bank_canvas/bank_container/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+texture = ExtResource("4_n74c5")
+stretch_mode = 3
+
+[node name="bank_data" type="HBoxContainer" parent="bank_canvas/bank_container/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="text_labels" type="VBoxContainer" parent="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_data"]
+layout_mode = 2
+
+[node name="bank_label" type="Label" parent="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_data/text_labels"]
+layout_mode = 2
+text = "Bank:"
+
+[node name="interest_label" type="Label" parent="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_data/text_labels"]
+layout_mode = 2
+text = "Interest:"
+
+[node name="values" type="VBoxContainer" parent="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_data"]
+layout_mode = 2
+
+[node name="bank_value" type="Label" parent="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_data/values"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "0.0"
+horizontal_alignment = 2
+clip_text = true
+
+[node name="interest_value" type="Label" parent="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_data/values"]
+layout_mode = 2
+text = "10.0%"
+horizontal_alignment = 2
+
+[node name="spacing" type="Control" parent="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_data"]
+custom_minimum_size = Vector2(15, 0)
+layout_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="bank_canvas/bank_container/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="button_labels" type="HBoxContainer" parent="bank_canvas/bank_container/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="deposit_label" type="Label" parent="bank_canvas/bank_container/HBoxContainer/VBoxContainer/button_labels"]
+layout_mode = 2
+text = "Deposit"
+horizontal_alignment = 1
+
+[node name="withdraw_label" type="Label" parent="bank_canvas/bank_container/HBoxContainer/VBoxContainer/button_labels"]
+custom_minimum_size = Vector2(110, 0)
+layout_mode = 2
+text = "Withdraw"
+horizontal_alignment = 2
+
+[node name="spacing" type="Control" parent="bank_canvas/bank_container/HBoxContainer/VBoxContainer/button_labels"]
+custom_minimum_size = Vector2(15, 0)
+layout_mode = 2
+
+[node name="bank_buttons" type="HBoxContainer" parent="bank_canvas/bank_container/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="deposit_1_button" type="Button" parent="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "1"
+script = ExtResource("5_2yflp")
+
+[node name="deposit_10_button" type="Button" parent="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "10"
+script = ExtResource("5_2yflp")
+
+[node name="withdraw_1_button" type="Button" parent="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "1"
+script = ExtResource("6_n74c5")
+
+[node name="withdraw_10_button" type="Button" parent="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "10"
+script = ExtResource("6_n74c5")
+
+[node name="HSeparator" type="HSeparator" parent="bank_canvas/bank_container/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="auto_deposit_data" type="HBoxContainer" parent="bank_canvas/bank_container/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="auto_deposit_label" type="Label" parent="bank_canvas/bank_container/HBoxContainer/VBoxContainer/auto_deposit_data"]
+custom_minimum_size = Vector2(110, 0)
+layout_mode = 2
+text = "Auto Deposit:"
+
+[node name="auto_deposit_value" type="Label" parent="bank_canvas/bank_container/HBoxContainer/VBoxContainer/auto_deposit_data"]
+custom_minimum_size = Vector2(55, 0)
+layout_mode = 2
+text = "0"
+horizontal_alignment = 2
+clip_text = true
+
+[node name="spacing" type="Control" parent="bank_canvas/bank_container/HBoxContainer/VBoxContainer/auto_deposit_data"]
+custom_minimum_size = Vector2(15, 0)
+layout_mode = 2
+
+[node name="auto_deposit_buttons" type="HBoxContainer" parent="bank_canvas/bank_container/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="auto_deposit_decrease" type="Button" parent="bank_canvas/bank_container/HBoxContainer/VBoxContainer/auto_deposit_buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "-1"
+script = ExtResource("7_5v8bm")
+
+[node name="auto_deposit_increase" type="Button" parent="bank_canvas/bank_container/HBoxContainer/VBoxContainer/auto_deposit_buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "+1"
+script = ExtResource("8_8wu16")
+
+[node name="HSeparator3" type="HSeparator" parent="bank_canvas/bank_container/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="interest_increase_button" type="Button" parent="bank_canvas/bank_container/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Interest Up"
+script = ExtResource("28_sdeak")
+
+[node name="bank_tab_button" type="Button" parent="bank_canvas"]
+custom_minimum_size = Vector2(40, 70)
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -90.0
+offset_right = 20.0
+offset_bottom = -20.0
+grow_vertical = 2
+theme = ExtResource("1_e0pfi")
+icon_alignment = 2
+script = ExtResource("3_2yflp")
+
+[node name="Sprite2D" type="Sprite2D" parent="bank_canvas/bank_tab_button"]
+position = Vector2(28, 35)
+texture = ExtResource("2_36vcn")
+
 [connection signal="pressed" from="start_game_button" to="start_game_button" method="_on_pressed"]
 [connection signal="pressed" from="mana_tab_button" to="mana_tab_button" method="_on_pressed"]
 [connection signal="pressed" from="research_tab_button" to="research_tab_button" method="_on_pressed"]
@@ -456,3 +649,11 @@ metadata/_edit_lock_ = true
 [connection signal="button_up" from="research_tab_buttons/HBoxContainer/VBoxContainer/earth_research_button" to="research_tab_buttons/HBoxContainer/VBoxContainer/earth_research_button" method="_on_button_up"]
 [connection signal="pressed" from="research_tab_buttons/HBoxContainer/VBoxContainer/earth_research_button" to="research_tab_buttons/HBoxContainer/VBoxContainer/earth_research_button" method="_on_pressed"]
 [connection signal="timeout" from="research_tab_buttons/HBoxContainer/VBoxContainer/earth_research_cooldown" to="research_tab_buttons/HBoxContainer/VBoxContainer/earth_research_button" method="_on_earth_research_cooldown_timeout"]
+[connection signal="pressed" from="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons/deposit_1_button" to="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons/deposit_1_button" method="_on_pressed"]
+[connection signal="pressed" from="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons/deposit_10_button" to="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons/deposit_10_button" method="_on_pressed"]
+[connection signal="pressed" from="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons/withdraw_1_button" to="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons/withdraw_1_button" method="_on_pressed"]
+[connection signal="pressed" from="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons/withdraw_10_button" to="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons/withdraw_10_button" method="_on_pressed"]
+[connection signal="pressed" from="bank_canvas/bank_container/HBoxContainer/VBoxContainer/auto_deposit_buttons/auto_deposit_decrease" to="bank_canvas/bank_container/HBoxContainer/VBoxContainer/auto_deposit_buttons/auto_deposit_decrease" method="_on_pressed"]
+[connection signal="pressed" from="bank_canvas/bank_container/HBoxContainer/VBoxContainer/auto_deposit_buttons/auto_deposit_increase" to="bank_canvas/bank_container/HBoxContainer/VBoxContainer/auto_deposit_buttons/auto_deposit_increase" method="_on_pressed"]
+[connection signal="pressed" from="bank_canvas/bank_container/HBoxContainer/VBoxContainer/interest_increase_button" to="bank_canvas/bank_container/HBoxContainer/VBoxContainer/interest_increase_button" method="_on_pressed"]
+[connection signal="pressed" from="bank_canvas/bank_tab_button" to="bank_canvas/bank_tab_button" method="_on_pressed"]
