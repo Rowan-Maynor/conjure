@@ -37,8 +37,10 @@ var drag_start = Vector2.ZERO
 var attack_move = false
 
 #cursors
-var default_cursor = load("res://assets/ui/cursor_default.png")
-var attack_cursor = load("res://assets/ui/cursor_attack.png")
+var cursor_default = load("res://assets/ui/cursor_default.png")
+var cursor_attack = load("res://assets/ui/cursor_attack.png")
+var cursor_stop = load("res://assets/ui/cursor_stop.png")
+var cursor_hold = load("res://assets/ui/cursor_hold.png")
 
 #selectors for UI elements
 @onready var mana_ui_value = $"main_ui/Main-ui/resource_container/GridContainer/mana_container/mana_value"
@@ -85,11 +87,11 @@ func _input(event: InputEvent) -> void:
 	if(Input.is_action_just_pressed("attack_move")):
 		if(attack_move == false):
 			attack_move = true
-			Input.set_custom_mouse_cursor(attack_cursor)
+			Input.set_custom_mouse_cursor(cursor_attack)
 	if(Input.is_action_just_pressed("right_click")):
 		if(attack_move == true):
 			attack_move = false
-			Input.set_custom_mouse_cursor(default_cursor)
+			Input.set_custom_mouse_cursor(cursor_default)
 			return
 		for unit in selected:
 			unit.get_node("attack_spawn_delay").stop()
@@ -97,17 +99,27 @@ func _input(event: InputEvent) -> void:
 			unit.current_command = "move"
 			unit.move_position = get_global_mouse_position()
 	if(Input.is_action_just_pressed("stop_movement")):
+		if(attack_move == true):
+			attack_move = false
 		for unit in selected:
 			unit.get_node("attack_spawn_delay").stop()
 			unit.reset_target()
 			unit.current_command = "idle"
 			unit.find_new_target()
+		Input.set_custom_mouse_cursor(cursor_stop)
+		await get_tree().create_timer(.25).timeout
+		Input.set_custom_mouse_cursor(cursor_default)
 	if(Input.is_action_just_pressed("hold_position")):
+		if(attack_move == true):
+			attack_move = false
 		for unit in selected:
 			unit.get_node("attack_spawn_delay").stop()
 			unit.reset_target()
 			unit.current_command = "hold"
 			unit.find_new_target()
+		Input.set_custom_mouse_cursor(cursor_hold)
+		await get_tree().create_timer(.25).timeout
+		Input.set_custom_mouse_cursor(cursor_default)
 	if(event is InputEventMouseButton && event.button_index == 1 && attack_move == true):
 		for unit in selected:
 			if(unit.current_command != "focus"):
@@ -118,7 +130,7 @@ func _input(event: InputEvent) -> void:
 				if(unit.current_target == null):
 					unit.move_position = get_global_mouse_position()
 		attack_move = false
-		Input.set_custom_mouse_cursor(default_cursor)
+		Input.set_custom_mouse_cursor(cursor_default)
 		get_viewport().set_input_as_handled()
 
 func _unhandled_input(event: InputEvent) -> void:
