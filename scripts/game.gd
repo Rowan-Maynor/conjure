@@ -34,6 +34,11 @@ var selected = []
 var drag_start = Vector2.ZERO
 @onready var selection_area = $selection_area
 @onready var selection_collision = $selection_area/CollisionShape2D
+var attack_move = false
+
+#cursors
+var default_cursor = load("res://assets/ui/cursor_default.png")
+var attack_cursor = load("res://assets/ui/cursor_attack.png")
 
 #selectors for UI elements
 @onready var mana_ui_value = $"main_ui/Main-ui/resource_container/GridContainer/mana_container/mana_value"
@@ -67,7 +72,7 @@ func _ready():
 	update_research_buttons()
 	save()
 
-func _input(_event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if(Input.is_action_just_pressed("toggle_fullscreen")):
 		if(DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN):
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
@@ -77,7 +82,15 @@ func _input(_event: InputEvent) -> void:
 		var pause_menu = load("res://scenes/pause_menu.tscn").instantiate()
 		get_tree().get_root().get_node("game/pause_menu_canvas").add_child(pause_menu)
 		get_tree().paused = true
+	if(Input.is_action_just_pressed("attack_move")):
+		if(attack_move == false):
+			attack_move = true
+			Input.set_custom_mouse_cursor(attack_cursor)
 	if(Input.is_action_just_pressed("right_click")):
+		if(attack_move == true):
+			attack_move = false
+			Input.set_custom_mouse_cursor(default_cursor)
+			return
 		for unit in selected:
 			unit.get_node("attack_spawn_delay").stop()
 			unit.reset_target()
@@ -95,6 +108,18 @@ func _input(_event: InputEvent) -> void:
 			unit.reset_target()
 			unit.current_command = "hold"
 			unit.find_new_target()
+	if(event is InputEventMouseButton && event.button_index == 1 && attack_move == true):
+		for unit in selected:
+			if(unit.current_command != "focus"):
+				unit.get_node("attack_spawn_delay").stop()
+				unit.reset_target()
+				unit.find_new_target()
+				unit.current_command = "attack"
+				if(unit.current_target == null):
+					unit.move_position = get_global_mouse_position()
+		attack_move = false
+		Input.set_custom_mouse_cursor(default_cursor)
+		get_viewport().set_input_as_handled()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if(drag_start == Vector2.ZERO && event is InputEventMouseButton 
