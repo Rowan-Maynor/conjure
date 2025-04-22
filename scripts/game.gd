@@ -35,6 +35,15 @@ var drag_start = Vector2.ZERO
 @onready var selection_area = $selection_area
 @onready var selection_collision = $selection_area/CollisionShape2D
 
+#attack_move flag
+var attack_move = false
+
+#cursors
+var cursor_default = load("res://assets/ui/cursor_default.png")
+var cursor_attack = load("res://assets/ui/cursor_attack.png")
+var cursor_stop = load("res://assets/ui/cursor_stop.png")
+var cursor_hold = load("res://assets/ui/cursor_hold.png")
+
 #selectors for UI elements
 @onready var mana_ui_value = $"main_ui/Main-ui/resource_container/GridContainer/mana_container/mana_value"
 @onready var research_ui_value = $"main_ui/Main-ui/resource_container/GridContainer/research_container/research_value"
@@ -67,7 +76,7 @@ func _ready():
 	update_research_buttons()
 	save()
 
-func _input(_event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if(Input.is_action_just_pressed("toggle_fullscreen")):
 		if(DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN):
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
@@ -77,24 +86,54 @@ func _input(_event: InputEvent) -> void:
 		var pause_menu = load("res://scenes/pause_menu.tscn").instantiate()
 		get_tree().get_root().get_node("game/pause_menu_canvas").add_child(pause_menu)
 		get_tree().paused = true
+	if(Input.is_action_just_pressed("attack_move")):
+		if(attack_move == false):
+			attack_move = true
+			Input.set_custom_mouse_cursor(cursor_attack)
 	if(Input.is_action_just_pressed("right_click")):
+		if(attack_move == true):
+			attack_move = false
+			Input.set_custom_mouse_cursor(cursor_default)
+			return
 		for unit in selected:
 			unit.get_node("attack_spawn_delay").stop()
 			unit.reset_target()
 			unit.current_command = "move"
 			unit.move_position = get_global_mouse_position()
 	if(Input.is_action_just_pressed("stop_movement")):
+		if(attack_move == true):
+			attack_move = false
 		for unit in selected:
 			unit.get_node("attack_spawn_delay").stop()
 			unit.reset_target()
 			unit.current_command = "idle"
 			unit.find_new_target()
+		Input.set_custom_mouse_cursor(cursor_stop)
+		await get_tree().create_timer(.25).timeout
+		Input.set_custom_mouse_cursor(cursor_default)
 	if(Input.is_action_just_pressed("hold_position")):
+		if(attack_move == true):
+			attack_move = false
 		for unit in selected:
 			unit.get_node("attack_spawn_delay").stop()
 			unit.reset_target()
 			unit.current_command = "hold"
 			unit.find_new_target()
+		Input.set_custom_mouse_cursor(cursor_hold)
+		await get_tree().create_timer(.25).timeout
+		Input.set_custom_mouse_cursor(cursor_default)
+	if(event is InputEventMouseButton && event.button_index == 1 && attack_move == true):
+		for unit in selected:
+			if(unit.current_command != "focus"):
+				unit.get_node("attack_spawn_delay").stop()
+				unit.reset_target()
+				unit.find_new_target()
+				unit.current_command = "attack"
+				if(unit.current_target == null):
+					unit.move_position = get_global_mouse_position()
+		attack_move = false
+		Input.set_custom_mouse_cursor(cursor_default)
+		get_viewport().set_input_as_handled()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if(drag_start == Vector2.ZERO && event is InputEventMouseButton 
@@ -215,7 +254,8 @@ func update_unit_panel_values(unit, panel_ui_scene):
 	critical_value.text = "0"
 	speed_value.text = str(unit.unit_data.speed)
 	element_value.text = str(unit.unit_data.element)
-	unit_type_value.text = unit.unit_data.type
+	var unit_type_with_spaces = unit.unit_data.type.replace("_", " ")
+	unit_type_value.text = unit_type_with_spaces
 	attack_value.text = str(calculate_final_damage(unit))
 
 #functions related to game state
@@ -401,7 +441,8 @@ func _on_merge():
 			else:
 				instance.position = spawn_point.global_position
 				get_tree().get_root().get_node("game").get_node("player_units").add_child(instance)
-				add_status_message("Conjured " + instance.unit_data.type)
+				var unit_type_with_spaces = instance.unit_data.type.replace("_", " ")
+				add_status_message("Conjured " + unit_type_with_spaces)
 				#merged unit is now spawned, free the others
 				selected.pop_at(selected.find(main_unit))
 				main_unit.queue_free()

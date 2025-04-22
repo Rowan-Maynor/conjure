@@ -176,6 +176,8 @@ func _on_attack_range_body_entered(body: Node2D) -> void:
 	if(!is_instance_valid(body)):
 		return
 	if(current_command == "idle" || current_command == "attack"):
+		if(current_command == "attack"):
+			move_position = position
 		if(current_target == null && body.unit_data.control == "enemy"):
 			current_target = body
 			if(!current_target.died.is_connected(_on_died)):

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Unit_Data" load_steps=2 format=3 uid="uid://bvntc8h75d5sj"]
+
+[ext_resource type="Script" uid="uid://db2pd7vctcukq" path="res://resources/resource_scripts/unit_data.gd" id="1_irg0q"]
+
+[resource]
+script = ExtResource("1_irg0q")
+damage = 35
+attack_range = 200
+attack_speed = 2.0
+health = 10
+speed = 100
+element = "fire"
+type = "hell_hound"
+control = "player"
+attack = "bite"
+metadata/_custom_type_script = "uid://db2pd7vctcukq"
