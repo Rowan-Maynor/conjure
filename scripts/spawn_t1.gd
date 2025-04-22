@@ -33,7 +33,8 @@ func summon_unit():
 		else:
 			instance.position = spawn_point.global_position
 			get_tree().get_root().get_node("game").get_node("player_units").add_child(instance)
-			get_tree().get_root().get_node("game").add_status_message("Conjured " + instance.unit_data.type)
+			var unit_type_with_spaces = instance.unit_data.type.replace("_", " ")
+			get_tree().get_root().get_node("game").add_status_message("Conjured " + unit_type_with_spaces)
 			get_tree().get_root().get_node("game").spend_mana(5)
 	else:
 		get_tree().get_root().get_node("game").add_status_message("Not enough mana", Color.hex(0xff3e3eff))

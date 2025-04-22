@@ -34,6 +34,8 @@ var selected = []
 var drag_start = Vector2.ZERO
 @onready var selection_area = $selection_area
 @onready var selection_collision = $selection_area/CollisionShape2D
+
+#attack_move flag
 var attack_move = false
 
 #cursors
@@ -252,7 +254,8 @@ func update_unit_panel_values(unit, panel_ui_scene):
 	critical_value.text = "0"
 	speed_value.text = str(unit.unit_data.speed)
 	element_value.text = str(unit.unit_data.element)
-	unit_type_value.text = unit.unit_data.type
+	var unit_type_with_spaces = unit.unit_data.type.replace("_", " ")
+	unit_type_value.text = unit_type_with_spaces
 	attack_value.text = str(calculate_final_damage(unit))
 
 #functions related to game state
@@ -438,7 +441,8 @@ func _on_merge():
 			else:
 				instance.position = spawn_point.global_position
 				get_tree().get_root().get_node("game").get_node("player_units").add_child(instance)
-				add_status_message("Conjured " + instance.unit_data.type)
+				var unit_type_with_spaces = instance.unit_data.type.replace("_", " ")
+				add_status_message("Conjured " + unit_type_with_spaces)
 				#merged unit is now spawned, free the others
 				selected.pop_at(selected.find(main_unit))
 				main_unit.queue_free()
