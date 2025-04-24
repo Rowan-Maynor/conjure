@@ -1,8 +1,115 @@
-[gd_scene load_steps=4 format=3 uid="uid://ce0lxn43ir0fs"]
+[gd_scene load_steps=24 format=3 uid="uid://ce0lxn43ir0fs"]
 
 [ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_l6cm7"]
 [ext_resource type="Script" uid="uid://bv7cod3dl6tiy" path="res://scripts/main_menu.gd" id="2_bqqt6"]
 [ext_resource type="Texture2D" uid="uid://cscqkornvqcwj" path="res://assets/ui/menu_background.png" id="3_bqqt6"]
+[ext_resource type="Texture2D" uid="uid://cqatryei3nmra" path="res://assets/ui/menu_background_cloud.png" id="4_wu84c"]
+[ext_resource type="Script" uid="uid://bgr3tmkv0atn4" path="res://scripts/cloud_movement.gd" id="5_8ln24"]
+[ext_resource type="Script" uid="uid://cdd4iwia8qabb" path="res://scripts/cloud_movement_timer.gd" id="6_rtw2f"]
+[ext_resource type="Texture2D" uid="uid://g3lrwljx1dt8" path="res://assets/sprites/units/imp/idle.png" id="7_oa1go"]
+[ext_resource type="Texture2D" uid="uid://b3qyqiyvuonn8" path="res://assets/sprites/units/pup/idle.png" id="8_jk1qb"]
+[ext_resource type="Texture2D" uid="uid://0ih01yrd7owb" path="res://assets/sprites/units/gator/base.png" id="9_5dd4i"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tbmy8"]
+atlas = ExtResource("7_oa1go")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jk1qb"]
+atlas = ExtResource("7_oa1go")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5dd4i"]
+atlas = ExtResource("7_oa1go")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lgwnu"]
+atlas = ExtResource("7_oa1go")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_flqon"]
+atlas = ExtResource("7_oa1go")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rcqid"]
+atlas = ExtResource("7_oa1go")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1ajci"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tbmy8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jk1qb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5dd4i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lgwnu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_flqon")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rcqid")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ajci"]
+atlas = ExtResource("8_jk1qb")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7b55j"]
+atlas = ExtResource("8_jk1qb")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5pajh"]
+atlas = ExtResource("8_jk1qb")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j7ex8"]
+atlas = ExtResource("8_jk1qb")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_a8gd2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1ajci")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7b55j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5pajh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j7ex8")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hstxw"]
+atlas = ExtResource("9_5dd4i")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8egab"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hstxw")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -23,6 +130,7 @@ offset_bottom = 540.0
 texture = ExtResource("3_bqqt6")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
+z_index = 1
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -75,5 +183,62 @@ text = "Options"
 layout_mode = 2
 text = "Quit"
 
+[node name="clouds" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="cloud_1" type="Sprite2D" parent="clouds"]
+position = Vector2(552, 17)
+texture = ExtResource("4_wu84c")
+script = ExtResource("5_8ln24")
+
+[node name="cloud_2" type="Sprite2D" parent="clouds"]
+position = Vector2(694, 84)
+scale = Vector2(2, 2)
+texture = ExtResource("4_wu84c")
+script = ExtResource("5_8ln24")
+
+[node name="cloud_3" type="Sprite2D" parent="clouds"]
+position = Vector2(892, 61)
+texture = ExtResource("4_wu84c")
+script = ExtResource("5_8ln24")
+
+[node name="cloud_4" type="Sprite2D" parent="clouds"]
+position = Vector2(189, 66)
+texture = ExtResource("4_wu84c")
+script = ExtResource("5_8ln24")
+
+[node name="cloud_movement_timer" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+script = ExtResource("6_rtw2f")
+
+[node name="entities" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="imp" type="AnimatedSprite2D" parent="entities"]
+position = Vector2(109, 464)
+scale = Vector2(4, 4)
+sprite_frames = SubResource("SpriteFrames_1ajci")
+autoplay = "default"
+frame_progress = 0.0243963
+
+[node name="pup" type="AnimatedSprite2D" parent="entities"]
+position = Vector2(291, 419)
+scale = Vector2(4, 4)
+sprite_frames = SubResource("SpriteFrames_a8gd2")
+autoplay = "default"
+
+[node name="gator" type="AnimatedSprite2D" parent="entities"]
+position = Vector2(887, 483)
+scale = Vector2(4, 4)
+sprite_frames = SubResource("SpriteFrames_8egab")
+autoplay = "default"
+flip_h = true
+
 [connection signal="pressed" from="VBoxContainer/buttons/VBoxContainer/play_button" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/buttons/VBoxContainer/quit_button" to="." method="_on_quit_button_pressed"]
+[connection signal="timeout" from="cloud_movement_timer" to="cloud_movement_timer" method="_on_timeout"]
