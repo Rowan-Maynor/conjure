@@ -1,8 +1,8 @@
-[gd_scene load_steps=14 format=3 uid="uid://dehvw01ei31jj"]
+[gd_scene load_steps=14 format=3 uid="uid://bkh5jlfdnnlc4"]
 
-[ext_resource type="Script" uid="uid://bmtnkgh3vjrpk" path="res://scripts/unit.gd" id="1_tbdnb"]
-[ext_resource type="Texture2D" uid="uid://dxkfxp2wm4odi" path="res://assets/sprites/units/naga/base.png" id="2_tbdnb"]
-[ext_resource type="Texture2D" uid="uid://cqhs4d0uy1c85" path="res://assets/sprites/units/naga/selection.png" id="3_tbdnb"]
+[ext_resource type="Script" uid="uid://bmtnkgh3vjrpk" path="res://scripts/unit.gd" id="1_ianph"]
+[ext_resource type="Texture2D" uid="uid://dmxkj1ddqhv46" path="res://assets/sprites/units/great_ape/base.png" id="2_ianph"]
+[ext_resource type="Texture2D" uid="uid://bqwtlnvldpnrf" path="res://assets/sprites/units/great_ape/selection.png" id="3_lwe6q"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8ww25"]
 radius = 3.0
@@ -12,27 +12,27 @@ height = 46.0
 radius = 8.0
 height = 26.0
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_odarp"]
-atlas = ExtResource("2_tbdnb")
+[sub_resource type="AtlasTexture" id="AtlasTexture_gevth"]
+atlas = ExtResource("2_ianph")
 region = Rect2(0, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_6xebw"]
-atlas = ExtResource("2_tbdnb")
+[sub_resource type="AtlasTexture" id="AtlasTexture_dux0c"]
+atlas = ExtResource("2_ianph")
 region = Rect2(0, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_oxc52"]
-atlas = ExtResource("2_tbdnb")
+[sub_resource type="AtlasTexture" id="AtlasTexture_n3uha"]
+atlas = ExtResource("2_ianph")
 region = Rect2(0, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_y2lyv"]
-atlas = ExtResource("2_tbdnb")
+[sub_resource type="AtlasTexture" id="AtlasTexture_p8cva"]
+atlas = ExtResource("2_ianph")
 region = Rect2(0, 0, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_iqh78"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_odarp")
+"texture": SubResource("AtlasTexture_gevth")
 }],
 "loop": false,
 "name": &"attack",
@@ -40,7 +40,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_6xebw")
+"texture": SubResource("AtlasTexture_dux0c")
 }],
 "loop": false,
 "name": &"death",
@@ -48,7 +48,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_oxc52")
+"texture": SubResource("AtlasTexture_n3uha")
 }],
 "loop": true,
 "name": &"idle",
@@ -56,7 +56,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_y2lyv")
+"texture": SubResource("AtlasTexture_p8cva")
 }],
 "loop": true,
 "name": &"move",
@@ -82,10 +82,10 @@ border_width_right = 1
 border_width_bottom = 1
 border_color = Color(0, 0, 0, 1)
 
-[node name="Naga" type="CharacterBody2D"]
+[node name="Great_Ape" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 3
-script = ExtResource("1_tbdnb")
+script = ExtResource("1_ianph")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
@@ -114,7 +114,7 @@ autoplay = "idle"
 [node name="selection_sprite" type="Sprite2D" parent="."]
 z_index = -1
 position = Vector2(0, -16)
-texture = ExtResource("3_tbdnb")
+texture = ExtResource("3_lwe6q")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 

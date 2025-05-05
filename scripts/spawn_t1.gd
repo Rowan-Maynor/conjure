@@ -3,13 +3,13 @@ extends Button
 var t1_units: Array[String] = [
 	#"pup",
 	#"imp",
-	"drop",
-	"gator",
-	"guppy",
 	#"ember",
-	#"shrub",
-	#"pebble",
-	#"monkey"
+	#"drop",
+	#"gator",
+	#"guppy",
+	"shrub",
+	"pebble",
+	"monkey"
 ]
 
 @onready var timer: Timer = get_tree().get_root().get_node("game/main_ui/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_cooldown")
