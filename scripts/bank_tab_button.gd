@@ -1,14 +1,14 @@
 extends Button
 
-var shift_ammount = 230
+var shift_ammount: int = 230
 var self_closed_position: Vector2
 var self_open_position: Vector2
 var tab_closed_position: Vector2
 var tab_open_position: Vector2
-var speed = .2
-var is_open = false
-@onready var bank_container = $"../bank_container"
-@onready var sprite = $Sprite2D
+var speed: float = .2
+var is_open: bool = false
+@onready var bank_container: PanelContainer  = $"../bank_container"
+@onready var sprite: Sprite2D = $Sprite2D
 
 func _ready():
 	self_closed_position.x = -20

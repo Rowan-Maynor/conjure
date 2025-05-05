@@ -3,12 +3,12 @@ extends CharacterBody2D
 @export var attack_data: Attack_Data
 
 #current_target will be set by unit that attacks, but kept track of here
-@export var current_target = null
+@export var current_target: CharacterBody2D = null
 
 #this will keep track of how far ABOVE the sprite for the attack to make contact
-var y_diff = 10.0
+var y_diff: float = 10.0
 
-@export var enemy_position = Vector2()
+@export var enemy_position: Vector2
 @export var damage: int
 @export var element: String
 
@@ -38,7 +38,7 @@ func _physics_process(_delta:float) -> void:
 			self.queue_free()
 		
 		elif(position.distance_to(enemy_position) > 3):
-			var target_position = (enemy_position - position).normalized()
+			var target_position: Vector2 = (enemy_position - position).normalized()
 			velocity = target_position * attack_data.speed
 			move_and_slide()
 

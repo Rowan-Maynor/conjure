@@ -1,13 +1,13 @@
 extends Button
 
-var shift_ammount = 120
+var shift_ammount: int = 120
 var self_closed_position: Vector2
 var self_open_position: Vector2
 var tab_closed_position: Vector2
 var tab_open_position: Vector2
-var speed = .2
-var is_open = false
-@onready var mana_buttons_tab = $"../mana_tab_buttons"
+var speed: float = .2
+var is_open: bool = false
+@onready var mana_buttons_tab: PanelContainer = $"../mana_tab_buttons"
 
 func _ready():
 	self_closed_position.x = 912

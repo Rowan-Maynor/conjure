@@ -4,68 +4,68 @@ extends Node2D
 @export var player_data: Player_Data
 
 #resource values
-var lives = 30
-var mana = 25
-var research = 0
-var kills = 0
+var lives: int = 30
+var mana: int = 25
+var research: int = 0
+var kills: int = 0
 
 #bank values
-var bank_mana = 0.0
-var bank_interest = 1.10
-var auto_deposit = 0
-var interest_cost = 10
-var interest_max_upgrades = 5
+var bank_mana: float = 0.0
+var bank_interest: float = 1.10
+var auto_deposit: int = 0
+var interest_cost: int = 10
+var interest_max_upgrades: int = 5
 
 #element research values
-var fire_research_value = 1.0
-var water_research_value = 1.0
-var earth_research_value = 1.0
+var fire_research_value: float = 1.0
+var water_research_value: float = 1.0
+var earth_research_value: float = 1.0
 
 #wave information
 @export var wave_data: Wave_Data
-var wave
-var wave_max = 10
-var waves_remaining
-var default_wave_time = 75
-var wave_time
+var wave: int
+var wave_max: int = 10
+var waves_remaining: int
+var default_wave_time: int = 75
+var wave_time: int
 
 #drag select
-var selected = []
-var drag_start = Vector2.ZERO
-@onready var selection_area = $selection_area
-@onready var selection_collision = $selection_area/CollisionShape2D
+var selected: Array[CharacterBody2D] = []
+var drag_start: Vector2 = Vector2.ZERO
+@onready var selection_area: Area2D = $selection_area
+@onready var selection_collision: CollisionShape2D = $selection_area/CollisionShape2D
 
 #attack_move flag
-var attack_move = false
+var attack_move: bool = false
 
 #cursors
-var cursor_default = load("res://assets/ui/cursor_default.png")
-var cursor_attack = load("res://assets/ui/cursor_attack.png")
-var cursor_stop = load("res://assets/ui/cursor_stop.png")
-var cursor_hold = load("res://assets/ui/cursor_hold.png")
+var cursor_default: Resource = load("res://assets/ui/cursor_default.png")
+var cursor_attack: Resource = load("res://assets/ui/cursor_attack.png")
+var cursor_stop: Resource = load("res://assets/ui/cursor_stop.png")
+var cursor_hold: Resource = load("res://assets/ui/cursor_hold.png")
 
 #selectors for UI elements
-@onready var mana_ui_value = $"main_ui/Main-ui/resource_container/GridContainer/mana_container/mana_value"
-@onready var research_ui_value = $"main_ui/Main-ui/resource_container/GridContainer/research_container/research_value"
-@onready var wave_ui_value = $"main_ui/Main-ui/wave_data_container/HBoxContainer/VBoxContainer/wave_value"
-@onready var time_ui_value = $"main_ui/Main-ui/wave_data_container/HBoxContainer/VBoxContainer/time_value"
-@onready var lives_ui_value = $"main_ui/Main-ui/lives_data_container/VBoxContainer/life_value"
-@onready var text_box_container = $"main_ui/Main-ui/text_box/ScrollContainer/VBoxContainer"
-@onready var bank_mana_value = $"main_ui/Main-ui/bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_data/values/bank_value"
-@onready var bank_interest_value = $"main_ui/Main-ui/bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_data/values/interest_value"
-@onready var auto_deposit_value = $"main_ui/Main-ui/bank_canvas/bank_container/HBoxContainer/VBoxContainer/auto_deposit_data/auto_deposit_value"
+@onready var mana_ui_value: Label = $"main_ui/Main-ui/resource_container/GridContainer/mana_container/mana_value"
+@onready var research_ui_value: Label = $"main_ui/Main-ui/resource_container/GridContainer/research_container/research_value"
+@onready var wave_ui_value: Label = $"main_ui/Main-ui/wave_data_container/HBoxContainer/VBoxContainer/wave_value"
+@onready var time_ui_value: Label = $"main_ui/Main-ui/wave_data_container/HBoxContainer/VBoxContainer/time_value"
+@onready var lives_ui_value: Label = $"main_ui/Main-ui/lives_data_container/VBoxContainer/life_value"
+@onready var text_box_container: VBoxContainer = $"main_ui/Main-ui/text_box/ScrollContainer/VBoxContainer"
+@onready var bank_mana_value: Label = $"main_ui/Main-ui/bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_data/values/bank_value"
+@onready var bank_interest_value: Label = $"main_ui/Main-ui/bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_data/values/interest_value"
+@onready var auto_deposit_value: Label = $"main_ui/Main-ui/bank_canvas/bank_container/HBoxContainer/VBoxContainer/auto_deposit_data/auto_deposit_value"
 
 #button paths
-@onready var basic_summon_button = $"main_ui/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button"
-@onready var basic_study_button = $"main_ui/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button"
-@onready var fire_research_button = $"main_ui/Main-ui/research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_button"
-@onready var water_research_button = $"main_ui/Main-ui/research_tab_buttons/HBoxContainer/VBoxContainer/water_research_button"
-@onready var earth_research_button = $"main_ui/Main-ui/research_tab_buttons/HBoxContainer/VBoxContainer/earth_research_button"
-@onready var bank_deposit_1_button = $"main_ui/Main-ui/bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons/deposit_1_button"
-@onready var bank_deposit_10_button = $"main_ui/Main-ui/bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons/deposit_10_button"
-@onready var bank_withdraw_1_button = $"main_ui/Main-ui/bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons/withdraw_1_button"
-@onready var bank_withdraw_10_button = $"main_ui/Main-ui/bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons/withdraw_10_button"
-@onready var interest_increase_button = $"main_ui/Main-ui/bank_canvas/bank_container/HBoxContainer/VBoxContainer/interest_increase_button"
+@onready var basic_summon_button: Button = $"main_ui/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button"
+@onready var basic_study_button: Button = $"main_ui/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button"
+@onready var fire_research_button: Button = $"main_ui/Main-ui/research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_button"
+@onready var water_research_button: Button = $"main_ui/Main-ui/research_tab_buttons/HBoxContainer/VBoxContainer/water_research_button"
+@onready var earth_research_button: Button = $"main_ui/Main-ui/research_tab_buttons/HBoxContainer/VBoxContainer/earth_research_button"
+@onready var bank_deposit_1_button: Button = $"main_ui/Main-ui/bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons/deposit_1_button"
+@onready var bank_deposit_10_button: Button = $"main_ui/Main-ui/bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons/deposit_10_button"
+@onready var bank_withdraw_1_button: Button = $"main_ui/Main-ui/bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons/withdraw_1_button"
+@onready var bank_withdraw_10_button: Button = $"main_ui/Main-ui/bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons/withdraw_10_button"
+@onready var interest_increase_button: Button = $"main_ui/Main-ui/bank_canvas/bank_container/HBoxContainer/VBoxContainer/interest_increase_button"
 
 #general functions
 func _ready():
@@ -83,7 +83,7 @@ func _input(event: InputEvent) -> void:
 		else:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
 	if(Input.is_action_just_pressed("pause")):
-		var pause_menu = load("res://scenes/pause_menu.tscn").instantiate()
+		var pause_menu: Node = load("res://scenes/pause_menu.tscn").instantiate()
 		get_tree().get_root().get_node("game/pause_menu_canvas").add_child(pause_menu)
 		get_tree().paused = true
 	if(Input.is_action_just_pressed("attack_move")):
@@ -141,7 +141,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			for body in selected:
 				if(body == null):
 					continue
-				var selection_sprite = body.get_node("selection_sprite")
+				var selection_sprite: Sprite2D = body.get_node("selection_sprite")
 				selection_sprite.visible = false
 			selected = []
 			drag_start = get_global_mouse_position()
@@ -157,14 +157,14 @@ func _process(_delta):
 func _draw():
 	if (drag_start == Vector2.ZERO):
 		return
-	var drag_end = get_global_mouse_position()
-	var start_x = drag_start.x
-	var start_y = drag_start.y
-	var end_x = drag_end.x
-	var end_y = drag_end.y
+	var drag_end: Vector2 = get_global_mouse_position()
+	var start_x: float = drag_start.x
+	var start_y: float = drag_start.y
+	var end_x: float = drag_end.x
+	var end_y: float = drag_end.y
 	
-	var line_width = 3.0
-	var line_color = Color.WHITE
+	var line_width: float = 3.0
+	var line_color: Color = Color.WHITE
 	
 	draw_line(Vector2(start_x, start_y), Vector2(end_x, start_y), line_color, line_width)
 	draw_line(Vector2(start_x, start_y), Vector2(start_x, end_y), line_color, line_width)
@@ -172,13 +172,13 @@ func _draw():
 	draw_line(Vector2(start_x, end_y), Vector2(end_x, end_y), line_color, line_width)
 
 func _select_units():
-	var size = abs(get_global_mouse_position() - drag_start)
+	var size: Vector2 = abs(get_global_mouse_position() - drag_start)
 	# this will set the minimum size to 1x1 in case people are trying to select 
 	# individual units instead of a drag select
 	if (size.x == 0 && size.y == 0):
 		size.x = 1.0
 		size.y = 1.0
-	var area_position = _get_rect_start_position()
+	var area_position: Vector2 = _get_rect_start_position()
 	
 	selection_area.global_position = area_position
 	selection_collision.global_position = area_position + size / 2
@@ -187,10 +187,10 @@ func _select_units():
 	await get_tree().create_timer(.04).timeout
 	
 	for area in selection_area.get_overlapping_areas():
-		var body = area.get_parent()
+		var body: CharacterBody2D = area.get_parent()
 		if (body.unit_data.control == "player"):
 			selected.append(body)
-			var selection_sprite = body.get_node("selection_sprite")
+			var selection_sprite: Sprite2D = body.get_node("selection_sprite")
 			selection_sprite.visible = true
 	
 	if(selected.size() != 0):
@@ -203,8 +203,8 @@ func _select_units():
 		$unit_panel.get_node("UnitDataPanel").queue_free()
 
 func _get_rect_start_position():
-	var new_position = Vector2.ZERO
-	var mouse_position = get_global_mouse_position()
+	var new_position: Vector2 = Vector2.ZERO
+	var mouse_position: Vector2 = get_global_mouse_position()
 	
 	if (drag_start.x < mouse_position.x):
 		new_position.x = drag_start.x
@@ -220,7 +220,7 @@ func _get_rect_start_position():
 
 #functions related to unit panel
 func create_unit_panel(unit):
-	var panel_ui_scene = load("res://scenes/ui_components/unit_data_panel.tscn").instantiate()
+	var panel_ui_scene: Node = load("res://scenes/ui_components/unit_data_panel.tscn").instantiate()
 	#this is used to delete the panel when selection removed
 	panel_ui_scene.add_to_group("unit_panel")
 	update_unit_panel_values(unit, panel_ui_scene)
@@ -232,29 +232,29 @@ func create_unit_panel(unit):
 	$"unit_panel/UnitDataPanel/PanelContainer/VBoxContainer/buttons_container/merge_button".connect("merge", _on_merge)
 
 func update_unit_panel(unit):
-	var panel_ui_scene = $unit_panel.get_node("UnitDataPanel")
+	var panel_ui_scene: Control = $unit_panel.get_node("UnitDataPanel")
 	update_unit_panel_values(unit, panel_ui_scene)
 
 func update_unit_panel_values(unit, panel_ui_scene):
 	#update sprite
-	var sprite_node = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_sprite")
-	var unit_sprite = load("res://assets/sprites/units/" + unit.unit_data.type + "/base.png")
+	var sprite_node: TextureRect = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_sprite")
+	var unit_sprite: Resource = load("res://assets/sprites/units/" + unit.unit_data.type + "/base.png")
 	sprite_node.texture = unit_sprite
 	
 	#value selectors
-	var attack_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_left/attack_value")
-	var attack_speed_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_left/attack_speed_value")
-	var range_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_left/range_value")
-	var critical_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_right/critical_value")
-	var speed_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_right/speed_value")
-	var element_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_right/element_value")
-	var unit_type_value = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_type")
+	var attack_value: Label = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_left/attack_value")
+	var attack_speed_value: Label = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_left/attack_speed_value")
+	var range_value: Label = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_left/range_value")
+	var critical_value: Label = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_right/critical_value")
+	var speed_value: Label = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_right/speed_value")
+	var element_value: Label = panel_ui_scene.get_node("PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_right/element_value")
+	var unit_type_value: Label = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_type")
 	attack_speed_value.text = str(unit.unit_data.attack_speed)
 	range_value.text = str(unit.unit_data.attack_range)
 	critical_value.text = "0"
 	speed_value.text = str(unit.unit_data.speed)
 	element_value.text = str(unit.unit_data.element)
-	var unit_type_with_spaces = unit.unit_data.type.replace("_", " ")
+	var unit_type_with_spaces: String = unit.unit_data.type.replace("_", " ")
 	unit_type_value.text = unit_type_with_spaces
 	attack_value.text = str(calculate_final_damage(unit))
 
@@ -278,9 +278,9 @@ func spawn_wave():
 	if(waves_remaining == wave_data.wave_count):
 		add_status_message("Wave " + str(wave) + " starting", Color.hex(0xafafafff))
 	wave_ui_value.text = str(wave)
-	var spawn_areas = get_tree().get_root().get_node("game/enemy_spawn_areas").get_children()
+	var spawn_areas: Array[Node] = get_tree().get_root().get_node("game/enemy_spawn_areas").get_children()
 	for spawn_point in spawn_areas:
-		var unit = load(wave_data.unit).instantiate()
+		var unit: Node = load(wave_data.unit).instantiate()
 		unit.unit_data = load("res://resources/waves/wave_" + str(wave) + "/unit_stats.tres").duplicate()
 		unit.position = spawn_point.position
 		unit.connect("died", _on_died)
@@ -293,7 +293,7 @@ func next_wave():
 	wave += 1
 	wave_time = default_wave_time
 	time_ui_value.text = str(wave_time)
-	var wave_path = "res://resources/waves/wave_" + str(wave) + "/wave_properties.tres"
+	var wave_path: String = "res://resources/waves/wave_" + str(wave) + "/wave_properties.tres"
 	wave_data = load(wave_path)
 	waves_remaining = wave_data.wave_count
 	spawn_wave()
@@ -303,7 +303,7 @@ func next_wave():
 func _on_wave_time_timeout() -> void:
 	if($enemy_units.get_child_count() == 0):
 		if(wave == wave_max):
-			var win_screen = load("res://scenes/win_screen.tscn").instantiate()
+			var win_screen: Node = load("res://scenes/win_screen.tscn").instantiate()
 			get_tree().get_root().get_node("game").get_node("main_ui").add_child(win_screen)
 			return
 		else:
@@ -314,7 +314,7 @@ func _on_wave_time_timeout() -> void:
 					bank_deposit(mana)
 				else:
 					bank_deposit(auto_deposit)
-			var bank_mana_gained = (bank_mana * bank_interest) - bank_mana
+			var bank_mana_gained: float = (bank_mana * bank_interest) - bank_mana
 			bank_mana_gained = snapped(bank_mana_gained, 0.01)
 			add_status_message("Gained " + str(bank_mana_gained) + " bank mana", Color.hex(0x199fffff))
 			bank_mana += bank_mana_gained
@@ -329,19 +329,19 @@ func _on_wave_time_timeout() -> void:
 		time_ui_value.text = str(wave_time)
 	else:
 		$wave_time.stop()
-		var remaining_enemies = $enemy_units
+		var remaining_enemies: Node = $enemy_units
 		lives -= remaining_enemies.get_child_count()
 		add_status_message("lives -" + str(remaining_enemies.get_child_count()), Color.hex(0xff3e3eff))
 		lives_ui_value.text = str(lives)
 		for enemy in remaining_enemies.get_children():
 			enemy.die()
 		if(lives <= 0):
-			var lose_screen = load("res://scenes/lose_screen.tscn").instantiate()
+			var lose_screen: Node = load("res://scenes/lose_screen.tscn").instantiate()
 			get_tree().get_root().get_node("game").get_node("main_ui").add_child(lose_screen)
 			return
 		if(lives > 0):
 			if(wave == wave_max):
-				var win_screen = load("res://scenes/win_screen.tscn").instantiate()
+				var win_screen: Node = load("res://scenes/win_screen.tscn").instantiate()
 				get_tree().get_root().get_node("game").get_node("main_ui").add_child(win_screen)
 				return
 			else:
@@ -351,7 +351,7 @@ func _on_wave_time_timeout() -> void:
 						bank_deposit(mana)
 					else:
 						bank_deposit(auto_deposit)
-				var bank_mana_gained = (bank_mana * bank_interest) - bank_mana
+				var bank_mana_gained: float = (bank_mana * bank_interest) - bank_mana
 				bank_mana_gained = snapped(bank_mana_gained, 0.01)
 				add_status_message("Gained " + str(bank_mana_gained) + " bank mana", Color.hex(0x199fffff))
 				bank_mana += bank_mana_gained
@@ -394,18 +394,18 @@ func _on_died(_body):
 func _on_merge():
 	if(selected == []):
 		return
-	var selected_copy = selected.duplicate()
+	var selected_copy: Array[CharacterBody2D] = selected.duplicate()
 	#takes last unit in selection, pop also removes it from the list itself for later checks
 	for i in selected_copy:
-		var main_unit = selected_copy.pop_back()
+		var main_unit: CharacterBody2D = selected_copy.pop_back()
 		#list of units found for the recipe
-		var input_units = []
+		var input_units: Array[CharacterBody2D] = []
 		#keeps track of which recipe was successful
-		var recipe_unit
+		var recipe_unit: String
 		for key in main_unit.recipe_data.list:
 			recipe_unit = key
-			var merge_possible = true
-			var unit_found = false
+			var merge_possible: bool = true
+			var unit_found: bool = false
 			for unit in main_unit.recipe_data.list[key]:
 				for selected_unit in selected_copy:
 					#loops through all selected units to see if any of them match the currently
@@ -429,19 +429,19 @@ func _on_merge():
 				input_units = []
 		# input units will be present on successful recipe
 		if(input_units != []):
-			var unit_scene_path = "res://scenes/units/" + recipe_unit + ".tscn"
-			var instance = load(unit_scene_path).instantiate()
-			var unit_data_path = "res://resources/units/" + recipe_unit + "/" + recipe_unit + ".tres"
+			var unit_scene_path: String = "res://scenes/units/" + recipe_unit + ".tscn"
+			var instance: Node = load(unit_scene_path).instantiate()
+			var unit_data_path: String = "res://resources/units/" + recipe_unit + "/" + recipe_unit + ".tres"
 			instance.unit_data = load(unit_data_path).duplicate()
-			var unit_recipe_path = "res://resources/units/" + recipe_unit + "/" + recipe_unit + "_recipe.tres"
+			var unit_recipe_path: String = "res://resources/units/" + recipe_unit + "/" + recipe_unit + "_recipe.tres"
 			instance.recipe_data = load(unit_recipe_path).duplicate()
-			var spawn_point = find_open_spawn_point()
+			var spawn_point: Node = find_open_spawn_point()
 			if(spawn_point == null):
 				add_status_message("No free space", Color.hex(0xff3e3eff))
 			else:
 				instance.position = spawn_point.global_position
 				get_tree().get_root().get_node("game").get_node("player_units").add_child(instance)
-				var unit_type_with_spaces = instance.unit_data.type.replace("_", " ")
+				var unit_type_with_spaces: String = instance.unit_data.type.replace("_", " ")
 				add_status_message("Conjured " + unit_type_with_spaces)
 				#merged unit is now spawned, free the others
 				selected.pop_at(selected.find(main_unit))
@@ -457,12 +457,12 @@ func _on_merge():
 
 #helper functions
 func add_status_message(message, color = Color.hex(0xffffffff)):
-	var label = Label.new()
+	var label: Label = Label.new()
 	label.add_theme_font_size_override("font_size", 16)
 	label.set("theme_override_colors/font_color", color)
 	label.text = message
 	label.set_autowrap_mode(TextServer.AUTOWRAP_WORD)
-	var separator = HSeparator.new()
+	var separator: HSeparator = HSeparator.new()
 	if(text_box_container.get_child_count() != 0):
 		text_box_container.add_child(separator)
 	text_box_container.add_child(label)
@@ -472,9 +472,9 @@ func add_status_message(message, color = Color.hex(0xffffffff)):
 		text_box_container.get_child(1).queue_free()
 
 func find_open_spawn_point():
-	var spawn_areas = get_tree().get_root().get_node("game/player_spawn_areas").get_children()
+	var spawn_areas: Array[Node] = get_tree().get_root().get_node("game/player_spawn_areas").get_children()
 	for area in spawn_areas:
-		var units = area.has_overlapping_bodies()
+		var units: bool = area.has_overlapping_bodies()
 		if(units == false):
 			return area
 	return null
@@ -542,7 +542,7 @@ func update_research_buttons():
 		earth_research_button.disabled = false
 
 func calculate_final_damage(unit):
-	var final_damage = unit.unit_data.damage
+	var final_damage: int = unit.unit_data.damage
 	
 	#apply research damage increase
 	if(unit.unit_data.element == "fire"):
@@ -567,7 +567,7 @@ func bank_deposit(value):
 
 func bank_withdraw(value):
 	if(value > bank_mana):
-		var remaining_bank = roundi(bank_mana)
+		var remaining_bank: int = roundi(bank_mana)
 		bank_mana -= remaining_bank
 		mana += remaining_bank
 		update_mana_buttons()
@@ -595,7 +595,7 @@ func increase_interest():
 		return
 	if(mana < interest_cost):
 		return
-	var current_interest_cost = interest_cost
+	var current_interest_cost: int = interest_cost
 	interest_max_upgrades -= 1
 	bank_interest += 0.01
 	interest_cost += 5

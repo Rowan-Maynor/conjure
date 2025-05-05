@@ -1,8 +1,8 @@
 extends Sprite2D
 
 var new_position: Vector2
-var move_distance = 10
-var speed = .005
+var move_distance: int = 10
+var speed: float = .005
 var starting_position: Vector2
 
 func _ready() -> void:

@@ -1,4 +1,4 @@
 extends Resource
 class_name Recipe_Data
 
-@export var list = {}
+@export var list: Dictionary = {}

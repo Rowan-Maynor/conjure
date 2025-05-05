@@ -1,6 +1,6 @@
 extends Timer
 
-@onready var clouds = $"../clouds"
+@onready var clouds: Control = $"../clouds"
 
 func _on_timeout() -> void:
 	for cloud in clouds.get_children():
