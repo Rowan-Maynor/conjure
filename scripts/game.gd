@@ -567,7 +567,7 @@ func bank_deposit(value):
 
 func bank_withdraw(value):
 	if(value > bank_mana):
-		var remaining_bank: int = roundi(bank_mana)
+		var remaining_bank: int = floori(bank_mana)
 		bank_mana -= remaining_bank
 		mana += remaining_bank
 		update_mana_buttons()
