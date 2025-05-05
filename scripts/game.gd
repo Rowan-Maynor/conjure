@@ -24,7 +24,8 @@ var earth_research_value: float = 1.0
 #wave information
 @export var wave_data: Wave_Data
 var wave: int
-var wave_max: int = 10
+var wave_scale_mult: float = 1.0
+var wave_max: int = 20
 var waves_remaining: int
 var default_wave_time: int = 75
 var wave_time: int
@@ -261,8 +262,8 @@ func update_unit_panel_values(unit, panel_ui_scene):
 #functions related to game state
 func start_game():
 	$"main_ui/Main-ui/start_game_button".queue_free()
-	wave_data = load("res://resources/waves/wave_1/wave_properties.tres")
 	wave = 1
+	wave_data = load("res://resources/waves/wave_" + str(wave) + "/wave_properties.tres")
 	waves_remaining = wave_data.wave_count
 	wave_time = default_wave_time
 	time_ui_value.text = str(wave_time)
@@ -282,6 +283,12 @@ func spawn_wave():
 	for spawn_point in spawn_areas:
 		var unit: Node = load(wave_data.unit).instantiate()
 		unit.unit_data = load("res://resources/waves/wave_" + str(wave) + "/unit_stats.tres").duplicate()
+		#use a new variable so it can be modified without affecting the global
+		var wave_scale_mult_final: float = wave_scale_mult
+		#add an extra 20% hp on boss waves
+		if(wave % 10 == 0):
+			wave_scale_mult_final += .2
+		unit.unit_data.health = wave * wave_scale_mult_final
 		unit.position = spawn_point.position
 		unit.connect("died", _on_died)
 		get_tree().get_root().get_node("game").get_node("enemy_units").add_child(unit)
@@ -291,6 +298,8 @@ func spawn_wave():
 
 func next_wave():
 	wave += 1
+	if (wave % 5 == 0):
+		wave_scale_mult += .2
 	wave_time = default_wave_time
 	time_ui_value.text = str(wave_time)
 	var wave_path: String = "res://resources/waves/wave_" + str(wave) + "/wave_properties.tres"
