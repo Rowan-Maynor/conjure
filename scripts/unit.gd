@@ -4,21 +4,21 @@ extends CharacterBody2D
 @export var recipe_data: Recipe_Data
 
 #targeting
-var current_command = "idle"
-var current_target = null
+var current_command: String = "idle"
+var current_target: CharacterBody2D = null
 
 #this is for cases where the attack starts, but target exits attack range, resetting current_target
-var attacked_target = null
+var attacked_target: CharacterBody2D = null
 
 #navigation
-var move_position = Vector2()
-var target_position = Vector2()
-var chase = false
-@onready var nav = $NavigationAgent2D
-var enemy_direction = "down"
+var move_position: Vector2
+var target_position: Vector2
+var chase: bool = false
+@onready var nav: NavigationAgent2D = $NavigationAgent2D
+var enemy_direction: String = "down"
 
 #used to prevent animation overlap
-var is_attacking = false
+var is_attacking: bool = false
 
 #general functions
 func _ready():
@@ -68,8 +68,8 @@ func _physics_process(_delta: float) -> void:
 			chase = false
 	#resolves enemy movement if they are more than 3 pixels from target
 	if (position.distance_to(target_position) > 3 && unit_data.control == "enemy"):
-		var next_nav_location = nav.get_next_path_position()
-		var nav_target_position = (next_nav_location - position).normalized()
+		var next_nav_location: Vector2 = nav.get_next_path_position()
+		var nav_target_position: Vector2 = (next_nav_location - position).normalized()
 		velocity = nav_target_position * unit_data.speed
 		if(is_attacking == false):
 			handle_anim(nav_target_position)
@@ -139,28 +139,28 @@ func update_target_position(target):
 
 func enemy_change_direction(direction):
 	#random number used to make enemy path fell less linear
-	var rng = RandomNumberGenerator.new()
-	var variance = 20.0
+	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+	var variance: float = 20.0
 	if(direction == "right"):
-		var path_node = get_tree().get_root().get_node("game/enemy_path_points/bottom_right")
+		var path_node: Marker2D = get_tree().get_root().get_node("game/enemy_path_points/bottom_right")
 		target_position = path_node.position
 		target_position.x += rng.randf_range(-variance, variance)
 		target_position.y += rng.randf_range(-variance, variance)
 		update_target_position(target_position)
 	if(direction == "up"):
-		var path_node = get_tree().get_root().get_node("game/enemy_path_points/top_right")
+		var path_node: Marker2D = get_tree().get_root().get_node("game/enemy_path_points/top_right")
 		target_position = path_node.position
 		target_position.x += rng.randf_range(-variance, variance)
 		target_position.y += rng.randf_range(-variance, variance)
 		update_target_position(target_position)
 	if(direction == "left"):
-		var path_node = get_tree().get_root().get_node("game/enemy_path_points/top_left")
+		var path_node: Marker2D = get_tree().get_root().get_node("game/enemy_path_points/top_left")
 		target_position = path_node.position
 		target_position.x += rng.randf_range(-variance, variance)
 		target_position.y += rng.randf_range(-variance, variance)
 		update_target_position(target_position)
 	if(direction == "down"):
-		var path_node = get_tree().get_root().get_node("game/enemy_path_points/bottom_left")
+		var path_node: Marker2D = get_tree().get_root().get_node("game/enemy_path_points/bottom_left")
 		target_position = path_node.position
 		target_position.x += rng.randf_range(-variance, variance)
 		target_position.y += rng.randf_range(-variance, variance)
@@ -210,8 +210,8 @@ func _on_attack_range_body_exited(body: Node2D) -> void:
 			reset_target()
 
 func find_new_target():
-	var units = $attack_range.get_overlapping_bodies()
-	var enemy_units = []
+	var units: Array[Node2D] = $attack_range.get_overlapping_bodies()
+	var enemy_units: Array[CharacterBody2D] = []
 	for unit in units:
 		#always filter out dead targets that are lingering in animation
 		if (unit.unit_data.control == "enemy" && unit.unit_data.health > 0):
@@ -239,7 +239,7 @@ func _on_died(body):
 #functions related to handleing unit attacks
 func _on_attack_speed_timeout() -> void:
 	$attack_speed.stop()
-	var units_in_range = $attack_range.get_overlapping_bodies()
+	var units_in_range: Array[Node2D] = $attack_range.get_overlapping_bodies()
 	if(current_target != null && units_in_range.has(current_target)):
 		attack()
 	elif(current_command == "hold" || current_command == "idle"):
@@ -254,7 +254,7 @@ func _on_attack_contact(body, damage, element):
 
 func _on_attack_spawn_delay_timeout() -> void:
 	if(attacked_target != null && is_instance_valid(attacked_target)):
-		var attack_instance = load(
+		var attack_instance: Node = load(
 			"res://scenes/attacks/" + unit_data.attack + ".tscn").instantiate()
 		attack_instance.attack_data = load(
 			"res://resources/attacks/" + unit_data.attack + ".tres").duplicate()
@@ -281,7 +281,7 @@ func find_lowest_health_target(targets):
 	#TODO probably gotta change lowest to nearest target
 	if(targets == null):
 		return
-	var lowest_health_target = null
+	var lowest_health_target: CharacterBody2D = null
 	for target in targets:
 		if(target.unit_data.control == "player"):
 			continue
@@ -293,9 +293,9 @@ func find_lowest_health_target(targets):
 
 #damage functions
 func handle_damage(value, element):
-	var is_element_advantage = check_for_element_advantage(element)
-	var is_element_disadvantage = check_for_element_disadvantage(element)
-	var final_damage = value
+	var is_element_advantage: bool = check_for_element_advantage(element)
+	var is_element_disadvantage: bool = check_for_element_disadvantage(element)
+	var final_damage: int = value
 	
 	#apply research damage increase
 	if(element == "fire"):
@@ -361,16 +361,16 @@ func check_for_element_disadvantage(element):
 			return false
 
 func damage_number(value: int, hit_position: Vector2, is_critical = false):
-	var number_label = Label.new()
+	var number_label: Label = Label.new()
 	number_label.position = hit_position
 	number_label.text = str(value)
 	number_label.z_index = 5
 	
-	var color = Color.hex(0xffffffff)
+	var color: Color = Color.hex(0xffffffff)
 	if(is_critical == true):
 		color = Color.hex(0xff3e3eff)
 		
-	var label_theme = load("res://theme.tres")
+	var label_theme: Resource = load("res://theme.tres")
 	
 	number_label.theme = label_theme
 	number_label.add_theme_font_size_override("font_size", 16)
@@ -381,7 +381,7 @@ func damage_number(value: int, hit_position: Vector2, is_critical = false):
 	var tween_position: Vector2
 	tween_position.x = number_label.position.x
 	tween_position.y = number_label.position.y - 24
-	var tween = get_tree().create_tween()
+	var tween: Tween = get_tree().create_tween()
 	tween.set_parallel(true)
 	tween.tween_property(number_label, "position", tween_position, 1)
 	tween.tween_callback(number_label.queue_free).set_delay(1)

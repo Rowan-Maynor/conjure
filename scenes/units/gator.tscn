@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bmtnkgh3vjrpk" path="res://scripts/unit.gd" id="1_jiv6x"]
 [ext_resource type="Texture2D" uid="uid://0ih01yrd7owb" path="res://assets/sprites/units/gator/base.png" id="2_33f51"]
-[ext_resource type="Texture2D" uid="uid://bd5ey7cewwd4" path="res://assets/sprites/selection2.png" id="6_fe005"]
+[ext_resource type="Texture2D" uid="uid://0qy3um0qrqwl" path="res://assets/sprites/units/gator/selection.png" id="3_33f51"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_33f51"]
 radius = 3.0
@@ -114,9 +114,8 @@ offset = Vector2(-0.5, 0)
 [node name="selection_sprite" type="Sprite2D" parent="."]
 visible = false
 z_index = -1
-position = Vector2(0.999994, -7)
-scale = Vector2(1.9375, 1.0625)
-texture = ExtResource("6_fe005")
+position = Vector2(0, -7)
+texture = ExtResource("3_33f51")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 

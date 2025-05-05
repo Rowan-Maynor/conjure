@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Unit_Data" load_steps=2 format=3 uid="uid://dj8mo22h2peon"]
+
+[ext_resource type="Script" uid="uid://db2pd7vctcukq" path="res://resources/resource_scripts/unit_data.gd" id="1_f5rb7"]
+
+[resource]
+script = ExtResource("1_f5rb7")
+damage = 35
+attack_range = 200
+attack_speed = 2.0
+health = 10
+speed = 100
+element = "earth"
+type = "great_ape"
+control = "player"
+attack = "dirt"
+metadata/_custom_type_script = "uid://db2pd7vctcukq"

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bmtnkgh3vjrpk" path="res://scripts/unit.gd" id="1_6qvqi"]
 [ext_resource type="Texture2D" uid="uid://c62chhksq4ce7" path="res://assets/sprites/units/hell_hound/base.png" id="2_6qvqi"]
-[ext_resource type="Texture2D" uid="uid://bd5ey7cewwd4" path="res://assets/sprites/selection2.png" id="3_s1swq"]
+[ext_resource type="Texture2D" uid="uid://c3y6vtpbolv23" path="res://assets/sprites/units/hell_hound/selection.png" id="3_6qvqi"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8ww25"]
 radius = 3.0
@@ -114,9 +114,8 @@ autoplay = "idle"
 [node name="selection_sprite" type="Sprite2D" parent="."]
 visible = false
 z_index = -1
-position = Vector2(2.14577e-06, -8.5)
-scale = Vector2(3.3125, 1.28125)
-texture = ExtResource("3_s1swq")
+position = Vector2(0, -16)
+texture = ExtResource("3_6qvqi")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 

@@ -6,4 +6,8 @@
 script = ExtResource("1_d2gni")
 unit = "res://scenes/units/drop.tscn"
 wave_count = 3
+health = 0
+speed = 80
+element = "water"
+control = "enemy"
 metadata/_custom_type_script = "uid://umr4b0y202fc"

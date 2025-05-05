@@ -1,8 +1,8 @@
 extends Button
 
-var cost = 10
-var max_upgrades = 10
-@onready var timer = get_tree().get_root().get_node("game/main_ui/Main-ui/research_tab_buttons/HBoxContainer/VBoxContainer/earth_research_cooldown")
+var cost: int = 10
+var max_upgrades: int = 10
+@onready var timer: Timer = get_tree().get_root().get_node("game/main_ui/Main-ui/research_tab_buttons/HBoxContainer/VBoxContainer/earth_research_cooldown")
 
 func _on_pressed() -> void:
 	upgrade()
@@ -16,9 +16,9 @@ func upgrade():
 	get_tree().get_root().get_node("game").earth_research_value += .1
 	get_tree().get_root().get_node("game").spend_research(cost)
 	cost += 1
-	var damage_percentage = int(get_tree().get_root().get_node("game").earth_research_value * 100)
-	var message = "Earth research damage increased to " + str(damage_percentage) + "%"
-	var color = Color.hex(0xa778e8ff)
+	var damage_percentage: int = int(get_tree().get_root().get_node("game").earth_research_value * 100)
+	var message: String = "Earth research damage increased to " + str(damage_percentage) + "%"
+	var color: Color = Color.hex(0xa778e8ff)
 	get_tree().get_root().get_node("game").add_status_message(message, color)
 	max_upgrades -= 1
 
@@ -26,7 +26,7 @@ func upgrade():
 	get_tree().get_root().get_node("game").update_research_buttons()
 
 	if(get_tree().get_root().get_node("game/unit_panel").has_node("UnitDataPanel")):
-		var unit = get_tree().get_root().get_node("game").selected.back()
+		var unit: CharacterBody2D = get_tree().get_root().get_node("game").selected.back()
 		get_tree().get_root().get_node("game").update_unit_panel(unit)
 
 func _on_earth_research_cooldown_timeout() -> void:

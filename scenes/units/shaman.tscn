@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bmtnkgh3vjrpk" path="res://scripts/unit.gd" id="1_0dmgq"]
 [ext_resource type="Texture2D" uid="uid://b01o510a48jsd" path="res://assets/sprites/units/shaman/base.png" id="2_0dmgq"]
-[ext_resource type="Texture2D" uid="uid://bd5ey7cewwd4" path="res://assets/sprites/selection2.png" id="3_kt801"]
+[ext_resource type="Texture2D" uid="uid://dso76epxwvinh" path="res://assets/sprites/units/shaman/selection.png" id="3_0dmgq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qvgk5"]
 radius = 7.0
@@ -113,9 +113,8 @@ autoplay = "idle"
 [node name="selection_sprite" type="Sprite2D" parent="."]
 visible = false
 z_index = -1
-position = Vector2(1, -6.5)
-scale = Vector2(1.6875, 1.15625)
-texture = ExtResource("3_kt801")
+position = Vector2(0, -7)
+texture = ExtResource("3_0dmgq")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 

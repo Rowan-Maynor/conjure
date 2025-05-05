@@ -1,13 +1,13 @@
 extends Button
 
-var shift_ammount = 65
+var shift_ammount: int = 65
 var self_closed_position: Vector2
 var self_open_position: Vector2
 var tab_closed_position: Vector2
 var tab_open_position: Vector2
-var speed = .2
-var is_open = false
-@onready var research_buttons_tab = $"../research_tab_buttons"
+var speed: float = .2
+var is_open: bool = false
+@onready var research_buttons_tab: PanelContainer = $"../research_tab_buttons"
 
 func _ready():
 	self_closed_position.x = 912

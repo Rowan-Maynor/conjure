@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://dxdj2k5q2q2lh" path="res://assets/sprites/units/pup/death.png" id="3_nvwyt"]
 [ext_resource type="Texture2D" uid="uid://b3qyqiyvuonn8" path="res://assets/sprites/units/pup/idle.png" id="4_c8y6k"]
 [ext_resource type="Texture2D" uid="uid://bj5opsff1mwa5" path="res://assets/sprites/units/pup/move.png" id="5_nn61e"]
-[ext_resource type="Texture2D" uid="uid://bd5ey7cewwd4" path="res://assets/sprites/selection2.png" id="6_5t10h"]
+[ext_resource type="Texture2D" uid="uid://kd3ksjbvjk3q" path="res://assets/sprites/units/pup/selection.png" id="6_ksdo6"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qvgk5"]
 radius = 7.0
@@ -263,7 +263,7 @@ offset = Vector2(-0.5, 0)
 visible = false
 z_index = -1
 position = Vector2(0, -7)
-texture = ExtResource("6_5t10h")
+texture = ExtResource("6_ksdo6")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
