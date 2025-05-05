@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://sq4ebatkssjf" path="res://assets/sprites/units/hound/death.png" id="3_fu61v"]
 [ext_resource type="Texture2D" uid="uid://cj758ilhfmm1f" path="res://assets/sprites/units/hound/idle.png" id="4_4hj4f"]
 [ext_resource type="Texture2D" uid="uid://cuwxavcgmijg1" path="res://assets/sprites/units/hound/move.png" id="5_a8soo"]
-[ext_resource type="Texture2D" uid="uid://bd5ey7cewwd4" path="res://assets/sprites/selection2.png" id="6_ru6n7"]
+[ext_resource type="Texture2D" uid="uid://bgbx6kl7l22no" path="res://assets/sprites/units/hound/selection.png" id="6_nbxmk"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nbxmk"]
 radius = 3.0
@@ -278,9 +278,8 @@ offset = Vector2(-0.5, 0)
 [node name="selection_sprite" type="Sprite2D" parent="."]
 visible = false
 z_index = -1
-position = Vector2(-2.08616e-06, -6.75)
-scale = Vector2(1.625, 1.04688)
-texture = ExtResource("6_ru6n7")
+position = Vector2(0, -7)
+texture = ExtResource("6_nbxmk")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 

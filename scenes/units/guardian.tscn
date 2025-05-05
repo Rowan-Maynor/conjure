@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bmtnkgh3vjrpk" path="res://scripts/unit.gd" id="1_281xe"]
 [ext_resource type="Texture2D" uid="uid://dx58xgmsqtdau" path="res://assets/sprites/units/guardian/base.png" id="2_281xe"]
-[ext_resource type="Texture2D" uid="uid://bd5ey7cewwd4" path="res://assets/sprites/selection2.png" id="3_7eryx"]
+[ext_resource type="Texture2D" uid="uid://djxrej23btu6c" path="res://assets/sprites/units/guardian/selection.png" id="3_281xe"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qvgk5"]
 radius = 7.0
@@ -113,9 +113,8 @@ autoplay = "idle"
 [node name="selection_sprite" type="Sprite2D" parent="."]
 visible = false
 z_index = -1
-position = Vector2(0.499999, -7)
-scale = Vector2(1.40625, 1.1875)
-texture = ExtResource("3_7eryx")
+position = Vector2(0, -7)
+texture = ExtResource("3_281xe")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 

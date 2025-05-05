@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bmtnkgh3vjrpk" path="res://scripts/unit.gd" id="1_rl8tn"]
 [ext_resource type="Texture2D" uid="uid://c3hrdspg5ggxk" path="res://assets/sprites/units/shrub/base.png" id="2_2mk6l"]
-[ext_resource type="Texture2D" uid="uid://bd5ey7cewwd4" path="res://assets/sprites/selection2.png" id="6_mmw40"]
+[ext_resource type="Texture2D" uid="uid://3wjjhsueoxlu" path="res://assets/sprites/units/shrub/selection.png" id="3_2mk6l"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qvgk5"]
 radius = 7.0
@@ -115,8 +115,7 @@ offset = Vector2(-0.5, 0)
 visible = false
 z_index = -1
 position = Vector2(-9.53674e-07, -7)
-scale = Vector2(1.1875, 1)
-texture = ExtResource("6_mmw40")
+texture = ExtResource("3_2mk6l")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 

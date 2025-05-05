@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bd5ey7cewwd4"
-path="res://.godot/imported/selection2.png-1e59037ceb2cbe971174a46e0fe9b890.ctex"
+uid="uid://o3agb0wald33"
+path="res://.godot/imported/selection.png-0022346c0e27d054bf157af0f08668b2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/selection2.png"
-dest_files=["res://.godot/imported/selection2.png-1e59037ceb2cbe971174a46e0fe9b890.ctex"]
+source_file="res://assets/sprites/units/pebble/selection.png"
+dest_files=["res://.godot/imported/selection.png-0022346c0e27d054bf157af0f08668b2.ctex"]
 
 [params]
 

@@ -1,12 +1,12 @@
 extends Button
 
 var t1_units: Array[String] = [
-	#"pup",
-	#"imp",
-	#"ember",
-	#"drop",
-	#"gator",
-	#"guppy",
+	"pup",
+	"imp",
+	"ember",
+	"drop",
+	"gator",
+	"guppy",
 	"shrub",
 	"pebble",
 	"monkey"

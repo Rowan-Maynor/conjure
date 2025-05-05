@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bmtnkgh3vjrpk" path="res://scripts/unit.gd" id="1_pe1mv"]
 [ext_resource type="Texture2D" uid="uid://cm4a7d53s5cgb" path="res://assets/sprites/units/ember/base.png" id="2_byxnq"]
-[ext_resource type="Texture2D" uid="uid://bd5ey7cewwd4" path="res://assets/sprites/selection2.png" id="6_x821d"]
+[ext_resource type="Texture2D" uid="uid://b3wndns3qehqf" path="res://assets/sprites/units/ember/selection.png" id="3_byxnq"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mj4pc"]
 radius = 3.0
@@ -116,7 +116,7 @@ offset = Vector2(-0.5, 0)
 visible = false
 z_index = -1
 position = Vector2(0, -7)
-texture = ExtResource("6_x821d")
+texture = ExtResource("3_byxnq")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
