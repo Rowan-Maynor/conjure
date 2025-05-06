@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Wave_Data" load_steps=2 format=3 uid="uid://bhbo080tgntp8"]
+
+[ext_resource type="Script" uid="uid://umr4b0y202fc" path="res://resources/resource_scripts/wave_data.gd" id="1_6k3av"]
+
+[resource]
+script = ExtResource("1_6k3av")
+unit = "res://scenes/units/gator.tscn"
+wave_count = 6
+metadata/_custom_type_script = "uid://umr4b0y202fc"
