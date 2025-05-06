@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Unit_Data" load_steps=2 format=3 uid="uid://dhh8inxd0r4aw"]
+
+[ext_resource type="Script" uid="uid://db2pd7vctcukq" path="res://resources/resource_scripts/unit_data.gd" id="1_k5rk2"]
+
+[resource]
+script = ExtResource("1_k5rk2")
+damage = 0
+attack_range = 0
+attack_speed = 1.0
+health = 0
+speed = 200
+element = "water"
+type = "guppy"
+control = "enemy"
+attack = ""
+metadata/_custom_type_script = "uid://db2pd7vctcukq"

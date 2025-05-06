@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Wave_Data" load_steps=2 format=3 uid="uid://co2m3bud4p2sv"]
+
+[ext_resource type="Script" uid="uid://umr4b0y202fc" path="res://resources/resource_scripts/wave_data.gd" id="1_rmoy3"]
+
+[resource]
+script = ExtResource("1_rmoy3")
+unit = "res://scenes/units/idol.tscn"
+wave_count = 6
+metadata/_custom_type_script = "uid://umr4b0y202fc"
