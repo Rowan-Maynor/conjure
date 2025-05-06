@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Unit_Data" load_steps=2 format=3 uid="uid://bu1ltsuggcue3"]
+
+[ext_resource type="Script" uid="uid://db2pd7vctcukq" path="res://resources/resource_scripts/unit_data.gd" id="1_c7m4o"]
+
+[resource]
+script = ExtResource("1_c7m4o")
+damage = 0
+attack_range = 0
+attack_speed = 1.0
+health = 0
+speed = 80
+element = "water"
+type = "shaman"
+control = "enemy"
+attack = ""
+metadata/_custom_type_script = "uid://db2pd7vctcukq"

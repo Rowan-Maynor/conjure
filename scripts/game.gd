@@ -25,7 +25,7 @@ var earth_research_value: float = 1.0
 @export var wave_data: Wave_Data
 var wave: int
 var wave_scale_mult: float = 1.0
-var wave_max: int = 20
+var wave_max: int = 50
 var waves_remaining: int
 var default_wave_time: int = 75
 var wave_time: int
