@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bt0euvkcwgb5g"]
+[gd_scene load_steps=13 format=3 uid="uid://bt0euvkcwgb5g"]
 
 [ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_q772p"]
 [ext_resource type="Texture2D" uid="uid://c3hrdspg5ggxk" path="res://assets/sprites/units/shrub/base.png" id="2_ypfds"]
@@ -6,6 +6,11 @@
 [ext_resource type="Texture2D" uid="uid://by14vhv3y7icb" path="res://assets/ui/merge_icon.png" id="3_c8xa7"]
 [ext_resource type="Script" uid="uid://i66x3auk3nqu" path="res://scripts/merge.gd" id="4_bwqth"]
 [ext_resource type="Texture2D" uid="uid://cxmqxh2veh5mk" path="res://assets/ui/stop_icon.png" id="4_o56ib"]
+[ext_resource type="Texture2D" uid="uid://bc2wytgy1ceno" path="res://assets/ui/attack_icon.png" id="6_kfdi5"]
+[ext_resource type="Script" uid="uid://jnydkw8lsq0k" path="res://scripts/panel_attack_button.gd" id="7_urymd"]
+[ext_resource type="Script" uid="uid://dr2moqk8nevu4" path="res://scripts/panel_stop_button.gd" id="9_urymd"]
+[ext_resource type="Texture2D" uid="uid://ho5dssrjtbct" path="res://assets/ui/hold_icon.png" id="9_xqcfm"]
+[ext_resource type="Script" uid="uid://cr0pskh2qibe6" path="res://scripts/panel_hold_button.gd" id="11_xqcfm"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_y614m"]
 texture = ExtResource("3_bwqth")
@@ -186,21 +191,24 @@ layout_mode = 2
 layout_mode = 2
 columns = 3
 
+[node name="attack_button" type="Button" parent="PanelContainer/VBoxContainer/buttons_container/GridContainer"]
+custom_minimum_size = Vector2(25, 25)
+layout_mode = 2
+icon = ExtResource("6_kfdi5")
+icon_alignment = 1
+script = ExtResource("7_urymd")
+
 [node name="stop_button" type="Button" parent="PanelContainer/VBoxContainer/buttons_container/GridContainer"]
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 icon = ExtResource("4_o56ib")
-icon_alignment = 1
+script = ExtResource("9_urymd")
 
 [node name="hold_button" type="Button" parent="PanelContainer/VBoxContainer/buttons_container/GridContainer"]
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
-icon = ExtResource("4_o56ib")
-
-[node name="attack_button" type="Button" parent="PanelContainer/VBoxContainer/buttons_container/GridContainer"]
-custom_minimum_size = Vector2(25, 25)
-layout_mode = 2
-icon = ExtResource("4_o56ib")
+icon = ExtResource("9_xqcfm")
+script = ExtResource("11_xqcfm")
 
 [node name="infuse_1" type="Button" parent="PanelContainer/VBoxContainer/buttons_container/GridContainer"]
 custom_minimum_size = Vector2(25, 25)
@@ -216,3 +224,7 @@ icon = ExtResource("4_o56ib")
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 icon = ExtResource("4_o56ib")
+
+[connection signal="pressed" from="PanelContainer/VBoxContainer/buttons_container/GridContainer/attack_button" to="PanelContainer/VBoxContainer/buttons_container/GridContainer/attack_button" method="_on_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/buttons_container/GridContainer/stop_button" to="PanelContainer/VBoxContainer/buttons_container/GridContainer/stop_button" method="_on_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/buttons_container/GridContainer/hold_button" to="PanelContainer/VBoxContainer/buttons_container/GridContainer/hold_button" method="_on_pressed"]

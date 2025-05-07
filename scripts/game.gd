@@ -88,9 +88,7 @@ func _input(event: InputEvent) -> void:
 		get_tree().get_root().get_node("game/pause_menu_canvas").add_child(pause_menu)
 		get_tree().paused = true
 	if(Input.is_action_just_pressed("attack_move")):
-		if(attack_move == false):
-			attack_move = true
-			Input.set_custom_mouse_cursor(cursor_attack)
+		handle_attack_move()
 	if(Input.is_action_just_pressed("right_click")):
 		if(attack_move == true):
 			attack_move = false
@@ -102,27 +100,9 @@ func _input(event: InputEvent) -> void:
 			unit.current_command = "move"
 			unit.move_position = get_global_mouse_position()
 	if(Input.is_action_just_pressed("stop_movement")):
-		if(attack_move == true):
-			attack_move = false
-		for unit in selected:
-			unit.get_node("attack_spawn_delay").stop()
-			unit.reset_target()
-			unit.current_command = "idle"
-			unit.find_new_target()
-		Input.set_custom_mouse_cursor(cursor_stop)
-		await get_tree().create_timer(.25).timeout
-		Input.set_custom_mouse_cursor(cursor_default)
+		handle_stop_move()
 	if(Input.is_action_just_pressed("hold_position")):
-		if(attack_move == true):
-			attack_move = false
-		for unit in selected:
-			unit.get_node("attack_spawn_delay").stop()
-			unit.reset_target()
-			unit.current_command = "hold"
-			unit.find_new_target()
-		Input.set_custom_mouse_cursor(cursor_hold)
-		await get_tree().create_timer(.25).timeout
-		Input.set_custom_mouse_cursor(cursor_default)
+		handle_hold_position()
 	if(event is InputEventMouseButton && event.button_index == 1 && attack_move == true):
 		for unit in selected:
 			if(unit.current_command != "focus"):
@@ -501,6 +481,36 @@ func _on_merge():
 				else:
 					$unit_panel.get_node("UnitDataPanel").queue_free()
 				return
+
+#input handlers
+func handle_attack_move():
+	if(attack_move == false):
+		attack_move = true
+		Input.set_custom_mouse_cursor(cursor_attack)
+
+func handle_hold_position():
+	if(attack_move == true):
+		attack_move = false
+	for unit in selected:
+		unit.get_node("attack_spawn_delay").stop()
+		unit.reset_target()
+		unit.current_command = "hold"
+		unit.find_new_target()
+	Input.set_custom_mouse_cursor(cursor_hold)
+	await get_tree().create_timer(.25).timeout
+	Input.set_custom_mouse_cursor(cursor_default)
+
+func handle_stop_move():
+	if(attack_move == true):
+		attack_move = false
+	for unit in selected:
+		unit.get_node("attack_spawn_delay").stop()
+		unit.reset_target()
+		unit.current_command = "idle"
+		unit.find_new_target()
+	Input.set_custom_mouse_cursor(cursor_stop)
+	await get_tree().create_timer(.25).timeout
+	Input.set_custom_mouse_cursor(cursor_default)
 
 #helper functions
 func add_status_message(message, color = Color.hex(0xffffffff)):
