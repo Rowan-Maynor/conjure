@@ -281,7 +281,11 @@ metadata/_edit_lock_ = true
 [node name="basic_summon_button" type="Button" parent="mana_tab_buttons/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "
+5"
 icon = ExtResource("8_sjwyb")
+alignment = 2
 icon_alignment = 1
 expand_icon = true
 script = ExtResource("1_fnul3")
@@ -321,8 +325,12 @@ metadata/_edit_lock_ = true
 [node name="basic_study_button" type="Button" parent="mana_tab_buttons/HBoxContainer/VBoxContainer2"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
+theme_override_font_sizes/font_size = 16
 disabled = true
+text = "
+1"
 icon = ExtResource("10_5kh4o")
+alignment = 2
 icon_alignment = 1
 expand_icon = true
 script = ExtResource("11_ihktq")
@@ -334,8 +342,12 @@ wait_time = 0.15
 [node name="intermediate_study_button" type="Button" parent="mana_tab_buttons/HBoxContainer/VBoxContainer2"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
+theme_override_font_sizes/font_size = 16
 disabled = true
+text = "
+3"
 icon = ExtResource("14_gj1yn")
+alignment = 2
 icon_alignment = 1
 expand_icon = true
 script = ExtResource("15_32nla")
@@ -347,8 +359,12 @@ wait_time = 0.15
 [node name="advanced_study_button" type="Button" parent="mana_tab_buttons/HBoxContainer/VBoxContainer2"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
+theme_override_font_sizes/font_size = 16
 disabled = true
+text = "
+5"
 icon = ExtResource("15_5kjus")
+alignment = 2
 icon_alignment = 1
 expand_icon = true
 script = ExtResource("17_h8a34")
@@ -385,8 +401,12 @@ metadata/_edit_lock_ = true
 [node name="fire_research_button" type="Button" parent="research_tab_buttons/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
+theme_override_font_sizes/font_size = 16
 disabled = true
+text = "
+1"
 icon = ExtResource("11_1kaiv")
+alignment = 2
 icon_alignment = 1
 expand_icon = true
 script = ExtResource("12_ihktq")
@@ -398,8 +418,12 @@ wait_time = 0.15
 [node name="water_research_button" type="Button" parent="research_tab_buttons/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
+theme_override_font_sizes/font_size = 16
 disabled = true
+text = "
+1"
 icon = ExtResource("12_upmhx")
+alignment = 2
 icon_alignment = 1
 expand_icon = true
 script = ExtResource("15_igvt4")
@@ -411,8 +435,12 @@ wait_time = 0.15
 [node name="earth_research_button" type="Button" parent="research_tab_buttons/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
+theme_override_font_sizes/font_size = 16
 disabled = true
+text = "
+1"
 icon = ExtResource("13_ihktq")
+alignment = 2
 icon_alignment = 1
 expand_icon = true
 script = ExtResource("17_x8pta")
