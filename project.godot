@@ -10,10 +10,10 @@ config_version=5
 
 [application]
 
-config/name="project-compound"
+config/name="Conjure"
 run/main_scene="uid://ce0lxn43ir0fs"
 config/features=PackedStringArray("4.4", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="uid://btxayetjurgst"
 
 [display]
 
