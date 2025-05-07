@@ -1,7 +1,7 @@
 extends Button
 
-var cost: int = 10
-var max_upgrades: int = 10
+var cost: int = 1
+var max_upgrades: int = 20
 @onready var timer: Timer = get_tree().get_root().get_node("game/main_ui/Main-ui/research_tab_buttons/HBoxContainer/VBoxContainer/earth_research_cooldown")
 
 func _on_pressed() -> void:
