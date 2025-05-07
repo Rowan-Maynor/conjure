@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://b578nkptq5xnm"]
+[gd_scene load_steps=33 format=3 uid="uid://b578nkptq5xnm"]
 
 [ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_e0pfi"]
 [ext_resource type="Script" uid="uid://mivjt0t7mpqb" path="res://scripts/spawn_t1.gd" id="1_fnul3"]
@@ -27,7 +27,9 @@
 [ext_resource type="Texture2D" uid="uid://kvxxjsd6abmv" path="res://assets/ui/earth_icon_large.png" id="13_ihktq"]
 [ext_resource type="Texture2D" uid="uid://e5l6nhg6ww7r" path="res://assets/ui/intermediate_study_icon.png" id="14_gj1yn"]
 [ext_resource type="Texture2D" uid="uid://jp3h6hcst7ki" path="res://assets/ui/advanced_study_icon.png" id="15_5kjus"]
+[ext_resource type="Script" uid="uid://bmf2hhxnvnr0f" path="res://scripts/intermediate_study_button.gd" id="15_32nla"]
 [ext_resource type="Script" uid="uid://rofr8634d5w" path="res://scripts/water_research_button.gd" id="15_igvt4"]
+[ext_resource type="Script" uid="uid://c7kirwrx6fsqx" path="res://scripts/advanced_study_button.gd" id="17_h8a34"]
 [ext_resource type="Script" uid="uid://dil33cctkytrr" path="res://scripts/earth_research_button.gd" id="17_x8pta"]
 [ext_resource type="Script" uid="uid://f6lnbkl0ebbn" path="res://scripts/interest_increase_button.gd" id="28_sdeak"]
 
@@ -336,6 +338,8 @@ disabled = true
 icon = ExtResource("14_gj1yn")
 icon_alignment = 1
 expand_icon = true
+script = ExtResource("15_32nla")
+metadata/_edit_lock_ = true
 
 [node name="intermediate_study_cooldown" type="Timer" parent="mana_tab_buttons/HBoxContainer/VBoxContainer2"]
 wait_time = 0.15
@@ -347,6 +351,8 @@ disabled = true
 icon = ExtResource("15_5kjus")
 icon_alignment = 1
 expand_icon = true
+script = ExtResource("17_h8a34")
+metadata/_edit_lock_ = true
 
 [node name="advanced_study_cooldown" type="Timer" parent="mana_tab_buttons/HBoxContainer/VBoxContainer2"]
 
@@ -637,6 +643,12 @@ texture = ExtResource("2_36vcn")
 [connection signal="button_up" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" method="_on_button_up"]
 [connection signal="pressed" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" method="_on_pressed"]
 [connection signal="timeout" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_cooldown" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" method="_on_basic_study_cooldown_timeout"]
+[connection signal="button_down" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/intermediate_study_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/intermediate_study_button" method="_on_button_down"]
+[connection signal="button_up" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/intermediate_study_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/intermediate_study_button" method="_on_button_up"]
+[connection signal="pressed" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/intermediate_study_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/intermediate_study_button" method="_on_pressed"]
+[connection signal="button_down" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/advanced_study_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/advanced_study_button" method="_on_button_down"]
+[connection signal="button_up" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/advanced_study_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/advanced_study_button" method="_on_button_up"]
+[connection signal="pressed" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/advanced_study_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/advanced_study_button" method="_on_pressed"]
 [connection signal="button_down" from="research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_button" to="research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_button" method="_on_button_down"]
 [connection signal="button_up" from="research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_button" to="research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_button" method="_on_button_up"]
 [connection signal="pressed" from="research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_button" to="research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_button" method="_on_pressed"]

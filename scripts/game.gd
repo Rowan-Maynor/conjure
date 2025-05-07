@@ -59,6 +59,8 @@ var cursor_hold: Resource = load("res://assets/ui/cursor_hold.png")
 #button paths
 @onready var basic_summon_button: Button = $"main_ui/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button"
 @onready var basic_study_button: Button = $"main_ui/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button"
+@onready var intermediate_study_button: Button = $"main_ui/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer2/intermediate_study_button"
+@onready var advanced_study_button: Button = $"main_ui/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer2/advanced_study_button"
 @onready var fire_research_button: Button = $"main_ui/Main-ui/research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_button"
 @onready var water_research_button: Button = $"main_ui/Main-ui/research_tab_buttons/HBoxContainer/VBoxContainer/water_research_button"
 @onready var earth_research_button: Button = $"main_ui/Main-ui/research_tab_buttons/HBoxContainer/VBoxContainer/earth_research_button"
@@ -554,6 +556,11 @@ func update_mana_buttons():
 	if(mana < 5):
 		basic_summon_button.disabled = true
 		basic_summon_button._on_button_up()
+		advanced_study_button.disabled = true
+		advanced_study_button._on_button_up()
+	if(mana < 3):
+		intermediate_study_button.disabled = true
+		intermediate_study_button._on_button_up()
 	if(mana < 1):
 		basic_study_button.disabled = true
 		basic_study_button._on_button_up()
@@ -568,6 +575,9 @@ func update_mana_buttons():
 	#enable checks
 	if(mana >= 5):
 		basic_summon_button.disabled = false
+		advanced_study_button.disabled = false
+	if(mana >= 3):
+		intermediate_study_button.disabled = false
 	if(mana >= 1):
 		basic_study_button.disabled = false
 		bank_deposit_1_button.disabled = false
