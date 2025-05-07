@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bt0euvkcwgb5g"]
+[gd_scene load_steps=16 format=3 uid="uid://bt0euvkcwgb5g"]
 
 [ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_q772p"]
 [ext_resource type="Texture2D" uid="uid://c3hrdspg5ggxk" path="res://assets/sprites/units/shrub/base.png" id="2_ypfds"]
@@ -11,6 +11,9 @@
 [ext_resource type="Script" uid="uid://dr2moqk8nevu4" path="res://scripts/panel_stop_button.gd" id="9_urymd"]
 [ext_resource type="Texture2D" uid="uid://ho5dssrjtbct" path="res://assets/ui/hold_icon.png" id="9_xqcfm"]
 [ext_resource type="Script" uid="uid://cr0pskh2qibe6" path="res://scripts/panel_hold_button.gd" id="11_xqcfm"]
+[ext_resource type="Texture2D" uid="uid://kqjqijqk3yia" path="res://assets/ui/basic_infuse_icon.png" id="12_kqj35"]
+[ext_resource type="Texture2D" uid="uid://drf17bfxddys3" path="res://assets/ui/intermediate_infuse_icon.png" id="13_eh5nj"]
+[ext_resource type="Texture2D" uid="uid://detq8kajpl6q" path="res://assets/ui/advanced_infuse_icon.png" id="14_njn3a"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_y614m"]
 texture = ExtResource("3_bwqth")
@@ -210,20 +213,20 @@ layout_mode = 2
 icon = ExtResource("9_xqcfm")
 script = ExtResource("11_xqcfm")
 
-[node name="infuse_1" type="Button" parent="PanelContainer/VBoxContainer/buttons_container/GridContainer"]
+[node name="basic_infuse_button" type="Button" parent="PanelContainer/VBoxContainer/buttons_container/GridContainer"]
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
-icon = ExtResource("4_o56ib")
+icon = ExtResource("12_kqj35")
 
-[node name="infuse_2" type="Button" parent="PanelContainer/VBoxContainer/buttons_container/GridContainer"]
+[node name="intermediate_infuse_button" type="Button" parent="PanelContainer/VBoxContainer/buttons_container/GridContainer"]
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
-icon = ExtResource("4_o56ib")
+icon = ExtResource("13_eh5nj")
 
-[node name="infuse_3" type="Button" parent="PanelContainer/VBoxContainer/buttons_container/GridContainer"]
+[node name="advanced_infuse_button" type="Button" parent="PanelContainer/VBoxContainer/buttons_container/GridContainer"]
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
-icon = ExtResource("4_o56ib")
+icon = ExtResource("14_njn3a")
 
 [connection signal="pressed" from="PanelContainer/VBoxContainer/buttons_container/GridContainer/attack_button" to="PanelContainer/VBoxContainer/buttons_container/GridContainer/attack_button" method="_on_pressed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/buttons_container/GridContainer/stop_button" to="PanelContainer/VBoxContainer/buttons_container/GridContainer/stop_button" method="_on_pressed"]
