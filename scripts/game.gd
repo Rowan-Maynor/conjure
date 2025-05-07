@@ -350,6 +350,9 @@ func _on_wave_time_timeout() -> void:
 			return
 		else:
 			$wave_time.stop()
+			if(wave % 5 == 0):
+				gain_research(3)
+				add_status_message("Gained 3 research", Color.hex(0xe8c078ff))
 			#handles bank interest
 			if(auto_deposit > 0):
 				if(mana < auto_deposit):
