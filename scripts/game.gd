@@ -84,7 +84,7 @@ func _input(event: InputEvent) -> void:
 		else:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
 	if(Input.is_action_just_pressed("pause")):
-		var pause_menu: Node = load("res://scenes/pause_menu.tscn").instantiate()
+		var pause_menu: Node = load("res://scenes/ui_components/pause_menu.tscn").instantiate()
 		get_tree().get_root().get_node("game/pause_menu_canvas").add_child(pause_menu)
 		get_tree().paused = true
 	if(Input.is_action_just_pressed("attack_move")):
@@ -312,7 +312,7 @@ func next_wave():
 func _on_wave_time_timeout() -> void:
 	if($enemy_units.get_child_count() == 0):
 		if(wave == wave_max):
-			var win_screen: Node = load("res://scenes/win_screen.tscn").instantiate()
+			var win_screen: Node = load("res://scenes/ui_components/win_screen.tscn").instantiate()
 			get_tree().get_root().get_node("game").get_node("main_ui").add_child(win_screen)
 			return
 		else:
@@ -345,12 +345,12 @@ func _on_wave_time_timeout() -> void:
 		for enemy in remaining_enemies.get_children():
 			enemy.die()
 		if(lives <= 0):
-			var lose_screen: Node = load("res://scenes/lose_screen.tscn").instantiate()
+			var lose_screen: Node = load("res://scenes/ui_components/lose_screen.tscn").instantiate()
 			get_tree().get_root().get_node("game").get_node("main_ui").add_child(lose_screen)
 			return
 		if(lives > 0):
 			if(wave == wave_max):
-				var win_screen: Node = load("res://scenes/win_screen.tscn").instantiate()
+				var win_screen: Node = load("res://scenes/ui_components/win_screen.tscn").instantiate()
 				get_tree().get_root().get_node("game").get_node("main_ui").add_child(win_screen)
 				return
 			else:
