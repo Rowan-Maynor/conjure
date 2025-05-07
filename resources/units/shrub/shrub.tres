@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_lsuxk")
-damage = 4
+damage = 3
 attack_range = 200
 attack_speed = 2.0
 health = 10
