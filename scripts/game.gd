@@ -293,7 +293,7 @@ func spawn_wave():
 		unit.connect("died", _on_died)
 		get_tree().get_root().get_node("game").get_node("enemy_units").add_child(unit)
 	waves_remaining -= 1
-	if(waves_remaining == 0):
+	if(waves_remaining == 0 && wave % 10 != 0):
 		$wave_time.start()
 
 func next_wave():
@@ -307,6 +307,35 @@ func next_wave():
 	waves_remaining = wave_data.wave_count
 	spawn_wave()
 	$wave_delay.start()
+
+func spawn_boss():
+	var spawn_point: Node = get_tree().get_root().get_node("game/enemy_spawn_areas/enemy_spawn_area_3")
+	var unit: Node = load(wave_data.unit).instantiate()
+	unit.unit_data = load("res://resources/waves/wave_" + str(wave) + "/unit_stats.tres").duplicate()
+	var element: String = unit.unit_data.element
+	
+	#create boss unit
+	var boss_unit: Node
+	if(element == "fire"):
+		boss_unit = load("res://scenes/units/hell_hound.tscn").instantiate()
+		boss_unit.unit_data = unit.unit_data
+		boss_unit.unit_data.type = "hell_hound"
+	elif(element == "water"):
+		boss_unit = load("res://scenes/units/naga.tscn").instantiate()
+		boss_unit.unit_data = unit.unit_data
+		boss_unit.unit_data.type = "naga"
+	elif(element == "earth"):
+		boss_unit = load("res://scenes/units/great_ape.tscn").instantiate()
+		boss_unit.unit_data = unit.unit_data
+		boss_unit.unit_data.type = "great_ape"
+	boss_unit.unit_data.health *= 5
+	
+	boss_unit.position = spawn_point.position
+	boss_unit.connect("died", _on_died)
+	get_tree().get_root().get_node("game").get_node("enemy_units").add_child(boss_unit)
+	
+	$wave_time.start()
+	$wave_delay.stop()
 
 #functions that handle game timers
 func _on_wave_time_timeout() -> void:
@@ -381,6 +410,8 @@ func _on_wait_time_timeout() -> void:
 func _on_wave_delay_timeout() -> void:
 	if(waves_remaining > 0):
 		spawn_wave()
+	elif(waves_remaining == 0 && wave % 10 == 0):
+		spawn_boss()
 	else:
 		$wave_delay.stop()
 
