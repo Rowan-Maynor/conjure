@@ -328,6 +328,7 @@ func spawn_boss():
 		boss_unit = load("res://scenes/units/great_ape.tscn").instantiate()
 		boss_unit.unit_data = unit.unit_data
 		boss_unit.unit_data.type = "great_ape"
+	
 	boss_unit.unit_data.health *= 5
 	
 	boss_unit.position = spawn_point.position
