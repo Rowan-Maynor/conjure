@@ -329,7 +329,10 @@ func spawn_boss():
 		boss_unit.unit_data = unit.unit_data
 		boss_unit.unit_data.type = "great_ape"
 	
-	boss_unit.unit_data.health *= 5
+	var wave_scale_mult_final: float = wave_scale_mult
+	#Bosses have 5x HP, .2 is for the extra wave 10 mult
+	wave_scale_mult_final += 5.2
+	boss_unit.unit_data.health = wave * wave_scale_mult_final
 	
 	boss_unit.position = spawn_point.position
 	boss_unit.connect("died", _on_died)
