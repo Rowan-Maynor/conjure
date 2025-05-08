@@ -1,0 +1,74 @@
+[gd_scene load_steps=2 format=3 uid="uid://djix2c1jl8gv1"]
+
+[ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_4k1c3"]
+
+[node name="BasicSummonTooltip" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_4k1c3")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_left = -270.0
+offset_bottom = 141.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+
+[node name="title" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Basic Summon"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="body" type="Label" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Spend 5 mana to conjure a unit. Has a small chance to summon a higher tier unit."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="tier_text_container" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="t1_chance_text" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/tier_text_container"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Tier 1 Chance:"
+horizontal_alignment = 1
+
+[node name="t2_chance_text" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/tier_text_container"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Tier 2 Chance:"
+horizontal_alignment = 1
+
+[node name="tier_value_container" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="t1_chance_value" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/tier_value_container"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "99%"
+
+[node name="t2_chance_value" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/tier_value_container"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "1%"

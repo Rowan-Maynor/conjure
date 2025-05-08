@@ -294,6 +294,10 @@ metadata/_edit_lock_ = true
 [node name="basic_summon_cooldown" type="Timer" parent="mana_tab_buttons/HBoxContainer/VBoxContainer"]
 wait_time = 0.15
 
+[node name="basic_summon_hover" type="Timer" parent="mana_tab_buttons/HBoxContainer/VBoxContainer"]
+wait_time = 0.25
+one_shot = true
+
 [node name="intermediate_summon_button" type="Button" parent="mana_tab_buttons/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
@@ -338,6 +342,10 @@ metadata/_edit_lock_ = true
 
 [node name="basic_study_cooldown" type="Timer" parent="mana_tab_buttons/HBoxContainer/VBoxContainer2"]
 wait_time = 0.15
+
+[node name="basic_study_hover" type="Timer" parent="mana_tab_buttons/HBoxContainer/VBoxContainer2"]
+wait_time = 0.25
+one_shot = true
 
 [node name="intermediate_study_button" type="Button" parent="mana_tab_buttons/HBoxContainer/VBoxContainer2"]
 custom_minimum_size = Vector2(50, 50)
@@ -665,12 +673,18 @@ texture = ExtResource("2_36vcn")
 [connection signal="pressed" from="research_tab_button" to="research_tab_button" method="_on_pressed"]
 [connection signal="button_down" from="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button" method="_on_button_down"]
 [connection signal="button_up" from="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button" method="_on_button_up"]
+[connection signal="mouse_entered" from="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button" method="_on_mouse_exited"]
 [connection signal="pressed" from="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button" method="_on_pressed"]
 [connection signal="timeout" from="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_cooldown" to="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button" method="_on_basic_summon_cooldown_timeout"]
+[connection signal="timeout" from="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_hover" to="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button" method="_on_basic_summon_hover_timeout"]
 [connection signal="button_down" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" method="_on_button_down"]
 [connection signal="button_up" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" method="_on_button_up"]
+[connection signal="mouse_entered" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" method="_on_mouse_exited"]
 [connection signal="pressed" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" method="_on_pressed"]
 [connection signal="timeout" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_cooldown" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" method="_on_basic_study_cooldown_timeout"]
+[connection signal="timeout" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_hover" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" method="_on_basic_study_hover_timeout"]
 [connection signal="button_down" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/intermediate_study_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/intermediate_study_button" method="_on_button_down"]
 [connection signal="button_up" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/intermediate_study_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/intermediate_study_button" method="_on_button_up"]
 [connection signal="pressed" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/intermediate_study_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/intermediate_study_button" method="_on_pressed"]
