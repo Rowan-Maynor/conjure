@@ -1,7 +1,7 @@
 [gd_scene load_steps=33 format=3 uid="uid://b578nkptq5xnm"]
 
 [ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_e0pfi"]
-[ext_resource type="Script" uid="uid://mivjt0t7mpqb" path="res://scripts/spawn_t1.gd" id="1_fnul3"]
+[ext_resource type="Script" uid="uid://mivjt0t7mpqb" path="res://scripts/basic_summon_button.gd" id="1_fnul3"]
 [ext_resource type="Texture2D" uid="uid://cxxdtspbr32f8" path="res://assets/ui/side_tab_icon.png" id="2_36vcn"]
 [ext_resource type="Script" uid="uid://47d5d3lrt102" path="res://scripts/start_game.gd" id="2_513t2"]
 [ext_resource type="Texture2D" uid="uid://btxayetjurgst" path="res://assets/ui/mana_icon.png" id="2_e0pfi"]
