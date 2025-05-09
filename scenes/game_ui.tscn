@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://b578nkptq5xnm"]
+[gd_scene load_steps=37 format=3 uid="uid://b578nkptq5xnm"]
 
 [ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_e0pfi"]
 [ext_resource type="Script" uid="uid://mivjt0t7mpqb" path="res://scripts/basic_summon_button.gd" id="1_fnul3"]
@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://cmo45odd61fef" path="res://scripts/bank_withdraw_buttons.gd" id="6_n74c5"]
 [ext_resource type="Script" uid="uid://4i2q1tevt4ns" path="res://scripts/auto_deposit_decrease.gd" id="7_5v8bm"]
 [ext_resource type="Script" uid="uid://begukndqlpqm5" path="res://scripts/mana_tab_button.gd" id="7_o3bws"]
+[ext_resource type="Script" uid="uid://bbeq7vjhtmtlk" path="res://scripts/health_icon.gd" id="7_sfun4"]
 [ext_resource type="Script" uid="uid://nm8htu8iujii" path="res://scripts/research_tab_button.gd" id="8_3huio"]
 [ext_resource type="Script" uid="uid://15ts8v444x0b" path="res://scripts/auto_deposit_increase.gd" id="8_8wu16"]
 [ext_resource type="Texture2D" uid="uid://cl7wm4vb5hdaa" path="res://assets/ui/life_icon.png" id="8_o3bws"]
@@ -34,6 +35,7 @@
 [ext_resource type="Script" uid="uid://c7kirwrx6fsqx" path="res://scripts/advanced_study_button.gd" id="17_h8a34"]
 [ext_resource type="Script" uid="uid://dil33cctkytrr" path="res://scripts/earth_research_button.gd" id="17_x8pta"]
 [ext_resource type="Script" uid="uid://f6lnbkl0ebbn" path="res://scripts/interest_increase_button.gd" id="28_sdeak"]
+[ext_resource type="Script" uid="uid://criugf6x1cn7s" path="res://scripts/bank_icon.gd" id="29_27ch3"]
 
 [node name="Main-ui" type="Control"]
 layout_mode = 3
@@ -206,10 +208,11 @@ custom_minimum_size = Vector2(0, 15)
 layout_mode = 2
 metadata/_edit_lock_ = true
 
-[node name="TextureRect" type="TextureRect" parent="lives_data_container/VBoxContainer"]
+[node name="health_icon" type="TextureRect" parent="lives_data_container/VBoxContainer"]
 layout_mode = 2
 texture = ExtResource("8_o3bws")
 stretch_mode = 3
+script = ExtResource("7_sfun4")
 metadata/_edit_lock_ = true
 
 [node name="life_value" type="Label" parent="lives_data_container/VBoxContainer"]
@@ -217,6 +220,10 @@ layout_mode = 2
 text = "0"
 horizontal_alignment = 1
 metadata/_edit_lock_ = true
+
+[node name="health_hover" type="Timer" parent="lives_data_container/VBoxContainer"]
+wait_time = 0.25
+one_shot = true
 
 [node name="start_game_button" type="Button" parent="."]
 layout_mode = 1
@@ -550,6 +557,11 @@ alignment = 1
 layout_mode = 2
 texture = ExtResource("4_n74c5")
 stretch_mode = 3
+script = ExtResource("29_27ch3")
+
+[node name="bank_hover" type="Timer" parent="bank_canvas/bank_container/HBoxContainer/VBoxContainer"]
+wait_time = 0.25
+one_shot = true
 
 [node name="bank_data" type="HBoxContainer" parent="bank_canvas/bank_container/HBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -708,6 +720,9 @@ texture = ExtResource("2_36vcn")
 [connection signal="mouse_entered" from="resource_container/GridContainer/research_container/research_icon" to="resource_container/GridContainer/research_container/research_icon" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="resource_container/GridContainer/research_container/research_icon" to="resource_container/GridContainer/research_container/research_icon" method="_on_mouse_exited"]
 [connection signal="timeout" from="resource_container/GridContainer/research_container/research_hover" to="resource_container/GridContainer/research_container/research_icon" method="_on_research_hover_timeout"]
+[connection signal="mouse_entered" from="lives_data_container/VBoxContainer/health_icon" to="lives_data_container/VBoxContainer/health_icon" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="lives_data_container/VBoxContainer/health_icon" to="lives_data_container/VBoxContainer/health_icon" method="_on_mouse_exited"]
+[connection signal="timeout" from="lives_data_container/VBoxContainer/health_hover" to="lives_data_container/VBoxContainer/health_icon" method="_on_health_hover_timeout"]
 [connection signal="pressed" from="start_game_button" to="start_game_button" method="_on_pressed"]
 [connection signal="pressed" from="mana_tab_button" to="mana_tab_button" method="_on_pressed"]
 [connection signal="pressed" from="research_tab_button" to="research_tab_button" method="_on_pressed"]
@@ -758,6 +773,9 @@ texture = ExtResource("2_36vcn")
 [connection signal="pressed" from="research_tab_buttons/HBoxContainer/VBoxContainer/earth_research_button" to="research_tab_buttons/HBoxContainer/VBoxContainer/earth_research_button" method="_on_pressed"]
 [connection signal="timeout" from="research_tab_buttons/HBoxContainer/VBoxContainer/earth_research_cooldown" to="research_tab_buttons/HBoxContainer/VBoxContainer/earth_research_button" method="_on_earth_research_cooldown_timeout"]
 [connection signal="timeout" from="research_tab_buttons/HBoxContainer/VBoxContainer/earth_research_hover" to="research_tab_buttons/HBoxContainer/VBoxContainer/earth_research_button" method="_on_earth_research_hover_timeout"]
+[connection signal="mouse_entered" from="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_icon" to="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_icon" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_icon" to="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_icon" method="_on_mouse_exited"]
+[connection signal="timeout" from="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_hover" to="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_icon" method="_on_bank_hover_timeout"]
 [connection signal="pressed" from="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons/deposit_1_button" to="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons/deposit_1_button" method="_on_pressed"]
 [connection signal="pressed" from="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons/deposit_10_button" to="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons/deposit_10_button" method="_on_pressed"]
 [connection signal="pressed" from="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons/withdraw_1_button" to="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons/withdraw_1_button" method="_on_pressed"]
