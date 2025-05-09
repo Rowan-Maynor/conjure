@@ -1,14 +1,14 @@
 extends Button
 
-@onready var cooldown_timer: Timer = get_tree().get_root().get_node("game/main_ui/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_cooldown")
-@onready var hover_timer: Timer = get_tree().get_root().get_node("game/main_ui/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_hover")
+@onready var cooldown_timer: Timer = get_tree().get_root().get_node("game/main_ui/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer2/advanced_study_cooldown")
+@onready var hover_timer: Timer = get_tree().get_root().get_node("game/main_ui/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer2/advanced_study_hover")
 
 func _on_pressed() -> void:
 	study()
 
 func study():
-	get_tree().get_root().get_node("game").spend_mana(1)
-	var research_ammount: int = randi_range(1, 5)
+	get_tree().get_root().get_node("game").spend_mana(5)
+	var research_ammount: int = randi_range(5, 35)
 	var message: String = "Gained " + str(research_ammount) + " research"
 	var color: Color = Color.hex(0xe8c078ff)
 	get_tree().get_root().get_node("game").gain_research(research_ammount)
@@ -32,6 +32,6 @@ func _on_mouse_exited() -> void:
 		var tooltip: Node = self.get_child(0)
 		self.remove_child(tooltip)
 
-func _on_basic_study_hover_timeout() -> void:
-	var tooltip: Node = load("res://scenes/tooltips/basic_study_tooltip.tscn").instantiate()
+func _on_advanced_study_hover_timeout() -> void:
+	var tooltip: Node = load("res://scenes/tooltips/advanced_study_tooltip.tscn").instantiate()
 	self.add_child(tooltip)

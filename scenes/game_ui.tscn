@@ -1,14 +1,16 @@
-[gd_scene load_steps=31 format=3 uid="uid://b578nkptq5xnm"]
+[gd_scene load_steps=35 format=3 uid="uid://b578nkptq5xnm"]
 
 [ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_e0pfi"]
-[ext_resource type="Script" uid="uid://mivjt0t7mpqb" path="res://scripts/spawn_t1.gd" id="1_fnul3"]
+[ext_resource type="Script" uid="uid://mivjt0t7mpqb" path="res://scripts/basic_summon_button.gd" id="1_fnul3"]
 [ext_resource type="Texture2D" uid="uid://cxxdtspbr32f8" path="res://assets/ui/side_tab_icon.png" id="2_36vcn"]
 [ext_resource type="Script" uid="uid://47d5d3lrt102" path="res://scripts/start_game.gd" id="2_513t2"]
 [ext_resource type="Texture2D" uid="uid://btxayetjurgst" path="res://assets/ui/mana_icon.png" id="2_e0pfi"]
 [ext_resource type="Script" uid="uid://57rdmv42p1bk" path="res://scripts/bank_tab_button.gd" id="3_2yflp"]
 [ext_resource type="Texture2D" uid="uid://dr70g110va4hx" path="res://assets/ui/knowledge_icon.png" id="3_o3bws"]
+[ext_resource type="Script" uid="uid://copcfsa8jcaik" path="res://scripts/mana_icon.gd" id="3_wbo4m"]
 [ext_resource type="Texture2D" uid="uid://bf35bcrhlk2sc" path="res://assets/ui/bank_icon.png" id="4_n74c5"]
 [ext_resource type="Script" uid="uid://pclnrcn07jo" path="res://scripts/bank_deposit_buttons.gd" id="5_2yflp"]
+[ext_resource type="Script" uid="uid://dpbgs7nmjceqb" path="res://scripts/research_icon.gd" id="5_nlan2"]
 [ext_resource type="Script" uid="uid://cmo45odd61fef" path="res://scripts/bank_withdraw_buttons.gd" id="6_n74c5"]
 [ext_resource type="Script" uid="uid://4i2q1tevt4ns" path="res://scripts/auto_deposit_decrease.gd" id="7_5v8bm"]
 [ext_resource type="Script" uid="uid://begukndqlpqm5" path="res://scripts/mana_tab_button.gd" id="7_o3bws"]
@@ -27,7 +29,9 @@
 [ext_resource type="Texture2D" uid="uid://kvxxjsd6abmv" path="res://assets/ui/earth_icon_large.png" id="13_ihktq"]
 [ext_resource type="Texture2D" uid="uid://e5l6nhg6ww7r" path="res://assets/ui/intermediate_study_icon.png" id="14_gj1yn"]
 [ext_resource type="Texture2D" uid="uid://jp3h6hcst7ki" path="res://assets/ui/advanced_study_icon.png" id="15_5kjus"]
+[ext_resource type="Script" uid="uid://bmf2hhxnvnr0f" path="res://scripts/intermediate_study_button.gd" id="15_32nla"]
 [ext_resource type="Script" uid="uid://rofr8634d5w" path="res://scripts/water_research_button.gd" id="15_igvt4"]
+[ext_resource type="Script" uid="uid://c7kirwrx6fsqx" path="res://scripts/advanced_study_button.gd" id="17_h8a34"]
 [ext_resource type="Script" uid="uid://dil33cctkytrr" path="res://scripts/earth_research_button.gd" id="17_x8pta"]
 [ext_resource type="Script" uid="uid://f6lnbkl0ebbn" path="res://scripts/interest_increase_button.gd" id="28_sdeak"]
 
@@ -76,6 +80,7 @@ metadata/_edit_lock_ = true
 layout_mode = 2
 texture = ExtResource("2_e0pfi")
 stretch_mode = 3
+script = ExtResource("3_wbo4m")
 metadata/_edit_lock_ = true
 
 [node name="mana_value" type="Label" parent="resource_container/GridContainer/mana_container"]
@@ -84,6 +89,10 @@ text = "0"
 horizontal_alignment = 1
 clip_text = true
 metadata/_edit_lock_ = true
+
+[node name="mana_hover" type="Timer" parent="resource_container/GridContainer/mana_container"]
+wait_time = 0.25
+one_shot = true
 
 [node name="separator_container" type="CenterContainer" parent="resource_container/GridContainer"]
 layout_mode = 2
@@ -111,6 +120,7 @@ metadata/_edit_lock_ = true
 layout_mode = 2
 texture = ExtResource("3_o3bws")
 stretch_mode = 3
+script = ExtResource("5_nlan2")
 metadata/_edit_lock_ = true
 
 [node name="research_value" type="Label" parent="resource_container/GridContainer/research_container"]
@@ -118,6 +128,10 @@ layout_mode = 2
 text = "0"
 horizontal_alignment = 1
 metadata/_edit_lock_ = true
+
+[node name="research_hover" type="Timer" parent="resource_container/GridContainer/research_container"]
+wait_time = 0.25
+one_shot = true
 
 [node name="wave_data_container" type="PanelContainer" parent="."]
 custom_minimum_size = Vector2(120, 0)
@@ -279,7 +293,11 @@ metadata/_edit_lock_ = true
 [node name="basic_summon_button" type="Button" parent="mana_tab_buttons/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "
+5"
 icon = ExtResource("8_sjwyb")
+alignment = 2
 icon_alignment = 1
 expand_icon = true
 script = ExtResource("1_fnul3")
@@ -287,6 +305,10 @@ metadata/_edit_lock_ = true
 
 [node name="basic_summon_cooldown" type="Timer" parent="mana_tab_buttons/HBoxContainer/VBoxContainer"]
 wait_time = 0.15
+
+[node name="basic_summon_hover" type="Timer" parent="mana_tab_buttons/HBoxContainer/VBoxContainer"]
+wait_time = 0.25
+one_shot = true
 
 [node name="intermediate_summon_button" type="Button" parent="mana_tab_buttons/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(50, 50)
@@ -299,6 +321,8 @@ metadata/_edit_lock_ = true
 
 [node name="intermediate_summon_cooldown" type="Timer" parent="mana_tab_buttons/HBoxContainer/VBoxContainer"]
 wait_time = 0.15
+
+[node name="intermediate_summon_hover" type="Timer" parent="mana_tab_buttons/HBoxContainer/VBoxContainer"]
 
 [node name="advanced_summon_button" type="Button" parent="mana_tab_buttons/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(50, 50)
@@ -319,8 +343,12 @@ metadata/_edit_lock_ = true
 [node name="basic_study_button" type="Button" parent="mana_tab_buttons/HBoxContainer/VBoxContainer2"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
+theme_override_font_sizes/font_size = 16
 disabled = true
+text = "
+1"
 icon = ExtResource("10_5kh4o")
+alignment = 2
 icon_alignment = 1
 expand_icon = true
 script = ExtResource("11_ihktq")
@@ -329,26 +357,50 @@ metadata/_edit_lock_ = true
 [node name="basic_study_cooldown" type="Timer" parent="mana_tab_buttons/HBoxContainer/VBoxContainer2"]
 wait_time = 0.15
 
+[node name="basic_study_hover" type="Timer" parent="mana_tab_buttons/HBoxContainer/VBoxContainer2"]
+wait_time = 0.25
+one_shot = true
+
 [node name="intermediate_study_button" type="Button" parent="mana_tab_buttons/HBoxContainer/VBoxContainer2"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
+theme_override_font_sizes/font_size = 16
 disabled = true
+text = "
+3"
 icon = ExtResource("14_gj1yn")
+alignment = 2
 icon_alignment = 1
 expand_icon = true
+script = ExtResource("15_32nla")
+metadata/_edit_lock_ = true
 
 [node name="intermediate_study_cooldown" type="Timer" parent="mana_tab_buttons/HBoxContainer/VBoxContainer2"]
 wait_time = 0.15
 
+[node name="intermediate_study_hover" type="Timer" parent="mana_tab_buttons/HBoxContainer/VBoxContainer2"]
+wait_time = 0.25
+one_shot = true
+
 [node name="advanced_study_button" type="Button" parent="mana_tab_buttons/HBoxContainer/VBoxContainer2"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
+theme_override_font_sizes/font_size = 16
 disabled = true
+text = "
+5"
 icon = ExtResource("15_5kjus")
+alignment = 2
 icon_alignment = 1
 expand_icon = true
+script = ExtResource("17_h8a34")
+metadata/_edit_lock_ = true
 
 [node name="advanced_study_cooldown" type="Timer" parent="mana_tab_buttons/HBoxContainer/VBoxContainer2"]
+
+[node name="advanced_study_hover" type="Timer" parent="mana_tab_buttons/HBoxContainer/VBoxContainer2"]
+wait_time = 0.25
+one_shot = true
 
 [node name="right_margin" type="Control" parent="mana_tab_buttons/HBoxContainer"]
 custom_minimum_size = Vector2(10, 0)
@@ -379,8 +431,12 @@ metadata/_edit_lock_ = true
 [node name="fire_research_button" type="Button" parent="research_tab_buttons/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
+theme_override_font_sizes/font_size = 16
 disabled = true
+text = "
+1"
 icon = ExtResource("11_1kaiv")
+alignment = 2
 icon_alignment = 1
 expand_icon = true
 script = ExtResource("12_ihktq")
@@ -389,11 +445,19 @@ metadata/_edit_lock_ = true
 [node name="fire_research_cooldown" type="Timer" parent="research_tab_buttons/HBoxContainer/VBoxContainer"]
 wait_time = 0.15
 
+[node name="fire_research_hover" type="Timer" parent="research_tab_buttons/HBoxContainer/VBoxContainer"]
+wait_time = 0.25
+one_shot = true
+
 [node name="water_research_button" type="Button" parent="research_tab_buttons/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
+theme_override_font_sizes/font_size = 16
 disabled = true
+text = "
+1"
 icon = ExtResource("12_upmhx")
+alignment = 2
 icon_alignment = 1
 expand_icon = true
 script = ExtResource("15_igvt4")
@@ -402,11 +466,19 @@ metadata/_edit_lock_ = true
 [node name="water_research_cooldown" type="Timer" parent="research_tab_buttons/HBoxContainer/VBoxContainer"]
 wait_time = 0.15
 
+[node name="water_research_hover" type="Timer" parent="research_tab_buttons/HBoxContainer/VBoxContainer"]
+wait_time = 0.25
+one_shot = true
+
 [node name="earth_research_button" type="Button" parent="research_tab_buttons/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
+theme_override_font_sizes/font_size = 16
 disabled = true
+text = "
+1"
 icon = ExtResource("13_ihktq")
+alignment = 2
 icon_alignment = 1
 expand_icon = true
 script = ExtResource("17_x8pta")
@@ -414,6 +486,10 @@ metadata/_edit_lock_ = true
 
 [node name="earth_research_cooldown" type="Timer" parent="research_tab_buttons/HBoxContainer/VBoxContainer"]
 wait_time = 0.15
+
+[node name="earth_research_hover" type="Timer" parent="research_tab_buttons/HBoxContainer/VBoxContainer"]
+wait_time = 0.25
+one_shot = true
 
 [node name="right_margin" type="Control" parent="research_tab_buttons/HBoxContainer"]
 custom_minimum_size = Vector2(10, 0)
@@ -626,29 +702,62 @@ script = ExtResource("3_2yflp")
 position = Vector2(28, 35)
 texture = ExtResource("2_36vcn")
 
+[connection signal="mouse_entered" from="resource_container/GridContainer/mana_container/mana_icon" to="resource_container/GridContainer/mana_container/mana_icon" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="resource_container/GridContainer/mana_container/mana_icon" to="resource_container/GridContainer/mana_container/mana_icon" method="_on_mouse_exited"]
+[connection signal="timeout" from="resource_container/GridContainer/mana_container/mana_hover" to="resource_container/GridContainer/mana_container/mana_icon" method="_on_mana_hover_timeout"]
+[connection signal="mouse_entered" from="resource_container/GridContainer/research_container/research_icon" to="resource_container/GridContainer/research_container/research_icon" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="resource_container/GridContainer/research_container/research_icon" to="resource_container/GridContainer/research_container/research_icon" method="_on_mouse_exited"]
+[connection signal="timeout" from="resource_container/GridContainer/research_container/research_hover" to="resource_container/GridContainer/research_container/research_icon" method="_on_research_hover_timeout"]
 [connection signal="pressed" from="start_game_button" to="start_game_button" method="_on_pressed"]
 [connection signal="pressed" from="mana_tab_button" to="mana_tab_button" method="_on_pressed"]
 [connection signal="pressed" from="research_tab_button" to="research_tab_button" method="_on_pressed"]
 [connection signal="button_down" from="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button" method="_on_button_down"]
 [connection signal="button_up" from="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button" method="_on_button_up"]
+[connection signal="mouse_entered" from="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button" method="_on_mouse_exited"]
 [connection signal="pressed" from="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button" method="_on_pressed"]
 [connection signal="timeout" from="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_cooldown" to="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button" method="_on_basic_summon_cooldown_timeout"]
+[connection signal="timeout" from="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_hover" to="mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button" method="_on_basic_summon_hover_timeout"]
 [connection signal="button_down" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" method="_on_button_down"]
 [connection signal="button_up" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" method="_on_button_up"]
+[connection signal="mouse_entered" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" method="_on_mouse_exited"]
 [connection signal="pressed" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" method="_on_pressed"]
 [connection signal="timeout" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_cooldown" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" method="_on_basic_study_cooldown_timeout"]
+[connection signal="timeout" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_hover" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button" method="_on_basic_study_hover_timeout"]
+[connection signal="button_down" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/intermediate_study_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/intermediate_study_button" method="_on_button_down"]
+[connection signal="button_up" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/intermediate_study_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/intermediate_study_button" method="_on_button_up"]
+[connection signal="mouse_entered" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/intermediate_study_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/intermediate_study_button" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/intermediate_study_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/intermediate_study_button" method="_on_mouse_exited"]
+[connection signal="pressed" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/intermediate_study_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/intermediate_study_button" method="_on_pressed"]
+[connection signal="timeout" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/intermediate_study_hover" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/intermediate_study_button" method="_on_intermediate_study_hover_timeout"]
+[connection signal="button_down" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/advanced_study_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/advanced_study_button" method="_on_button_down"]
+[connection signal="button_up" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/advanced_study_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/advanced_study_button" method="_on_button_up"]
+[connection signal="mouse_entered" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/advanced_study_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/advanced_study_button" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/advanced_study_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/advanced_study_button" method="_on_mouse_exited"]
+[connection signal="pressed" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/advanced_study_button" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/advanced_study_button" method="_on_pressed"]
+[connection signal="timeout" from="mana_tab_buttons/HBoxContainer/VBoxContainer2/advanced_study_hover" to="mana_tab_buttons/HBoxContainer/VBoxContainer2/advanced_study_button" method="_on_advanced_study_hover_timeout"]
 [connection signal="button_down" from="research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_button" to="research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_button" method="_on_button_down"]
 [connection signal="button_up" from="research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_button" to="research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_button" method="_on_button_up"]
+[connection signal="mouse_entered" from="research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_button" to="research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_button" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_button" to="research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_button" method="_on_mouse_exited"]
 [connection signal="pressed" from="research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_button" to="research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_button" method="_on_pressed"]
 [connection signal="timeout" from="research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_cooldown" to="research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_button" method="_on_fire_research_cooldown_timeout"]
+[connection signal="timeout" from="research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_hover" to="research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_button" method="_on_fire_research_hover_timeout"]
 [connection signal="button_down" from="research_tab_buttons/HBoxContainer/VBoxContainer/water_research_button" to="research_tab_buttons/HBoxContainer/VBoxContainer/water_research_button" method="_on_button_down"]
 [connection signal="button_up" from="research_tab_buttons/HBoxContainer/VBoxContainer/water_research_button" to="research_tab_buttons/HBoxContainer/VBoxContainer/water_research_button" method="_on_button_up"]
+[connection signal="mouse_entered" from="research_tab_buttons/HBoxContainer/VBoxContainer/water_research_button" to="research_tab_buttons/HBoxContainer/VBoxContainer/water_research_button" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="research_tab_buttons/HBoxContainer/VBoxContainer/water_research_button" to="research_tab_buttons/HBoxContainer/VBoxContainer/water_research_button" method="_on_mouse_exited"]
 [connection signal="pressed" from="research_tab_buttons/HBoxContainer/VBoxContainer/water_research_button" to="research_tab_buttons/HBoxContainer/VBoxContainer/water_research_button" method="_on_pressed"]
 [connection signal="timeout" from="research_tab_buttons/HBoxContainer/VBoxContainer/water_research_cooldown" to="research_tab_buttons/HBoxContainer/VBoxContainer/water_research_button" method="_on_water_research_cooldown_timeout"]
+[connection signal="timeout" from="research_tab_buttons/HBoxContainer/VBoxContainer/water_research_hover" to="research_tab_buttons/HBoxContainer/VBoxContainer/water_research_button" method="_on_water_research_hover_timeout"]
 [connection signal="button_down" from="research_tab_buttons/HBoxContainer/VBoxContainer/earth_research_button" to="research_tab_buttons/HBoxContainer/VBoxContainer/earth_research_button" method="_on_button_down"]
 [connection signal="button_up" from="research_tab_buttons/HBoxContainer/VBoxContainer/earth_research_button" to="research_tab_buttons/HBoxContainer/VBoxContainer/earth_research_button" method="_on_button_up"]
+[connection signal="mouse_entered" from="research_tab_buttons/HBoxContainer/VBoxContainer/earth_research_button" to="research_tab_buttons/HBoxContainer/VBoxContainer/earth_research_button" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="research_tab_buttons/HBoxContainer/VBoxContainer/earth_research_button" to="research_tab_buttons/HBoxContainer/VBoxContainer/earth_research_button" method="_on_mouse_exited"]
 [connection signal="pressed" from="research_tab_buttons/HBoxContainer/VBoxContainer/earth_research_button" to="research_tab_buttons/HBoxContainer/VBoxContainer/earth_research_button" method="_on_pressed"]
 [connection signal="timeout" from="research_tab_buttons/HBoxContainer/VBoxContainer/earth_research_cooldown" to="research_tab_buttons/HBoxContainer/VBoxContainer/earth_research_button" method="_on_earth_research_cooldown_timeout"]
+[connection signal="timeout" from="research_tab_buttons/HBoxContainer/VBoxContainer/earth_research_hover" to="research_tab_buttons/HBoxContainer/VBoxContainer/earth_research_button" method="_on_earth_research_hover_timeout"]
 [connection signal="pressed" from="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons/deposit_1_button" to="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons/deposit_1_button" method="_on_pressed"]
 [connection signal="pressed" from="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons/deposit_10_button" to="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons/deposit_10_button" method="_on_pressed"]
 [connection signal="pressed" from="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons/withdraw_1_button" to="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons/withdraw_1_button" method="_on_pressed"]

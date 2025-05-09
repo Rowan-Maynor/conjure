@@ -141,6 +141,9 @@ func enemy_change_direction(direction):
 	#random number used to make enemy path fell less linear
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	var variance: float = 20.0
+	#variance needs to be turned off for boss units because they are huge
+	if(unit_data.type == "hell_hound" || unit_data.type == "naga" || unit_data.type == "great_ape"):
+		variance = 0.0
 	if(direction == "right"):
 		var path_node: Marker2D = get_tree().get_root().get_node("game/enemy_path_points/bottom_right")
 		target_position = path_node.position

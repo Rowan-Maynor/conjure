@@ -12,7 +12,8 @@ var t1_units: Array[String] = [
 	"monkey"
 ]
 
-@onready var timer: Timer = get_tree().get_root().get_node("game/main_ui/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_cooldown")
+@onready var cooldown_timer: Timer = get_tree().get_root().get_node("game/main_ui/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_cooldown")
+@onready var hover_timer: Timer = get_tree().get_root().get_node("game/main_ui/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_hover")
 
 func _on_pressed():
 	summon_unit()
@@ -47,10 +48,23 @@ func find_open_spawn_point(spawn_areas):
 	return null
 
 func _on_button_down() -> void:
-	timer.start()
+	cooldown_timer.start()
 
 func _on_button_up() -> void:
-	timer.stop()
+	cooldown_timer.stop()
 
 func _on_basic_summon_cooldown_timeout() -> void:
 	summon_unit()
+
+func _on_mouse_entered() -> void:
+	hover_timer.start()
+
+func _on_mouse_exited() -> void:
+	hover_timer.stop()
+	if(self.get_children()):
+		var tooltip: Node = self.get_child(0)
+		self.remove_child(tooltip)
+
+func _on_basic_summon_hover_timeout() -> void:
+	var tooltip: Node = load("res://scenes/tooltips/basic_summon_tooltip.tscn").instantiate()
+	self.add_child(tooltip)

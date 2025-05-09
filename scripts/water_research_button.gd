@@ -1,11 +1,14 @@
 extends Button
 
-var cost: int = 10
-var max_upgrades: int = 10
-@onready var timer: Timer = get_tree().get_root().get_node("game/main_ui/Main-ui/research_tab_buttons/HBoxContainer/VBoxContainer/water_research_cooldown")
+var cost: int = 1
+var max_upgrades: int = 20
+@onready var cooldown_timer: Timer = get_tree().get_root().get_node("game/main_ui/Main-ui/research_tab_buttons/HBoxContainer/VBoxContainer/water_research_cooldown")
+@onready var hover_timer: Timer = get_tree().get_root().get_node("game/main_ui/Main-ui/research_tab_buttons/HBoxContainer/VBoxContainer/water_research_hover")
 
 func _on_pressed() -> void:
 	upgrade()
+	if(self.get_children()):
+		self.get_child(0).update_data()
 
 func upgrade():
 	if(max_upgrades == 0):
@@ -16,6 +19,7 @@ func upgrade():
 	get_tree().get_root().get_node("game").water_research_value += .1
 	get_tree().get_root().get_node("game").spend_research(cost)
 	cost += 1
+	self.text = "\n" + str(cost)
 	var damage_percentage: int = int(get_tree().get_root().get_node("game").water_research_value * 100)
 	var message: String = "Water research damage increased to " + str(damage_percentage) + "%"
 	var color: Color = Color.hex(0xa778e8ff)
@@ -33,8 +37,20 @@ func _on_water_research_cooldown_timeout() -> void:
 	upgrade()
 
 func _on_button_down() -> void:
-	timer.start()
-
+	cooldown_timer.start()
 
 func _on_button_up() -> void:
-	timer.stop()
+	cooldown_timer.stop()
+
+func _on_mouse_entered() -> void:
+	hover_timer.start()
+
+func _on_mouse_exited() -> void:
+	hover_timer.stop()
+	if(self.get_children()):
+		var tooltip: Node = self.get_child(0)
+		self.remove_child(tooltip)
+
+func _on_water_research_hover_timeout() -> void:
+	var tooltip: Node = load("res://scenes/tooltips/water_research_tooltip.tscn").instantiate()
+	self.add_child(tooltip)

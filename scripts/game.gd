@@ -59,6 +59,8 @@ var cursor_hold: Resource = load("res://assets/ui/cursor_hold.png")
 #button paths
 @onready var basic_summon_button: Button = $"main_ui/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button"
 @onready var basic_study_button: Button = $"main_ui/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer2/basic_study_button"
+@onready var intermediate_study_button: Button = $"main_ui/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer2/intermediate_study_button"
+@onready var advanced_study_button: Button = $"main_ui/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer2/advanced_study_button"
 @onready var fire_research_button: Button = $"main_ui/Main-ui/research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_button"
 @onready var water_research_button: Button = $"main_ui/Main-ui/research_tab_buttons/HBoxContainer/VBoxContainer/water_research_button"
 @onready var earth_research_button: Button = $"main_ui/Main-ui/research_tab_buttons/HBoxContainer/VBoxContainer/earth_research_button"
@@ -84,13 +86,11 @@ func _input(event: InputEvent) -> void:
 		else:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
 	if(Input.is_action_just_pressed("pause")):
-		var pause_menu: Node = load("res://scenes/pause_menu.tscn").instantiate()
+		var pause_menu: Node = load("res://scenes/ui_components/pause_menu.tscn").instantiate()
 		get_tree().get_root().get_node("game/pause_menu_canvas").add_child(pause_menu)
 		get_tree().paused = true
 	if(Input.is_action_just_pressed("attack_move")):
-		if(attack_move == false):
-			attack_move = true
-			Input.set_custom_mouse_cursor(cursor_attack)
+		handle_attack_move()
 	if(Input.is_action_just_pressed("right_click")):
 		if(attack_move == true):
 			attack_move = false
@@ -102,27 +102,9 @@ func _input(event: InputEvent) -> void:
 			unit.current_command = "move"
 			unit.move_position = get_global_mouse_position()
 	if(Input.is_action_just_pressed("stop_movement")):
-		if(attack_move == true):
-			attack_move = false
-		for unit in selected:
-			unit.get_node("attack_spawn_delay").stop()
-			unit.reset_target()
-			unit.current_command = "idle"
-			unit.find_new_target()
-		Input.set_custom_mouse_cursor(cursor_stop)
-		await get_tree().create_timer(.25).timeout
-		Input.set_custom_mouse_cursor(cursor_default)
+		handle_stop_move()
 	if(Input.is_action_just_pressed("hold_position")):
-		if(attack_move == true):
-			attack_move = false
-		for unit in selected:
-			unit.get_node("attack_spawn_delay").stop()
-			unit.reset_target()
-			unit.current_command = "hold"
-			unit.find_new_target()
-		Input.set_custom_mouse_cursor(cursor_hold)
-		await get_tree().create_timer(.25).timeout
-		Input.set_custom_mouse_cursor(cursor_default)
+		handle_hold_position()
 	if(event is InputEventMouseButton && event.button_index == 1 && attack_move == true):
 		for unit in selected:
 			if(unit.current_command != "focus"):
@@ -293,7 +275,7 @@ func spawn_wave():
 		unit.connect("died", _on_died)
 		get_tree().get_root().get_node("game").get_node("enemy_units").add_child(unit)
 	waves_remaining -= 1
-	if(waves_remaining == 0):
+	if(waves_remaining == 0 && wave % 10 != 0):
 		$wave_time.start()
 
 func next_wave():
@@ -308,15 +290,51 @@ func next_wave():
 	spawn_wave()
 	$wave_delay.start()
 
+func spawn_boss():
+	var spawn_point: Node = get_tree().get_root().get_node("game/enemy_spawn_areas/enemy_spawn_area_3")
+	var unit: Node = load(wave_data.unit).instantiate()
+	unit.unit_data = load("res://resources/waves/wave_" + str(wave) + "/unit_stats.tres").duplicate()
+	var element: String = unit.unit_data.element
+	
+	#create boss unit
+	var boss_unit: Node
+	if(element == "fire"):
+		boss_unit = load("res://scenes/units/hell_hound.tscn").instantiate()
+		boss_unit.unit_data = unit.unit_data
+		boss_unit.unit_data.type = "hell_hound"
+	elif(element == "water"):
+		boss_unit = load("res://scenes/units/naga.tscn").instantiate()
+		boss_unit.unit_data = unit.unit_data
+		boss_unit.unit_data.type = "naga"
+	elif(element == "earth"):
+		boss_unit = load("res://scenes/units/great_ape.tscn").instantiate()
+		boss_unit.unit_data = unit.unit_data
+		boss_unit.unit_data.type = "great_ape"
+	
+	var wave_scale_mult_final: float = wave_scale_mult
+	#Bosses have 5x HP, .2 is for the extra wave 10 mult
+	wave_scale_mult_final += 5.2
+	boss_unit.unit_data.health = wave * wave_scale_mult_final
+	
+	boss_unit.position = spawn_point.position
+	boss_unit.connect("died", _on_died)
+	get_tree().get_root().get_node("game").get_node("enemy_units").add_child(boss_unit)
+	
+	$wave_time.start()
+	$wave_delay.stop()
+
 #functions that handle game timers
 func _on_wave_time_timeout() -> void:
 	if($enemy_units.get_child_count() == 0):
 		if(wave == wave_max):
-			var win_screen: Node = load("res://scenes/win_screen.tscn").instantiate()
+			var win_screen: Node = load("res://scenes/ui_components/win_screen.tscn").instantiate()
 			get_tree().get_root().get_node("game").get_node("main_ui").add_child(win_screen)
 			return
 		else:
 			$wave_time.stop()
+			if(wave % 5 == 0):
+				gain_research(3)
+				add_status_message("Gained 3 research", Color.hex(0xe8c078ff))
 			#handles bank interest
 			if(auto_deposit > 0):
 				if(mana < auto_deposit):
@@ -345,12 +363,12 @@ func _on_wave_time_timeout() -> void:
 		for enemy in remaining_enemies.get_children():
 			enemy.die()
 		if(lives <= 0):
-			var lose_screen: Node = load("res://scenes/lose_screen.tscn").instantiate()
+			var lose_screen: Node = load("res://scenes/ui_components/lose_screen.tscn").instantiate()
 			get_tree().get_root().get_node("game").get_node("main_ui").add_child(lose_screen)
 			return
 		if(lives > 0):
 			if(wave == wave_max):
-				var win_screen: Node = load("res://scenes/win_screen.tscn").instantiate()
+				var win_screen: Node = load("res://scenes/ui_components/win_screen.tscn").instantiate()
 				get_tree().get_root().get_node("game").get_node("main_ui").add_child(win_screen)
 				return
 			else:
@@ -381,6 +399,8 @@ func _on_wait_time_timeout() -> void:
 func _on_wave_delay_timeout() -> void:
 	if(waves_remaining > 0):
 		spawn_wave()
+	elif(waves_remaining == 0 && wave % 10 == 0):
+		spawn_boss()
 	else:
 		$wave_delay.stop()
 
@@ -464,6 +484,36 @@ func _on_merge():
 					$unit_panel.get_node("UnitDataPanel").queue_free()
 				return
 
+#input handlers
+func handle_attack_move():
+	if(attack_move == false):
+		attack_move = true
+		Input.set_custom_mouse_cursor(cursor_attack)
+
+func handle_hold_position():
+	if(attack_move == true):
+		attack_move = false
+	for unit in selected:
+		unit.get_node("attack_spawn_delay").stop()
+		unit.reset_target()
+		unit.current_command = "hold"
+		unit.find_new_target()
+	Input.set_custom_mouse_cursor(cursor_hold)
+	await get_tree().create_timer(.25).timeout
+	Input.set_custom_mouse_cursor(cursor_default)
+
+func handle_stop_move():
+	if(attack_move == true):
+		attack_move = false
+	for unit in selected:
+		unit.get_node("attack_spawn_delay").stop()
+		unit.reset_target()
+		unit.current_command = "idle"
+		unit.find_new_target()
+	Input.set_custom_mouse_cursor(cursor_stop)
+	await get_tree().create_timer(.25).timeout
+	Input.set_custom_mouse_cursor(cursor_default)
+
 #helper functions
 func add_status_message(message, color = Color.hex(0xffffffff)):
 	var label: Label = Label.new()
@@ -506,6 +556,11 @@ func update_mana_buttons():
 	if(mana < 5):
 		basic_summon_button.disabled = true
 		basic_summon_button._on_button_up()
+		advanced_study_button.disabled = true
+		advanced_study_button._on_button_up()
+	if(mana < 3):
+		intermediate_study_button.disabled = true
+		intermediate_study_button._on_button_up()
 	if(mana < 1):
 		basic_study_button.disabled = true
 		basic_study_button._on_button_up()
@@ -520,6 +575,9 @@ func update_mana_buttons():
 	#enable checks
 	if(mana >= 5):
 		basic_summon_button.disabled = false
+		advanced_study_button.disabled = false
+	if(mana >= 3):
+		intermediate_study_button.disabled = false
 	if(mana >= 1):
 		basic_study_button.disabled = false
 		bank_deposit_1_button.disabled = false
