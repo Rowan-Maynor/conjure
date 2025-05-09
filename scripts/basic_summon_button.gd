@@ -63,7 +63,7 @@ func _on_mouse_exited() -> void:
 	hover_timer.stop()
 	if(self.get_children()):
 		var tooltip: Node = self.get_child(0)
-		self.remove_child(tooltip)
+		tooltip.queue_free()
 
 func _on_basic_summon_hover_timeout() -> void:
 	var tooltip: Node = load("res://scenes/tooltips/basic_summon_tooltip.tscn").instantiate()
