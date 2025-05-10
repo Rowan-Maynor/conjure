@@ -11,6 +11,7 @@ var kills: int = 0
 
 #bank values
 var bank_mana: float = 0.0
+var bank_mana_cap: int = 1
 var bank_interest: float = 1.10
 var auto_deposit: int = 0
 var interest_cost: int = 10
@@ -282,6 +283,8 @@ func next_wave():
 	wave += 1
 	if (wave % 5 == 0):
 		wave_scale_mult += .2
+	if (wave % 10 == 0):
+		bank_mana_cap += 1
 	wave_time = default_wave_time
 	time_ui_value.text = str(wave_time)
 	var wave_path: String = "res://resources/waves/wave_" + str(wave) + "/wave_properties.tres"
@@ -336,16 +339,7 @@ func _on_wave_time_timeout() -> void:
 				gain_research(3)
 				add_status_message("Gained 3 research", Color.hex(0xe8c078ff))
 			#handles bank interest
-			if(auto_deposit > 0):
-				if(mana < auto_deposit):
-					bank_deposit(mana)
-				else:
-					bank_deposit(auto_deposit)
-			var bank_mana_gained: float = (bank_mana * bank_interest) - bank_mana
-			bank_mana_gained = snapped(bank_mana_gained, 0.01)
-			add_status_message("Gained " + str(bank_mana_gained) + " bank mana", Color.hex(0x199fffff))
-			bank_mana += bank_mana_gained
-			bank_mana_value.text = str(bank_mana)
+			generate_bank_mana()
 			#sets up wait
 			wave_time = 10
 			add_status_message("Break (10 seconds)", Color.hex(0xafafafff))
@@ -373,16 +367,7 @@ func _on_wave_time_timeout() -> void:
 				return
 			else:
 				#handles bank interest
-				if(auto_deposit > 0):
-					if(mana < auto_deposit):
-						bank_deposit(mana)
-					else:
-						bank_deposit(auto_deposit)
-				var bank_mana_gained: float = (bank_mana * bank_interest) - bank_mana
-				bank_mana_gained = snapped(bank_mana_gained, 0.01)
-				add_status_message("Gained " + str(bank_mana_gained) + " bank mana", Color.hex(0x199fffff))
-				bank_mana += bank_mana_gained
-				bank_mana_value.text = str(bank_mana)
+				generate_bank_mana()
 				#sets up wait
 				wave_time = 10
 				add_status_message("Break (10 seconds)", Color.hex(0xafafafff))
@@ -668,3 +653,20 @@ func increase_interest():
 	interest_cost += 5
 	spend_mana(current_interest_cost)
 	bank_interest_value.text = str((bank_interest - 1.0) * 100) + "%"
+
+func generate_bank_mana():
+	if(auto_deposit > 0):
+		if(mana < auto_deposit):
+			bank_deposit(mana)
+		else:
+			bank_deposit(auto_deposit)
+	var bank_mana_gained: float = (bank_mana * bank_interest) - bank_mana
+	bank_mana_gained = snapped(bank_mana_gained, 0.01)
+	if(bank_mana_gained <= bank_mana_cap):
+		add_status_message("Gained " + str(bank_mana_gained) + " bank mana", Color.hex(0x199fffff))
+		bank_mana += bank_mana_gained
+		bank_mana_value.text = str(bank_mana)
+	else:
+		add_status_message("Gained " + str(bank_mana_cap) + " bank mana (Max)", Color.hex(0x199fffff))
+		bank_mana += bank_mana_cap
+		bank_mana_value.text = str(bank_mana)
