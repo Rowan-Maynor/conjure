@@ -245,7 +245,7 @@ func update_unit_panel_values(unit, panel_ui_scene):
 #functions related to game state
 func start_game():
 	$"main_ui/Main-ui/start_game_button".queue_free()
-	wave = 1
+	wave = 4
 	wave_data = load("res://resources/waves/wave_" + str(wave) + "/wave_properties.tres")
 	waves_remaining = wave_data.wave_count
 	wave_time = default_wave_time
@@ -283,6 +283,7 @@ func next_wave():
 	wave += 1
 	if (wave % 5 == 0):
 		wave_scale_mult += .2
+		decrease_interest()
 	if (wave % 10 == 0):
 		bank_mana_cap += 1
 	wave_time = default_wave_time
@@ -653,6 +654,13 @@ func increase_interest():
 	interest_cost += 5
 	spend_mana(current_interest_cost)
 	bank_interest_value.text = str((bank_interest - 1.0) * 100) + "%"
+	add_status_message("Interest increased", Color.hex(0xafafafff))
+
+func decrease_interest():
+	bank_interest -= 0.005
+	bank_interest = snapped(bank_interest, 0.001)
+	bank_interest_value.text = str((bank_interest - 1.0) * 100) + "%"
+	add_status_message("Interest decreased", Color.hex(0xafafafff))
 
 func generate_bank_mana():
 	if(auto_deposit > 0):
