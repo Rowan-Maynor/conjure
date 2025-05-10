@@ -696,6 +696,10 @@ layout_mode = 2
 text = "Interest Up"
 script = ExtResource("28_sdeak")
 
+[node name="interest_hover" type="Timer" parent="bank_canvas/bank_container/HBoxContainer/VBoxContainer"]
+wait_time = 0.25
+one_shot = true
+
 [node name="bank_tab_button" type="Button" parent="bank_canvas"]
 custom_minimum_size = Vector2(40, 70)
 anchors_preset = 4
@@ -782,5 +786,8 @@ texture = ExtResource("2_36vcn")
 [connection signal="pressed" from="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons/withdraw_10_button" to="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons/withdraw_10_button" method="_on_pressed"]
 [connection signal="pressed" from="bank_canvas/bank_container/HBoxContainer/VBoxContainer/auto_deposit_buttons/auto_deposit_decrease" to="bank_canvas/bank_container/HBoxContainer/VBoxContainer/auto_deposit_buttons/auto_deposit_decrease" method="_on_pressed"]
 [connection signal="pressed" from="bank_canvas/bank_container/HBoxContainer/VBoxContainer/auto_deposit_buttons/auto_deposit_increase" to="bank_canvas/bank_container/HBoxContainer/VBoxContainer/auto_deposit_buttons/auto_deposit_increase" method="_on_pressed"]
+[connection signal="mouse_entered" from="bank_canvas/bank_container/HBoxContainer/VBoxContainer/interest_increase_button" to="bank_canvas/bank_container/HBoxContainer/VBoxContainer/interest_increase_button" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="bank_canvas/bank_container/HBoxContainer/VBoxContainer/interest_increase_button" to="bank_canvas/bank_container/HBoxContainer/VBoxContainer/interest_increase_button" method="_on_mouse_exited"]
 [connection signal="pressed" from="bank_canvas/bank_container/HBoxContainer/VBoxContainer/interest_increase_button" to="bank_canvas/bank_container/HBoxContainer/VBoxContainer/interest_increase_button" method="_on_pressed"]
+[connection signal="timeout" from="bank_canvas/bank_container/HBoxContainer/VBoxContainer/interest_hover" to="bank_canvas/bank_container/HBoxContainer/VBoxContainer/interest_increase_button" method="_on_interest_hover_timeout"]
 [connection signal="pressed" from="bank_canvas/bank_tab_button" to="bank_canvas/bank_tab_button" method="_on_pressed"]
