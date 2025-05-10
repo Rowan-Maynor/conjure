@@ -4,11 +4,11 @@
 
 [resource]
 script = ExtResource("1_pyb5s")
-damage = 15
-attack_range = 200
-attack_speed = 2.0
+damage = 12
+attack_range = 150
+attack_speed = 3.0
 health = 10
-speed = 100
+speed = 80
 element = "water"
 type = "shaman"
 control = "player"

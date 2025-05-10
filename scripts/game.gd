@@ -245,7 +245,7 @@ func update_unit_panel_values(unit, panel_ui_scene):
 #functions related to game state
 func start_game():
 	$"main_ui/Main-ui/start_game_button".queue_free()
-	wave = 4
+	wave = 1
 	wave_data = load("res://resources/waves/wave_" + str(wave) + "/wave_properties.tres")
 	waves_remaining = wave_data.wave_count
 	wave_time = default_wave_time
@@ -658,8 +658,11 @@ func increase_interest():
 
 func decrease_interest():
 	bank_interest -= 0.005
-	bank_interest = snapped(bank_interest, 0.001)
-	bank_interest_value.text = str((bank_interest - 1.0) * 100) + "%"
+	var rounded_bank_interest: float = snapped(bank_interest, 0.001)
+	bank_interest = rounded_bank_interest
+	#need to snap this calculation specifically (floating point issues)
+	var bank_interest_percentage = snapped((bank_interest - 1) * 100, 0.001)
+	bank_interest_value.text = str(bank_interest_percentage) + "%"
 	add_status_message("Interest decreased", Color.hex(0xafafafff))
 
 func generate_bank_mana():
@@ -670,11 +673,11 @@ func generate_bank_mana():
 			bank_deposit(auto_deposit)
 	var bank_mana_gained: float = (bank_mana * bank_interest) - bank_mana
 	bank_mana_gained = snapped(bank_mana_gained, 0.01)
-	if(bank_mana_gained <= bank_mana_cap):
+	if(bank_mana_gained < bank_mana_cap):
 		add_status_message("Gained " + str(bank_mana_gained) + " bank mana", Color.hex(0x199fffff))
 		bank_mana += bank_mana_gained
 		bank_mana_value.text = str(bank_mana)
 	else:
-		add_status_message("Gained " + str(bank_mana_cap) + " bank mana (Max)", Color.hex(0x199fffff))
+		add_status_message("Gained " + str(float(bank_mana_cap)) + " bank mana (Max)", Color.hex(0x199fffff))
 		bank_mana += bank_mana_cap
 		bank_mana_value.text = str(bank_mana)

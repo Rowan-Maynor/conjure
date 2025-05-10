@@ -4,11 +4,11 @@
 
 [resource]
 script = ExtResource("1_swmxj")
-damage = 15
-attack_range = 200
-attack_speed = 2.0
+damage = 18
+attack_range = 150
+attack_speed = 4.0
 health = 10
-speed = 100
+speed = 80
 element = "earth"
 type = "guardian"
 control = "player"
