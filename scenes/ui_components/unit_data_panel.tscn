@@ -186,6 +186,10 @@ icon_alignment = 1
 expand_icon = true
 script = ExtResource("4_bwqth")
 
+[node name="merge_hover" type="Timer" parent="PanelContainer/VBoxContainer/buttons_container"]
+wait_time = 0.25
+one_shot = true
+
 [node name="mid_spacing" type="Control" parent="PanelContainer/VBoxContainer/buttons_container"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
@@ -228,6 +232,9 @@ custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 icon = ExtResource("14_njn3a")
 
+[connection signal="mouse_entered" from="PanelContainer/VBoxContainer/buttons_container/merge_button" to="PanelContainer/VBoxContainer/buttons_container/merge_button" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="PanelContainer/VBoxContainer/buttons_container/merge_button" to="PanelContainer/VBoxContainer/buttons_container/merge_button" method="_on_mouse_exited"]
+[connection signal="timeout" from="PanelContainer/VBoxContainer/buttons_container/merge_hover" to="PanelContainer/VBoxContainer/buttons_container/merge_button" method="_on_merge_hover_timeout"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/buttons_container/GridContainer/attack_button" to="PanelContainer/VBoxContainer/buttons_container/GridContainer/attack_button" method="_on_pressed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/buttons_container/GridContainer/stop_button" to="PanelContainer/VBoxContainer/buttons_container/GridContainer/stop_button" method="_on_pressed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/buttons_container/GridContainer/hold_button" to="PanelContainer/VBoxContainer/buttons_container/GridContainer/hold_button" method="_on_pressed"]
