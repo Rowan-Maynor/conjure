@@ -4,7 +4,7 @@ extends Button
 
 func _on_pressed() -> void:
 	get_tree().get_root().get_node("game").increase_interest()
-	#updates data if tooltip is open
+	#updates tooltip if open
 	if(self.get_children()):
 		self.get_child(0).update_data()
 

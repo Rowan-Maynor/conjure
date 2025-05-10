@@ -7,6 +7,7 @@ var max_upgrades: int = 20
 
 func _on_pressed() -> void:
 	upgrade()
+	#updates tooltip if open
 	if(self.get_children()):
 		self.get_child(0).update_data()
 
