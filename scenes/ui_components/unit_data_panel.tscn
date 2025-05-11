@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bt0euvkcwgb5g"]
+[gd_scene load_steps=19 format=3 uid="uid://bt0euvkcwgb5g"]
 
 [ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_q772p"]
 [ext_resource type="Texture2D" uid="uid://c3hrdspg5ggxk" path="res://assets/sprites/units/shrub/base.png" id="2_ypfds"]
@@ -13,7 +13,10 @@
 [ext_resource type="Script" uid="uid://cr0pskh2qibe6" path="res://scripts/panel_hold_button.gd" id="11_xqcfm"]
 [ext_resource type="Texture2D" uid="uid://kqjqijqk3yia" path="res://assets/ui/basic_infuse_icon.png" id="12_kqj35"]
 [ext_resource type="Texture2D" uid="uid://drf17bfxddys3" path="res://assets/ui/intermediate_infuse_icon.png" id="13_eh5nj"]
+[ext_resource type="Script" uid="uid://ddc1t1e0t27d5" path="res://scripts/basic_infusion_button.gd" id="13_njn3a"]
 [ext_resource type="Texture2D" uid="uid://detq8kajpl6q" path="res://assets/ui/advanced_infuse_icon.png" id="14_njn3a"]
+[ext_resource type="Script" uid="uid://3oqs875yuxfm" path="res://scripts/intermediate_infusion_button.gd" id="15_njn3a"]
+[ext_resource type="Script" uid="uid://csybrb4pjbhmy" path="res://scripts/advanced_infusion_button.gd" id="17_m3a1h"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_y614m"]
 texture = ExtResource("3_bwqth")
@@ -205,11 +208,19 @@ icon = ExtResource("6_kfdi5")
 icon_alignment = 1
 script = ExtResource("7_urymd")
 
+[node name="attack_hover" type="Timer" parent="PanelContainer/VBoxContainer/buttons_container/GridContainer"]
+wait_time = 0.25
+one_shot = true
+
 [node name="stop_button" type="Button" parent="PanelContainer/VBoxContainer/buttons_container/GridContainer"]
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 icon = ExtResource("4_o56ib")
 script = ExtResource("9_urymd")
+
+[node name="stop_hover" type="Timer" parent="PanelContainer/VBoxContainer/buttons_container/GridContainer"]
+wait_time = 0.25
+one_shot = true
 
 [node name="hold_button" type="Button" parent="PanelContainer/VBoxContainer/buttons_container/GridContainer"]
 custom_minimum_size = Vector2(25, 25)
@@ -217,24 +228,61 @@ layout_mode = 2
 icon = ExtResource("9_xqcfm")
 script = ExtResource("11_xqcfm")
 
-[node name="basic_infuse_button" type="Button" parent="PanelContainer/VBoxContainer/buttons_container/GridContainer"]
+[node name="hold_hover" type="Timer" parent="PanelContainer/VBoxContainer/buttons_container/GridContainer"]
+wait_time = 0.25
+one_shot = true
+
+[node name="basic_infusion_button" type="Button" parent="PanelContainer/VBoxContainer/buttons_container/GridContainer"]
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 icon = ExtResource("12_kqj35")
+script = ExtResource("13_njn3a")
 
-[node name="intermediate_infuse_button" type="Button" parent="PanelContainer/VBoxContainer/buttons_container/GridContainer"]
+[node name="basic_infusion_hover" type="Timer" parent="PanelContainer/VBoxContainer/buttons_container/GridContainer"]
+wait_time = 0.25
+one_shot = true
+
+[node name="intermediate_infusion_button" type="Button" parent="PanelContainer/VBoxContainer/buttons_container/GridContainer"]
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 icon = ExtResource("13_eh5nj")
+script = ExtResource("15_njn3a")
 
-[node name="advanced_infuse_button" type="Button" parent="PanelContainer/VBoxContainer/buttons_container/GridContainer"]
+[node name="intermediate_infusion_hover" type="Timer" parent="PanelContainer/VBoxContainer/buttons_container/GridContainer"]
+wait_time = 0.25
+one_shot = true
+
+[node name="advanced_infusion_button" type="Button" parent="PanelContainer/VBoxContainer/buttons_container/GridContainer"]
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 icon = ExtResource("14_njn3a")
+script = ExtResource("17_m3a1h")
+
+[node name="advanced_infusion_hover" type="Timer" parent="PanelContainer/VBoxContainer/buttons_container/GridContainer"]
+wait_time = 0.25
+one_shot = true
 
 [connection signal="mouse_entered" from="PanelContainer/VBoxContainer/buttons_container/merge_button" to="PanelContainer/VBoxContainer/buttons_container/merge_button" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="PanelContainer/VBoxContainer/buttons_container/merge_button" to="PanelContainer/VBoxContainer/buttons_container/merge_button" method="_on_mouse_exited"]
 [connection signal="timeout" from="PanelContainer/VBoxContainer/buttons_container/merge_hover" to="PanelContainer/VBoxContainer/buttons_container/merge_button" method="_on_merge_hover_timeout"]
+[connection signal="mouse_entered" from="PanelContainer/VBoxContainer/buttons_container/GridContainer/attack_button" to="PanelContainer/VBoxContainer/buttons_container/GridContainer/attack_button" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="PanelContainer/VBoxContainer/buttons_container/GridContainer/attack_button" to="PanelContainer/VBoxContainer/buttons_container/GridContainer/attack_button" method="_on_mouse_exited"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/buttons_container/GridContainer/attack_button" to="PanelContainer/VBoxContainer/buttons_container/GridContainer/attack_button" method="_on_pressed"]
+[connection signal="timeout" from="PanelContainer/VBoxContainer/buttons_container/GridContainer/attack_hover" to="PanelContainer/VBoxContainer/buttons_container/GridContainer/attack_button" method="_on_attack_hover_timeout"]
+[connection signal="mouse_entered" from="PanelContainer/VBoxContainer/buttons_container/GridContainer/stop_button" to="PanelContainer/VBoxContainer/buttons_container/GridContainer/stop_button" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="PanelContainer/VBoxContainer/buttons_container/GridContainer/stop_button" to="PanelContainer/VBoxContainer/buttons_container/GridContainer/stop_button" method="_on_mouse_exited"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/buttons_container/GridContainer/stop_button" to="PanelContainer/VBoxContainer/buttons_container/GridContainer/stop_button" method="_on_pressed"]
+[connection signal="timeout" from="PanelContainer/VBoxContainer/buttons_container/GridContainer/stop_hover" to="PanelContainer/VBoxContainer/buttons_container/GridContainer/stop_button" method="_on_stop_hover_timeout"]
+[connection signal="mouse_entered" from="PanelContainer/VBoxContainer/buttons_container/GridContainer/hold_button" to="PanelContainer/VBoxContainer/buttons_container/GridContainer/hold_button" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="PanelContainer/VBoxContainer/buttons_container/GridContainer/hold_button" to="PanelContainer/VBoxContainer/buttons_container/GridContainer/hold_button" method="_on_mouse_exited"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/buttons_container/GridContainer/hold_button" to="PanelContainer/VBoxContainer/buttons_container/GridContainer/hold_button" method="_on_pressed"]
+[connection signal="timeout" from="PanelContainer/VBoxContainer/buttons_container/GridContainer/hold_hover" to="PanelContainer/VBoxContainer/buttons_container/GridContainer/hold_button" method="_on_hold_hover_timeout"]
+[connection signal="mouse_entered" from="PanelContainer/VBoxContainer/buttons_container/GridContainer/basic_infusion_button" to="PanelContainer/VBoxContainer/buttons_container/GridContainer/basic_infusion_button" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="PanelContainer/VBoxContainer/buttons_container/GridContainer/basic_infusion_button" to="PanelContainer/VBoxContainer/buttons_container/GridContainer/basic_infusion_button" method="_on_mouse_exited"]
+[connection signal="timeout" from="PanelContainer/VBoxContainer/buttons_container/GridContainer/basic_infusion_hover" to="PanelContainer/VBoxContainer/buttons_container/GridContainer/basic_infusion_button" method="_on_basic_infusion_hover_timeout"]
+[connection signal="mouse_entered" from="PanelContainer/VBoxContainer/buttons_container/GridContainer/intermediate_infusion_button" to="PanelContainer/VBoxContainer/buttons_container/GridContainer/intermediate_infusion_button" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="PanelContainer/VBoxContainer/buttons_container/GridContainer/intermediate_infusion_button" to="PanelContainer/VBoxContainer/buttons_container/GridContainer/intermediate_infusion_button" method="_on_mouse_exited"]
+[connection signal="timeout" from="PanelContainer/VBoxContainer/buttons_container/GridContainer/intermediate_infusion_hover" to="PanelContainer/VBoxContainer/buttons_container/GridContainer/intermediate_infusion_button" method="_on_intermediate_infusion_hover_timeout"]
+[connection signal="mouse_entered" from="PanelContainer/VBoxContainer/buttons_container/GridContainer/advanced_infusion_button" to="PanelContainer/VBoxContainer/buttons_container/GridContainer/advanced_infusion_button" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="PanelContainer/VBoxContainer/buttons_container/GridContainer/advanced_infusion_button" to="PanelContainer/VBoxContainer/buttons_container/GridContainer/advanced_infusion_button" method="_on_mouse_exited"]
+[connection signal="timeout" from="PanelContainer/VBoxContainer/buttons_container/GridContainer/advanced_infusion_hover" to="PanelContainer/VBoxContainer/buttons_container/GridContainer/advanced_infusion_button" method="_on_advanced_infusion_hover_timeout"]

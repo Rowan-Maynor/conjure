@@ -20,7 +20,10 @@ func upgrade():
 	get_tree().get_root().get_node("game").water_research_value += .1
 	get_tree().get_root().get_node("game").spend_research(cost)
 	cost += 1
-	self.text = "\n" + str(cost)
+	if(cost < 21):
+		self.text = "\n" + str(cost)
+	else:
+		self.text = "\nMAX"
 	var damage_percentage: int = int(get_tree().get_root().get_node("game").water_research_value * 100)
 	var message: String = "Water research damage increased to " + str(damage_percentage) + "%"
 	var color: Color = Color.hex(0xa778e8ff)

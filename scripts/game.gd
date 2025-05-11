@@ -657,11 +657,11 @@ func increase_interest():
 	add_status_message("Interest increased", Color.hex(0xafafafff))
 
 func decrease_interest():
-	bank_interest -= 0.005
-	var rounded_bank_interest: float = snapped(bank_interest, 0.001)
+	bank_interest -= 0.01
+	var rounded_bank_interest: float = snapped(bank_interest, 0.01)
 	bank_interest = rounded_bank_interest
 	#need to snap this calculation specifically (floating point issues)
-	var bank_interest_percentage = snapped((bank_interest - 1) * 100, 0.001)
+	var bank_interest_percentage = snapped((bank_interest - 1) * 100, 0.01)
 	bank_interest_value.text = str(bank_interest_percentage) + "%"
 	add_status_message("Interest decreased", Color.hex(0xafafafff))
 
