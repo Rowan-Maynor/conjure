@@ -38,7 +38,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
-text = "You will gain mana at the end of each wave based on your interest. Interest decays by .5% every 5 waves untill wave 50. You can spend mana to upgrade your interest by 1%. The cost to upgrade increases by 5 with every purchase. You can upgrade interest a maximum of 5 times."
+text = "You will gain mana at the end of each wave based on your interest. Interest decays by 1% every 5 waves untill wave 50. You can spend mana to upgrade your interest by 1%. The cost to upgrade increases by 5 with every purchase. You can upgrade interest a maximum of 5 times."
 horizontal_alignment = 1
 autowrap_mode = 2
 
