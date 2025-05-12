@@ -505,7 +505,8 @@ func add_status_message(message, color = Color.hex(0xffffffff)):
 	var label: Label = Label.new()
 	label.add_theme_font_size_override("font_size", 16)
 	label.set("theme_override_colors/font_color", color)
-	label.text = message
+	#need to add a space because the outline for text gets cut off for some reason
+	label.text = " " + message
 	label.set_autowrap_mode(TextServer.AUTOWRAP_WORD)
 	var separator: HSeparator = HSeparator.new()
 	if(text_box_container.get_child_count() != 0):
