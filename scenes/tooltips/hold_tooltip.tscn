@@ -36,6 +36,6 @@ layout_mode = 2
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
-text = "Issues a command to all selected units to hold thier current position. Units will attack enemies that come within attack range, but will not chase them if they exit attack range."
+text = "Issues a command to all selected units to hold their current position. Units will attack enemies that come within attack range, but will not chase them if they exit attack range."
 horizontal_alignment = 1
 autowrap_mode = 2

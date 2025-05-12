@@ -1,0 +1,7 @@
+Tooltip typos-
+Study buttons - "ammount"
+command buttons- "thier"
+
+Pathing-
+Player units need to have a pathing system similar to enemies so they can walk around eachother
+

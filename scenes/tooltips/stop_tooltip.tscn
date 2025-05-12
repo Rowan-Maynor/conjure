@@ -36,6 +36,6 @@ layout_mode = 2
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
-text = "Issues a command to all selected units to stop thier current action. This sets the unit to idle and resets its current target."
+text = "Issues a command to all selected units to stop their current action. This sets the unit to idle and resets its current target."
 horizontal_alignment = 1
 autowrap_mode = 2

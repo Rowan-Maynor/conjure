@@ -34,7 +34,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
-text = "Spend 3 mana to gain a random ammount of research."
+text = "Spend 3 mana to gain a random amount of research."
 horizontal_alignment = 1
 autowrap_mode = 2
 
