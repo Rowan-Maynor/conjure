@@ -101,7 +101,11 @@ func _input(event: InputEvent) -> void:
 			unit.get_node("attack_spawn_delay").stop()
 			unit.reset_target()
 			unit.current_command = "move"
-			unit.move_position = get_global_mouse_position()
+			var mouse_position: Vector2 = get_global_mouse_position()
+			mouse_position.x = clampf(mouse_position.x, 312.0, 648.0)
+			mouse_position.y = clampf(mouse_position.y, 104.0, 440.0)
+			unit.move_position = mouse_position
+			unit.nav.set_target_position(unit.move_position)
 	if(Input.is_action_just_pressed("stop_movement")):
 		handle_stop_move()
 	if(Input.is_action_just_pressed("hold_position")):
@@ -455,7 +459,7 @@ func _on_merge():
 				add_status_message("No free space", Color.hex(0xff3e3eff))
 			else:
 				instance.position = spawn_point.global_position
-				get_tree().get_root().get_node("game").get_node("player_units").add_child(instance)
+				get_tree().get_root().get_node("game").get_node("player_units_nav").add_child(instance)
 				var unit_type_with_spaces: String = instance.unit_data.type.replace("_", " ")
 				add_status_message("Conjured " + unit_type_with_spaces)
 				#merged unit is now spawned, free the others

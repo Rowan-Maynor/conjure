@@ -118,6 +118,7 @@ position = Vector2(-9.53674e-07, -7)
 texture = ExtResource("3_2mk6l")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+avoidance_enabled = true
 
 [node name="attack_range" type="Area2D" parent="."]
 visible = false

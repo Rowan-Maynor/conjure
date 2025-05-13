@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=4 uid="uid://dm76mg2k73lxk"]
+[gd_scene load_steps=32 format=4 uid="uid://dm76mg2k73lxk"]
 
 [ext_resource type="Script" uid="uid://cof62ids57e6o" path="res://scripts/game.gd" id="1_vtaks"]
 [ext_resource type="Texture2D" uid="uid://cjeicm00qeewr" path="res://assets/sprites/Tiles/Path_Middle.png" id="2_kvpfn"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://dsa4clabykjg3" path="res://assets/sprites/Tiles/Water_Middle.png" id="8_rysoc"]
 [ext_resource type="Texture2D" uid="uid://bqrxn06et0rqv" path="res://assets/sprites/Tiles/Water_Tile.png" id="9_ssvqc"]
 [ext_resource type="PackedScene" uid="uid://b578nkptq5xnm" path="res://scenes/game_ui.tscn" id="10_264po"]
+[ext_resource type="Script" uid="uid://bcg0bojfqjpm0" path="res://scripts/player_units_nav.gd" id="11_kvpfn"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_jbj1t"]
 texture = ExtResource("2_kvpfn")
@@ -139,15 +140,20 @@ size = Vector2(538, 24)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_a8y0u"]
 size = Vector2(36, 542)
 
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_choun"]
+vertices = PackedVector2Array(667.062, 458, 728.961, 517.977, 233.977, 517.008, 295.969, 458, 727.031, 25.0078, 664.938, 86.9688, 233.008, 25.9766, 297.031, 88.0312)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 1, 0, 5), PackedInt32Array(6, 4, 5, 7), PackedInt32Array(2, 6, 7, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(223, 16, 224, 527, 739, 528, 737, 15), PackedVector2Array(307, 98, 655, 97, 657, 448, 306, 448)])
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_kvpfn"]
+vertices = PackedVector2Array(650.133, 439.078, 309.969, 441.906, 309.023, 102.938, 654.852, 101.047)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(299, 93, 665, 91, 660, 449, 300, 452)])
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jkv2x"]
 size = Vector2(10, 10)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jbj1t"]
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_choun"]
-vertices = PackedVector2Array(727.031, 25.0078, 728.961, 517.977, 670.141, 458, 664.859, 86.9688, 233.008, 25.9766, 297.031, 88.0312, 233.977, 517.008, 295.969, 458)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 0, 3, 5), PackedInt32Array(2, 1, 6, 7), PackedInt32Array(6, 4, 5, 7)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(223, 16, 224, 527, 739, 528, 737, 15), PackedVector2Array(307, 98, 655, 97, 660, 448, 306, 448)])
 
 [node name="game" type="Node2D"]
 y_sort_enabled = true
@@ -181,7 +187,6 @@ layer = 2
 [node name="unit_panel" type="CanvasLayer" parent="."]
 
 [node name="boundries" type="StaticBody2D" parent="."]
-visible = false
 metadata/_edit_lock_ = true
 
 [node name="inner_left" type="CollisionShape2D" parent="boundries"]
@@ -223,6 +228,15 @@ metadata/_edit_lock_ = true
 position = Vector2(747, 272)
 shape = SubResource("RectangleShape2D_a8y0u")
 metadata/_edit_lock_ = true
+
+[node name="enemy_nav_region" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_choun")
+navigation_layers = 2
+metadata/_edit_lock_ = true
+
+[node name="player_units_nav" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_kvpfn")
+script = ExtResource("11_kvpfn")
 
 [node name="player_spawn_areas" type="Node2D" parent="."]
 visible = false
@@ -426,11 +440,6 @@ collision_mask = 4
 [node name="CollisionShape2D" type="CollisionShape2D" parent="selection_area"]
 visible = false
 shape = SubResource("RectangleShape2D_jbj1t")
-
-[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
-visible = false
-navigation_polygon = SubResource("NavigationPolygon_choun")
-metadata/_edit_lock_ = true
 
 [node name="enemy_path_points" type="Node2D" parent="."]
 visible = false

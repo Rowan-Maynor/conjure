@@ -2,14 +2,14 @@ extends Button
 
 var t1_units: Array[String] = [
 	"pup",
-	"imp",
-	"ember",
-	"drop",
+	#"imp",
+	#"ember",
+	#"drop",
 	"gator",
-	"guppy",
-	"shrub",
-	"pebble",
-	"monkey"
+	#"guppy",
+	#"shrub",
+	#"pebble",
+	#"monkey"
 ]
 
 var t2_units: Array[String] = [
@@ -50,7 +50,7 @@ func summon_unit():
 			get_tree().get_root().get_node("game").add_status_message("No free space", Color.hex(0xff3e3eff))
 		else:
 			instance.position = spawn_point.global_position
-			get_tree().get_root().get_node("game").get_node("player_units").add_child(instance)
+			get_tree().get_root().get_node("game").get_node("player_units_nav").add_child(instance)
 			var unit_type_with_spaces: String = instance.unit_data.type.replace("_", " ")
 			get_tree().get_root().get_node("game").add_status_message("Conjured " + unit_type_with_spaces)
 			get_tree().get_root().get_node("game").spend_mana(5)
