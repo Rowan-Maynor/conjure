@@ -1,0 +1,94 @@
+[gd_scene load_steps=3 format=3 uid="uid://bhxso26qye605"]
+
+[ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_tvx6p"]
+[ext_resource type="Script" uid="uid://dtv2lrvlyvquo" path="res://scripts/interest_tooltip.gd" id="2_tvx6p"]
+
+[node name="InterestTooltip" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("1_tvx6p")
+script = ExtResource("2_tvx6p")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_left = 222.0
+offset_top = -152.0
+offset_right = 492.0
+offset_bottom = 54.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+
+[node name="title" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Interest"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="body" type="Label" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "You will gain mana at the end of each wave based on your interest. Interest decays by 1% every 5 waves untill wave 50. You can spend mana to upgrade your interest by 1%. The cost to upgrade increases by 5 with every purchase. You can upgrade interest a maximum of 5 times."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="text_container" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="cost_text" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/text_container"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Cost:"
+horizontal_alignment = 2
+
+[node name="total_upgrades_text" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/text_container"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Total Upgrades:"
+horizontal_alignment = 2
+
+[node name="max_upgrades_text" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/text_container"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Max Upgrades:"
+horizontal_alignment = 2
+
+[node name="spacing" type="Control" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="value_container" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="cost_value" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/value_container"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "10"
+
+[node name="total_upgrades_value" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/value_container"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "0"
+
+[node name="max_upgrades_value" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/value_container"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "5"

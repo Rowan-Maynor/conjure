@@ -15,6 +15,7 @@ var move_position: Vector2
 var target_position: Vector2
 var chase: bool = false
 @onready var nav: NavigationAgent2D = $NavigationAgent2D
+@onready var player_nav_mesh: NavigationRegion2D = get_tree().get_root().get_node("game/player_units_nav")
 var enemy_direction: String = "down"
 
 #used to prevent animation overlap
@@ -24,13 +25,15 @@ var is_attacking: bool = false
 func _ready():
 	#this prevents units from running to (0, 0) on spawn
 	move_position = position
-	#defaults spawned enemies to moving downwards on spawn
+	
 	if(unit_data.control == "enemy"):
 		enemy_change_direction(enemy_direction)
-	#this causes units to clot less around the square
-	#however it also makes them jitter like crazy if they do clot
-	if(unit_data.control == "enemy"):
+		#this causes units to clot less around the square
+		#however it also makes them jitter like crazy if they do clot
 		self.safe_margin = 1.0
+		$NavigationAgent2D.set_navigation_layer_value(1, false)
+		$NavigationAgent2D.set_navigation_layer_value(2, true)
+	
 	#initialize nodes based on units data
 	if $attack_range/CollisionShape2D.shape:
 		#need to duplicate the shape or if another unit spawns it will override the attack range
@@ -66,6 +69,16 @@ func _physics_process(_delta: float) -> void:
 			chase = false
 		else:
 			chase = false
+			
+	#must be done before attempting to move
+	update_obstacle_status()
+	
+	if(nav.is_navigation_finished()):
+		if(current_command == "move"):
+			current_command = "idle"
+			$AnimatedSprite2D.play("idle")
+		return
+	
 	#resolves enemy movement if they are more than 3 pixels from target
 	if (position.distance_to(target_position) > 3 && unit_data.control == "enemy"):
 		var next_nav_location: Vector2 = nav.get_next_path_position()
@@ -77,11 +90,18 @@ func _physics_process(_delta: float) -> void:
 		
 	#resolves player movement if they are more than 3 pixels away from click
 	if (position.distance_to(move_position) > 3 && unit_data.control == "player"):
-		target_position = (move_position - position).normalized()
-		velocity = target_position * unit_data.speed
+		var next_nav_location: Vector2 = nav.get_next_path_position()
+		var nav_target_position: Vector2 = (next_nav_location - position).normalized()
+		velocity = nav_target_position * unit_data.speed
 		if(is_attacking == false):
-			handle_anim(target_position)
+			handle_anim(nav_target_position)
 			move_and_slide()
+		
+		#target_position = (move_position - position).normalized()
+		#velocity = target_position * unit_data.speed
+		#if(is_attacking == false):
+			#handle_anim(target_position)
+			#move_and_slide()
 		
 	#sets animation to idle if unit stops moving
 	if (position.distance_to(move_position) < 3 && unit_data.control == "player"):
@@ -293,6 +313,20 @@ func find_lowest_health_target(targets):
 		if (target.unit_data.health < lowest_health_target.unit_data.health):
 			lowest_health_target = target
 	return lowest_health_target
+
+func update_obstacle_status():
+	if(current_command == "idle" || current_command == "hold"):
+		if($NavigationObstacle2D.carve_navigation_mesh == false):
+			$NavigationObstacle2D.set_deferred("affect_navigation_mesh", true)
+			$NavigationObstacle2D.set_deferred("carve_navigation_mesh", true)
+			player_nav_mesh.needs_rebake = true
+		
+	elif(current_command != "idle" || current_command != "hold" ):
+		if($NavigationObstacle2D.carve_navigation_mesh == true):
+			$NavigationObstacle2D.set_deferred("affect_navigation_mesh", false)
+			$NavigationObstacle2D.set_deferred("carve_navigation_mesh", false)
+			player_nav_mesh.needs_rebake = true
+	
 
 #damage functions
 func handle_damage(value, element):

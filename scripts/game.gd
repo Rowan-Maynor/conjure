@@ -11,6 +11,7 @@ var kills: int = 0
 
 #bank values
 var bank_mana: float = 0.0
+var bank_mana_cap: int = 1
 var bank_interest: float = 1.10
 var auto_deposit: int = 0
 var interest_cost: int = 10
@@ -100,7 +101,11 @@ func _input(event: InputEvent) -> void:
 			unit.get_node("attack_spawn_delay").stop()
 			unit.reset_target()
 			unit.current_command = "move"
-			unit.move_position = get_global_mouse_position()
+			var mouse_position: Vector2 = get_global_mouse_position()
+			mouse_position.x = clampf(mouse_position.x, 312.0, 648.0)
+			mouse_position.y = clampf(mouse_position.y, 104.0, 440.0)
+			unit.move_position = mouse_position
+			unit.nav.set_target_position(unit.move_position)
 	if(Input.is_action_just_pressed("stop_movement")):
 		handle_stop_move()
 	if(Input.is_action_just_pressed("hold_position")):
@@ -282,6 +287,9 @@ func next_wave():
 	wave += 1
 	if (wave % 5 == 0):
 		wave_scale_mult += .2
+		decrease_interest()
+	if (wave % 10 == 0):
+		bank_mana_cap += 1
 	wave_time = default_wave_time
 	time_ui_value.text = str(wave_time)
 	var wave_path: String = "res://resources/waves/wave_" + str(wave) + "/wave_properties.tres"
@@ -336,16 +344,7 @@ func _on_wave_time_timeout() -> void:
 				gain_research(3)
 				add_status_message("Gained 3 research", Color.hex(0xe8c078ff))
 			#handles bank interest
-			if(auto_deposit > 0):
-				if(mana < auto_deposit):
-					bank_deposit(mana)
-				else:
-					bank_deposit(auto_deposit)
-			var bank_mana_gained: float = (bank_mana * bank_interest) - bank_mana
-			bank_mana_gained = snapped(bank_mana_gained, 0.01)
-			add_status_message("Gained " + str(bank_mana_gained) + " bank mana", Color.hex(0x199fffff))
-			bank_mana += bank_mana_gained
-			bank_mana_value.text = str(bank_mana)
+			generate_bank_mana()
 			#sets up wait
 			wave_time = 10
 			add_status_message("Break (10 seconds)", Color.hex(0xafafafff))
@@ -373,16 +372,7 @@ func _on_wave_time_timeout() -> void:
 				return
 			else:
 				#handles bank interest
-				if(auto_deposit > 0):
-					if(mana < auto_deposit):
-						bank_deposit(mana)
-					else:
-						bank_deposit(auto_deposit)
-				var bank_mana_gained: float = (bank_mana * bank_interest) - bank_mana
-				bank_mana_gained = snapped(bank_mana_gained, 0.01)
-				add_status_message("Gained " + str(bank_mana_gained) + " bank mana", Color.hex(0x199fffff))
-				bank_mana += bank_mana_gained
-				bank_mana_value.text = str(bank_mana)
+				generate_bank_mana()
 				#sets up wait
 				wave_time = 10
 				add_status_message("Break (10 seconds)", Color.hex(0xafafafff))
@@ -469,7 +459,7 @@ func _on_merge():
 				add_status_message("No free space", Color.hex(0xff3e3eff))
 			else:
 				instance.position = spawn_point.global_position
-				get_tree().get_root().get_node("game").get_node("player_units").add_child(instance)
+				get_tree().get_root().get_node("game").get_node("player_units_nav").add_child(instance)
 				var unit_type_with_spaces: String = instance.unit_data.type.replace("_", " ")
 				add_status_message("Conjured " + unit_type_with_spaces)
 				#merged unit is now spawned, free the others
@@ -519,7 +509,8 @@ func add_status_message(message, color = Color.hex(0xffffffff)):
 	var label: Label = Label.new()
 	label.add_theme_font_size_override("font_size", 16)
 	label.set("theme_override_colors/font_color", color)
-	label.text = message
+	#need to add a space because the outline for text gets cut off for some reason
+	label.text = " " + message
 	label.set_autowrap_mode(TextServer.AUTOWRAP_WORD)
 	var separator: HSeparator = HSeparator.new()
 	if(text_box_container.get_child_count() != 0):
@@ -668,3 +659,30 @@ func increase_interest():
 	interest_cost += 5
 	spend_mana(current_interest_cost)
 	bank_interest_value.text = str((bank_interest - 1.0) * 100) + "%"
+	add_status_message("Interest increased", Color.hex(0xafafafff))
+
+func decrease_interest():
+	bank_interest -= 0.01
+	var rounded_bank_interest: float = snapped(bank_interest, 0.01)
+	bank_interest = rounded_bank_interest
+	#need to snap this calculation specifically (floating point issues)
+	var bank_interest_percentage = snapped((bank_interest - 1) * 100, 0.01)
+	bank_interest_value.text = str(bank_interest_percentage) + "%"
+	add_status_message("Interest decreased", Color.hex(0xafafafff))
+
+func generate_bank_mana():
+	if(auto_deposit > 0):
+		if(mana < auto_deposit):
+			bank_deposit(mana)
+		else:
+			bank_deposit(auto_deposit)
+	var bank_mana_gained: float = (bank_mana * bank_interest) - bank_mana
+	bank_mana_gained = snapped(bank_mana_gained, 0.01)
+	if(bank_mana_gained < bank_mana_cap):
+		add_status_message("Gained " + str(bank_mana_gained) + " bank mana", Color.hex(0x199fffff))
+		bank_mana += bank_mana_gained
+		bank_mana_value.text = str(bank_mana)
+	else:
+		add_status_message("Gained " + str(float(bank_mana_cap)) + " bank mana (Max)", Color.hex(0x199fffff))
+		bank_mana += bank_mana_cap
+		bank_mana_value.text = str(bank_mana)

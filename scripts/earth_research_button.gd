@@ -7,6 +7,7 @@ var max_upgrades: int = 20
 
 func _on_pressed() -> void:
 	upgrade()
+	#updates tooltip if open
 	if(self.get_children()):
 		self.get_child(0).update_data()
 
@@ -19,7 +20,10 @@ func upgrade():
 	get_tree().get_root().get_node("game").earth_research_value += .1
 	get_tree().get_root().get_node("game").spend_research(cost)
 	cost += 1
-	self.text = "\n" + str(cost)
+	if(cost < 21):
+		self.text = "\n" + str(cost)
+	else:
+		self.text = "\nMAX"
 	var damage_percentage: int = int(get_tree().get_root().get_node("game").earth_research_value * 100)
 	var message: String = "Earth research damage increased to " + str(damage_percentage) + "%"
 	var color: Color = Color.hex(0xa778e8ff)
@@ -49,7 +53,7 @@ func _on_mouse_exited() -> void:
 	hover_timer.stop()
 	if(self.get_children()):
 		var tooltip: Node = self.get_child(0)
-		self.remove_child(tooltip)
+		tooltip.queue_free()
 
 func _on_earth_research_hover_timeout() -> void:
 	var tooltip: Node = load("res://scenes/tooltips/earth_research_tooltip.tscn").instantiate()

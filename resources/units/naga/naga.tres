@@ -4,11 +4,11 @@
 
 [resource]
 script = ExtResource("1_k6r2p")
-damage = 35
-attack_range = 200
-attack_speed = 2.0
+damage = 42
+attack_range = 150
+attack_speed = 5.0
 health = 10
-speed = 100
+speed = 120
 element = "water"
 type = "naga"
 control = "player"

@@ -1,0 +1,42 @@
+[gd_scene load_steps=2 format=3 uid="uid://ywsxs2jr6wrg"]
+
+[ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_3w67p"]
+
+[node name="HoldTooltip" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("1_3w67p")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+z_index = 1
+layout_mode = 0
+offset_left = -270.0
+offset_top = -113.0
+offset_bottom = 28.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+
+[node name="title" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Infusion"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="body" type="Label" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Mechanic not built yet.
+Eventually you will be able to spend research to infuse individual units for a % damage increase. Infusion will have a % chance to succeed, with lower odds giving higher damage return."
+horizontal_alignment = 1
+autowrap_mode = 2

@@ -4,9 +4,9 @@
 
 [resource]
 script = ExtResource("1_f5rb7")
-damage = 35
+damage = 54
 attack_range = 200
-attack_speed = 2.0
+attack_speed = 6.0
 health = 10
 speed = 100
 element = "earth"

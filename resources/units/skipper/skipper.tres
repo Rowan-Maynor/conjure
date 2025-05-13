@@ -4,9 +4,9 @@
 
 [resource]
 script = ExtResource("1_hcroh")
-damage = 15
-attack_range = 200
-attack_speed = 2.0
+damage = 9
+attack_range = 100
+attack_speed = 2.5
 health = 10
 speed = 100
 element = "water"

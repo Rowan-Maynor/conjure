@@ -129,59 +129,96 @@ offset_right = 960.0
 offset_bottom = 540.0
 texture = ExtResource("3_bqqt6")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="title" type="PanelContainer" parent="."]
 z_index = 1
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -160.0
-offset_top = -82.0
-offset_right = 160.0
-offset_bottom = 82.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="title" type="PanelContainer" parent="VBoxContainer"]
 layout_mode = 2
+offset_left = 320.0
+offset_top = 105.0
+offset_right = 640.0
+offset_bottom = 247.0
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/title"]
+[node name="MarginContainer" type="MarginContainer" parent="title"]
 layout_mode = 2
 theme_override_constants/margin_bottom = 20
 
-[node name="Label" type="Label" parent="VBoxContainer/title/MarginContainer"]
+[node name="Label" type="Label" parent="title/MarginContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 128
 text = "Conjure"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="middle_spacing" type="Control" parent="VBoxContainer"]
-custom_minimum_size = Vector2(0, 50)
+[node name="play_button" type="Button" parent="."]
+custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
+offset_left = 390.0
+offset_top = 480.0
+offset_right = 570.0
+offset_bottom = 560.0
 
-[node name="buttons" type="PanelContainer" parent="VBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_horizontal = 4
-
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/buttons"]
-layout_mode = 2
-
-[node name="play_button" type="Button" parent="VBoxContainer/buttons/VBoxContainer"]
-layout_mode = 2
+[node name="Label" type="Label" parent="play_button"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -30.0
+offset_right = 30.0
+offset_bottom = 51.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 64
 text = "Play"
+horizontal_alignment = 1
 
-[node name="options_button" type="Button" parent="VBoxContainer/buttons/VBoxContainer"]
+[node name="options_button" type="Button" parent="."]
 layout_mode = 2
+offset_left = 251.0
+offset_top = 505.0
+offset_right = 391.0
+offset_bottom = 549.0
 disabled = true
-text = "Options"
 
-[node name="quit_button" type="Button" parent="VBoxContainer/buttons/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="options_button"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -26.0
+offset_right = 26.0
+offset_bottom = 40.0
+grow_horizontal = 2
+
+[node name="top_spacing" type="Control" parent="options_button/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="options_button/VBoxContainer"]
+layout_mode = 2
+text = "Options"
+horizontal_alignment = 1
+
+[node name="quit_button" type="Button" parent="."]
+layout_mode = 2
+offset_left = 569.0
+offset_top = 505.0
+offset_right = 709.0
+offset_bottom = 549.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="quit_button"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+
+[node name="top_spacing" type="Control" parent="quit_button/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="quit_button/VBoxContainer"]
 layout_mode = 2
 text = "Quit"
+horizontal_alignment = 1
 
 [node name="clouds" type="Control" parent="."]
 anchors_preset = 0
@@ -239,6 +276,6 @@ sprite_frames = SubResource("SpriteFrames_8egab")
 autoplay = "default"
 flip_h = true
 
-[connection signal="pressed" from="VBoxContainer/buttons/VBoxContainer/play_button" to="." method="_on_play_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/buttons/VBoxContainer/quit_button" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="play_button" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="quit_button" to="." method="_on_quit_button_pressed"]
 [connection signal="timeout" from="cloud_movement_timer" to="cloud_movement_timer" method="_on_timeout"]

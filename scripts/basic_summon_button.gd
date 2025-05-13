@@ -2,15 +2,26 @@ extends Button
 
 var t1_units: Array[String] = [
 	"pup",
-	"imp",
-	"ember",
-	"drop",
+	#"imp",
+	#"ember",
+	#"drop",
 	"gator",
-	"guppy",
-	"shrub",
-	"pebble",
-	"monkey"
+	#"guppy",
+	#"shrub",
+	#"pebble",
+	#"monkey"
 ]
+
+var t2_units: Array[String] = [
+	"hound",
+	"demon",
+	"shaman",
+	"skipper",
+	"idol",
+	"guardian"
+]
+
+var lucky_summon_chance: int = 1
 
 @onready var cooldown_timer: Timer = get_tree().get_root().get_node("game/main_ui/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_cooldown")
 @onready var hover_timer: Timer = get_tree().get_root().get_node("game/main_ui/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_hover")
@@ -21,7 +32,13 @@ func _on_pressed():
 func summon_unit():
 	if(get_tree().get_root().get_node("game").mana >= 5):
 		var spawn_areas: Array[Node] = get_tree().get_root().get_node("game/player_spawn_areas").get_children()
-		var unit: String = t1_units.pick_random()
+		var unit: String
+		#handles lucky summon chance
+		var lucky_summon: int = randi_range(1, 100)
+		if(lucky_summon <= lucky_summon_chance):
+			unit = t2_units.pick_random()
+		else:
+			unit = t1_units.pick_random()
 		var unit_scene_path: String = "res://scenes/units/" + unit + ".tscn"
 		var instance: Node = load(unit_scene_path).instantiate()
 		var unit_data_path: String = "res://resources/units/" + unit + "/" + unit + ".tres"
@@ -33,7 +50,7 @@ func summon_unit():
 			get_tree().get_root().get_node("game").add_status_message("No free space", Color.hex(0xff3e3eff))
 		else:
 			instance.position = spawn_point.global_position
-			get_tree().get_root().get_node("game").get_node("player_units").add_child(instance)
+			get_tree().get_root().get_node("game").get_node("player_units_nav").add_child(instance)
 			var unit_type_with_spaces: String = instance.unit_data.type.replace("_", " ")
 			get_tree().get_root().get_node("game").add_status_message("Conjured " + unit_type_with_spaces)
 			get_tree().get_root().get_node("game").spend_mana(5)
@@ -63,7 +80,7 @@ func _on_mouse_exited() -> void:
 	hover_timer.stop()
 	if(self.get_children()):
 		var tooltip: Node = self.get_child(0)
-		self.remove_child(tooltip)
+		tooltip.queue_free()
 
 func _on_basic_summon_hover_timeout() -> void:
 	var tooltip: Node = load("res://scenes/tooltips/basic_summon_tooltip.tscn").instantiate()
