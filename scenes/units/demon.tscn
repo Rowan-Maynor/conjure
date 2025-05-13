@@ -6,7 +6,7 @@
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lke8v"]
 radius = 3.0
-height = 18.0
+height = 13.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_k4pre"]
 radius = 8.0
@@ -87,7 +87,7 @@ collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_esepm")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="world_collision" type="CollisionShape2D" parent="."]
 z_index = -1
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_lke8v")
@@ -118,6 +118,7 @@ position = Vector2(0, -15)
 texture = ExtResource("3_lke8v")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 3.0
 avoidance_enabled = true
 
 [node name="attack_range" type="Area2D" parent="."]
@@ -150,6 +151,9 @@ one_shot = true
 [node name="attack_spawn_delay" type="Timer" parent="."]
 wait_time = 0.3
 one_shot = true
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
+vertices = PackedVector2Array(15, 5, -15, 5, -15, -5, 15, -5)
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="body_entered" from="attack_range" to="." method="_on_attack_range_body_entered"]

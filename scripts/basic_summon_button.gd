@@ -9,7 +9,8 @@ var t1_units: Array[String] = [
 	#"guppy",
 	#"shrub",
 	#"pebble",
-	#"monkey"
+	#"monkey",
+	"hell_hound"
 ]
 
 var t2_units: Array[String] = [
