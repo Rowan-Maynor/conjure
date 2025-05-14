@@ -7,8 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://bj5opsff1mwa5" path="res://assets/sprites/units/pup/move.png" id="5_nn61e"]
 [ext_resource type="Texture2D" uid="uid://kd3ksjbvjk3q" path="res://assets/sprites/units/pup/selection.png" id="6_ksdo6"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_qvgk5"]
-radius = 7.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ksdo6"]
+radius = 3.0
+height = 13.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_k4pre"]
 radius = 8.0
@@ -232,10 +233,11 @@ collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_ksdo6")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="world_collision" type="CollisionShape2D" parent="."]
+visible = false
 z_index = -1
 rotation = 1.5708
-shape = SubResource("CircleShape2D_qvgk5")
+shape = SubResource("CapsuleShape2D_ksdo6")
 metadata/_edit_lock_ = true
 
 [node name="selection_area" type="Area2D" parent="."]
@@ -266,9 +268,9 @@ texture = ExtResource("6_ksdo6")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 path_desired_distance = 3.0
+target_desired_distance = 5.0
 avoidance_enabled = true
 radius = 100.0
-debug_enabled = true
 
 [node name="attack_range" type="Area2D" parent="."]
 visible = false
@@ -302,7 +304,8 @@ wait_time = 0.3
 one_shot = true
 
 [node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
-vertices = PackedVector2Array(22, 8, -22, 8, -22, -8, 22, -8)
+visible = false
+vertices = PackedVector2Array(14, 6, -14, 6, -16, 2, -16, -2, -14, -6, 14, -6, 16, -2, 16, 2)
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="body_entered" from="attack_range" to="." method="_on_attack_range_body_entered"]

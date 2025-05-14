@@ -4,8 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://dx58xgmsqtdau" path="res://assets/sprites/units/guardian/base.png" id="2_281xe"]
 [ext_resource type="Texture2D" uid="uid://djxrej23btu6c" path="res://assets/sprites/units/guardian/selection.png" id="3_281xe"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_qvgk5"]
-radius = 7.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_281xe"]
+radius = 3.0
+height = 20.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_k4pre"]
 radius = 8.0
@@ -90,7 +91,7 @@ script = ExtResource("1_281xe")
 visible = false
 z_index = -1
 rotation = 1.5708
-shape = SubResource("CircleShape2D_qvgk5")
+shape = SubResource("CapsuleShape2D_281xe")
 metadata/_edit_lock_ = true
 
 [node name="selection_area" type="Area2D" parent="."]
@@ -105,7 +106,7 @@ shape = SubResource("CapsuleShape2D_k4pre")
 metadata/_edit_lock_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -7)
+position = Vector2(0, -8)
 sprite_frames = SubResource("SpriteFrames_iqh78")
 animation = &"move"
 autoplay = "idle"
@@ -113,10 +114,12 @@ autoplay = "idle"
 [node name="selection_sprite" type="Sprite2D" parent="."]
 visible = false
 z_index = -1
-position = Vector2(0, -7)
+position = Vector2(0, -8)
 texture = ExtResource("3_281xe")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 3.0
+target_desired_distance = 8.0
 avoidance_enabled = true
 
 [node name="attack_range" type="Area2D" parent="."]
@@ -149,6 +152,10 @@ one_shot = true
 [node name="attack_spawn_delay" type="Timer" parent="."]
 wait_time = 0.3
 one_shot = true
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
+visible = false
+vertices = PackedVector2Array(13, 8, -13, 8, -19, 3, -19, -4, -13, -8, 13, -8, 19, -4, 19, 4)
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="body_entered" from="attack_range" to="." method="_on_attack_range_body_entered"]
