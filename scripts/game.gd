@@ -662,7 +662,8 @@ func increase_interest():
 	bank_interest += 0.01
 	interest_cost += 5
 	spend_mana(current_interest_cost)
-	bank_interest_value.text = str((bank_interest - 1.0) * 100) + "%"
+	var bank_interest_snapped: float = snapped((bank_interest - 1.0) * 100, 0.01)
+	bank_interest_value.text = str(bank_interest_snapped) + "%"
 	add_status_message("Interest increased", Color.hex(0xafafafff))
 
 func decrease_interest():
