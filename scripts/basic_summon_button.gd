@@ -2,15 +2,14 @@ extends Button
 
 var t1_units: Array[String] = [
 	"pup",
-	#"imp",
-	#"ember",
-	#"drop",
+	"imp",
+	"ember",
+	"drop",
 	"gator",
-	#"guppy",
-	#"shrub",
-	#"pebble",
-	#"monkey",
-	"hell_hound"
+	"guppy",
+	"shrub",
+	"pebble",
+	"monkey",
 ]
 
 var t2_units: Array[String] = [

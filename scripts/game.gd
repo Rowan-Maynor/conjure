@@ -118,7 +118,11 @@ func _input(event: InputEvent) -> void:
 				unit.find_new_target()
 				unit.current_command = "attack"
 				if(unit.current_target == null):
-					unit.move_position = get_global_mouse_position()
+					var mouse_position: Vector2 = get_global_mouse_position()
+					mouse_position.x = clampf(mouse_position.x, 312.0, 648.0)
+					mouse_position.y = clampf(mouse_position.y, 104.0, 440.0)
+					unit.move_position = mouse_position
+					unit.nav.set_target_position(unit.move_position)
 		attack_move = false
 		Input.set_custom_mouse_cursor(cursor_default)
 		get_viewport().set_input_as_handled()
@@ -278,7 +282,7 @@ func spawn_wave():
 		unit.unit_data.health = wave * wave_scale_mult_final
 		unit.position = spawn_point.position
 		unit.connect("died", _on_died)
-		get_tree().get_root().get_node("game").get_node("enemy_units").add_child(unit)
+		get_tree().get_root().get_node("game").get_node("enemy_units_nav").add_child(unit)
 	waves_remaining -= 1
 	if(waves_remaining == 0 && wave % 10 != 0):
 		$wave_time.start()
@@ -326,14 +330,14 @@ func spawn_boss():
 	
 	boss_unit.position = spawn_point.position
 	boss_unit.connect("died", _on_died)
-	get_tree().get_root().get_node("game").get_node("enemy_units").add_child(boss_unit)
+	get_tree().get_root().get_node("game").get_node("enemy_units_nav").add_child(boss_unit)
 	
 	$wave_time.start()
 	$wave_delay.stop()
 
 #functions that handle game timers
 func _on_wave_time_timeout() -> void:
-	if($enemy_units.get_child_count() == 0):
+	if($enemy_units_nav.get_child_count() == 0):
 		if(wave == wave_max):
 			var win_screen: Node = load("res://scenes/ui_components/win_screen.tscn").instantiate()
 			get_tree().get_root().get_node("game").get_node("main_ui").add_child(win_screen)
@@ -355,7 +359,7 @@ func _on_wave_time_timeout() -> void:
 		time_ui_value.text = str(wave_time)
 	else:
 		$wave_time.stop()
-		var remaining_enemies: Node = $enemy_units
+		var remaining_enemies: Node = $enemy_units_nav
 		lives -= remaining_enemies.get_child_count()
 		add_status_message("lives -" + str(remaining_enemies.get_child_count()), Color.hex(0xff3e3eff))
 		lives_ui_value.text = str(lives)

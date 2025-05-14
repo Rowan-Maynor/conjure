@@ -229,7 +229,8 @@ position = Vector2(747, 272)
 shape = SubResource("RectangleShape2D_a8y0u")
 metadata/_edit_lock_ = true
 
-[node name="enemy_nav_region" type="NavigationRegion2D" parent="."]
+[node name="enemy_units_nav" type="NavigationRegion2D" parent="."]
+y_sort_enabled = true
 navigation_polygon = SubResource("NavigationPolygon_choun")
 navigation_layers = 2
 metadata/_edit_lock_ = true
@@ -238,6 +239,7 @@ metadata/_edit_lock_ = true
 y_sort_enabled = true
 navigation_polygon = SubResource("NavigationPolygon_kvpfn")
 script = ExtResource("11_kvpfn")
+metadata/_edit_lock_ = true
 
 [node name="player_spawn_areas" type="Node2D" parent="."]
 visible = false
@@ -351,9 +353,6 @@ metadata/_edit_lock_ = true
 
 [node name="player_spawn_point" type="Marker2D" parent="player_spawn_areas/player_spawn_area_9/player_spawn_area"]
 metadata/_edit_lock_ = true
-
-[node name="player_units" type="Node2D" parent="."]
-y_sort_enabled = true
 
 [node name="enemy_spawn_areas" type="Node2D" parent="."]
 visible = false

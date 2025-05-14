@@ -16,6 +16,7 @@ var target_position: Vector2
 var chase: bool = false
 @onready var nav: NavigationAgent2D = $NavigationAgent2D
 @onready var player_nav_mesh: NavigationRegion2D = get_tree().get_root().get_node("game/player_units_nav")
+@onready var enemy_nav_mesh: NavigationRegion2D = get_tree().get_root().get_node("game/enemy_units_nav")
 var enemy_direction: String = "down"
 
 #used to prevent animation overlap
@@ -33,9 +34,12 @@ func _ready():
 		self.safe_margin = 1.0
 		$NavigationAgent2D.set_navigation_layer_value(1, false)
 		$NavigationAgent2D.set_navigation_layer_value(2, true)
+		#units keep going oposite directions trying to reach target
+		#might aswell just turn off unit collision for enemies
+		self.set_collision_mask_value(2, false)
 	
 	#initialize nodes based on units data
-	if $attack_range/CollisionShape2D.shape:
+	if ($attack_range/CollisionShape2D.shape):
 		#need to duplicate the shape or if another unit spawns it will override the attack range
 		$attack_range/CollisionShape2D.shape = $attack_range/CollisionShape2D.shape.duplicate(true)
 		$attack_range/CollisionShape2D.shape.radius = unit_data.attack_range
@@ -45,16 +49,16 @@ func _ready():
 
 func _physics_process(_delta: float) -> void:
 	#handles updating the path of enemies when they get near corners
-	if (target_position.y - position.y <= 3 && unit_data.control == "enemy" && enemy_direction == "down"):
+	if (target_position.y - position.y <= 5 && unit_data.control == "enemy" && enemy_direction == "down"):
 		enemy_direction = "right"
 		enemy_change_direction(enemy_direction)
-	if (target_position.x - position.x <= 3 && unit_data.control == "enemy" && enemy_direction == "right"):
+	if (target_position.x - position.x <= 5 && unit_data.control == "enemy" && enemy_direction == "right"):
 		enemy_direction = "up"
 		enemy_change_direction(enemy_direction)
-	if (position.y - target_position.y <= 3 && unit_data.control == "enemy" && enemy_direction == "up"):
+	if (position.y - target_position.y <= 5 && unit_data.control == "enemy" && enemy_direction == "up"):
 		enemy_direction = "left"
 		enemy_change_direction(enemy_direction)
-	if (position.x - target_position.x <= 3 && unit_data.control == "enemy" && enemy_direction == "left"):
+	if (position.x - target_position.x <= 5 && unit_data.control == "enemy" && enemy_direction == "left"):
 		enemy_direction = "down"
 		enemy_change_direction(enemy_direction)
 	
@@ -63,6 +67,7 @@ func _physics_process(_delta: float) -> void:
 		#as when you try to get the posiion for the chase the game will crash
 		if(current_target != null):
 			move_position = current_target.position
+			self.nav.set_target_position(move_position)
 		#there is a case where a unit will be in the idle state chasing a target
 		#i am not sure why its happening so this is a bandaid fix
 		elif(current_command == "idle"):
@@ -70,11 +75,15 @@ func _physics_process(_delta: float) -> void:
 		else:
 			chase = false
 			
+	#there are cases where units get stuck on focus with no target
+	if(current_command == "focus" && current_target == null):
+		current_command = "idle"
+	
 	#must be done before attempting to move
 	update_obstacle_status()
 	
-	if(nav.is_navigation_finished()):
-		if(current_command == "move"):
+	if(nav.is_navigation_finished() && unit_data.control == "player"):
+		if(current_command == "move" || current_command == "attack"):
 			current_command = "idle"
 			$AnimatedSprite2D.play("idle")
 		return
@@ -97,12 +106,6 @@ func _physics_process(_delta: float) -> void:
 			handle_anim(nav_target_position)
 			move_and_slide()
 		
-		#target_position = (move_position - position).normalized()
-		#velocity = target_position * unit_data.speed
-		#if(is_attacking == false):
-			#handle_anim(target_position)
-			#move_and_slide()
-		
 	#sets animation to idle if unit stops moving
 	if (position.distance_to(move_position) < 3 && unit_data.control == "player"):
 		if(is_attacking == false):
@@ -124,7 +127,6 @@ func die():
 	#is_attacking used so that animation plays instead of more movement
 	is_attacking = true
 	move_position = position
-	$CollisionShape2D.set_deferred("disabled", true)
 	$AnimatedSprite2D.play("death")
 	emit_signal("died", self)
 
@@ -271,6 +273,7 @@ func _on_attack_speed_timeout() -> void:
 
 func _on_attack_animation_speed_timeout() -> void:
 	is_attacking = false
+	$AnimatedSprite2D.play("idle")
 
 func _on_attack_contact(body, damage, element):
 	body.handle_damage(damage, element)
@@ -315,7 +318,21 @@ func find_lowest_health_target(targets):
 	return lowest_health_target
 
 func update_obstacle_status():
-	if(current_command == "idle" || current_command == "hold"):
+	if(unit_data.control == "enemy"):
+		return
+	if(is_attacking == true && current_command == "focus"):
+		if($NavigationObstacle2D.carve_navigation_mesh == false):
+			$NavigationObstacle2D.set_deferred("affect_navigation_mesh", true)
+			$NavigationObstacle2D.set_deferred("carve_navigation_mesh", true)
+			player_nav_mesh.needs_rebake = true
+		
+	elif(is_attacking == false && current_command == "focus"):
+		if($NavigationObstacle2D.carve_navigation_mesh == true):
+			$NavigationObstacle2D.set_deferred("affect_navigation_mesh", false)
+			$NavigationObstacle2D.set_deferred("carve_navigation_mesh", false)
+			player_nav_mesh.needs_rebake = true
+		
+	elif(current_command == "idle" || current_command == "hold"):
 		if($NavigationObstacle2D.carve_navigation_mesh == false):
 			$NavigationObstacle2D.set_deferred("affect_navigation_mesh", true)
 			$NavigationObstacle2D.set_deferred("carve_navigation_mesh", true)
