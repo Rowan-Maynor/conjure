@@ -1,0 +1,333 @@
+[gd_scene load_steps=24 format=3 uid="uid://d2y488h20ur7k"]
+
+[ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_fujbi"]
+[ext_resource type="Texture2D" uid="uid://clpmekquk6ue3" path="res://assets/sprites/units/pup/base.png" id="2_saa45"]
+[ext_resource type="Texture2D" uid="uid://drbjxo526uvbt" path="res://assets/ui/9patchrect_active.png" id="3_cj0fx"]
+[ext_resource type="Texture2D" uid="uid://cm4a7d53s5cgb" path="res://assets/sprites/units/ember/base.png" id="3_w4m08"]
+[ext_resource type="Texture2D" uid="uid://bdjswyrf0tf6m" path="res://assets/sprites/units/imp/base.png" id="4_cj0fx"]
+[ext_resource type="Texture2D" uid="uid://g5ijdnf3v7xk" path="res://assets/sprites/units/guppy/base.png" id="5_16bct"]
+[ext_resource type="Texture2D" uid="uid://cfs748kamidd5" path="res://assets/sprites/units/drop/base.png" id="6_ur7ku"]
+[ext_resource type="Texture2D" uid="uid://0ih01yrd7owb" path="res://assets/sprites/units/gator/base.png" id="7_detl0"]
+[ext_resource type="Texture2D" uid="uid://om3mlhyv6qpp" path="res://assets/sprites/units/monkey/base.png" id="8_tm7ds"]
+[ext_resource type="Texture2D" uid="uid://dgwoifvr2qdal" path="res://assets/sprites/units/pebble/base.png" id="9_qns4g"]
+[ext_resource type="Texture2D" uid="uid://c3hrdspg5ggxk" path="res://assets/sprites/units/shrub/base.png" id="10_lww56"]
+[ext_resource type="Texture2D" uid="uid://dd33s3cg0m07m" path="res://assets/sprites/units/hound/base.png" id="11_oswgk"]
+[ext_resource type="Texture2D" uid="uid://be48mpnk5o7vb" path="res://assets/sprites/units/demon/base.png" id="12_jrr6l"]
+[ext_resource type="Texture2D" uid="uid://bem2syshoc7ca" path="res://assets/sprites/units/skipper/base.png" id="13_7meoe"]
+[ext_resource type="Shader" uid="uid://gwfyq30s6ibw" path="res://shaders/hidden.gdshader" id="13_cj0fx"]
+[ext_resource type="Texture2D" uid="uid://b01o510a48jsd" path="res://assets/sprites/units/shaman/base.png" id="14_ouyln"]
+[ext_resource type="Texture2D" uid="uid://bd6q5hifpwgg3" path="res://assets/sprites/units/idol/base.png" id="15_o81x2"]
+[ext_resource type="Texture2D" uid="uid://dx58xgmsqtdau" path="res://assets/sprites/units/guardian/base.png" id="16_hkb88"]
+[ext_resource type="Texture2D" uid="uid://c62chhksq4ce7" path="res://assets/sprites/units/hell_hound/base.png" id="17_ed34p"]
+[ext_resource type="Texture2D" uid="uid://dxkfxp2wm4odi" path="res://assets/sprites/units/naga/base.png" id="18_2xgit"]
+[ext_resource type="Texture2D" uid="uid://dmxkj1ddqhv46" path="res://assets/sprites/units/great_ape/base.png" id="19_tj0j2"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_16bct"]
+texture = ExtResource("3_cj0fx")
+texture_margin_left = 9.0
+texture_margin_top = 9.0
+texture_margin_right = 9.0
+texture_margin_bottom = 9.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cj0fx"]
+shader = ExtResource("13_cj0fx")
+
+[node name="Tome_Units" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_fujbi")
+
+[node name="label_container" type="PanelContainer" parent="."]
+z_index = 1
+layout_mode = 1
+offset_left = 120.0
+offset_top = 20.0
+offset_right = 920.0
+offset_bottom = 91.0
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="label_container"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Units"
+horizontal_alignment = 1
+
+[node name="main_content_container" type="PanelContainer" parent="."]
+layout_mode = 1
+offset_left = 120.0
+offset_top = 20.0
+offset_right = 920.0
+offset_bottom = 520.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_16bct")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="main_content_container"]
+layout_mode = 2
+
+[node name="top_margin" type="Control" parent="main_content_container/VBoxContainer"]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="main_content_container/VBoxContainer"]
+layout_mode = 2
+
+[node name="left_margin" type="Control" parent="main_content_container/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(45, 0)
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="main_content_container/VBoxContainer/HBoxContainer"]
+clip_contents = false
+layout_mode = 2
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+
+[node name="unit_buttons" type="GridContainer" parent="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer"]
+layout_mode = 2
+columns = 8
+
+[node name="pup" type="Button" parent="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons"]
+custom_minimum_size = Vector2(82, 82)
+layout_mode = 2
+icon = ExtResource("2_saa45")
+icon_alignment = 1
+
+[node name="ember" type="Button" parent="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons"]
+custom_minimum_size = Vector2(82, 82)
+layout_mode = 2
+icon = ExtResource("3_w4m08")
+icon_alignment = 1
+
+[node name="imp" type="Button" parent="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons"]
+custom_minimum_size = Vector2(82, 82)
+layout_mode = 2
+icon = ExtResource("4_cj0fx")
+icon_alignment = 1
+
+[node name="guppy" type="Button" parent="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons"]
+custom_minimum_size = Vector2(82, 82)
+layout_mode = 2
+icon = ExtResource("5_16bct")
+icon_alignment = 1
+
+[node name="drop" type="Button" parent="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons"]
+custom_minimum_size = Vector2(82, 82)
+layout_mode = 2
+icon = ExtResource("6_ur7ku")
+icon_alignment = 1
+
+[node name="gator" type="Button" parent="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons"]
+custom_minimum_size = Vector2(82, 82)
+layout_mode = 2
+icon = ExtResource("7_detl0")
+icon_alignment = 1
+
+[node name="monkey" type="Button" parent="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons"]
+custom_minimum_size = Vector2(82, 82)
+layout_mode = 2
+icon = ExtResource("8_tm7ds")
+icon_alignment = 1
+
+[node name="pebble" type="Button" parent="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons"]
+custom_minimum_size = Vector2(82, 82)
+layout_mode = 2
+icon = ExtResource("9_qns4g")
+icon_alignment = 1
+
+[node name="shrub" type="Button" parent="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons"]
+custom_minimum_size = Vector2(82, 82)
+layout_mode = 2
+icon = ExtResource("10_lww56")
+icon_alignment = 1
+
+[node name="hound" type="Button" parent="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons"]
+layout_mode = 2
+disabled = true
+icon_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons/hound"]
+material = SubResource("ShaderMaterial_cj0fx")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("11_oswgk")
+
+[node name="demon" type="Button" parent="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons"]
+layout_mode = 2
+disabled = true
+icon_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons/demon"]
+material = SubResource("ShaderMaterial_cj0fx")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("12_jrr6l")
+
+[node name="skipper" type="Button" parent="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons"]
+layout_mode = 2
+disabled = true
+icon_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons/skipper"]
+material = SubResource("ShaderMaterial_cj0fx")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -24.0
+offset_top = -24.0
+offset_right = 24.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("13_7meoe")
+
+[node name="shaman" type="Button" parent="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons"]
+layout_mode = 2
+disabled = true
+icon_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons/shaman"]
+material = SubResource("ShaderMaterial_cj0fx")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -24.0
+offset_top = -24.0
+offset_right = 24.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("14_ouyln")
+
+[node name="idol" type="Button" parent="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons"]
+layout_mode = 2
+disabled = true
+icon_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons/idol"]
+material = SubResource("ShaderMaterial_cj0fx")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -24.0
+offset_top = -24.0
+offset_right = 24.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("15_o81x2")
+
+[node name="guardian" type="Button" parent="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons"]
+layout_mode = 2
+disabled = true
+icon_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons/guardian"]
+material = SubResource("ShaderMaterial_cj0fx")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -24.0
+offset_top = -24.0
+offset_right = 24.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("16_hkb88")
+
+[node name="hell_hound" type="Button" parent="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons"]
+layout_mode = 2
+disabled = true
+icon_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons/hell_hound"]
+material = SubResource("ShaderMaterial_cj0fx")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -24.0
+offset_top = -24.0
+offset_right = 24.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("17_ed34p")
+
+[node name="naga" type="Button" parent="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons"]
+custom_minimum_size = Vector2(82, 82)
+layout_mode = 2
+disabled = true
+icon_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons/naga"]
+material = SubResource("ShaderMaterial_cj0fx")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("18_2xgit")
+
+[node name="great_ape" type="Button" parent="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons"]
+layout_mode = 2
+disabled = true
+icon_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons/great_ape"]
+material = SubResource("ShaderMaterial_cj0fx")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("19_tj0j2")
