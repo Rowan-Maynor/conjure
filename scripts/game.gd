@@ -78,7 +78,7 @@ func _ready():
 	research_ui_value.text = str(research)
 	update_mana_buttons()
 	update_research_buttons()
-	save()
+	save_player_data()
 
 func _input(event: InputEvent) -> void:
 	if(Input.is_action_just_pressed("toggle_fullscreen")):
@@ -466,6 +466,7 @@ func _on_merge():
 				get_tree().get_root().get_node("game").get_node("player_units_nav").add_child(instance)
 				var unit_type_with_spaces: String = instance.unit_data.type.replace("_", " ")
 				add_status_message("Conjured " + unit_type_with_spaces)
+				check_recipe_unlock(instance.unit_data.type)
 				#merged unit is now spawned, free the others
 				selected.pop_at(selected.find(main_unit))
 				main_unit.queue_free()
@@ -533,7 +534,7 @@ func find_open_spawn_point():
 			return area
 	return null
 
-func save():
+func save_player_data():
 	ResourceSaver.save(player_data, "res://resources/player/player_data.tres")
 
 func gain_research(ammount):
@@ -691,3 +692,8 @@ func generate_bank_mana():
 		add_status_message("Gained " + str(float(bank_mana_cap)) + " bank mana (Max)", Color.hex(0x199fffff))
 		bank_mana += bank_mana_cap
 		bank_mana_value.text = str(bank_mana)
+
+func check_recipe_unlock(type: String):
+	if(player_data.recipe_unlocks.get(type) == false):
+		player_data.recipe_unlocks.set(type, true)
+		save_player_data()

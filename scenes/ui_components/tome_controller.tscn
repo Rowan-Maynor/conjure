@@ -1,0 +1,67 @@
+[gd_scene load_steps=7 format=3 uid="uid://ddloq58g4ywb7"]
+
+[ext_resource type="PackedScene" uid="uid://d2y488h20ur7k" path="res://scenes/ui_components/tome_units.tscn" id="1_4vont"]
+[ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_40b6c"]
+[ext_resource type="Texture2D" uid="uid://dkgytjkrmkld5" path="res://assets/ui/basic_summon_icon.png" id="2_fkmyr"]
+[ext_resource type="Texture2D" uid="uid://dr70g110va4hx" path="res://assets/ui/knowledge_icon.png" id="3_wd7ly"]
+[ext_resource type="Texture2D" uid="uid://cxmqxh2veh5mk" path="res://assets/ui/stop_icon.png" id="4_fkmyr"]
+[ext_resource type="Script" uid="uid://mrgfn4h6waij" path="res://scripts/close_tome_button.gd" id="5_wd7ly"]
+
+[node name="TomeController" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_40b6c")
+
+[node name="tome_tabs" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 50.0
+offset_right = 160.0
+offset_bottom = 254.0
+
+[node name="units" type="Button" parent="tome_tabs"]
+custom_minimum_size = Vector2(120, 80)
+layout_mode = 2
+icon = ExtResource("2_fkmyr")
+expand_icon = true
+
+[node name="mechanics" type="Button" parent="tome_tabs"]
+custom_minimum_size = Vector2(110, 80)
+layout_mode = 2
+disabled = true
+icon = ExtResource("3_wd7ly")
+expand_icon = true
+
+[node name="close_tome_button" type="Button" parent="."]
+top_level = true
+z_index = 2
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 0
+offset_left = 860.0
+offset_top = 30.0
+offset_right = 910.0
+offset_bottom = 80.0
+icon = ExtResource("4_fkmyr")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("5_wd7ly")
+
+[node name="tome_content" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Tome" parent="tome_content" instance=ExtResource("1_4vont")]
+layout_mode = 1
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[connection signal="pressed" from="close_tome_button" to="close_tome_button" method="_on_pressed"]
