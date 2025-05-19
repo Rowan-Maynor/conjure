@@ -87,8 +87,8 @@ func _input(event: InputEvent) -> void:
 		else:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
 	if(Input.is_action_just_pressed("pause")):
-		var pause_menu: Node = load("res://scenes/ui_components/pause_menu.tscn").instantiate()
-		get_tree().get_root().get_node("game/pause_menu_canvas").add_child(pause_menu)
+		var tome_menu: Node = load("res://scenes/ui_components/tome_controller.tscn").instantiate()
+		get_tree().get_root().get_node("game/tome_canvas").add_child(tome_menu)
 		get_tree().paused = true
 	if(Input.is_action_just_pressed("attack_move")):
 		handle_attack_move()
@@ -517,8 +517,8 @@ func add_status_message(message, color = Color.hex(0xffffffff)):
 	#need to add a space because the outline for text gets cut off for some reason
 	label.text = " " + message
 	label.set_autowrap_mode(TextServer.AUTOWRAP_WORD)
-	var separator: HSeparator = HSeparator.new()
 	if(text_box_container.get_child_count() != 0):
+		var separator: HSeparator = HSeparator.new()
 		text_box_container.add_child(separator)
 	text_box_container.add_child(label)
 	
@@ -696,4 +696,20 @@ func generate_bank_mana():
 func check_recipe_unlock(type: String):
 	if(player_data.recipe_unlocks.get(type) == false):
 		player_data.recipe_unlocks.set(type, true)
+		create_new_unit_popup(type)
 		save_player_data()
+
+func create_new_unit_popup(type: String):
+	var canvas_layer = $new_unit_canvas
+	var popup: Node = load("res://scenes/ui_components/new_unit_popup.tscn").instantiate()
+	var unit_sprite: Node = popup.get_node("PanelContainer/VBoxContainer/unit_sprite")
+	unit_sprite.texture = load("res://assets/sprites/units/" + type + "/base.png")
+	canvas_layer.add_child(popup)
+	popup.modulate = Color(1, 1, 1, 0.0)
+	
+	var tween: Tween = get_tree().create_tween()
+	tween.tween_property(popup, "modulate", Color(1, 1, 1, 1.0), 0.5)
+	tween.tween_interval(2)
+	tween.tween_property(popup, "modulate", Color(1, 1, 1, 0.0), 0.5)
+	tween.tween_callback(popup.queue_free)
+	

@@ -175,7 +175,10 @@ position = Vector2(480, 272)
 position_smoothing_enabled = true
 metadata/_edit_lock_ = true
 
-[node name="pause_menu_canvas" type="CanvasLayer" parent="."]
+[node name="new_unit_canvas" type="CanvasLayer" parent="."]
+layer = 3
+
+[node name="tome_canvas" type="CanvasLayer" parent="."]
 process_mode = 3
 layer = 3
 

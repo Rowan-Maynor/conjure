@@ -1,9 +1,11 @@
-[gd_scene load_steps=24 format=3 uid="uid://d2y488h20ur7k"]
+[gd_scene load_steps=26 format=3 uid="uid://d2y488h20ur7k"]
 
 [ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_fujbi"]
+[ext_resource type="Script" uid="uid://o6ldemeabgwv" path="res://scripts/tome_units.gd" id="2_70ugr"]
 [ext_resource type="Texture2D" uid="uid://clpmekquk6ue3" path="res://assets/sprites/units/pup/base.png" id="2_saa45"]
 [ext_resource type="Texture2D" uid="uid://drbjxo526uvbt" path="res://assets/ui/9patchrect_active.png" id="3_cj0fx"]
 [ext_resource type="Texture2D" uid="uid://cm4a7d53s5cgb" path="res://assets/sprites/units/ember/base.png" id="3_w4m08"]
+[ext_resource type="Resource" uid="uid://dkt0kqiehdsb5" path="res://resources/player/player_data.tres" id="3_y4y2h"]
 [ext_resource type="Texture2D" uid="uid://bdjswyrf0tf6m" path="res://assets/sprites/units/imp/base.png" id="4_cj0fx"]
 [ext_resource type="Texture2D" uid="uid://g5ijdnf3v7xk" path="res://assets/sprites/units/guppy/base.png" id="5_16bct"]
 [ext_resource type="Texture2D" uid="uid://cfs748kamidd5" path="res://assets/sprites/units/drop/base.png" id="6_ur7ku"]
@@ -40,6 +42,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_fujbi")
+script = ExtResource("2_70ugr")
+player_data = ExtResource("3_y4y2h")
+
+[node name="tome_unit_panel_layer" type="CanvasLayer" parent="."]
+layer = 4
 
 [node name="label_container" type="PanelContainer" parent="."]
 z_index = 1
@@ -331,3 +338,22 @@ offset_bottom = 32.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("19_tj0j2")
+
+[connection signal="pressed" from="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons/pup" to="." method="_on_pup_pressed"]
+[connection signal="pressed" from="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons/ember" to="." method="_on_ember_pressed"]
+[connection signal="pressed" from="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons/imp" to="." method="_on_imp_pressed"]
+[connection signal="pressed" from="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons/guppy" to="." method="_on_guppy_pressed"]
+[connection signal="pressed" from="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons/drop" to="." method="_on_drop_pressed"]
+[connection signal="pressed" from="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons/gator" to="." method="_on_gator_pressed"]
+[connection signal="pressed" from="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons/monkey" to="." method="_on_monkey_pressed"]
+[connection signal="pressed" from="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons/pebble" to="." method="_on_pebble_pressed"]
+[connection signal="pressed" from="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons/shrub" to="." method="_on_shrub_pressed"]
+[connection signal="pressed" from="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons/hound" to="." method="_on_hound_pressed"]
+[connection signal="pressed" from="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons/demon" to="." method="_on_demon_pressed"]
+[connection signal="pressed" from="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons/skipper" to="." method="_on_skipper_pressed"]
+[connection signal="pressed" from="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons/shaman" to="." method="_on_shaman_pressed"]
+[connection signal="pressed" from="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons/idol" to="." method="_on_idol_pressed"]
+[connection signal="pressed" from="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons/guardian" to="." method="_on_guardian_pressed"]
+[connection signal="pressed" from="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons/hell_hound" to="." method="_on_hell_hound_pressed"]
+[connection signal="pressed" from="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons/naga" to="." method="_on_naga_pressed"]
+[connection signal="pressed" from="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons/great_ape" to="." method="_on_great_ape_pressed"]

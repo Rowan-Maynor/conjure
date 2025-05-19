@@ -1,0 +1,40 @@
+[gd_scene load_steps=4 format=3 uid="uid://c7l2jbun0drq6"]
+
+[ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_dn6ga"]
+[ext_resource type="Script" uid="uid://cov68y0elfoyn" path="res://scripts/new_unit_popup.gd" id="2_0oma1"]
+[ext_resource type="Texture2D" uid="uid://c62chhksq4ce7" path="res://assets/sprites/units/hell_hound/base.png" id="3_huvn6"]
+
+[node name="NewUnitPopup" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("1_dn6ga")
+script = ExtResource("2_0oma1")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(350, 0)
+layout_mode = 1
+offset_left = 305.0
+offset_top = 350.0
+offset_right = 655.0
+offset_bottom = 525.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="unit_sprite" type="TextureRect" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("3_huvn6")
+stretch_mode = 3
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "New Unit Discovered!"
+horizontal_alignment = 1
