@@ -517,8 +517,8 @@ func add_status_message(message, color = Color.hex(0xffffffff)):
 	#need to add a space because the outline for text gets cut off for some reason
 	label.text = " " + message
 	label.set_autowrap_mode(TextServer.AUTOWRAP_WORD)
-	var separator: HSeparator = HSeparator.new()
 	if(text_box_container.get_child_count() != 0):
+		var separator: HSeparator = HSeparator.new()
 		text_box_container.add_child(separator)
 	text_box_container.add_child(label)
 	
