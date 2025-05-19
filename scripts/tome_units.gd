@@ -4,6 +4,7 @@ extends Control
 @onready var unit_buttons: GridContainer = $main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons
 
 func _ready():
+	player_data = load("res://resources/player/player_data.tres")
 	for key in player_data.recipe_unlocks:
 		if(player_data.recipe_unlocks.get(key) == true):
 			var unit_button: Button = unit_buttons.get_node(key)
