@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://25qifrkyggvb"]
+[gd_scene load_steps=5 format=3 uid="uid://25qifrkyggvb"]
 
 [ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_sgmbk"]
+[ext_resource type="Script" uid="uid://nh7vkkotu2wo" path="res://scripts/tome_options.gd" id="2_gbxfj"]
 [ext_resource type="Texture2D" uid="uid://drbjxo526uvbt" path="res://assets/ui/9patchrect_active.png" id="4_wstun"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_16bct"]
@@ -18,6 +19,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_sgmbk")
+script = ExtResource("2_gbxfj")
 
 [node name="label_container" type="PanelContainer" parent="."]
 z_index = 1
@@ -70,6 +72,14 @@ columns = 8
 layout_mode = 2
 text = "Restart Game"
 
+[node name="menu_button" type="Button" parent="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/option_buttons"]
+layout_mode = 2
+text = "Main Menu"
+
 [node name="exit_button" type="Button" parent="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/option_buttons"]
 layout_mode = 2
 text = "Exit Game"
+
+[connection signal="pressed" from="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/option_buttons/restart_button" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/option_buttons/menu_button" to="." method="_on_menu_button_pressed"]
+[connection signal="pressed" from="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/option_buttons/exit_button" to="." method="_on_exit_button_pressed"]

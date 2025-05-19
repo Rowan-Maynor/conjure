@@ -87,8 +87,8 @@ func _input(event: InputEvent) -> void:
 		else:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
 	if(Input.is_action_just_pressed("pause")):
-		var pause_menu: Node = load("res://scenes/ui_components/pause_menu.tscn").instantiate()
-		get_tree().get_root().get_node("game/pause_menu_canvas").add_child(pause_menu)
+		var pause_menu: Node = load("res://scenes/ui_components/tome_controller.tscn").instantiate()
+		get_tree().get_root().get_node("game/tome_canvas").add_child(pause_menu)
 		get_tree().paused = true
 	if(Input.is_action_just_pressed("attack_move")):
 		handle_attack_move()
