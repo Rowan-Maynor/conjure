@@ -9,10 +9,12 @@ xp = 0
 knowledge = 0
 recipe_unlocks = {
 "demon": false,
+"great_ape": false,
 "guardian": false,
 "hell_hound": false,
 "hound": false,
 "idol": false,
+"naga": false,
 "shaman": false,
 "skipper": false
 }

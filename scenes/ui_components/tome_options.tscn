@@ -1,0 +1,75 @@
+[gd_scene load_steps=4 format=3 uid="uid://25qifrkyggvb"]
+
+[ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_sgmbk"]
+[ext_resource type="Texture2D" uid="uid://drbjxo526uvbt" path="res://assets/ui/9patchrect_active.png" id="4_wstun"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_16bct"]
+texture = ExtResource("4_wstun")
+texture_margin_left = 9.0
+texture_margin_top = 9.0
+texture_margin_right = 9.0
+texture_margin_bottom = 9.0
+
+[node name="Tome_Options" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_sgmbk")
+
+[node name="label_container" type="PanelContainer" parent="."]
+z_index = 1
+layout_mode = 1
+offset_left = 120.0
+offset_top = 20.0
+offset_right = 920.0
+offset_bottom = 91.0
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="label_container"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Options"
+horizontal_alignment = 1
+
+[node name="main_content_container" type="PanelContainer" parent="."]
+layout_mode = 1
+offset_left = 120.0
+offset_top = 20.0
+offset_right = 920.0
+offset_bottom = 520.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_16bct")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="main_content_container"]
+layout_mode = 2
+
+[node name="top_margin" type="Control" parent="main_content_container/VBoxContainer"]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="main_content_container/VBoxContainer"]
+layout_mode = 2
+
+[node name="left_margin" type="Control" parent="main_content_container/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(45, 0)
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="main_content_container/VBoxContainer/HBoxContainer"]
+clip_contents = false
+layout_mode = 2
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+
+[node name="option_buttons" type="GridContainer" parent="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer"]
+layout_mode = 2
+columns = 8
+
+[node name="restart_button" type="Button" parent="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/option_buttons"]
+layout_mode = 2
+text = "Restart Game"
+
+[node name="exit_button" type="Button" parent="main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/option_buttons"]
+layout_mode = 2
+text = "Exit Game"

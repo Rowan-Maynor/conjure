@@ -1,0 +1,184 @@
+[gd_scene load_steps=7 format=3 uid="uid://cxdnhnjipym2o"]
+
+[ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_y2dvq"]
+[ext_resource type="Texture2D" uid="uid://c3hrdspg5ggxk" path="res://assets/sprites/units/shrub/base.png" id="2_m07e6"]
+[ext_resource type="Script" uid="uid://ckmqoxysi062n" path="res://scripts/tome_unit_panel.gd" id="2_wpdib"]
+[ext_resource type="Texture2D" uid="uid://bld3f3s5pf7xh" path="res://assets/ui/9patchrect_button_hover.png" id="3_56pbg"]
+[ext_resource type="Texture2D" uid="uid://cxmqxh2veh5mk" path="res://assets/ui/stop_icon.png" id="8_w6wwp"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_y614m"]
+texture = ExtResource("3_56pbg")
+texture_margin_left = 9.0
+texture_margin_top = 9.0
+texture_margin_right = 9.0
+texture_margin_bottom = 9.0
+
+[node name="TomeUnitPanel" type="Control"]
+z_index = -1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("1_y2dvq")
+script = ExtResource("2_wpdib")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(350, 200)
+layout_mode = 1
+offset_left = 320.0
+offset_top = 150.0
+offset_right = 680.0
+offset_bottom = 390.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="unit_sprite" type="TextureRect" parent="PanelContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("2_m07e6")
+stretch_mode = 3
+
+[node name="unit_type" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Shrub"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_y614m")
+
+[node name="unit_data_container" type="HBoxContainer" parent="PanelContainer/HBoxContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="unit_data_left" type="VBoxContainer" parent="PanelContainer/HBoxContainer/VBoxContainer/PanelContainer/unit_data_container"]
+layout_mode = 2
+
+[node name="attack" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_left"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Attack"
+horizontal_alignment = 1
+
+[node name="attack_value" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_left"]
+clip_contents = true
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "0"
+horizontal_alignment = 1
+
+[node name="attack_speed" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_left"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Attack Speed"
+horizontal_alignment = 1
+
+[node name="attack_speed_value" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_left"]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "0"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="range" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_left"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Range"
+horizontal_alignment = 1
+
+[node name="range_value" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_left"]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "0"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="spacing_middle" type="Control" parent="PanelContainer/HBoxContainer/VBoxContainer/PanelContainer/unit_data_container"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="unit_data_right" type="VBoxContainer" parent="PanelContainer/HBoxContainer/VBoxContainer/PanelContainer/unit_data_container"]
+layout_mode = 2
+
+[node name="critical" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_right"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "critical"
+horizontal_alignment = 1
+
+[node name="critical_value" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_right"]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "0"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="speed" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_right"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Speed"
+horizontal_alignment = 1
+
+[node name="speed_value" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_right"]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "0"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="element" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_right"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Element"
+horizontal_alignment = 1
+
+[node name="element_value" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_right"]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Earth"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="VSeparator" type="VSeparator" parent="PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="recipe_container" type="VBoxContainer" parent="PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/HBoxContainer/recipe_container"]
+layout_mode = 2
+text = "Recipe"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/HBoxContainer/recipe_container"]
+layout_mode = 2
+
+[node name="close_panel_button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 645.0
+offset_top = 158.0
+offset_right = 673.0
+offset_bottom = 186.0
+icon = ExtResource("8_w6wwp")
+
+[connection signal="pressed" from="close_panel_button" to="." method="_on_close_panel_button_pressed"]
