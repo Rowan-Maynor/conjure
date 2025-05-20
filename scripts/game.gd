@@ -331,7 +331,8 @@ func spawn_boss():
 	boss_unit.position = spawn_point.position
 	boss_unit.connect("died", _on_died)
 	get_tree().get_root().get_node("game").get_node("enemy_units_nav").add_child(boss_unit)
-	
+	#unit was being created but not freed, causing an orphan
+	unit.queue_free()
 	$wave_time.start()
 	$wave_delay.stop()
 
