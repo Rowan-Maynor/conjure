@@ -4,7 +4,7 @@ extends Control
 @onready var unit_buttons: GridContainer = $main_content_container/VBoxContainer/HBoxContainer/ScrollContainer/unit_buttons
 
 func _ready():
-	player_data = load("res://resources/player/player_data.tres")
+	player_data = load("user://player_data.tres")
 	for key in player_data.recipe_unlocks:
 		if(player_data.recipe_unlocks.get(key) == true):
 			var unit_button: Button = unit_buttons.get_node(key)
@@ -83,6 +83,8 @@ func _on_great_ape_pressed() -> void:
 	create_unit_panel("great_ape")
 
 func create_unit_panel(unit: String):
+	if($tome_unit_panel_layer.get_child_count() > 0):
+		$tome_unit_panel_layer.get_child(0).queue_free()
 	var unit_panel: Node = load("res://scenes/ui_components/tome_unit_panel.tscn").instantiate()
 	unit_panel.unit_data = load("res://resources/units/" + unit + "/" + unit + ".tres")
 	$tome_unit_panel_layer.add_child(unit_panel)

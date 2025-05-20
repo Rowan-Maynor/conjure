@@ -73,7 +73,7 @@ var cursor_hold: Resource = load("res://assets/ui/cursor_hold.png")
 
 #general functions
 func _ready():
-	player_data = load("res://resources/player/player_data.tres")
+	load_player_data()
 	mana_ui_value.text = str(mana)
 	research_ui_value.text = str(research)
 	update_mana_buttons()
@@ -81,6 +81,8 @@ func _ready():
 	save_player_data()
 
 func _input(event: InputEvent) -> void:
+	if(Input.is_action_just_pressed("print_orphans")):
+		print_orphan_nodes()
 	if(Input.is_action_just_pressed("toggle_fullscreen")):
 		if(DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN):
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
@@ -331,7 +333,8 @@ func spawn_boss():
 	boss_unit.position = spawn_point.position
 	boss_unit.connect("died", _on_died)
 	get_tree().get_root().get_node("game").get_node("enemy_units_nav").add_child(boss_unit)
-	
+	#unit was being created but not freed, causing an orphan
+	unit.queue_free()
 	$wave_time.start()
 	$wave_delay.stop()
 
@@ -509,6 +512,17 @@ func handle_stop_move():
 	await get_tree().create_timer(.25).timeout
 	Input.set_custom_mouse_cursor(cursor_default)
 
+#saving and loading player data
+func load_player_data():
+	if(ResourceLoader.exists("user://player_data.tres")):
+		player_data = load("user://player_data.tres")
+	else:
+		player_data = load("res://resources/player/player_data.tres")
+		save_player_data()
+
+func save_player_data():
+	ResourceSaver.save(player_data, "user://player_data.tres")
+
 #helper functions
 func add_status_message(message, color = Color.hex(0xffffffff)):
 	var label: Label = Label.new()
@@ -533,9 +547,6 @@ func find_open_spawn_point():
 		if(units == false):
 			return area
 	return null
-
-func save_player_data():
-	ResourceSaver.save(player_data, "res://resources/player/player_data.tres")
 
 func gain_research(ammount):
 	research += ammount
@@ -712,4 +723,3 @@ func create_new_unit_popup(type: String):
 	tween.tween_interval(2)
 	tween.tween_property(popup, "modulate", Color(1, 1, 1, 0.0), 0.5)
 	tween.tween_callback(popup.queue_free)
-	

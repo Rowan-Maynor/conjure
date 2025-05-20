@@ -1,11 +1,10 @@
-[gd_scene load_steps=26 format=3 uid="uid://d2y488h20ur7k"]
+[gd_scene load_steps=25 format=3 uid="uid://d2y488h20ur7k"]
 
 [ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_fujbi"]
 [ext_resource type="Script" uid="uid://o6ldemeabgwv" path="res://scripts/tome_units.gd" id="2_70ugr"]
 [ext_resource type="Texture2D" uid="uid://clpmekquk6ue3" path="res://assets/sprites/units/pup/base.png" id="2_saa45"]
 [ext_resource type="Texture2D" uid="uid://drbjxo526uvbt" path="res://assets/ui/9patchrect_active.png" id="3_cj0fx"]
 [ext_resource type="Texture2D" uid="uid://cm4a7d53s5cgb" path="res://assets/sprites/units/ember/base.png" id="3_w4m08"]
-[ext_resource type="Resource" uid="uid://dkt0kqiehdsb5" path="res://resources/player/player_data.tres" id="3_y4y2h"]
 [ext_resource type="Texture2D" uid="uid://bdjswyrf0tf6m" path="res://assets/sprites/units/imp/base.png" id="4_cj0fx"]
 [ext_resource type="Texture2D" uid="uid://g5ijdnf3v7xk" path="res://assets/sprites/units/guppy/base.png" id="5_16bct"]
 [ext_resource type="Texture2D" uid="uid://cfs748kamidd5" path="res://assets/sprites/units/drop/base.png" id="6_ur7ku"]
@@ -43,7 +42,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_fujbi")
 script = ExtResource("2_70ugr")
-player_data = ExtResource("3_y4y2h")
 
 [node name="tome_unit_panel_layer" type="CanvasLayer" parent="."]
 layer = 4
