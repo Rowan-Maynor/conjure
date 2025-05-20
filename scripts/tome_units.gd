@@ -83,6 +83,8 @@ func _on_great_ape_pressed() -> void:
 	create_unit_panel("great_ape")
 
 func create_unit_panel(unit: String):
+	if($tome_unit_panel_layer.get_child_count() > 0):
+		$tome_unit_panel_layer.get_child(0).queue_free()
 	var unit_panel: Node = load("res://scenes/ui_components/tome_unit_panel.tscn").instantiate()
 	unit_panel.unit_data = load("res://resources/units/" + unit + "/" + unit + ".tres")
 	$tome_unit_panel_layer.add_child(unit_panel)
