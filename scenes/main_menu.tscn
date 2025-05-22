@@ -148,6 +148,57 @@ text = "Conjure"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Skills" type="Button" parent="."]
+layout_mode = 2
+offset_left = 251.0
+offset_top = 505.0
+offset_right = 391.0
+offset_bottom = 549.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Skills"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+
+[node name="top_spacing" type="Control" parent="Skills/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Skills/VBoxContainer"]
+layout_mode = 2
+text = "Skills"
+horizontal_alignment = 1
+
+[node name="Achievements" type="Button" parent="."]
+layout_mode = 2
+offset_left = 112.0
+offset_top = 505.0
+offset_right = 252.0
+offset_bottom = 549.0
+disabled = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Achievements"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+
+[node name="top_spacing" type="Control" parent="Achievements/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Achievements/VBoxContainer"]
+layout_mode = 2
+text = "Achievements"
+horizontal_alignment = 1
+
 [node name="play_button" type="Button" parent="."]
 custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
@@ -171,9 +222,9 @@ horizontal_alignment = 1
 
 [node name="options_button" type="Button" parent="."]
 layout_mode = 2
-offset_left = 251.0
+offset_left = 569.0
 offset_top = 505.0
-offset_right = 391.0
+offset_right = 709.0
 offset_bottom = 549.0
 disabled = true
 
@@ -196,10 +247,11 @@ text = "Options"
 horizontal_alignment = 1
 
 [node name="quit_button" type="Button" parent="."]
+z_index = 1
 layout_mode = 2
-offset_left = 569.0
+offset_left = 708.0
 offset_top = 505.0
-offset_right = 709.0
+offset_right = 848.0
 offset_bottom = 549.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="quit_button"]
@@ -276,6 +328,9 @@ sprite_frames = SubResource("SpriteFrames_8egab")
 autoplay = "default"
 flip_h = true
 
+[node name="skill_page_canvas" type="CanvasLayer" parent="."]
+
+[connection signal="pressed" from="Skills" to="." method="_on_skills_pressed"]
 [connection signal="pressed" from="play_button" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="quit_button" to="." method="_on_quit_button_pressed"]
 [connection signal="timeout" from="cloud_movement_timer" to="cloud_movement_timer" method="_on_timeout"]

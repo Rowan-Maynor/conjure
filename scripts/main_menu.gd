@@ -14,3 +14,8 @@ func _on_quit_button_pressed() -> void:
 
 func _on_play_button_pressed() -> void:
 	get_tree().change_scene_to_file("res://scenes/game.tscn")
+
+
+func _on_skills_pressed() -> void:
+	var skill_page: Node = load("res://scenes/ui_components/skill_tree_controller.tscn").instantiate()
+	$skill_page_canvas.add_child(skill_page)

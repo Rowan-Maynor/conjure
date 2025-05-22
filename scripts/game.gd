@@ -78,7 +78,6 @@ func _ready():
 	research_ui_value.text = str(research)
 	update_mana_buttons()
 	update_research_buttons()
-	save_player_data()
 
 func _input(event: InputEvent) -> void:
 	if(Input.is_action_just_pressed("print_orphans")):

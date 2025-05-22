@@ -1,0 +1,139 @@
+[gd_scene load_steps=10 format=3 uid="uid://tk6d77sei4h2"]
+
+[ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_kru5p"]
+[ext_resource type="Script" uid="uid://dffd0ag2hwmm2" path="res://scripts/skill_tree_controller.gd" id="2_ibnh3"]
+[ext_resource type="Resource" uid="uid://wvu1usedicmw" path="res://resources/player/test_skill_data.tres" id="3_2gd0r"]
+[ext_resource type="Texture2D" uid="uid://dkgytjkrmkld5" path="res://assets/ui/basic_summon_icon.png" id="3_htbgv"]
+[ext_resource type="Texture2D" uid="uid://bw6lrrm0dqepo" path="res://assets/ui/intermediate_summon_icon.png" id="4_2gd0r"]
+[ext_resource type="Resource" uid="uid://br2wkljm1iibl" path="res://resources/player/test_player_data.tres" id="4_nf4pg"]
+[ext_resource type="Texture2D" uid="uid://67vgqvnx64tf" path="res://assets/ui/advanced_summon_icon.png" id="5_nf4pg"]
+[ext_resource type="Texture2D" uid="uid://cxmqxh2veh5mk" path="res://assets/ui/stop_icon.png" id="6_fd6tw"]
+[ext_resource type="PackedScene" uid="uid://qhl8extlo3oe" path="res://scenes/ui_components/skill_tree_basic.tscn" id="7_lmx6e"]
+
+[node name="skill_tree_controller" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_kru5p")
+script = ExtResource("2_ibnh3")
+skill_data = ExtResource("3_2gd0r")
+player_data = ExtResource("4_nf4pg")
+
+[node name="tome_tabs" type="VBoxContainer" parent="."]
+layout_mode = 2
+offset_left = 20.0
+offset_top = 40.0
+offset_right = 840.0
+offset_bottom = 520.0
+
+[node name="easy" type="Button" parent="tome_tabs"]
+custom_minimum_size = Vector2(120, 80)
+layout_mode = 2
+icon = ExtResource("3_htbgv")
+expand_icon = true
+
+[node name="medium" type="Button" parent="tome_tabs"]
+custom_minimum_size = Vector2(110, 80)
+layout_mode = 2
+disabled = true
+icon = ExtResource("4_2gd0r")
+expand_icon = true
+
+[node name="hard" type="Button" parent="tome_tabs"]
+custom_minimum_size = Vector2(120, 80)
+layout_mode = 2
+disabled = true
+icon = ExtResource("5_nf4pg")
+expand_icon = true
+
+[node name="main_panel" type="PanelContainer" parent="."]
+clip_contents = true
+custom_minimum_size = Vector2(840, 500)
+layout_mode = 0
+offset_left = 100.0
+offset_top = 20.0
+offset_right = 940.0
+offset_bottom = 520.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="main_panel"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="main_panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="skill_page_label" type="Label" parent="main_panel/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Skill Page:"
+horizontal_alignment = 1
+
+[node name="skill_page_option" type="OptionButton" parent="main_panel/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+alignment = 1
+selected = 0
+item_count = 5
+popup/item_0/text = "1"
+popup/item_0/id = 0
+popup/item_1/text = "2"
+popup/item_1/id = 1
+popup/item_2/text = "3"
+popup/item_2/id = 2
+popup/item_3/text = "4"
+popup/item_3/id = 3
+popup/item_4/text = "5"
+popup/item_4/id = 4
+
+[node name="total_sp" type="Label" parent="main_panel/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+text = "Total SP: "
+horizontal_alignment = 2
+
+[node name="total_sp_value" type="Label" parent="main_panel/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.588235, 0.482353, 0.713726, 1)
+text = "1000"
+clip_text = true
+
+[node name="available_sp" type="Label" parent="main_panel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Available SP: "
+
+[node name="available_sp_value" type="Label" parent="main_panel/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.588235, 0.482353, 0.713726, 1)
+text = "1000"
+clip_text = true
+
+[node name="reset_button" type="Button" parent="main_panel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Reset Page"
+
+[node name="spacing" type="Control" parent="main_panel/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="close_button" type="Button" parent="main_panel/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+icon = ExtResource("6_fd6tw")
+icon_alignment = 1
+expand_icon = true
+
+[node name="VSeparator" type="HSeparator" parent="main_panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="skill_tree_buttons" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="skill_tree_basic" parent="skill_tree_buttons" instance=ExtResource("7_lmx6e")]
+
+[connection signal="item_selected" from="main_panel/VBoxContainer/HBoxContainer/skill_page_option" to="." method="_on_skill_page_option_item_selected"]
+[connection signal="pressed" from="main_panel/VBoxContainer/HBoxContainer/reset_button" to="." method="_on_reset_button_pressed"]
+[connection signal="pressed" from="main_panel/VBoxContainer/HBoxContainer/close_button" to="." method="_on_close_button_pressed"]

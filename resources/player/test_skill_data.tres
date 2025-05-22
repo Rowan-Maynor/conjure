@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Skill_Data" load_steps=2 format=3 uid="uid://wvu1usedicmw"]
+
+[ext_resource type="Script" uid="uid://48tsovu2ymtd" path="res://resources/resource_scripts/skill_data.gd" id="1_rwaem"]
+
+[resource]
+script = ExtResource("1_rwaem")
+skill_max_upgrades = {
+"damage_basic": 10,
+"health_basic": 10
+}
+skill_current_cost = {
+"damage_basic": 1,
+"health_basic": 1
+}
+skill_current_upgrades = {
+"damage_basic": 0,
+"health_basic": 0
+}
+spent_sp = 0
+metadata/_custom_type_script = "uid://48tsovu2ymtd"
