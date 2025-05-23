@@ -1,5 +1,11 @@
 extends Button
 
+#game data
+var game_data: Game_Data
+
+#skill data
+var skill_data: Skill_Data
+
 var t1_units: Array[String] = [
 	"pup",
 	"imp",
@@ -26,6 +32,10 @@ var lucky_summon_chance: int = 1
 @onready var cooldown_timer: Timer = get_tree().get_root().get_node("game/main_ui/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_cooldown")
 @onready var hover_timer: Timer = get_tree().get_root().get_node("game/main_ui/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_hover")
 
+func _ready():
+	game_data = load("user://game_data.tres")
+	skill_data = load("user://skill_data_" + str(game_data.skill_page) + ".tres")
+
 func _on_pressed():
 	summon_unit()
 
@@ -41,10 +51,12 @@ func summon_unit():
 			unit = t1_units.pick_random()
 		var unit_scene_path: String = "res://scenes/units/" + unit + ".tscn"
 		var instance: Node = load(unit_scene_path).instantiate()
+		#add relevent data
 		var unit_data_path: String = "res://resources/units/" + unit + "/" + unit + ".tres"
 		instance.unit_data = load(unit_data_path).duplicate()
 		var unit_recipe_path: String = "res://resources/units/" + unit + "/" + unit + "_recipe.tres"
 		instance.recipe_data = load(unit_recipe_path).duplicate()
+		instance.skill_data = skill_data
 		var spawn_point: Area2D = find_open_spawn_point(spawn_areas)
 		if(spawn_point == null):
 			get_tree().get_root().get_node("game").add_status_message("No free space", Color.hex(0xff3e3eff))

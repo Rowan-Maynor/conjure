@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_rwaem")
+skill_version = 2
 skill_max_upgrades = {
 "damage_basic": 10,
 "health_basic": 10

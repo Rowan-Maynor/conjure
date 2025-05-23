@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://qhl8extlo3oe"]
+[gd_scene load_steps=25 format=3 uid="uid://qhl8extlo3oe"]
 
 [ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_lv7t0"]
 [ext_resource type="Script" uid="uid://pshwrorcy6i7" path="res://scripts/skill_tree_basic.gd" id="2_7r5w7"]
@@ -8,8 +8,12 @@
 [ext_resource type="Texture2D" uid="uid://camw6yw17riqu" path="res://assets/ui/9patchrect_button_blank_active.png" id="6_rlnpu"]
 [ext_resource type="Texture2D" uid="uid://dhbputretf5jw" path="res://assets/ui/9patchrect_button_blank_hover.png" id="7_jtfk3"]
 [ext_resource type="Texture2D" uid="uid://doogn0fa3agws" path="res://assets/ui/9patchrect_button_blank.png" id="8_eg6oe"]
+[ext_resource type="Texture2D" uid="uid://dn7ked7fsg3tt" path="res://assets/ui/range_skill_icon.png" id="9_pu8hl"]
 [ext_resource type="Texture2D" uid="uid://ryqtoutqo38q" path="res://assets/ui/damage_skill_icon.png" id="9_urbkl"]
+[ext_resource type="Texture2D" uid="uid://33o5yndd3gb8" path="res://assets/ui/critical_chance_skill_icon.png" id="10_04epi"]
 [ext_resource type="Texture2D" uid="uid://dr70g110va4hx" path="res://assets/ui/knowledge_icon.png" id="10_rfmcn"]
+[ext_resource type="Texture2D" uid="uid://btxayetjurgst" path="res://assets/ui/mana_icon.png" id="12_b2qd7"]
+[ext_resource type="Texture2D" uid="uid://wjdlx7udwnvr" path="res://assets/ui/critical_damage_skill_icon.png" id="14_rlnpu"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nbe2s"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -55,6 +59,22 @@ bg_color = Color(0.6, 0.6, 0.6, 0)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4au4n"]
 bg_color = Color(0.588235, 0.482353, 0.713726, 0.741176)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_04epi"]
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b2qd7"]
+bg_color = Color(0.588235, 0.482353, 0.713726, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+
 [node name="skill_tree_basic" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -98,15 +118,15 @@ layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="health_basic" type="Button" parent="main_panel/VBoxContainer/skill_tree_buttons"]
+[node name="lives_basic" type="Button" parent="main_panel/VBoxContainer/skill_tree_buttons"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -220.0
-offset_top = 10.0
+offset_top = 20.0
 offset_right = -170.0
-offset_bottom = 60.0
+offset_bottom = 70.0
 grow_horizontal = 2
 theme_override_styles/disabled = SubResource("StyleBoxTexture_84iq1")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_x4n2q")
@@ -115,8 +135,9 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_vquem")
 theme_override_styles/normal = SubResource("StyleBoxTexture_nl1fx")
 button_mask = 3
 
-[node name="TextureRect" type="TextureRect" parent="main_panel/VBoxContainer/skill_tree_buttons/health_basic"]
+[node name="TextureRect" type="TextureRect" parent="main_panel/VBoxContainer/skill_tree_buttons/lives_basic"]
 show_behind_parent = true
+z_index = 1
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 1
 anchors_preset = 8
@@ -133,7 +154,65 @@ grow_vertical = 2
 mouse_filter = 2
 texture = ExtResource("6_gkei1")
 
-[node name="ProgressBar" type="ProgressBar" parent="main_panel/VBoxContainer/skill_tree_buttons/health_basic"]
+[node name="ProgressBar" type="ProgressBar" parent="main_panel/VBoxContainer/skill_tree_buttons/lives_basic"]
+show_behind_parent = true
+custom_minimum_size = Vector2(45, 45)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_rsr76")
+theme_override_styles/fill = SubResource("StyleBoxFlat_4au4n")
+max_value = 10.0
+fill_mode = 3
+show_percentage = false
+
+[node name="range_basic" type="Button" parent="main_panel/VBoxContainer/skill_tree_buttons"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -220.0
+offset_top = 160.0
+offset_right = -170.0
+offset_bottom = 210.0
+grow_horizontal = 2
+theme_override_styles/disabled = SubResource("StyleBoxTexture_84iq1")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_x4n2q")
+theme_override_styles/hover = SubResource("StyleBoxTexture_asslu")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_vquem")
+theme_override_styles/normal = SubResource("StyleBoxTexture_nl1fx")
+button_mask = 3
+
+[node name="TextureRect" type="TextureRect" parent="main_panel/VBoxContainer/skill_tree_buttons/range_basic"]
+show_behind_parent = true
+z_index = 1
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("9_pu8hl")
+
+[node name="ProgressBar" type="ProgressBar" parent="main_panel/VBoxContainer/skill_tree_buttons/range_basic"]
 show_behind_parent = true
 custom_minimum_size = Vector2(45, 45)
 layout_mode = 1
@@ -161,9 +240,9 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -25.0
-offset_top = 10.0
+offset_top = 20.0
 offset_right = 25.0
-offset_bottom = 60.0
+offset_bottom = 70.0
 grow_horizontal = 2
 theme_override_styles/disabled = SubResource("StyleBoxTexture_84iq1")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_x4n2q")
@@ -174,6 +253,7 @@ button_mask = 3
 
 [node name="TextureRect" type="TextureRect" parent="main_panel/VBoxContainer/skill_tree_buttons/damage_basic"]
 show_behind_parent = true
+z_index = 1
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 1
 anchors_preset = 8
@@ -212,15 +292,73 @@ max_value = 10.0
 fill_mode = 3
 show_percentage = false
 
+[node name="critical_chance_basic" type="Button" parent="main_panel/VBoxContainer/skill_tree_buttons"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -25.0
+offset_top = 160.0
+offset_right = 25.0
+offset_bottom = 210.0
+grow_horizontal = 2
+theme_override_styles/disabled = SubResource("StyleBoxTexture_84iq1")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_x4n2q")
+theme_override_styles/hover = SubResource("StyleBoxTexture_asslu")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_vquem")
+theme_override_styles/normal = SubResource("StyleBoxTexture_nl1fx")
+disabled = true
+button_mask = 3
+
+[node name="TextureRect" type="TextureRect" parent="main_panel/VBoxContainer/skill_tree_buttons/critical_chance_basic"]
+show_behind_parent = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("10_04epi")
+
+[node name="ProgressBar" type="ProgressBar" parent="main_panel/VBoxContainer/skill_tree_buttons/critical_chance_basic"]
+show_behind_parent = true
+custom_minimum_size = Vector2(45, 45)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_rsr76")
+theme_override_styles/fill = SubResource("StyleBoxFlat_4au4n")
+max_value = 10.0
+fill_mode = 3
+show_percentage = false
+
 [node name="research_basic" type="Button" parent="main_panel/VBoxContainer/skill_tree_buttons"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = 170.0
-offset_top = 10.0
+offset_top = 20.0
 offset_right = 220.0
-offset_bottom = 60.0
+offset_bottom = 70.0
 grow_horizontal = 2
 theme_override_styles/disabled = SubResource("StyleBoxTexture_84iq1")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_x4n2q")
@@ -231,6 +369,7 @@ button_mask = 3
 
 [node name="TextureRect" type="TextureRect" parent="main_panel/VBoxContainer/skill_tree_buttons/research_basic"]
 show_behind_parent = true
+z_index = 1
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 1
 anchors_preset = 8
@@ -269,6 +408,162 @@ max_value = 10.0
 fill_mode = 3
 show_percentage = false
 
-[connection signal="button_down" from="main_panel/VBoxContainer/skill_tree_buttons/health_basic" to="." method="_on_health_basic_button_down"]
+[node name="starting_mana_basic" type="Button" parent="main_panel/VBoxContainer/skill_tree_buttons"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 170.0
+offset_top = 160.0
+offset_right = 220.0
+offset_bottom = 210.0
+grow_horizontal = 2
+theme_override_styles/disabled = SubResource("StyleBoxTexture_84iq1")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_x4n2q")
+theme_override_styles/hover = SubResource("StyleBoxTexture_asslu")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_vquem")
+theme_override_styles/normal = SubResource("StyleBoxTexture_nl1fx")
+disabled = true
+button_mask = 3
+
+[node name="TextureRect" type="TextureRect" parent="main_panel/VBoxContainer/skill_tree_buttons/starting_mana_basic"]
+show_behind_parent = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("12_b2qd7")
+
+[node name="ProgressBar" type="ProgressBar" parent="main_panel/VBoxContainer/skill_tree_buttons/starting_mana_basic"]
+show_behind_parent = true
+custom_minimum_size = Vector2(45, 45)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_rsr76")
+theme_override_styles/fill = SubResource("StyleBoxFlat_4au4n")
+max_value = 10.0
+fill_mode = 3
+show_percentage = false
+
+[node name="critical_damage_basic" type="Button" parent="main_panel/VBoxContainer/skill_tree_buttons"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -25.0
+offset_top = 300.0
+offset_right = 25.0
+offset_bottom = 350.0
+grow_horizontal = 2
+theme_override_styles/disabled = SubResource("StyleBoxTexture_84iq1")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_x4n2q")
+theme_override_styles/hover = SubResource("StyleBoxTexture_asslu")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_vquem")
+theme_override_styles/normal = SubResource("StyleBoxTexture_nl1fx")
+disabled = true
+button_mask = 3
+
+[node name="TextureRect" type="TextureRect" parent="main_panel/VBoxContainer/skill_tree_buttons/critical_damage_basic"]
+show_behind_parent = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("14_rlnpu")
+
+[node name="ProgressBar" type="ProgressBar" parent="main_panel/VBoxContainer/skill_tree_buttons/critical_damage_basic"]
+show_behind_parent = true
+custom_minimum_size = Vector2(45, 45)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_rsr76")
+theme_override_styles/fill = SubResource("StyleBoxFlat_4au4n")
+max_value = 10.0
+fill_mode = 3
+show_percentage = false
+
+[node name="critical_chance_basic_unlock" type="ProgressBar" parent="main_panel/VBoxContainer/skill_tree_buttons"]
+layout_mode = 0
+offset_left = 415.0
+offset_top = 69.0
+offset_right = 425.0
+offset_bottom = 161.0
+theme_override_styles/background = SubResource("StyleBoxFlat_04epi")
+theme_override_styles/fill = SubResource("StyleBoxFlat_b2qd7")
+max_value = 10.0
+fill_mode = 2
+show_percentage = false
+
+[node name="starting_mana_basic_unlock" type="ProgressBar" parent="main_panel/VBoxContainer/skill_tree_buttons"]
+layout_mode = 0
+offset_left = 610.0
+offset_top = 69.0
+offset_right = 620.0
+offset_bottom = 161.0
+theme_override_styles/background = SubResource("StyleBoxFlat_04epi")
+theme_override_styles/fill = SubResource("StyleBoxFlat_b2qd7")
+max_value = 10.0
+fill_mode = 2
+show_percentage = false
+
+[node name="critical_damage_basic_unlock" type="ProgressBar" parent="main_panel/VBoxContainer/skill_tree_buttons"]
+layout_mode = 0
+offset_left = 415.0
+offset_top = 209.0
+offset_right = 425.0
+offset_bottom = 301.0
+theme_override_styles/background = SubResource("StyleBoxFlat_04epi")
+theme_override_styles/fill = SubResource("StyleBoxFlat_b2qd7")
+max_value = 10.0
+fill_mode = 2
+show_percentage = false
+
+[connection signal="button_down" from="main_panel/VBoxContainer/skill_tree_buttons/lives_basic" to="." method="_on_lives_basic_button_down"]
+[connection signal="button_down" from="main_panel/VBoxContainer/skill_tree_buttons/range_basic" to="." method="_on_range_basic_button_down"]
 [connection signal="button_down" from="main_panel/VBoxContainer/skill_tree_buttons/damage_basic" to="." method="_on_damage_basic_button_down"]
+[connection signal="button_down" from="main_panel/VBoxContainer/skill_tree_buttons/critical_chance_basic" to="." method="_on_critical_chance_basic_button_down"]
 [connection signal="button_down" from="main_panel/VBoxContainer/skill_tree_buttons/research_basic" to="." method="_on_research_basic_button_down"]
+[connection signal="button_down" from="main_panel/VBoxContainer/skill_tree_buttons/starting_mana_basic" to="." method="_on_starting_mana_basic_button_down"]
+[connection signal="button_down" from="main_panel/VBoxContainer/skill_tree_buttons/critical_damage_basic" to="." method="_on_critical_damage_basic_button_down"]

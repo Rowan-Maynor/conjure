@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 @export var unit_data: Unit_Data
 @export var recipe_data: Recipe_Data
+@export var skill_data: Skill_Data
 
 #targeting
 var current_command: String = "idle"
@@ -26,6 +27,9 @@ var is_attacking: bool = false
 func _ready():
 	#this prevents units from running to (0, 0) on spawn
 	move_position = position
+	
+	if(unit_data.control == "player"):
+		handle_unit_skill_values()
 	
 	if(unit_data.control == "enemy"):
 		enemy_change_direction(enemy_direction)
@@ -275,8 +279,8 @@ func _on_attack_animation_speed_timeout() -> void:
 	is_attacking = false
 	$AnimatedSprite2D.play("idle")
 
-func _on_attack_contact(body, damage, element):
-	body.handle_damage(damage, element)
+func _on_attack_contact(body, damage, element, is_critical):
+	body.handle_damage(damage, element, is_critical)
 
 func _on_attack_spawn_delay_timeout() -> void:
 	if(attacked_target != null && is_instance_valid(attacked_target)):
@@ -299,8 +303,44 @@ func _on_attack_spawn_delay_timeout() -> void:
 		attack_instance.current_target = attacked_target
 		attack_instance.damage = unit_data.damage
 		attack_instance.element = unit_data.element
+		
+		#check for crit
+		var critical_check_value: int = randi_range(1, 100)
+		if(unit_data.critical_chance > critical_check_value):
+			attack_instance.is_critical = true
+		else:
+			attack_instance.is_critical = false
+		
 		attack_instance.attack_contact.connect(_on_attack_contact)
 		get_tree().get_root().get_node("game").add_child(attack_instance)
+
+#calculate functions
+func calculate_critical_chance():
+	var final_critical_chance: int = unit_data.critical_chance
+	
+	if(skill_data.skill_current_upgrades.get("critical_chance_basic") > 0):
+		for i in range(skill_data.skill_current_upgrades.get("critical_chance_basic")):
+			final_critical_chance += 1
+	
+	unit_data.set("critical_chance", final_critical_chance)
+
+func calculate_range():
+	var final_range: int = unit_data.attack_range
+	
+	if(skill_data.skill_current_upgrades.get("range_basic") > 0):
+		for i in range(skill_data.skill_current_upgrades.get("range_basic")):
+			final_range += 10
+	
+	unit_data.set("attack_range", final_range)
+
+func calculate_critical_damage():
+	var final_critical_damage: float = 2.0
+	
+	if(skill_data.skill_current_upgrades.get("critical_damage_basic") > 0):
+		for i in range(skill_data.skill_current_upgrades.get("critical_chance_basic")):
+			final_critical_damage += 0.05
+	
+	return final_critical_damage
 
 #helper functions
 func find_lowest_health_target(targets):
@@ -343,10 +383,16 @@ func update_obstacle_status():
 			$NavigationObstacle2D.set_deferred("affect_navigation_mesh", false)
 			$NavigationObstacle2D.set_deferred("carve_navigation_mesh", false)
 			player_nav_mesh.needs_rebake = true
-	
+
+func handle_unit_skill_values():
+	calculate_critical_chance()
+	calculate_range()
 
 #damage functions
-func handle_damage(value, element):
+func handle_damage(value: int, element: String, is_critical: bool):
+	#update final_damage in game.gd aswell if you make changes here
+	#otherwise the unit panel will not show proper data
+	
 	var is_element_advantage: bool = check_for_element_advantage(element)
 	var is_element_disadvantage: bool = check_for_element_disadvantage(element)
 	var final_damage: int = value
@@ -358,6 +404,18 @@ func handle_damage(value, element):
 		final_damage = floor(final_damage * get_tree().get_root().get_node("game").water_research_value)
 	elif(element == "earth"):
 		final_damage = floor(final_damage * get_tree().get_root().get_node("game").earth_research_value)
+	
+	#apply basic skill page increase
+	var basic_skill_mult: float = 1.0
+	if(skill_data.skill_current_upgrades.get("damage_basic") > 0):
+		for i in range(skill_data.skill_current_upgrades.get("damage_basic")):
+			basic_skill_mult += .05
+	final_damage = floor(final_damage * basic_skill_mult)
+	
+	#check for critical
+	if(is_critical == true):
+		var critical_damage = calculate_critical_damage()
+		final_damage = floor(final_damage * critical_damage)
 	
 	#apply element advantage/disadvantage
 	if(is_element_advantage):
@@ -372,7 +430,7 @@ func handle_damage(value, element):
 	var damage_number_position: Vector2
 	damage_number_position.x = self.global_position.x
 	damage_number_position.y = self.global_position.y - 25
-	damage_number(final_damage, damage_number_position, false)
+	damage_number(final_damage, damage_number_position, is_critical)
 	$health_bar.value = unit_data.health
 	if($health_bar.value < $health_bar.max_value):
 		$health_bar.visible = true
@@ -423,7 +481,6 @@ func damage_number(value: int, hit_position: Vector2, is_critical = false):
 	var color: Color = Color.hex(0xffffffff)
 	if(is_critical == true):
 		color = Color.hex(0xff3e3eff)
-		
 	var label_theme: Resource = load("res://theme.tres")
 	
 	number_label.theme = label_theme

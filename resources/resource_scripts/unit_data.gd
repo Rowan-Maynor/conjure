@@ -5,7 +5,7 @@ class_name Unit_Data
 @export var damage: int
 @export var attack_range: int
 @export var attack_speed: float
-@export var critical: int
+@export var critical_chance: int
 @export var health: int
 @export var speed: int
 @export var element: String

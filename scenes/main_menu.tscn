@@ -330,6 +330,8 @@ flip_h = true
 
 [node name="skill_page_canvas" type="CanvasLayer" parent="."]
 
+[node name="start_game_canvas" type="CanvasLayer" parent="."]
+
 [connection signal="pressed" from="Skills" to="." method="_on_skills_pressed"]
 [connection signal="pressed" from="play_button" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="quit_button" to="." method="_on_quit_button_pressed"]

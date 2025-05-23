@@ -1,0 +1,94 @@
+[gd_scene load_steps=3 format=3 uid="uid://342i8b64x86p"]
+
+[ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_nutg8"]
+[ext_resource type="Script" uid="uid://cfybsqg4hosne" path="res://scripts/start_game_panel.gd" id="2_lfn20"]
+
+[node name="StartGamePanel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("1_nutg8")
+script = ExtResource("2_lfn20")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -205.0
+offset_top = 30.0
+offset_right = 205.0
+offset_bottom = 124.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="labels" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="spacing" type="Control" parent="PanelContainer/VBoxContainer/labels"]
+custom_minimum_size = Vector2(36, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/labels"]
+layout_mode = 2
+text = "Difficulty"
+
+[node name="spacing2" type="Control" parent="PanelContainer/VBoxContainer/labels"]
+custom_minimum_size = Vector2(63, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="PanelContainer/VBoxContainer/labels"]
+layout_mode = 2
+text = "Skill Page"
+
+[node name="buttons" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="difficulty_option" type="OptionButton" parent="PanelContainer/VBoxContainer/buttons"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+selected = 0
+item_count = 1
+popup/item_0/text = "Easy"
+popup/item_0/id = 0
+
+[node name="spacing" type="Control" parent="PanelContainer/VBoxContainer/buttons"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="skill_page_option" type="OptionButton" parent="PanelContainer/VBoxContainer/buttons"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+alignment = 1
+selected = 0
+item_count = 5
+popup/item_0/text = "1"
+popup/item_0/id = 0
+popup/item_1/text = "2"
+popup/item_1/id = 1
+popup/item_2/text = "3"
+popup/item_2/id = 2
+popup/item_3/text = "4"
+popup/item_3/id = 3
+popup/item_4/text = "5"
+popup/item_4/id = 4
+
+[node name="spacing2" type="Control" parent="PanelContainer/VBoxContainer/buttons"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="start_game_button" type="Button" parent="PanelContainer/VBoxContainer/buttons"]
+layout_mode = 2
+text = "Start Game"
+
+[connection signal="item_selected" from="PanelContainer/VBoxContainer/buttons/skill_page_option" to="." method="_on_skill_page_option_item_selected"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/buttons/start_game_button" to="." method="_on_start_game_button_pressed"]
