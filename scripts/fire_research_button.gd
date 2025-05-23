@@ -26,7 +26,7 @@ func upgrade():
 		self.text = "\nMAX"
 	var damage_percentage: int = int(get_tree().get_root().get_node("game").fire_research_value * 100)
 	var message: String = "Fire research damage increased to " + str(damage_percentage) + "%"
-	var color: Color = Color.hex(0xa778e8ff)
+	var color: Color = Color.hex(0xe8c078ff)
 	get_tree().get_root().get_node("game").add_status_message(message, color)
 	max_upgrades -= 1
 	

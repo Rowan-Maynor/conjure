@@ -28,7 +28,7 @@ func _ready():
 	attack_value.text = str(unit_data.damage)
 	attack_speed_value.text = str(unit_data.attack_speed)
 	range_value.text = str(unit_data.attack_range)
-	critical_value.text = str(unit_data.critical)
+	critical_value.text = str(unit_data.critical_chance)
 	speed_value.text = str(unit_data.speed)
 	element_value.text = str(unit_data.element)
 	var unit_type_with_spaces: String = unit_data.type.replace("_", " ")

@@ -11,10 +11,11 @@ var y_diff: float = 10.0
 @export var enemy_position: Vector2
 @export var damage: int
 @export var element: String
+@export var is_critical: bool
 
 func _ready() -> void:
 	if(attack_data.type == "melee"):
-		emit_signal("attack_contact", current_target, damage, element)
+		emit_signal("attack_contact", current_target, damage, element, is_critical)
 
 func _physics_process(_delta:float) -> void:
 	if(attack_data.type != "melee"):
@@ -34,7 +35,7 @@ func _physics_process(_delta:float) -> void:
 		$AnimatedSprite2D.look_at(enemy_position)
 		
 		if(position.distance_to(enemy_position) < 6):
-			emit_signal("attack_contact", current_target, damage, element)
+			emit_signal("attack_contact", current_target, damage, element, is_critical)
 			self.queue_free()
 		
 		elif(position.distance_to(enemy_position) > 3):
@@ -42,7 +43,7 @@ func _physics_process(_delta:float) -> void:
 			velocity = target_position * attack_data.speed
 			move_and_slide()
 
-signal attack_contact(body, damage, element)
+signal attack_contact(body, damage, element, is_critical)
 
 
 func _on_animated_sprite_2d_animation_finished() -> void:

@@ -3,7 +3,7 @@ extends Control
 @onready var tome_content: Node = $tome_content
 
 func _ready():
-	$tome_content/Tome.player_data = load("res://resources/player/player_data.tres")
+	$tome_content/Tome.player_data = load("user://player_data.tres")
 
 func _input(_event: InputEvent) -> void:
 	if(Input.is_action_just_pressed("pause")):

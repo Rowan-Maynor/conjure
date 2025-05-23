@@ -130,7 +130,7 @@ layout_mode = 2
 [node name="critical" type="Label" parent="PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_right"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
-text = "critical"
+text = "critical chance"
 horizontal_alignment = 1
 
 [node name="critical_value" type="Label" parent="PanelContainer/VBoxContainer/PanelContainer/unit_data_container/unit_data_right"]

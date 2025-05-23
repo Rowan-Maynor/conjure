@@ -3,6 +3,12 @@ extends Node2D
 #player save data
 @export var player_data: Player_Data
 
+#game data
+var game_data: Game_Data
+
+#skill data
+var skill_data: Skill_Data
+
 #resource values
 var lives: int = 30
 var mana: int = 25
@@ -73,12 +79,14 @@ var cursor_hold: Resource = load("res://assets/ui/cursor_hold.png")
 
 #general functions
 func _ready():
+	load_game_data()
 	load_player_data()
+	load_skill_data()
+	update_skill_values()
 	mana_ui_value.text = str(mana)
 	research_ui_value.text = str(research)
 	update_mana_buttons()
 	update_research_buttons()
-	save_player_data()
 
 func _input(event: InputEvent) -> void:
 	if(Input.is_action_just_pressed("print_orphans")):
@@ -245,7 +253,7 @@ func update_unit_panel_values(unit, panel_ui_scene):
 	var unit_type_value: Label = panel_ui_scene.get_node("PanelContainer/VBoxContainer/unit_type")
 	attack_speed_value.text = str(unit.unit_data.attack_speed)
 	range_value.text = str(unit.unit_data.attack_range)
-	critical_value.text = "0"
+	critical_value.text = str(unit.unit_data.critical_chance)
 	speed_value.text = str(unit.unit_data.speed)
 	element_value.text = str(unit.unit_data.element)
 	var unit_type_with_spaces: String = unit.unit_data.type.replace("_", " ")
@@ -282,6 +290,7 @@ func spawn_wave():
 		if(wave % 10 == 0):
 			wave_scale_mult_final += .2
 		unit.unit_data.health = wave * wave_scale_mult_final
+		unit.skill_data = skill_data
 		unit.position = spawn_point.position
 		unit.connect("died", _on_died)
 		get_tree().get_root().get_node("game").get_node("enemy_units_nav").add_child(unit)
@@ -315,14 +324,17 @@ func spawn_boss():
 	if(element == "fire"):
 		boss_unit = load("res://scenes/units/hell_hound.tscn").instantiate()
 		boss_unit.unit_data = unit.unit_data
+		boss_unit.skill_data = skill_data
 		boss_unit.unit_data.type = "hell_hound"
 	elif(element == "water"):
 		boss_unit = load("res://scenes/units/naga.tscn").instantiate()
 		boss_unit.unit_data = unit.unit_data
+		boss_unit.skill_data = skill_data
 		boss_unit.unit_data.type = "naga"
 	elif(element == "earth"):
 		boss_unit = load("res://scenes/units/great_ape.tscn").instantiate()
 		boss_unit.unit_data = unit.unit_data
+		boss_unit.skill_data = skill_data
 		boss_unit.unit_data.type = "great_ape"
 	
 	var wave_scale_mult_final: float = wave_scale_mult
@@ -350,6 +362,10 @@ func _on_wave_time_timeout() -> void:
 			if(wave % 5 == 0):
 				gain_research(3)
 				add_status_message("Gained 3 research", Color.hex(0xe8c078ff))
+			if(wave % 10 == 0):
+				var sp_value: int = 10 
+				gain_sp(sp_value)
+				add_status_message("Gained " + str(sp_value) + " SP", Color.hex(0x967bb6ff))
 			#handles bank interest
 			generate_bank_mana()
 			#sets up wait
@@ -512,7 +528,7 @@ func handle_stop_move():
 	await get_tree().create_timer(.25).timeout
 	Input.set_custom_mouse_cursor(cursor_default)
 
-#saving and loading player data
+#saving and loading data
 func load_player_data():
 	if(ResourceLoader.exists("user://player_data.tres")):
 		player_data = load("user://player_data.tres")
@@ -522,6 +538,70 @@ func load_player_data():
 
 func save_player_data():
 	ResourceSaver.save(player_data, "user://player_data.tres")
+
+func load_game_data():
+	game_data = load("user://game_data.tres")
+
+func load_skill_data():
+	var skill_page_number: int = game_data.skill_page
+	skill_data = load("user://skill_data_" + str(skill_page_number) + ".tres")
+
+func update_skill_values():
+	calculate_starting_lives()
+	calculate_starting_research()
+	calculate_starting_mana()
+
+#calculation functions
+func calculate_final_damage(unit):
+	var final_damage: int = unit.unit_data.damage
+	
+	#apply research damage increase
+	if(unit.unit_data.element == "fire"):
+		final_damage = floori(unit.unit_data.damage * fire_research_value)
+	elif(unit.unit_data.element == "water"):
+		final_damage = floori(unit.unit_data.damage * water_research_value)
+	elif(unit.unit_data.element == "earth"):
+		final_damage = floori(unit.unit_data.damage * earth_research_value)
+	
+	#apply basic skill page increase
+	var basic_skill_mult: float = 1.0
+	if(skill_data.skill_current_upgrades.get("damage_basic") > 0):
+		for i in range(skill_data.skill_current_upgrades.get("damage_basic")):
+			basic_skill_mult += .05
+	final_damage = floor(final_damage * basic_skill_mult)
+	
+	#return the value
+	return final_damage
+
+func calculate_starting_lives():
+	var final_lives: int = lives
+	
+	if(skill_data.skill_current_upgrades.get("lives_basic") > 0):
+		for i in range(skill_data.skill_current_upgrades.get("lives_basic")):
+			final_lives += 1
+	
+	lives = final_lives
+	lives_ui_value.text = str(lives)
+
+func calculate_starting_research():
+	var final_research: int = research
+	
+	if(skill_data.skill_current_upgrades.get("research_basic") > 0):
+		for i in range(skill_data.skill_current_upgrades.get("research_basic")):
+			final_research += 2
+	
+	research = final_research
+	research_ui_value.text = str(research)
+
+func calculate_starting_mana():
+	var final_mana: int = mana
+	
+	if(skill_data.skill_current_upgrades.get("starting_mana_basic") > 0):
+		for i in range(skill_data.skill_current_upgrades.get("starting_mana_basic")):
+			final_mana += 1
+	
+	mana = final_mana
+	mana_ui_value.text = str(mana)
 
 #helper functions
 func add_status_message(message, color = Color.hex(0xffffffff)):
@@ -615,20 +695,6 @@ func update_research_buttons():
 	if(research >= earth_research_button.cost && earth_research_button.max_upgrades > 0):
 		earth_research_button.disabled = false
 
-func calculate_final_damage(unit):
-	var final_damage: int = unit.unit_data.damage
-	
-	#apply research damage increase
-	if(unit.unit_data.element == "fire"):
-		final_damage = floori(unit.unit_data.damage * fire_research_value)
-	elif(unit.unit_data.element == "water"):
-		final_damage = floori(unit.unit_data.damage * water_research_value)
-	elif(unit.unit_data.element == "earth"):
-		final_damage = floori(unit.unit_data.damage * earth_research_value)
-	
-	#return the value
-	return final_damage
-
 func bank_deposit(value):
 	if(value > mana):
 		bank_mana += mana
@@ -703,6 +769,10 @@ func generate_bank_mana():
 		add_status_message("Gained " + str(float(bank_mana_cap)) + " bank mana (Max)", Color.hex(0x199fffff))
 		bank_mana += bank_mana_cap
 		bank_mana_value.text = str(bank_mana)
+
+func gain_sp(value: int):
+	player_data.sp += value
+	save_player_data()
 
 func check_recipe_unlock(type: String):
 	if(player_data.recipe_unlocks.get(type) == false):
