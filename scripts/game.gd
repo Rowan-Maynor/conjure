@@ -477,6 +477,7 @@ func _on_merge():
 			instance.unit_data = load(unit_data_path).duplicate()
 			var unit_recipe_path: String = "res://resources/units/" + recipe_unit + "/" + recipe_unit + "_recipe.tres"
 			instance.recipe_data = load(unit_recipe_path).duplicate()
+			instance.skill_data = skill_data
 			var spawn_point: Node = find_open_spawn_point()
 			if(spawn_point == null):
 				add_status_message("No free space", Color.hex(0xff3e3eff))
@@ -709,6 +710,7 @@ func bank_withdraw(value):
 	if(value > bank_mana):
 		var remaining_bank: int = floori(bank_mana)
 		bank_mana -= remaining_bank
+		bank_mana = snapped(bank_mana, .01)
 		mana += remaining_bank
 		update_mana_buttons()
 		mana_ui_value.text = str(mana)
@@ -716,6 +718,7 @@ func bank_withdraw(value):
 	else:
 		mana += value
 		bank_mana -= value
+		bank_mana = snapped(bank_mana, .01)
 		update_mana_buttons()
 		mana_ui_value.text = str(mana)
 		bank_mana_value.text = str(bank_mana)
