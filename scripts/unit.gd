@@ -320,7 +320,7 @@ func calculate_critical_chance():
 	
 	if(skill_data.skill_current_upgrades.get("critical_chance_basic") > 0):
 		for i in range(skill_data.skill_current_upgrades.get("critical_chance_basic")):
-			final_critical_chance += 1
+			final_critical_chance += skill_data.skill_values.get("critical_chance_basic")
 	
 	unit_data.set("critical_chance", final_critical_chance)
 
@@ -329,7 +329,7 @@ func calculate_range():
 	
 	if(skill_data.skill_current_upgrades.get("range_basic") > 0):
 		for i in range(skill_data.skill_current_upgrades.get("range_basic")):
-			final_range += 10
+			final_range += skill_data.skill_values.get("range_basic")
 	
 	unit_data.set("attack_range", final_range)
 
@@ -338,7 +338,7 @@ func calculate_critical_damage():
 	
 	if(skill_data.skill_current_upgrades.get("critical_damage_basic") > 0):
 		for i in range(skill_data.skill_current_upgrades.get("critical_chance_basic")):
-			final_critical_damage += 0.05
+			final_critical_damage += skill_data.skill_values.get("critical_chance_basic")
 	
 	return final_critical_damage
 
@@ -409,7 +409,7 @@ func handle_damage(value: int, element: String, is_critical: bool):
 	var basic_skill_mult: float = 1.0
 	if(skill_data.skill_current_upgrades.get("damage_basic") > 0):
 		for i in range(skill_data.skill_current_upgrades.get("damage_basic")):
-			basic_skill_mult += .05
+			basic_skill_mult += skill_data.skill_values.get("damage_basic")
 	final_damage = floor(final_damage * basic_skill_mult)
 	
 	#check for critical
