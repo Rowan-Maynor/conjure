@@ -1,5 +1,5 @@
 extends Resource
 class_name Difficulty_Data
 
-@export var health: float
-@export var speed: float
+@export var health_base: int
+@export var health_mult: float

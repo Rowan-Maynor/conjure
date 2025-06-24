@@ -57,9 +57,13 @@ layout_mode = 2
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 selected = 0
-item_count = 1
+item_count = 3
 popup/item_0/text = "Easy"
 popup/item_0/id = 0
+popup/item_1/text = "Medium"
+popup/item_1/id = 1
+popup/item_2/text = "Hard"
+popup/item_2/id = 2
 
 [node name="spacing" type="Control" parent="PanelContainer/VBoxContainer/buttons"]
 custom_minimum_size = Vector2(10, 0)
@@ -90,5 +94,6 @@ layout_mode = 2
 layout_mode = 2
 text = "Start Game"
 
+[connection signal="item_selected" from="PanelContainer/VBoxContainer/buttons/difficulty_option" to="." method="_on_difficulty_option_item_selected"]
 [connection signal="item_selected" from="PanelContainer/VBoxContainer/buttons/skill_page_option" to="." method="_on_skill_page_option_item_selected"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/buttons/start_game_button" to="." method="_on_start_game_button_pressed"]

@@ -289,7 +289,6 @@ func spawn_wave():
 		var unit: Node = load(wave_data.unit).instantiate()
 		unit.unit_data = load("res://resources/waves/wave_" + str(wave) + "/unit_stats.tres").duplicate()
 		unit.unit_data.health = calculate_enemy_hp()
-		unit.unit_data.speed = calculate_enemy_speed(unit.unit_data.speed)
 		unit.skill_data = skill_data
 		unit.position = spawn_point.position
 		unit.connect("died", _on_died)
@@ -610,17 +609,11 @@ func calculate_starting_mana():
 
 func calculate_enemy_hp():
 	var wave_scale_mult_final: float = wave_scale_mult
-	wave_scale_mult_final += difficulty_data.health
+	wave_scale_mult_final += difficulty_data.health_mult
 	if(wave % 10 == 0):
 		wave_scale_mult_final += .2
 	
-	return wave * wave_scale_mult_final
-
-func calculate_enemy_speed(base):
-	var speed_mult: float = 1.0
-	speed_mult += difficulty_data.speed
-	
-	return base * speed_mult
+	return (wave + difficulty_data.health_base) * wave_scale_mult_final
 
 #helper functions
 func add_status_message(message, color = Color.hex(0xffffffff)):

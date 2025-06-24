@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Difficulty_Data" load_steps=2 format=3 uid="uid://ct18wep0e2emk"]
+
+[ext_resource type="Script" uid="uid://yxh2oo1uucae" path="res://resources/resource_scripts/difficulty_data.gd" id="1_hrqrj"]
+
+[resource]
+script = ExtResource("1_hrqrj")
+health_base = 25
+health_mult = 0.5
+speed = 0.15
+metadata/_custom_type_script = "uid://yxh2oo1uucae"
