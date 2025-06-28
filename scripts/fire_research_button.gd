@@ -3,7 +3,6 @@ extends Button
 var cost: int = 1
 var max_upgrades: int = 20
 @onready var cooldown_timer: Timer = get_tree().get_root().get_node("game/main_ui/Main-ui/research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_cooldown")
-@onready var hover_timer: Timer = get_tree().get_root().get_node("game/main_ui/Main-ui/research_tab_buttons/HBoxContainer/VBoxContainer/fire_research_hover")
 
 func _on_pressed() -> void:
 	upgrade()
@@ -48,14 +47,10 @@ func _on_button_up() -> void:
 	cooldown_timer.stop()
 
 func _on_mouse_entered() -> void:
-	hover_timer.start()
+	var tooltip: Node = load("res://scenes/tooltips/fire_research_tooltip.tscn").instantiate()
+	self.add_child(tooltip)
 
 func _on_mouse_exited() -> void:
-	hover_timer.stop()
 	if(self.get_children()):
 		var tooltip: Node = self.get_child(0)
 		tooltip.queue_free()
-
-func _on_fire_research_hover_timeout() -> void:
-	var tooltip: Node = load("res://scenes/tooltips/fire_research_tooltip.tscn").instantiate()
-	self.add_child(tooltip)
