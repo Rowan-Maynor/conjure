@@ -1,9 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://dtprcr2u1u542"]
+[gd_scene load_steps=3 format=3 uid="uid://bsg82ojmmrcxe"]
 
-[ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_pcfvm"]
-[ext_resource type="Script" uid="uid://bgahmjma56dqt" path="res://scripts/basic_health_skill_tooltip.gd" id="2_i0ab4"]
+[ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_ax07y"]
+[ext_resource type="Script" uid="uid://d4ffemibo5fqs" path="res://scripts/basic_damage_skill_tooltip.gd" id="2_ax07y"]
 
-[node name="BasicHealthSkillTooltop" type="Control"]
+[node name="BasicDamageSkillTooltop" type="Control"]
 z_index = 2
 layout_mode = 3
 anchors_preset = 15
@@ -12,8 +12,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-theme = ExtResource("1_pcfvm")
-script = ExtResource("2_i0ab4")
+theme = ExtResource("1_ax07y")
+script = ExtResource("2_ax07y")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 0
@@ -27,7 +27,7 @@ layout_mode = 2
 
 [node name="title" type="Label" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
-text = "Basic Health"
+text = "Basic Damage"
 horizontal_alignment = 1
 
 [node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer"]
@@ -38,7 +38,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
-text = "Increases your starting health"
+text = "Increases base damage for all units"
 horizontal_alignment = 1
 autowrap_mode = 2
 
@@ -56,7 +56,7 @@ layout_mode = 2
 [node name="skill_per_value_text" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/skill_text_container"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
-text = "Health Increase Per Upgrade:"
+text = "Damage Increase Per Upgrade:"
 horizontal_alignment = 1
 
 [node name="skill_total_text" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/skill_text_container"]

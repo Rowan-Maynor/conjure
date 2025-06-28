@@ -163,6 +163,9 @@ signal available_sp_decrease(ammount: int)
 #button_down handlers
 func _on_damage_basic_button_down() -> void:
 	handle_button_press(upgrade_map[0])
+	if(damage_button.get_child(2)):
+		var tooltip: Node = damage_button.get_child(2)
+		tooltip.update_values("damage_basic")
 
 func _on_lives_basic_button_down() -> void:
 	handle_button_press(upgrade_map[1])
@@ -194,4 +197,14 @@ func _on_lives_basic_mouse_entered() -> void:
 func _on_lives_basic_mouse_exited() -> void:
 	if(lives_button.get_child(2)):
 		var tooltip: Node = lives_button.get_child(2)
+		tooltip.queue_free()
+
+func _on_damage_basic_mouse_entered() -> void:
+	var tooltip: Node = load("res://scenes/tooltips/basic_damage_skill_tooltip.tscn").instantiate()
+	tooltip.skill_data = skill_data
+	damage_button.add_child(tooltip)
+
+func _on_damage_basic_mouse_exited() -> void:
+	if(damage_button.get_child(2)):
+		var tooltip: Node = damage_button.get_child(2)
 		tooltip.queue_free()
