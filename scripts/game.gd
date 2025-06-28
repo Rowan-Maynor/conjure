@@ -9,6 +9,9 @@ var game_data: Game_Data
 #skill data
 var skill_data: Skill_Data
 
+#difficulty data
+var difficulty_data: Difficulty_Data
+
 #resource values
 var lives: int = 30
 var mana: int = 25
@@ -82,6 +85,7 @@ func _ready():
 	load_game_data()
 	load_player_data()
 	load_skill_data()
+	load_difficulty_data()
 	update_skill_values()
 	mana_ui_value.text = str(mana)
 	research_ui_value.text = str(research)
@@ -284,12 +288,7 @@ func spawn_wave():
 	for spawn_point in spawn_areas:
 		var unit: Node = load(wave_data.unit).instantiate()
 		unit.unit_data = load("res://resources/waves/wave_" + str(wave) + "/unit_stats.tres").duplicate()
-		#use a new variable so it can be modified without affecting the global
-		var wave_scale_mult_final: float = wave_scale_mult
-		#add an extra 20% hp on boss waves
-		if(wave % 10 == 0):
-			wave_scale_mult_final += .2
-		unit.unit_data.health = wave * wave_scale_mult_final
+		unit.unit_data.health = calculate_enemy_hp()
 		unit.skill_data = skill_data
 		unit.position = spawn_point.position
 		unit.connect("died", _on_died)
@@ -477,6 +476,7 @@ func _on_merge():
 			instance.unit_data = load(unit_data_path).duplicate()
 			var unit_recipe_path: String = "res://resources/units/" + recipe_unit + "/" + recipe_unit + "_recipe.tres"
 			instance.recipe_data = load(unit_recipe_path).duplicate()
+			instance.skill_data = skill_data
 			var spawn_point: Node = find_open_spawn_point()
 			if(spawn_point == null):
 				add_status_message("No free space", Color.hex(0xff3e3eff))
@@ -551,6 +551,10 @@ func update_skill_values():
 	calculate_starting_research()
 	calculate_starting_mana()
 
+func load_difficulty_data():
+	var difficulty: String = game_data.difficulty
+	difficulty_data = load("res://resources/difficulties/" + difficulty + ".tres")
+
 #calculation functions
 func calculate_final_damage(unit):
 	var final_damage: int = unit.unit_data.damage
@@ -567,7 +571,7 @@ func calculate_final_damage(unit):
 	var basic_skill_mult: float = 1.0
 	if(skill_data.skill_current_upgrades.get("damage_basic") > 0):
 		for i in range(skill_data.skill_current_upgrades.get("damage_basic")):
-			basic_skill_mult += .05
+			basic_skill_mult += skill_data.skill_values.get("damage_basic")
 	final_damage = floor(final_damage * basic_skill_mult)
 	
 	#return the value
@@ -578,7 +582,7 @@ func calculate_starting_lives():
 	
 	if(skill_data.skill_current_upgrades.get("lives_basic") > 0):
 		for i in range(skill_data.skill_current_upgrades.get("lives_basic")):
-			final_lives += 1
+			final_lives += skill_data.skill_values.get("lives_basic")
 	
 	lives = final_lives
 	lives_ui_value.text = str(lives)
@@ -588,7 +592,7 @@ func calculate_starting_research():
 	
 	if(skill_data.skill_current_upgrades.get("research_basic") > 0):
 		for i in range(skill_data.skill_current_upgrades.get("research_basic")):
-			final_research += 2
+			final_research += skill_data.skill_values.get("research_basic")
 	
 	research = final_research
 	research_ui_value.text = str(research)
@@ -598,10 +602,18 @@ func calculate_starting_mana():
 	
 	if(skill_data.skill_current_upgrades.get("starting_mana_basic") > 0):
 		for i in range(skill_data.skill_current_upgrades.get("starting_mana_basic")):
-			final_mana += 1
+			final_mana += skill_data.skill_values.get("starting_mana_basic")
 	
 	mana = final_mana
 	mana_ui_value.text = str(mana)
+
+func calculate_enemy_hp():
+	var wave_scale_mult_final: float = wave_scale_mult
+	wave_scale_mult_final += difficulty_data.health_mult
+	if(wave % 10 == 0):
+		wave_scale_mult_final += .2
+	
+	return (wave + difficulty_data.health_base) * wave_scale_mult_final
 
 #helper functions
 func add_status_message(message, color = Color.hex(0xffffffff)):
@@ -709,6 +721,7 @@ func bank_withdraw(value):
 	if(value > bank_mana):
 		var remaining_bank: int = floori(bank_mana)
 		bank_mana -= remaining_bank
+		bank_mana = snapped(bank_mana, .01)
 		mana += remaining_bank
 		update_mana_buttons()
 		mana_ui_value.text = str(mana)
@@ -716,6 +729,7 @@ func bank_withdraw(value):
 	else:
 		mana += value
 		bank_mana -= value
+		bank_mana = snapped(bank_mana, .01)
 		update_mana_buttons()
 		mana_ui_value.text = str(mana)
 		bank_mana_value.text = str(bank_mana)

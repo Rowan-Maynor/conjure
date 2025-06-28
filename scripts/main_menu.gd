@@ -17,7 +17,7 @@ func _on_play_button_pressed() -> void:
 	else:
 		$start_game_canvas.get_child(0).queue_free()
 
-func _on_skills_pressed() -> void:
+func _on_skills_button_pressed() -> void:
 	if($start_game_canvas.get_child_count() != 0):
 		$start_game_canvas.get_child(0).queue_free()
 	var skill_page: Node = load("res://scenes/ui_components/skill_tree_controller.tscn").instantiate()

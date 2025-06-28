@@ -148,14 +148,14 @@ text = "Conjure"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Skills" type="Button" parent="."]
+[node name="skills_button" type="Button" parent="."]
 layout_mode = 2
 offset_left = 251.0
 offset_top = 505.0
 offset_right = 391.0
 offset_bottom = 549.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Skills"]
+[node name="VBoxContainer" type="VBoxContainer" parent="skills_button"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -165,15 +165,15 @@ offset_right = 20.0
 offset_bottom = 40.0
 grow_horizontal = 2
 
-[node name="top_spacing" type="Control" parent="Skills/VBoxContainer"]
+[node name="top_spacing" type="Control" parent="skills_button/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Skills/VBoxContainer"]
+[node name="Label" type="Label" parent="skills_button/VBoxContainer"]
 layout_mode = 2
 text = "Skills"
 horizontal_alignment = 1
 
-[node name="Achievements" type="Button" parent="."]
+[node name="leaderboard_button" type="Button" parent="."]
 layout_mode = 2
 offset_left = 112.0
 offset_top = 505.0
@@ -181,7 +181,7 @@ offset_right = 252.0
 offset_bottom = 549.0
 disabled = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Achievements"]
+[node name="VBoxContainer" type="VBoxContainer" parent="leaderboard_button"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -191,12 +191,12 @@ offset_right = 20.0
 offset_bottom = 40.0
 grow_horizontal = 2
 
-[node name="top_spacing" type="Control" parent="Achievements/VBoxContainer"]
+[node name="top_spacing" type="Control" parent="leaderboard_button/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Achievements/VBoxContainer"]
+[node name="Label" type="Label" parent="leaderboard_button/VBoxContainer"]
 layout_mode = 2
-text = "Achievements"
+text = "Leaderboard"
 horizontal_alignment = 1
 
 [node name="play_button" type="Button" parent="."]
@@ -332,7 +332,7 @@ flip_h = true
 
 [node name="start_game_canvas" type="CanvasLayer" parent="."]
 
-[connection signal="pressed" from="Skills" to="." method="_on_skills_pressed"]
+[connection signal="pressed" from="skills_button" to="." method="_on_skills_button_pressed"]
 [connection signal="pressed" from="play_button" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="quit_button" to="." method="_on_quit_button_pressed"]
 [connection signal="timeout" from="cloud_movement_timer" to="cloud_movement_timer" method="_on_timeout"]

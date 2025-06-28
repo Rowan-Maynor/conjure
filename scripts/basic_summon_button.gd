@@ -30,7 +30,6 @@ var t2_units: Array[String] = [
 var lucky_summon_chance: int = 1
 
 @onready var cooldown_timer: Timer = get_tree().get_root().get_node("game/main_ui/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_cooldown")
-@onready var hover_timer: Timer = get_tree().get_root().get_node("game/main_ui/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_hover")
 
 func _ready():
 	game_data = load("user://game_data.tres")
@@ -86,14 +85,10 @@ func _on_basic_summon_cooldown_timeout() -> void:
 	summon_unit()
 
 func _on_mouse_entered() -> void:
-	hover_timer.start()
+	var tooltip: Node = load("res://scenes/tooltips/basic_summon_tooltip.tscn").instantiate()
+	self.add_child(tooltip)
 
 func _on_mouse_exited() -> void:
-	hover_timer.stop()
 	if(self.get_children()):
 		var tooltip: Node = self.get_child(0)
 		tooltip.queue_free()
-
-func _on_basic_summon_hover_timeout() -> void:
-	var tooltip: Node = load("res://scenes/tooltips/basic_summon_tooltip.tscn").instantiate()
-	self.add_child(tooltip)

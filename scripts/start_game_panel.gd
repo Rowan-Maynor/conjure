@@ -26,3 +26,9 @@ func _on_skill_page_option_item_selected(index: int) -> void:
 		var new_skill_page: Skill_Data = Skill_Data.new()
 		ResourceSaver.save(new_skill_page, "user://skill_data_" + str(index) + ".tres")
 		game_data.skill_page = index
+
+
+func _on_difficulty_option_item_selected(index: int) -> void:
+	var difficulty: String = $PanelContainer/VBoxContainer/buttons/difficulty_option.get_item_text(index)
+	difficulty = difficulty.to_lower()
+	game_data.difficulty = difficulty

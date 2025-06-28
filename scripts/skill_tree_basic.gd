@@ -27,6 +27,10 @@ var skill_page: int = 1
 @onready var critical_chance_button: Button = $main_panel/VBoxContainer/skill_tree_buttons/critical_chance_basic
 @onready var critical_damage_button: Button = $main_panel/VBoxContainer/skill_tree_buttons/critical_damage_basic
 @onready var starting_mana_button: Button = $main_panel/VBoxContainer/skill_tree_buttons/starting_mana_basic
+@onready var lives_button: Button = $main_panel/VBoxContainer/skill_tree_buttons/lives_basic
+@onready var range_button: Button = $main_panel/VBoxContainer/skill_tree_buttons/range_basic
+@onready var damage_button: Button = $main_panel/VBoxContainer/skill_tree_buttons/damage_basic
+@onready var research_button: Button = $main_panel/VBoxContainer/skill_tree_buttons/research_basic
 
 @onready var upgrade_map: Array = [
 	#if any changes are made to cost scaling, update skill_data.gd to next version
@@ -159,21 +163,113 @@ signal available_sp_decrease(ammount: int)
 #button_down handlers
 func _on_damage_basic_button_down() -> void:
 	handle_button_press(upgrade_map[0])
+	if(damage_button.get_child(2)):
+		var tooltip: Node = damage_button.get_child(2)
+		tooltip.update_values("damage_basic")
 
 func _on_lives_basic_button_down() -> void:
 	handle_button_press(upgrade_map[1])
+	if(lives_button.get_child(2)):
+		var tooltip: Node = lives_button.get_child(2)
+		tooltip.update_values("lives_basic")
 
 func _on_research_basic_button_down() -> void:
 	handle_button_press(upgrade_map[2])
+	if(research_button.get_child(2)):
+		var tooltip: Node = research_button.get_child(2)
+		tooltip.update_values("research_basic")
 
 func _on_range_basic_button_down() -> void:
 	handle_button_press(upgrade_map[3])
+	if(range_button.get_child(2)):
+		var tooltip: Node = range_button.get_child(2)
+		tooltip.update_values("range_basic")
 
 func _on_critical_chance_basic_button_down() -> void:
 	handle_button_press(upgrade_map[4])
+	if(critical_chance_button.get_child(2)):
+		var tooltip: Node = critical_chance_button.get_child(2)
+		tooltip.update_values("critical_chance_basic")
 
 func _on_critical_damage_basic_button_down() -> void:
 	handle_button_press(upgrade_map[5])
+	if(critical_damage_button.get_child(2)):
+		var tooltip: Node = critical_damage_button.get_child(2)
+		tooltip.update_values("critical_damage_basic")
 
 func _on_starting_mana_basic_button_down() -> void:
 	handle_button_press(upgrade_map[6])
+	if(starting_mana_button.get_child(2)):
+		var tooltip: Node = starting_mana_button.get_child(2)
+		tooltip.update_values("starting_mana_basic")
+
+#tooltip functions
+func _on_lives_basic_mouse_entered() -> void:
+	var tooltip: Node = load("res://scenes/tooltips/basic_health_skill_tooltip.tscn").instantiate()
+	tooltip.skill_data = skill_data
+	lives_button.add_child(tooltip)
+
+func _on_lives_basic_mouse_exited() -> void:
+	if(lives_button.get_child(2)):
+		var tooltip: Node = lives_button.get_child(2)
+		tooltip.queue_free()
+
+func _on_damage_basic_mouse_entered() -> void:
+	var tooltip: Node = load("res://scenes/tooltips/basic_damage_skill_tooltip.tscn").instantiate()
+	tooltip.skill_data = skill_data
+	damage_button.add_child(tooltip)
+
+func _on_damage_basic_mouse_exited() -> void:
+	if(damage_button.get_child(2)):
+		var tooltip: Node = damage_button.get_child(2)
+		tooltip.queue_free()
+
+func _on_critical_chance_basic_mouse_entered() -> void:
+	var tooltip: Node = load("res://scenes/tooltips/basic_critical_chance_skill_tooltip.tscn").instantiate()
+	tooltip.skill_data = skill_data
+	critical_chance_button.add_child(tooltip)
+
+func _on_critical_chance_basic_mouse_exited() -> void:
+	if(critical_chance_button.get_child(2)):
+		var tooltip: Node = critical_chance_button.get_child(2)
+		tooltip.queue_free()
+
+func _on_range_basic_mouse_entered() -> void:
+	var tooltip: Node = load("res://scenes/tooltips/basic_range_skill_tooltip.tscn").instantiate()
+	tooltip.skill_data = skill_data
+	range_button.add_child(tooltip)
+
+func _on_range_basic_mouse_exited() -> void:
+	if(range_button.get_child(2)):
+		var tooltip: Node = range_button.get_child(2)
+		tooltip.queue_free()
+
+func _on_research_basic_mouse_entered() -> void:
+	var tooltip: Node = load("res://scenes/tooltips/basic_research_skill_tooltip.tscn").instantiate()
+	tooltip.skill_data = skill_data
+	research_button.add_child(tooltip)
+
+func _on_research_basic_mouse_exited() -> void:
+	if(research_button.get_child(2)):
+		var tooltip: Node = research_button.get_child(2)
+		tooltip.queue_free()
+
+func _on_starting_mana_basic_mouse_entered() -> void:
+	var tooltip: Node = load("res://scenes/tooltips/basic_mana_skill_tooltip.tscn").instantiate()
+	tooltip.skill_data = skill_data
+	starting_mana_button.add_child(tooltip)
+
+func _on_starting_mana_basic_mouse_exited() -> void:
+	if(starting_mana_button.get_child(2)):
+		var tooltip: Node = starting_mana_button.get_child(2)
+		tooltip.queue_free()
+
+func _on_critical_damage_basic_mouse_entered() -> void:
+	var tooltip: Node = load("res://scenes/tooltips/basic_critical_damage_skill_tooltip.tscn").instantiate()
+	tooltip.skill_data = skill_data
+	critical_damage_button.add_child(tooltip)
+
+func _on_critical_damage_basic_mouse_exited() -> void:
+	if(critical_damage_button.get_child(2)):
+		var tooltip: Node = critical_damage_button.get_child(2)
+		tooltip.queue_free()

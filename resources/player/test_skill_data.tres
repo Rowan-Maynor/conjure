@@ -17,5 +17,14 @@ skill_current_upgrades = {
 "damage_basic": 0,
 "health_basic": 0
 }
+skill_values = {
+"critical_chance_basic": 0,
+"critical_damage_basic": 0,
+"damage_basic": 0.05,
+"lives_basic": 1,
+"range_basic": 0,
+"research_basic": 0,
+"starting_mana_basic": 0
+}
 spent_sp = 0
 metadata/_custom_type_script = "uid://48tsovu2ymtd"
