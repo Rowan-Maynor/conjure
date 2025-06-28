@@ -27,6 +27,10 @@ var skill_page: int = 1
 @onready var critical_chance_button: Button = $main_panel/VBoxContainer/skill_tree_buttons/critical_chance_basic
 @onready var critical_damage_button: Button = $main_panel/VBoxContainer/skill_tree_buttons/critical_damage_basic
 @onready var starting_mana_button: Button = $main_panel/VBoxContainer/skill_tree_buttons/starting_mana_basic
+@onready var lives_button: Button = $main_panel/VBoxContainer/skill_tree_buttons/lives_basic
+@onready var range_button: Button = $main_panel/VBoxContainer/skill_tree_buttons/range_basic
+@onready var damage_button: Button = $main_panel/VBoxContainer/skill_tree_buttons/damage_basic
+@onready var research_button: Button = $main_panel/VBoxContainer/skill_tree_buttons/research_basic
 
 @onready var upgrade_map: Array = [
 	#if any changes are made to cost scaling, update skill_data.gd to next version
@@ -162,6 +166,9 @@ func _on_damage_basic_button_down() -> void:
 
 func _on_lives_basic_button_down() -> void:
 	handle_button_press(upgrade_map[1])
+	if(lives_button.get_child(2)):
+		var tooltip: Node = lives_button.get_child(2)
+		tooltip.update_values("lives_basic")
 
 func _on_research_basic_button_down() -> void:
 	handle_button_press(upgrade_map[2])
@@ -177,3 +184,14 @@ func _on_critical_damage_basic_button_down() -> void:
 
 func _on_starting_mana_basic_button_down() -> void:
 	handle_button_press(upgrade_map[6])
+
+#tooltip functions
+func _on_lives_basic_mouse_entered() -> void:
+	var tooltip: Node = load("res://scenes/tooltips/basic_health_skill_tooltip.tscn").instantiate()
+	tooltip.skill_data = skill_data
+	lives_button.add_child(tooltip)
+
+func _on_lives_basic_mouse_exited() -> void:
+	if(lives_button.get_child(2)):
+		var tooltip: Node = lives_button.get_child(2)
+		tooltip.queue_free()
