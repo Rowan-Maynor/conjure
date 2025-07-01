@@ -65,6 +65,7 @@ var cursor_hold: Resource = load("res://assets/ui/cursor_hold.png")
 @onready var bank_mana_value: Label = $"main_ui/Main-ui/bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_data/values/bank_value"
 @onready var bank_interest_value: Label = $"main_ui/Main-ui/bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_data/values/interest_value"
 @onready var auto_deposit_value: Label = $"main_ui/Main-ui/bank_canvas/bank_container/HBoxContainer/VBoxContainer/auto_deposit_data/auto_deposit_value"
+@onready var bank_projected_value: Label = $"main_ui/Main-ui/bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_data/values/projected_value"
 
 #button paths
 @onready var basic_summon_button: Button = $"main_ui/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_button"
@@ -615,6 +616,92 @@ func calculate_enemy_hp():
 	
 	return (wave + difficulty_data.health_base) * wave_scale_mult_final
 
+#bank functions
+func bank_deposit(value):
+	if(value > mana):
+		bank_mana += mana
+		spend_mana(mana)
+		bank_mana_value.text = str(bank_mana)
+		bank_projected_value.text = str(snapped(bank_mana * (bank_interest - 1), 0.01))
+	else:
+		bank_mana += value
+		spend_mana(value)
+		bank_mana_value.text = str(bank_mana)
+		bank_projected_value.text = str(snapped(bank_mana * (bank_interest - 1), 0.01))
+
+func bank_withdraw(value):
+	if(value > bank_mana):
+		var remaining_bank: int = floori(bank_mana)
+		bank_mana -= remaining_bank
+		bank_mana = snapped(bank_mana, .01)
+		mana += remaining_bank
+		update_mana_buttons()
+		mana_ui_value.text = str(mana)
+		bank_mana_value.text = str(bank_mana)
+		bank_projected_value.text = str(snapped(bank_mana * (bank_interest - 1), 0.01))
+	else:
+		mana += value
+		bank_mana -= value
+		bank_mana = snapped(bank_mana, .01)
+		update_mana_buttons()
+		mana_ui_value.text = str(mana)
+		bank_mana_value.text = str(bank_mana)
+		bank_projected_value.text = str(snapped(bank_mana * (bank_interest - 1), 0.01))
+
+func increase_auto_deposit():
+	auto_deposit += 1
+	auto_deposit_value.text = str(auto_deposit)
+
+func decrease_auto_deposit():
+	if(auto_deposit == 0):
+		return
+	auto_deposit -=1
+	auto_deposit_value.text = str(auto_deposit)
+
+func increase_interest():
+	if(interest_max_upgrades == 0):
+		return
+	if(mana < interest_cost):
+		return
+	var current_interest_cost: int = interest_cost
+	interest_max_upgrades -= 1
+	bank_interest += 0.01
+	interest_cost += 5
+	spend_mana(current_interest_cost)
+	var bank_interest_snapped: float = snapped((bank_interest - 1.0) * 100, 0.01)
+	bank_interest_value.text = str(bank_interest_snapped) + "%"
+	bank_projected_value.text = str(snapped(bank_mana * (bank_interest - 1), 0.01))
+	add_status_message("Interest increased", Color.hex(0xafafafff))
+
+func decrease_interest():
+	bank_interest -= 0.01
+	var rounded_bank_interest: float = snapped(bank_interest, 0.01)
+	bank_interest = rounded_bank_interest
+	#need to snap this calculation specifically (floating point issues)
+	var bank_interest_percentage = snapped((bank_interest - 1) * 100, 0.01)
+	bank_interest_value.text = str(bank_interest_percentage) + "%"
+	bank_projected_value.text = str(snapped(bank_mana * (bank_interest - 1), 0.01))
+	add_status_message("Interest decreased", Color.hex(0xafafafff))
+
+func generate_bank_mana():
+	if(auto_deposit > 0):
+		if(mana < auto_deposit):
+			bank_deposit(mana)
+		else:
+			bank_deposit(auto_deposit)
+	var bank_mana_gained: float = (bank_mana * bank_interest) - bank_mana
+	bank_mana_gained = snapped(bank_mana_gained, 0.01)
+	if(bank_mana_gained < bank_mana_cap):
+		add_status_message("Gained " + str(bank_mana_gained) + " bank mana", Color.hex(0x199fffff))
+		bank_mana += bank_mana_gained
+		bank_mana_value.text = str(bank_mana)
+		bank_projected_value.text = str(snapped(bank_mana * (bank_interest - 1), 0.01))
+	else:
+		add_status_message("Gained " + str(float(bank_mana_cap)) + " bank mana (Max)", Color.hex(0x199fffff))
+		bank_mana += bank_mana_cap
+		bank_mana_value.text = str(bank_mana)
+		bank_projected_value.text = str(snapped(bank_mana * (bank_interest - 1), 0.01))
+
 #helper functions
 func add_status_message(message, color = Color.hex(0xffffffff)):
 	var label: Label = Label.new()
@@ -706,83 +793,6 @@ func update_research_buttons():
 		water_research_button.disabled = false
 	if(research >= earth_research_button.cost && earth_research_button.max_upgrades > 0):
 		earth_research_button.disabled = false
-
-func bank_deposit(value):
-	if(value > mana):
-		bank_mana += mana
-		spend_mana(mana)
-		bank_mana_value.text = str(bank_mana)
-	else:
-		bank_mana += value
-		spend_mana(value)
-		bank_mana_value.text = str(bank_mana)
-
-func bank_withdraw(value):
-	if(value > bank_mana):
-		var remaining_bank: int = floori(bank_mana)
-		bank_mana -= remaining_bank
-		bank_mana = snapped(bank_mana, .01)
-		mana += remaining_bank
-		update_mana_buttons()
-		mana_ui_value.text = str(mana)
-		bank_mana_value.text = str(bank_mana)
-	else:
-		mana += value
-		bank_mana -= value
-		bank_mana = snapped(bank_mana, .01)
-		update_mana_buttons()
-		mana_ui_value.text = str(mana)
-		bank_mana_value.text = str(bank_mana)
-
-func increase_auto_deposit():
-	auto_deposit += 1
-	auto_deposit_value.text = str(auto_deposit)
-
-func decrease_auto_deposit():
-	if(auto_deposit == 0):
-		return
-	auto_deposit -=1
-	auto_deposit_value.text = str(auto_deposit)
-
-func increase_interest():
-	if(interest_max_upgrades == 0):
-		return
-	if(mana < interest_cost):
-		return
-	var current_interest_cost: int = interest_cost
-	interest_max_upgrades -= 1
-	bank_interest += 0.01
-	interest_cost += 5
-	spend_mana(current_interest_cost)
-	var bank_interest_snapped: float = snapped((bank_interest - 1.0) * 100, 0.01)
-	bank_interest_value.text = str(bank_interest_snapped) + "%"
-	add_status_message("Interest increased", Color.hex(0xafafafff))
-
-func decrease_interest():
-	bank_interest -= 0.01
-	var rounded_bank_interest: float = snapped(bank_interest, 0.01)
-	bank_interest = rounded_bank_interest
-	#need to snap this calculation specifically (floating point issues)
-	var bank_interest_percentage = snapped((bank_interest - 1) * 100, 0.01)
-	bank_interest_value.text = str(bank_interest_percentage) + "%"
-	add_status_message("Interest decreased", Color.hex(0xafafafff))
-
-func generate_bank_mana():
-	if(auto_deposit > 0):
-		if(mana < auto_deposit):
-			bank_deposit(mana)
-		else:
-			bank_deposit(auto_deposit)
-	var bank_mana_gained: float = (bank_mana * bank_interest) - bank_mana
-	bank_mana_gained = snapped(bank_mana_gained, 0.01)
-	if(bank_mana_gained < bank_mana_cap):
-		add_status_message("Gained " + str(bank_mana_gained) + " bank mana", Color.hex(0x199fffff))
-		bank_mana += bank_mana_gained
-		bank_mana_value.text = str(bank_mana)
-	else:
-		add_status_message("Gained " + str(float(bank_mana_cap)) + " bank mana (Max)", Color.hex(0x199fffff))
-		bank_mana += bank_mana_cap
-		bank_mana_value.text = str(bank_mana)
 
 func gain_sp(value: int):
 	player_data.sp += value

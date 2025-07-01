@@ -12,6 +12,7 @@ func _ready() -> void:
 	
 	game_data.skill_page = 1
 	game_data.difficulty = "easy"
+	_on_skill_page_option_item_selected(0)
 
 func _on_start_game_button_pressed() -> void:
 	ResourceSaver.save(game_data, "user://game_data.tres")

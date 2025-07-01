@@ -532,6 +532,10 @@ text = "Bank:"
 layout_mode = 2
 text = "Interest:"
 
+[node name="projected_label" type="Label" parent="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_data/text_labels"]
+layout_mode = 2
+text = "Projected:"
+
 [node name="values" type="VBoxContainer" parent="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_data"]
 layout_mode = 2
 
@@ -545,6 +549,11 @@ clip_text = true
 [node name="interest_value" type="Label" parent="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_data/values"]
 layout_mode = 2
 text = "10.0%"
+horizontal_alignment = 2
+
+[node name="projected_value" type="Label" parent="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_data/values"]
+layout_mode = 2
+text = "0.0"
 horizontal_alignment = 2
 
 [node name="spacing" type="Control" parent="bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_data"]
