@@ -39,6 +39,7 @@ var wave_max: int = 50
 var waves_remaining: int
 var default_wave_time: int = 75
 var wave_time: int
+var sp_base: int = 10
 
 #drag select
 var selected: Array[CharacterBody2D] = []
@@ -363,9 +364,11 @@ func _on_wave_time_timeout() -> void:
 				gain_research(3)
 				add_status_message("Gained 3 research", Color.hex(0xe8c078ff))
 			if(wave % 10 == 0):
-				var sp_value: int = 10 
+				@warning_ignore("narrowing_conversion")
+				var sp_value: int = sp_base * difficulty_data.sp_mult
 				gain_sp(sp_value)
 				add_status_message("Gained " + str(sp_value) + " SP", Color.hex(0x967bb6ff))
+				sp_base += 2
 			#handles bank interest
 			generate_bank_mana()
 			#sets up wait
