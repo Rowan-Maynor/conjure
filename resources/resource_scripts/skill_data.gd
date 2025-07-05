@@ -13,6 +13,13 @@ class_name Skill_Data
 	"critical_damage_basic": 10,
 	"starting_mana_basic": 5,
 	"range_basic": 5,
+	"damage_intermediate": 10,
+	"bank_cap_intermediate": 1,
+	"research_intermediate": 5,
+	"critical_chance_intermediate": 10,
+	"critical_damage_intermediate": 10,
+	"starting_mana_intermediate": 5,
+	"bank_research_intermediate": 1,
 }
 
 @export var skill_current_cost: Dictionary = {
@@ -23,6 +30,13 @@ class_name Skill_Data
 	"critical_damage_basic": 1,
 	"starting_mana_basic": 10,
 	"range_basic": 1,
+	"damage_intermediate": 10,
+	"bank_cap_intermediate": 100,
+	"research_intermediate": 50,
+	"critical_chance_intermediate": 10,
+	"critical_damage_intermediate": 10,
+	"starting_mana_intermediate": 100,
+	"bank_research_intermediate": 250,
 }
 
 @export var skill_current_upgrades: Dictionary = {
@@ -33,6 +47,13 @@ class_name Skill_Data
 	"critical_damage_basic": 0,
 	"starting_mana_basic": 0,
 	"range_basic": 0,
+	"damage_intermediate": 0,
+	"bank_cap_intermediate": 0,
+	"research_intermediate": 0,
+	"critical_chance_intermediate": 0,
+	"critical_damage_intermediate": 0,
+	"starting_mana_intermediate": 0,
+	"bank_research_intermediate": 0,
 }
 
 @export var skill_values: Dictionary = {
@@ -43,6 +64,13 @@ class_name Skill_Data
 	"critical_damage_basic": .05,
 	"starting_mana_basic": 1,
 	"range_basic": 10,
+	"damage_intermediate": .05,
+	"bank_cap_intermediate": 1,
+	"research_intermediate": 2,
+	"critical_chance_intermediate": 1,
+	"critical_damage_intermediate": .05,
+	"starting_mana_intermediate": 1,
+	"bank_research_intermediate": 0,
 }
 
 @export var spent_sp: int = 0

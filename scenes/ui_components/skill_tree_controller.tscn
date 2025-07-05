@@ -29,20 +29,19 @@ offset_top = 40.0
 offset_right = 840.0
 offset_bottom = 520.0
 
-[node name="easy" type="Button" parent="tome_tabs"]
+[node name="basic" type="Button" parent="tome_tabs"]
 custom_minimum_size = Vector2(120, 80)
 layout_mode = 2
 icon = ExtResource("3_htbgv")
 expand_icon = true
 
-[node name="medium" type="Button" parent="tome_tabs"]
+[node name="intermediate" type="Button" parent="tome_tabs"]
 custom_minimum_size = Vector2(110, 80)
 layout_mode = 2
-disabled = true
 icon = ExtResource("4_2gd0r")
 expand_icon = true
 
-[node name="hard" type="Button" parent="tome_tabs"]
+[node name="Advanced" type="Button" parent="tome_tabs"]
 custom_minimum_size = Vector2(120, 80)
 layout_mode = 2
 disabled = true
@@ -134,6 +133,8 @@ layer = 2
 
 [node name="skill_tree_basic" parent="skill_tree_buttons" instance=ExtResource("7_lmx6e")]
 
+[connection signal="pressed" from="tome_tabs/basic" to="." method="_on_basic_pressed"]
+[connection signal="pressed" from="tome_tabs/intermediate" to="." method="_on_intermediate_pressed"]
 [connection signal="item_selected" from="main_panel/VBoxContainer/HBoxContainer/skill_page_option" to="." method="_on_skill_page_option_item_selected"]
 [connection signal="pressed" from="main_panel/VBoxContainer/HBoxContainer/reset_button" to="." method="_on_reset_button_pressed"]
 [connection signal="pressed" from="main_panel/VBoxContainer/HBoxContainer/close_button" to="." method="_on_close_button_pressed"]
