@@ -1,0 +1,102 @@
+[gd_scene load_steps=3 format=3 uid="uid://d4dch675y7xnn"]
+
+[ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_ludbt"]
+[ext_resource type="Script" uid="uid://0aek6m5morwl" path="res://scripts/intermediate_critical_chance_skill_tooltip.gd" id="2_ludbt"]
+
+[node name="IntermediateCriticalChanceSkillTooltip" type="Control"]
+z_index = 2
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("1_ludbt")
+script = ExtResource("2_ludbt")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_left = 50.0
+offset_right = 320.0
+offset_bottom = 142.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+
+[node name="title" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Intermediate Critical Chance"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="body" type="Label" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Increases base critical chance for all units"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="skill_text_container" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="skill_per_value_text" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/skill_text_container"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Chance Increase Per Upgrade:"
+horizontal_alignment = 1
+
+[node name="skill_total_text" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/skill_text_container"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Total Upgrades:"
+horizontal_alignment = 2
+
+[node name="skill_total_increase_text" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/skill_text_container"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Total Increase:"
+horizontal_alignment = 2
+
+[node name="skill_cost_text" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/skill_text_container"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Cost:"
+horizontal_alignment = 2
+
+[node name="skill_value_container" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="skill_per_value" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/skill_value_container"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "0"
+
+[node name="skill_total_value" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/skill_value_container"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "0"
+
+[node name="skill_total_increase_value" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/skill_value_container"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "0"
+
+[node name="skill_cost_value" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/skill_value_container"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "0"

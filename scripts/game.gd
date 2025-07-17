@@ -554,6 +554,7 @@ func update_skill_values():
 	calculate_starting_lives()
 	calculate_starting_research()
 	calculate_starting_mana()
+	calculate_bank_cap()
 
 func load_difficulty_data():
 	var difficulty: String = game_data.difficulty
@@ -618,6 +619,9 @@ func calculate_enemy_hp():
 		wave_scale_mult_final += .2
 	
 	return (wave + difficulty_data.health_base) * wave_scale_mult_final
+
+func calculate_bank_cap():
+	bank_mana_cap += skill_data.skill_current_upgrades.get("bank_cap_intermediate")
 
 #bank functions
 func bank_deposit(value):

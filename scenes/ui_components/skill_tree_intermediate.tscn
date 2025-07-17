@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bf35bcrhlk2sc" path="res://assets/ui/bank_icon.png" id="6_r10jn"]
 [ext_resource type="Texture2D" uid="uid://dhbputretf5jw" path="res://assets/ui/9patchrect_button_blank_hover.png" id="6_xegsv"]
 [ext_resource type="Texture2D" uid="uid://doogn0fa3agws" path="res://assets/ui/9patchrect_button_blank.png" id="7_8be3t"]
-[ext_resource type="Texture2D" uid="uid://dmln3atler5yi" path="res://assets/ui/bank_research_skill_icon.png" id="7_rmtp1"]
+[ext_resource type="Texture2D" uid="uid://munqkwi7mayp" path="res://assets/ui/luck_skill_icon.png" id="7_r10jn"]
 [ext_resource type="Texture2D" uid="uid://ryqtoutqo38q" path="res://assets/ui/damage_skill_icon.png" id="10_isyum"]
 [ext_resource type="Texture2D" uid="uid://33o5yndd3gb8" path="res://assets/ui/critical_chance_skill_icon.png" id="11_v4tc3"]
 [ext_resource type="Texture2D" uid="uid://dr70g110va4hx" path="res://assets/ui/knowledge_icon.png" id="12_evi0g"]
@@ -172,7 +172,7 @@ max_value = 10.0
 fill_mode = 3
 show_percentage = false
 
-[node name="bank_research_intermediate" type="Button" parent="main_panel/VBoxContainer/skill_tree_buttons"]
+[node name="luck_intermediate" type="Button" parent="main_panel/VBoxContainer/skill_tree_buttons"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -189,7 +189,7 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_vquem")
 theme_override_styles/normal = SubResource("StyleBoxTexture_nl1fx")
 button_mask = 3
 
-[node name="TextureRect" type="TextureRect" parent="main_panel/VBoxContainer/skill_tree_buttons/bank_research_intermediate"]
+[node name="TextureRect" type="TextureRect" parent="main_panel/VBoxContainer/skill_tree_buttons/luck_intermediate"]
 show_behind_parent = true
 z_index = 1
 custom_minimum_size = Vector2(40, 40)
@@ -206,9 +206,9 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource("7_rmtp1")
+texture = ExtResource("7_r10jn")
 
-[node name="ProgressBar" type="ProgressBar" parent="main_panel/VBoxContainer/skill_tree_buttons/bank_research_intermediate"]
+[node name="ProgressBar" type="ProgressBar" parent="main_panel/VBoxContainer/skill_tree_buttons/luck_intermediate"]
 show_behind_parent = true
 custom_minimum_size = Vector2(45, 45)
 layout_mode = 1
@@ -559,9 +559,9 @@ show_percentage = false
 [connection signal="button_down" from="main_panel/VBoxContainer/skill_tree_buttons/bank_cap_intermediate" to="." method="_on_bank_cap_intermediate_button_down"]
 [connection signal="mouse_entered" from="main_panel/VBoxContainer/skill_tree_buttons/bank_cap_intermediate" to="." method="_on_bank_cap_intermediate_mouse_entered"]
 [connection signal="mouse_exited" from="main_panel/VBoxContainer/skill_tree_buttons/bank_cap_intermediate" to="." method="_on_bank_cap_intermediate_mouse_exited"]
-[connection signal="button_down" from="main_panel/VBoxContainer/skill_tree_buttons/bank_research_intermediate" to="." method="_on_bank_research_intermediate_button_down"]
-[connection signal="mouse_entered" from="main_panel/VBoxContainer/skill_tree_buttons/bank_research_intermediate" to="." method="_on_bank_research_intermediate_mouse_entered"]
-[connection signal="mouse_exited" from="main_panel/VBoxContainer/skill_tree_buttons/bank_research_intermediate" to="." method="_on_bank_research_intermediate_mouse_exited"]
+[connection signal="button_down" from="main_panel/VBoxContainer/skill_tree_buttons/luck_intermediate" to="." method="_on_luck_intermediate_button_down"]
+[connection signal="mouse_entered" from="main_panel/VBoxContainer/skill_tree_buttons/luck_intermediate" to="." method="_on_luck_intermediate_mouse_entered"]
+[connection signal="mouse_exited" from="main_panel/VBoxContainer/skill_tree_buttons/luck_intermediate" to="." method="_on_luck_intermediate_mouse_exited"]
 [connection signal="button_down" from="main_panel/VBoxContainer/skill_tree_buttons/damage_intermediate" to="." method="_on_damage_intermediate_button_down"]
 [connection signal="mouse_entered" from="main_panel/VBoxContainer/skill_tree_buttons/damage_intermediate" to="." method="_on_damage_intermediate_mouse_entered"]
 [connection signal="mouse_exited" from="main_panel/VBoxContainer/skill_tree_buttons/damage_intermediate" to="." method="_on_damage_intermediate_mouse_exited"]

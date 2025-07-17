@@ -16,7 +16,7 @@ var skill_page: int = 1
 @onready var critical_chance_bar: ProgressBar = $main_panel/VBoxContainer/skill_tree_buttons/critical_chance_intermediate/ProgressBar
 @onready var critical_damage_bar: ProgressBar = $main_panel/VBoxContainer/skill_tree_buttons/critical_damage_intermediate/ProgressBar
 @onready var starting_mana_bar: ProgressBar = $main_panel/VBoxContainer/skill_tree_buttons/starting_mana_intermediate/ProgressBar
-@onready var bank_research_bar: ProgressBar = $main_panel/VBoxContainer/skill_tree_buttons/bank_research_intermediate/ProgressBar
+@onready var luck_bar: ProgressBar = $main_panel/VBoxContainer/skill_tree_buttons/luck_intermediate/ProgressBar
 
 #upgrade unlock progress bar selectors
 @onready var critical_chance_unlock_bar:ProgressBar = $main_panel/VBoxContainer/skill_tree_buttons/critical_chance_intermediate_unlock
@@ -28,7 +28,7 @@ var skill_page: int = 1
 @onready var critical_damage_button: Button = $main_panel/VBoxContainer/skill_tree_buttons/critical_damage_intermediate
 @onready var starting_mana_button: Button = $main_panel/VBoxContainer/skill_tree_buttons/starting_mana_intermediate
 @onready var bank_cap_button: Button = $main_panel/VBoxContainer/skill_tree_buttons/bank_cap_intermediate
-@onready var bank_research_button: Button = $main_panel/VBoxContainer/skill_tree_buttons/bank_research_intermediate
+@onready var luck_button: Button = $main_panel/VBoxContainer/skill_tree_buttons/luck_intermediate
 @onready var damage_button: Button = $main_panel/VBoxContainer/skill_tree_buttons/damage_intermediate
 @onready var research_button: Button = $main_panel/VBoxContainer/skill_tree_buttons/research_intermediate
 
@@ -40,7 +40,7 @@ var skill_page: int = 1
 	[damage_bar, "damage", "critical_chance", 1, 1],
 	[bank_cap_bar, "bank_cap", null, 0, 1],
 	[research_bar, "research", "starting_mana", 0, 1],
-	[bank_research_bar, "bank_research", null, 1, 1],
+	[luck_bar, "luck", null, 10, 1],
 	[critical_chance_bar, "critical_chance", "critical_damage", 1, 1],
 	[critical_damage_bar, "critical_damage", null, 1, 1],
 	[starting_mana_bar, "starting_mana", null, 10, 1],
@@ -179,11 +179,11 @@ func _on_research_intermediate_button_down() -> void:
 		var tooltip: Node = research_button.get_child(2)
 		tooltip.update_values("research_intermediate")
 
-func _on_bank_research_intermediate_button_down() -> void:
+func _on_luck_intermediate_button_down() -> void:
 	handle_button_press(upgrade_map[3])
-	if(bank_research_button.get_child(2)):
-		var tooltip: Node = bank_research_button.get_child(2)
-		tooltip.update_values("bank_research_intermediate")
+	if(luck_button.get_child(2)):
+		var tooltip: Node = luck_button.get_child(2)
+		tooltip.update_values("luck_intermediate")
 
 func _on_critical_chance_intermediate_button_down() -> void:
 	handle_button_press(upgrade_map[4])
@@ -234,14 +234,14 @@ func _on_critical_chance_intermediate_mouse_exited() -> void:
 		var tooltip: Node = critical_chance_button.get_child(2)
 		tooltip.queue_free()
 
-func _on_bank_research_intermediate_mouse_entered() -> void:
-	var tooltip: Node = load("res://scenes/tooltips/intermediate_bank_research_skill_tooltip.tscn").instantiate()
+func _on_luck_intermediate_mouse_entered() -> void:
+	var tooltip: Node = load("res://scenes/tooltips/intermediate_luck_skill_tooltip.tscn").instantiate()
 	tooltip.skill_data = skill_data
-	bank_research_button.add_child(tooltip)
+	luck_button.add_child(tooltip)
 
-func _on_bank_research_intermediate_mouse_exited() -> void:
-	if(bank_research_button.get_child(2)):
-		var tooltip: Node = bank_research_button.get_child(2)
+func _on_luck_intermediate_mouse_exited() -> void:
+	if(luck_button.get_child(2)):
+		var tooltip: Node = luck_button.get_child(2)
 		tooltip.queue_free()
 
 func _on_research_intermediate_mouse_entered() -> void:
