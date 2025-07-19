@@ -59,6 +59,7 @@ func _ready():
 	update_data()
 	connect("available_sp_increase", skill_tree_controller.available_sp_increase)
 	connect("available_sp_decrease", skill_tree_controller.available_sp_decrease)
+	handle_page_unlock()
 
 func handle_button_press(current_upgrade_map: Array):
 	var current_cost = skill_data.skill_current_cost.get(current_upgrade_map[1] + "_intermediate")
@@ -273,3 +274,7 @@ func _on_critical_damage_intermediate_mouse_exited() -> void:
 	if(critical_damage_button.get_child(2)):
 		var tooltip: Node = critical_damage_button.get_child(2)
 		tooltip.queue_free()
+
+func handle_page_unlock():
+	if(player_data.skill_page_unlocks.get("intermediate") == true):
+		$locked_canvas_layer.queue_free()

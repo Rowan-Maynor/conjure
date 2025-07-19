@@ -1,7 +1,8 @@
-[gd_scene load_steps=23 format=3 uid="uid://bk5uvkmms4j4m"]
+[gd_scene load_steps=24 format=3 uid="uid://bk5uvkmms4j4m"]
 
 [ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_a6yef"]
 [ext_resource type="Script" uid="uid://e5yi60imtbqj" path="res://scripts/skill_tree_intermediate.gd" id="2_r10jn"]
+[ext_resource type="Texture2D" uid="uid://1i050x5568cq" path="res://assets/ui/lock_icon.png" id="3_rmtp1"]
 [ext_resource type="Texture2D" uid="uid://camw6yw17riqu" path="res://assets/ui/9patchrect_button_blank_active.png" id="5_w2vfw"]
 [ext_resource type="Texture2D" uid="uid://bf35bcrhlk2sc" path="res://assets/ui/bank_icon.png" id="6_r10jn"]
 [ext_resource type="Texture2D" uid="uid://dhbputretf5jw" path="res://assets/ui/9patchrect_button_blank_hover.png" id="6_xegsv"]
@@ -83,6 +84,34 @@ grow_vertical = 2
 mouse_filter = 2
 theme = ExtResource("1_a6yef")
 script = ExtResource("2_r10jn")
+
+[node name="locked_canvas_layer" type="CanvasLayer" parent="."]
+
+[node name="main_panel" type="PanelContainer" parent="locked_canvas_layer"]
+clip_contents = true
+custom_minimum_size = Vector2(840, 500)
+offset_left = 100.0
+offset_top = 20.0
+offset_right = 940.0
+offset_bottom = 520.0
+theme = ExtResource("1_a6yef")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="locked_canvas_layer/main_panel"]
+layout_mode = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="locked_canvas_layer/main_panel/VBoxContainer"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("3_rmtp1")
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="locked_canvas_layer/main_panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Complete Easy Difficulty To Unlock"
+horizontal_alignment = 1
 
 [node name="main_panel" type="PanelContainer" parent="."]
 clip_contents = true
