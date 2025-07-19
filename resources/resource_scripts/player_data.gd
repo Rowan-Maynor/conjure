@@ -1,7 +1,9 @@
 extends Resource
 class_name Player_Data
 
-@export var version: int = 0
+#update this value any time changes are made to player data
+#be sure to also update the function on ready in main menu to match
+@export var version: int = 1
 
 @export var sp: int = 0
 
