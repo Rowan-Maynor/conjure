@@ -357,6 +357,7 @@ func _on_wave_time_timeout() -> void:
 		if(wave == wave_max):
 			var win_screen: Node = load("res://scenes/ui_components/win_screen.tscn").instantiate()
 			get_tree().get_root().get_node("game").get_node("main_ui").add_child(win_screen)
+			handle_skill_page_unlock()
 			return
 		else:
 			$wave_time.stop()
@@ -824,3 +825,11 @@ func create_new_unit_popup(type: String):
 	tween.tween_interval(2)
 	tween.tween_property(popup, "modulate", Color(1, 1, 1, 0.0), 0.5)
 	tween.tween_callback(popup.queue_free)
+
+func handle_skill_page_unlock():
+	if(difficulty_data.difficulty == "easy"):
+		player_data.skill_page_unlocks["intermediate"] = true
+		save_player_data()
+	elif(difficulty_data.difficulty == "medium"):
+		player_data.skill_page_unlocks["advanced"] = true
+		save_player_data()

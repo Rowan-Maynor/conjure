@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_hrqrj")
+difficulty = "hard"
 health_base = 25
 health_mult = 0.5
 sp_mult = 2.0

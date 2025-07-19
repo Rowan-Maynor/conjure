@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_oyqdc")
+difficulty = "easy"
 health_base = 0
 health_mult = 0.0
 sp_mult = 1.0
