@@ -27,13 +27,14 @@ var t2_units: Array[String] = [
 	"guardian"
 ]
 
-var lucky_summon_chance: int = 1
+var lucky_summon_chance: int = 0
 
 @onready var cooldown_timer: Timer = get_tree().get_root().get_node("game/main_ui/Main-ui/mana_tab_buttons/HBoxContainer/VBoxContainer/basic_summon_cooldown")
 
 func _ready():
 	game_data = load("user://game_data.tres")
 	skill_data = load("user://skill_data_" + str(game_data.skill_page) + ".tres")
+	calculate_luck()
 
 func _on_pressed():
 	summon_unit()
@@ -86,9 +87,14 @@ func _on_basic_summon_cooldown_timeout() -> void:
 
 func _on_mouse_entered() -> void:
 	var tooltip: Node = load("res://scenes/tooltips/basic_summon_tooltip.tscn").instantiate()
+	tooltip.lucky_summon_chance = lucky_summon_chance
 	self.add_child(tooltip)
 
 func _on_mouse_exited() -> void:
 	if(self.get_children()):
 		var tooltip: Node = self.get_child(0)
 		tooltip.queue_free()
+
+func calculate_luck():
+	lucky_summon_chance += skill_data.skill_current_upgrades.get("luck_intermediate")
+	print(lucky_summon_chance)

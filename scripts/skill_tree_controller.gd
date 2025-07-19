@@ -70,3 +70,15 @@ func check_skill_version():
 	var version_check_skill_data: Skill_Data = Skill_Data.new()
 	if(skill_data.skill_version != version_check_skill_data.skill_version):
 		_on_reset_button_pressed()
+
+func handle_tab_change(tab):
+	$skill_tree_buttons.get_child(0).queue_free()
+	var tab_buttons: Node = load("res://scenes/ui_components/skill_tree_" + tab + ".tscn").instantiate()
+	tab_buttons.skill_page = skill_page
+	$skill_tree_buttons.add_child(tab_buttons)
+
+func _on_intermediate_pressed() -> void:
+	handle_tab_change("intermediate")
+
+func _on_basic_pressed() -> void:
+	handle_tab_change("basic")

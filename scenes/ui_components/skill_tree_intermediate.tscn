@@ -1,0 +1,609 @@
+[gd_scene load_steps=24 format=3 uid="uid://bk5uvkmms4j4m"]
+
+[ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_a6yef"]
+[ext_resource type="Script" uid="uid://e5yi60imtbqj" path="res://scripts/skill_tree_intermediate.gd" id="2_r10jn"]
+[ext_resource type="Texture2D" uid="uid://1i050x5568cq" path="res://assets/ui/lock_icon.png" id="3_rmtp1"]
+[ext_resource type="Texture2D" uid="uid://camw6yw17riqu" path="res://assets/ui/9patchrect_button_blank_active.png" id="5_w2vfw"]
+[ext_resource type="Texture2D" uid="uid://bf35bcrhlk2sc" path="res://assets/ui/bank_icon.png" id="6_r10jn"]
+[ext_resource type="Texture2D" uid="uid://dhbputretf5jw" path="res://assets/ui/9patchrect_button_blank_hover.png" id="6_xegsv"]
+[ext_resource type="Texture2D" uid="uid://doogn0fa3agws" path="res://assets/ui/9patchrect_button_blank.png" id="7_8be3t"]
+[ext_resource type="Texture2D" uid="uid://munqkwi7mayp" path="res://assets/ui/luck_skill_icon.png" id="7_r10jn"]
+[ext_resource type="Texture2D" uid="uid://ryqtoutqo38q" path="res://assets/ui/damage_skill_icon.png" id="10_isyum"]
+[ext_resource type="Texture2D" uid="uid://33o5yndd3gb8" path="res://assets/ui/critical_chance_skill_icon.png" id="11_v4tc3"]
+[ext_resource type="Texture2D" uid="uid://dr70g110va4hx" path="res://assets/ui/knowledge_icon.png" id="12_evi0g"]
+[ext_resource type="Texture2D" uid="uid://btxayetjurgst" path="res://assets/ui/mana_icon.png" id="13_t3k3r"]
+[ext_resource type="Texture2D" uid="uid://wjdlx7udwnvr" path="res://assets/ui/critical_damage_skill_icon.png" id="14_kcifn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nbe2s"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_84iq1"]
+texture = ExtResource("5_w2vfw")
+texture_margin_left = 9.0
+texture_margin_top = 9.0
+texture_margin_right = 9.0
+texture_margin_bottom = 9.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_x4n2q"]
+texture = ExtResource("5_w2vfw")
+texture_margin_left = 9.0
+texture_margin_top = 9.0
+texture_margin_right = 9.0
+texture_margin_bottom = 9.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_asslu"]
+texture = ExtResource("6_xegsv")
+texture_margin_left = 9.0
+texture_margin_top = 9.0
+texture_margin_right = 9.0
+texture_margin_bottom = 9.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vquem"]
+texture = ExtResource("5_w2vfw")
+texture_margin_left = 9.0
+texture_margin_top = 9.0
+texture_margin_right = 9.0
+texture_margin_bottom = 9.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nl1fx"]
+texture = ExtResource("7_8be3t")
+texture_margin_left = 9.0
+texture_margin_top = 9.0
+texture_margin_right = 9.0
+texture_margin_bottom = 9.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rsr76"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4au4n"]
+bg_color = Color(0.588235, 0.482353, 0.713726, 0.741176)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_04epi"]
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b2qd7"]
+bg_color = Color(0.588235, 0.482353, 0.713726, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+
+[node name="skill_tree_intermediate" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("1_a6yef")
+script = ExtResource("2_r10jn")
+
+[node name="locked_canvas_layer" type="CanvasLayer" parent="."]
+layer = 3
+
+[node name="main_panel" type="PanelContainer" parent="locked_canvas_layer"]
+clip_contents = true
+custom_minimum_size = Vector2(840, 500)
+offset_left = 100.0
+offset_top = 20.0
+offset_right = 940.0
+offset_bottom = 520.0
+theme = ExtResource("1_a6yef")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="locked_canvas_layer/main_panel"]
+layout_mode = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="locked_canvas_layer/main_panel/VBoxContainer"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("3_rmtp1")
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="locked_canvas_layer/main_panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Complete Easy Difficulty To Unlock"
+horizontal_alignment = 1
+
+[node name="main_panel" type="PanelContainer" parent="."]
+clip_contents = true
+custom_minimum_size = Vector2(840, 500)
+layout_mode = 0
+offset_left = 100.0
+offset_top = 20.0
+offset_right = 940.0
+offset_bottom = 520.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_nbe2s")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="main_panel"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="top_spacing" type="Control" parent="main_panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="VSeparator" type="HSeparator" parent="main_panel/VBoxContainer"]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+
+[node name="skill_tree_buttons" type="Control" parent="main_panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="bank_cap_intermediate" type="Button" parent="main_panel/VBoxContainer/skill_tree_buttons"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -220.0
+offset_top = 20.0
+offset_right = -170.0
+offset_bottom = 70.0
+grow_horizontal = 2
+theme_override_styles/disabled = SubResource("StyleBoxTexture_84iq1")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_x4n2q")
+theme_override_styles/hover = SubResource("StyleBoxTexture_asslu")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_vquem")
+theme_override_styles/normal = SubResource("StyleBoxTexture_nl1fx")
+button_mask = 3
+
+[node name="TextureRect" type="TextureRect" parent="main_panel/VBoxContainer/skill_tree_buttons/bank_cap_intermediate"]
+show_behind_parent = true
+z_index = 1
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("6_r10jn")
+
+[node name="ProgressBar" type="ProgressBar" parent="main_panel/VBoxContainer/skill_tree_buttons/bank_cap_intermediate"]
+show_behind_parent = true
+custom_minimum_size = Vector2(45, 45)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_rsr76")
+theme_override_styles/fill = SubResource("StyleBoxFlat_4au4n")
+max_value = 10.0
+fill_mode = 3
+show_percentage = false
+
+[node name="luck_intermediate" type="Button" parent="main_panel/VBoxContainer/skill_tree_buttons"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -220.0
+offset_top = 160.0
+offset_right = -170.0
+offset_bottom = 210.0
+grow_horizontal = 2
+theme_override_styles/disabled = SubResource("StyleBoxTexture_84iq1")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_x4n2q")
+theme_override_styles/hover = SubResource("StyleBoxTexture_asslu")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_vquem")
+theme_override_styles/normal = SubResource("StyleBoxTexture_nl1fx")
+button_mask = 3
+
+[node name="TextureRect" type="TextureRect" parent="main_panel/VBoxContainer/skill_tree_buttons/luck_intermediate"]
+show_behind_parent = true
+z_index = 1
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("7_r10jn")
+
+[node name="ProgressBar" type="ProgressBar" parent="main_panel/VBoxContainer/skill_tree_buttons/luck_intermediate"]
+show_behind_parent = true
+custom_minimum_size = Vector2(45, 45)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_rsr76")
+theme_override_styles/fill = SubResource("StyleBoxFlat_4au4n")
+max_value = 10.0
+fill_mode = 3
+show_percentage = false
+
+[node name="damage_intermediate" type="Button" parent="main_panel/VBoxContainer/skill_tree_buttons"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -25.0
+offset_top = 20.0
+offset_right = 25.0
+offset_bottom = 70.0
+grow_horizontal = 2
+theme_override_styles/disabled = SubResource("StyleBoxTexture_84iq1")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_x4n2q")
+theme_override_styles/hover = SubResource("StyleBoxTexture_asslu")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_vquem")
+theme_override_styles/normal = SubResource("StyleBoxTexture_nl1fx")
+button_mask = 3
+
+[node name="TextureRect" type="TextureRect" parent="main_panel/VBoxContainer/skill_tree_buttons/damage_intermediate"]
+show_behind_parent = true
+z_index = 1
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("10_isyum")
+
+[node name="ProgressBar" type="ProgressBar" parent="main_panel/VBoxContainer/skill_tree_buttons/damage_intermediate"]
+show_behind_parent = true
+custom_minimum_size = Vector2(45, 45)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_rsr76")
+theme_override_styles/fill = SubResource("StyleBoxFlat_4au4n")
+max_value = 10.0
+fill_mode = 3
+show_percentage = false
+
+[node name="critical_chance_intermediate" type="Button" parent="main_panel/VBoxContainer/skill_tree_buttons"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -25.0
+offset_top = 160.0
+offset_right = 25.0
+offset_bottom = 210.0
+grow_horizontal = 2
+theme_override_styles/disabled = SubResource("StyleBoxTexture_84iq1")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_x4n2q")
+theme_override_styles/hover = SubResource("StyleBoxTexture_asslu")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_vquem")
+theme_override_styles/normal = SubResource("StyleBoxTexture_nl1fx")
+disabled = true
+button_mask = 3
+
+[node name="TextureRect" type="TextureRect" parent="main_panel/VBoxContainer/skill_tree_buttons/critical_chance_intermediate"]
+show_behind_parent = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("11_v4tc3")
+
+[node name="ProgressBar" type="ProgressBar" parent="main_panel/VBoxContainer/skill_tree_buttons/critical_chance_intermediate"]
+show_behind_parent = true
+custom_minimum_size = Vector2(45, 45)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_rsr76")
+theme_override_styles/fill = SubResource("StyleBoxFlat_4au4n")
+max_value = 10.0
+fill_mode = 3
+show_percentage = false
+
+[node name="research_intermediate" type="Button" parent="main_panel/VBoxContainer/skill_tree_buttons"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 170.0
+offset_top = 20.0
+offset_right = 220.0
+offset_bottom = 70.0
+grow_horizontal = 2
+theme_override_styles/disabled = SubResource("StyleBoxTexture_84iq1")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_x4n2q")
+theme_override_styles/hover = SubResource("StyleBoxTexture_asslu")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_vquem")
+theme_override_styles/normal = SubResource("StyleBoxTexture_nl1fx")
+button_mask = 3
+
+[node name="TextureRect" type="TextureRect" parent="main_panel/VBoxContainer/skill_tree_buttons/research_intermediate"]
+show_behind_parent = true
+z_index = 1
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("12_evi0g")
+
+[node name="ProgressBar" type="ProgressBar" parent="main_panel/VBoxContainer/skill_tree_buttons/research_intermediate"]
+show_behind_parent = true
+custom_minimum_size = Vector2(45, 45)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_rsr76")
+theme_override_styles/fill = SubResource("StyleBoxFlat_4au4n")
+max_value = 10.0
+fill_mode = 3
+show_percentage = false
+
+[node name="starting_mana_intermediate" type="Button" parent="main_panel/VBoxContainer/skill_tree_buttons"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 170.0
+offset_top = 160.0
+offset_right = 220.0
+offset_bottom = 210.0
+grow_horizontal = 2
+theme_override_styles/disabled = SubResource("StyleBoxTexture_84iq1")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_x4n2q")
+theme_override_styles/hover = SubResource("StyleBoxTexture_asslu")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_vquem")
+theme_override_styles/normal = SubResource("StyleBoxTexture_nl1fx")
+disabled = true
+button_mask = 3
+
+[node name="TextureRect" type="TextureRect" parent="main_panel/VBoxContainer/skill_tree_buttons/starting_mana_intermediate"]
+show_behind_parent = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("13_t3k3r")
+
+[node name="ProgressBar" type="ProgressBar" parent="main_panel/VBoxContainer/skill_tree_buttons/starting_mana_intermediate"]
+show_behind_parent = true
+custom_minimum_size = Vector2(45, 45)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_rsr76")
+theme_override_styles/fill = SubResource("StyleBoxFlat_4au4n")
+max_value = 10.0
+fill_mode = 3
+show_percentage = false
+
+[node name="critical_damage_intermediate" type="Button" parent="main_panel/VBoxContainer/skill_tree_buttons"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -25.0
+offset_top = 300.0
+offset_right = 25.0
+offset_bottom = 350.0
+grow_horizontal = 2
+theme_override_styles/disabled = SubResource("StyleBoxTexture_84iq1")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_x4n2q")
+theme_override_styles/hover = SubResource("StyleBoxTexture_asslu")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_vquem")
+theme_override_styles/normal = SubResource("StyleBoxTexture_nl1fx")
+disabled = true
+button_mask = 3
+
+[node name="TextureRect" type="TextureRect" parent="main_panel/VBoxContainer/skill_tree_buttons/critical_damage_intermediate"]
+show_behind_parent = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("14_kcifn")
+
+[node name="ProgressBar" type="ProgressBar" parent="main_panel/VBoxContainer/skill_tree_buttons/critical_damage_intermediate"]
+show_behind_parent = true
+custom_minimum_size = Vector2(45, 45)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_rsr76")
+theme_override_styles/fill = SubResource("StyleBoxFlat_4au4n")
+max_value = 10.0
+fill_mode = 3
+show_percentage = false
+
+[node name="critical_chance_intermediate_unlock" type="ProgressBar" parent="main_panel/VBoxContainer/skill_tree_buttons"]
+layout_mode = 0
+offset_left = 415.0
+offset_top = 69.0
+offset_right = 425.0
+offset_bottom = 161.0
+theme_override_styles/background = SubResource("StyleBoxFlat_04epi")
+theme_override_styles/fill = SubResource("StyleBoxFlat_b2qd7")
+max_value = 10.0
+fill_mode = 2
+show_percentage = false
+
+[node name="starting_mana_intermediate_unlock" type="ProgressBar" parent="main_panel/VBoxContainer/skill_tree_buttons"]
+layout_mode = 0
+offset_left = 610.0
+offset_top = 69.0
+offset_right = 620.0
+offset_bottom = 161.0
+theme_override_styles/background = SubResource("StyleBoxFlat_04epi")
+theme_override_styles/fill = SubResource("StyleBoxFlat_b2qd7")
+max_value = 10.0
+fill_mode = 2
+show_percentage = false
+
+[node name="critical_damage_intermediate_unlock" type="ProgressBar" parent="main_panel/VBoxContainer/skill_tree_buttons"]
+layout_mode = 0
+offset_left = 415.0
+offset_top = 209.0
+offset_right = 425.0
+offset_bottom = 301.0
+theme_override_styles/background = SubResource("StyleBoxFlat_04epi")
+theme_override_styles/fill = SubResource("StyleBoxFlat_b2qd7")
+max_value = 10.0
+fill_mode = 2
+show_percentage = false
+
+[connection signal="button_down" from="main_panel/VBoxContainer/skill_tree_buttons/bank_cap_intermediate" to="." method="_on_bank_cap_intermediate_button_down"]
+[connection signal="mouse_entered" from="main_panel/VBoxContainer/skill_tree_buttons/bank_cap_intermediate" to="." method="_on_bank_cap_intermediate_mouse_entered"]
+[connection signal="mouse_exited" from="main_panel/VBoxContainer/skill_tree_buttons/bank_cap_intermediate" to="." method="_on_bank_cap_intermediate_mouse_exited"]
+[connection signal="button_down" from="main_panel/VBoxContainer/skill_tree_buttons/luck_intermediate" to="." method="_on_luck_intermediate_button_down"]
+[connection signal="mouse_entered" from="main_panel/VBoxContainer/skill_tree_buttons/luck_intermediate" to="." method="_on_luck_intermediate_mouse_entered"]
+[connection signal="mouse_exited" from="main_panel/VBoxContainer/skill_tree_buttons/luck_intermediate" to="." method="_on_luck_intermediate_mouse_exited"]
+[connection signal="button_down" from="main_panel/VBoxContainer/skill_tree_buttons/damage_intermediate" to="." method="_on_damage_intermediate_button_down"]
+[connection signal="mouse_entered" from="main_panel/VBoxContainer/skill_tree_buttons/damage_intermediate" to="." method="_on_damage_intermediate_mouse_entered"]
+[connection signal="mouse_exited" from="main_panel/VBoxContainer/skill_tree_buttons/damage_intermediate" to="." method="_on_damage_intermediate_mouse_exited"]
+[connection signal="button_down" from="main_panel/VBoxContainer/skill_tree_buttons/critical_chance_intermediate" to="." method="_on_critical_chance_intermediate_button_down"]
+[connection signal="mouse_entered" from="main_panel/VBoxContainer/skill_tree_buttons/critical_chance_intermediate" to="." method="_on_critical_chance_intermediate_mouse_entered"]
+[connection signal="mouse_exited" from="main_panel/VBoxContainer/skill_tree_buttons/critical_chance_intermediate" to="." method="_on_critical_chance_intermediate_mouse_exited"]
+[connection signal="button_down" from="main_panel/VBoxContainer/skill_tree_buttons/research_intermediate" to="." method="_on_research_intermediate_button_down"]
+[connection signal="mouse_entered" from="main_panel/VBoxContainer/skill_tree_buttons/research_intermediate" to="." method="_on_research_intermediate_mouse_entered"]
+[connection signal="mouse_exited" from="main_panel/VBoxContainer/skill_tree_buttons/research_intermediate" to="." method="_on_research_intermediate_mouse_exited"]
+[connection signal="button_down" from="main_panel/VBoxContainer/skill_tree_buttons/starting_mana_intermediate" to="." method="_on_starting_mana_intermediate_button_down"]
+[connection signal="mouse_entered" from="main_panel/VBoxContainer/skill_tree_buttons/starting_mana_intermediate" to="." method="_on_starting_mana_intermediate_mouse_entered"]
+[connection signal="mouse_exited" from="main_panel/VBoxContainer/skill_tree_buttons/starting_mana_intermediate" to="." method="_on_starting_mana_intermediate_mouse_exited"]
+[connection signal="button_down" from="main_panel/VBoxContainer/skill_tree_buttons/critical_damage_intermediate" to="." method="_on_critical_damage_intermediate_button_down"]
+[connection signal="mouse_entered" from="main_panel/VBoxContainer/skill_tree_buttons/critical_damage_intermediate" to="." method="_on_critical_damage_intermediate_mouse_entered"]
+[connection signal="mouse_exited" from="main_panel/VBoxContainer/skill_tree_buttons/critical_damage_intermediate" to="." method="_on_critical_damage_intermediate_mouse_exited"]

@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_a4grr")
+version = 1
 sp = 100
 recipe_unlocks = {
 "demon": false,
@@ -15,5 +16,9 @@ recipe_unlocks = {
 "naga": false,
 "shaman": false,
 "skipper": false
+}
+skill_page_unlocks = {
+"advanced": false,
+"intermediate": false
 }
 metadata/_custom_type_script = "uid://dem02p8om4b10"

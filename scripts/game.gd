@@ -39,6 +39,7 @@ var wave_max: int = 50
 var waves_remaining: int
 var default_wave_time: int = 75
 var wave_time: int
+var sp_base: int = 10
 
 #drag select
 var selected: Array[CharacterBody2D] = []
@@ -356,6 +357,7 @@ func _on_wave_time_timeout() -> void:
 		if(wave == wave_max):
 			var win_screen: Node = load("res://scenes/ui_components/win_screen.tscn").instantiate()
 			get_tree().get_root().get_node("game").get_node("main_ui").add_child(win_screen)
+			handle_skill_page_unlock()
 			return
 		else:
 			$wave_time.stop()
@@ -363,9 +365,11 @@ func _on_wave_time_timeout() -> void:
 				gain_research(3)
 				add_status_message("Gained 3 research", Color.hex(0xe8c078ff))
 			if(wave % 10 == 0):
-				var sp_value: int = 10 
+				@warning_ignore("narrowing_conversion")
+				var sp_value: int = sp_base * difficulty_data.sp_mult
 				gain_sp(sp_value)
 				add_status_message("Gained " + str(sp_value) + " SP", Color.hex(0x967bb6ff))
+				sp_base += 2
 			#handles bank interest
 			generate_bank_mana()
 			#sets up wait
@@ -551,6 +555,7 @@ func update_skill_values():
 	calculate_starting_lives()
 	calculate_starting_research()
 	calculate_starting_mana()
+	calculate_bank_cap()
 
 func load_difficulty_data():
 	var difficulty: String = game_data.difficulty
@@ -615,6 +620,9 @@ func calculate_enemy_hp():
 		wave_scale_mult_final += .2
 	
 	return (wave + difficulty_data.health_base) * wave_scale_mult_final
+
+func calculate_bank_cap():
+	bank_mana_cap += skill_data.skill_current_upgrades.get("bank_cap_intermediate")
 
 #bank functions
 func bank_deposit(value):
@@ -817,3 +825,11 @@ func create_new_unit_popup(type: String):
 	tween.tween_interval(2)
 	tween.tween_property(popup, "modulate", Color(1, 1, 1, 0.0), 0.5)
 	tween.tween_callback(popup.queue_free)
+
+func handle_skill_page_unlock():
+	if(difficulty_data.difficulty == "easy"):
+		player_data.skill_page_unlocks["intermediate"] = true
+		save_player_data()
+	elif(difficulty_data.difficulty == "medium"):
+		player_data.skill_page_unlocks["advanced"] = true
+		save_player_data()

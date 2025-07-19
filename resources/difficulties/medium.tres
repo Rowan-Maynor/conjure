@@ -4,7 +4,8 @@
 
 [resource]
 script = ExtResource("1_c2ej2")
+difficulty = "medium"
 health_base = 10
 health_mult = 0.25
-speed = 0.0
+sp_mult = 1.5
 metadata/_custom_type_script = "uid://yxh2oo1uucae"
