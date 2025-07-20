@@ -1,23 +1,14 @@
-[gd_scene load_steps=33 format=3 uid="uid://ce0lxn43ir0fs"]
+[gd_scene load_steps=24 format=3 uid="uid://ce0lxn43ir0fs"]
 
 [ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_l6cm7"]
 [ext_resource type="Script" uid="uid://bv7cod3dl6tiy" path="res://scripts/main_menu.gd" id="2_bqqt6"]
 [ext_resource type="Texture2D" uid="uid://cscqkornvqcwj" path="res://assets/ui/menu_background.png" id="3_bqqt6"]
-[ext_resource type="Texture2D" uid="uid://b633k21dey15k" path="res://assets/ui/logo_shadow.png" id="4_5dd4i"]
-[ext_resource type="Texture2D" uid="uid://5g6p37jrpx8m" path="res://assets/ui/logo_c.png" id="4_j7ex8"]
 [ext_resource type="Texture2D" uid="uid://cqatryei3nmra" path="res://assets/ui/menu_background_cloud.png" id="4_wu84c"]
 [ext_resource type="Script" uid="uid://bgr3tmkv0atn4" path="res://scripts/cloud_movement.gd" id="5_8ln24"]
-[ext_resource type="Texture2D" uid="uid://dgpetylqtg0b7" path="res://assets/ui/logo_o.png" id="5_a8gd2"]
-[ext_resource type="Script" uid="uid://dvvv1aujd0h5n" path="res://scripts/logo_letter.gd" id="5_hstxw"]
-[ext_resource type="Texture2D" uid="uid://cdpcw56iswi2d" path="res://assets/ui/logo_n.png" id="6_hstxw"]
 [ext_resource type="Script" uid="uid://cdd4iwia8qabb" path="res://scripts/cloud_movement_timer.gd" id="6_rtw2f"]
-[ext_resource type="Texture2D" uid="uid://rw48xxp2vhds" path="res://assets/ui/logo_j.png" id="7_8egab"]
 [ext_resource type="Texture2D" uid="uid://g3lrwljx1dt8" path="res://assets/sprites/units/imp/idle.png" id="7_oa1go"]
-[ext_resource type="Texture2D" uid="uid://ce3pxrxd66h8k" path="res://assets/ui/logo_u.png" id="8_gw5y6"]
 [ext_resource type="Texture2D" uid="uid://b3qyqiyvuonn8" path="res://assets/sprites/units/pup/idle.png" id="8_jk1qb"]
 [ext_resource type="Texture2D" uid="uid://0ih01yrd7owb" path="res://assets/sprites/units/gator/base.png" id="9_5dd4i"]
-[ext_resource type="Texture2D" uid="uid://dnkt7n4i7vjby" path="res://assets/ui/logo_r.png" id="9_svtp6"]
-[ext_resource type="Texture2D" uid="uid://c788x1fhqhlr2" path="res://assets/ui/logo_e.png" id="10_1dfpl"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tbmy8"]
 atlas = ExtResource("7_oa1go")
@@ -138,79 +129,6 @@ offset_right = 960.0
 offset_bottom = 540.0
 texture = ExtResource("3_bqqt6")
 
-[node name="logo_letters" type="Control" parent="."]
-z_index = 2
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="c" type="TextureRect" parent="logo_letters"]
-layout_mode = 0
-offset_left = 280.0
-offset_top = 90.0
-offset_right = 400.0
-offset_bottom = 260.0
-texture = ExtResource("4_j7ex8")
-script = ExtResource("5_hstxw")
-
-[node name="o" type="TextureRect" parent="logo_letters"]
-layout_mode = 0
-offset_left = 344.0
-offset_top = 90.0
-offset_right = 424.0
-offset_bottom = 260.0
-texture = ExtResource("5_a8gd2")
-script = ExtResource("5_hstxw")
-
-[node name="n" type="TextureRect" parent="logo_letters"]
-layout_mode = 0
-offset_left = 393.0
-offset_top = 90.0
-offset_right = 473.0
-offset_bottom = 260.0
-texture = ExtResource("6_hstxw")
-script = ExtResource("5_hstxw")
-
-[node name="j" type="TextureRect" parent="logo_letters"]
-layout_mode = 0
-offset_left = 432.0
-offset_top = 90.0
-offset_right = 512.0
-offset_bottom = 260.0
-texture = ExtResource("7_8egab")
-script = ExtResource("5_hstxw")
-
-[node name="u" type="TextureRect" parent="logo_letters"]
-layout_mode = 0
-offset_left = 488.0
-offset_top = 90.0
-offset_right = 568.0
-offset_bottom = 260.0
-texture = ExtResource("8_gw5y6")
-script = ExtResource("5_hstxw")
-
-[node name="r" type="TextureRect" parent="logo_letters"]
-layout_mode = 0
-offset_left = 534.0
-offset_top = 90.0
-offset_right = 614.0
-offset_bottom = 260.0
-texture = ExtResource("9_svtp6")
-script = ExtResource("5_hstxw")
-
-[node name="e" type="TextureRect" parent="logo_letters"]
-layout_mode = 0
-offset_left = 585.0
-offset_top = 90.0
-offset_right = 665.0
-offset_bottom = 260.0
-texture = ExtResource("10_1dfpl")
-script = ExtResource("5_hstxw")
-
-[node name="letter_movement_timer" type="Timer" parent="logo_letters"]
-wait_time = 2.0
-autostart = true
-
 [node name="title" type="PanelContainer" parent="."]
 z_index = 1
 custom_minimum_size = Vector2(350, 180)
@@ -224,9 +142,11 @@ offset_right = 210.0
 offset_bottom = 270.0
 grow_horizontal = 2
 
-[node name="TextureRect" type="TextureRect" parent="title"]
+[node name="Label" type="Label" parent="title"]
 layout_mode = 2
-texture = ExtResource("4_5dd4i")
+theme_override_font_sizes/font_size = 128
+text = "Conjure"
+horizontal_alignment = 1
 
 [node name="skills_button" type="Button" parent="."]
 layout_mode = 2
@@ -412,13 +332,6 @@ flip_h = true
 
 [node name="start_game_canvas" type="CanvasLayer" parent="."]
 
-[connection signal="timeout" from="logo_letters/letter_movement_timer" to="logo_letters/c" method="_on_letter_movement_timer_timeout"]
-[connection signal="timeout" from="logo_letters/letter_movement_timer" to="logo_letters/o" method="_on_letter_movement_timer_timeout"]
-[connection signal="timeout" from="logo_letters/letter_movement_timer" to="logo_letters/n" method="_on_letter_movement_timer_timeout"]
-[connection signal="timeout" from="logo_letters/letter_movement_timer" to="logo_letters/j" method="_on_letter_movement_timer_timeout"]
-[connection signal="timeout" from="logo_letters/letter_movement_timer" to="logo_letters/u" method="_on_letter_movement_timer_timeout"]
-[connection signal="timeout" from="logo_letters/letter_movement_timer" to="logo_letters/r" method="_on_letter_movement_timer_timeout"]
-[connection signal="timeout" from="logo_letters/letter_movement_timer" to="logo_letters/e" method="_on_letter_movement_timer_timeout"]
 [connection signal="pressed" from="skills_button" to="." method="_on_skills_button_pressed"]
 [connection signal="pressed" from="play_button" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="quit_button" to="." method="_on_quit_button_pressed"]
