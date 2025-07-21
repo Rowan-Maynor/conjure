@@ -146,64 +146,64 @@ offset_bottom = 40.0
 
 [node name="c" type="TextureRect" parent="logo_letters"]
 layout_mode = 0
-offset_left = 280.0
-offset_top = 90.0
-offset_right = 400.0
-offset_bottom = 260.0
+offset_left = 233.0
+offset_top = 89.0
+offset_right = 353.0
+offset_bottom = 259.0
 texture = ExtResource("4_j7ex8")
 script = ExtResource("5_hstxw")
 
 [node name="o" type="TextureRect" parent="logo_letters"]
 layout_mode = 0
-offset_left = 344.0
-offset_top = 90.0
-offset_right = 424.0
-offset_bottom = 260.0
+offset_left = 320.0
+offset_top = 89.0
+offset_right = 400.0
+offset_bottom = 259.0
 texture = ExtResource("5_a8gd2")
 script = ExtResource("5_hstxw")
 
 [node name="n" type="TextureRect" parent="logo_letters"]
 layout_mode = 0
-offset_left = 393.0
-offset_top = 90.0
-offset_right = 473.0
-offset_bottom = 260.0
+offset_left = 400.0
+offset_top = 89.0
+offset_right = 490.0
+offset_bottom = 259.0
 texture = ExtResource("6_hstxw")
 script = ExtResource("5_hstxw")
 
 [node name="j" type="TextureRect" parent="logo_letters"]
 layout_mode = 0
-offset_left = 432.0
-offset_top = 90.0
-offset_right = 512.0
-offset_bottom = 260.0
+offset_left = 455.0
+offset_top = 89.0
+offset_right = 535.0
+offset_bottom = 259.0
 texture = ExtResource("7_8egab")
 script = ExtResource("5_hstxw")
 
 [node name="u" type="TextureRect" parent="logo_letters"]
 layout_mode = 0
-offset_left = 488.0
-offset_top = 90.0
-offset_right = 568.0
-offset_bottom = 260.0
+offset_left = 525.0
+offset_top = 89.0
+offset_right = 605.0
+offset_bottom = 259.0
 texture = ExtResource("8_gw5y6")
 script = ExtResource("5_hstxw")
 
 [node name="r" type="TextureRect" parent="logo_letters"]
 layout_mode = 0
-offset_left = 534.0
-offset_top = 90.0
-offset_right = 614.0
-offset_bottom = 260.0
+offset_left = 596.0
+offset_top = 89.0
+offset_right = 676.0
+offset_bottom = 259.0
 texture = ExtResource("9_svtp6")
 script = ExtResource("5_hstxw")
 
 [node name="e" type="TextureRect" parent="logo_letters"]
 layout_mode = 0
-offset_left = 585.0
-offset_top = 90.0
-offset_right = 665.0
-offset_bottom = 260.0
+offset_left = 653.0
+offset_top = 89.0
+offset_right = 733.0
+offset_bottom = 259.0
 texture = ExtResource("10_1dfpl")
 script = ExtResource("5_hstxw")
 
@@ -218,15 +218,16 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -210.0
+offset_left = -260.0
 offset_top = 80.0
-offset_right = 210.0
+offset_right = 280.0
 offset_bottom = 270.0
 grow_horizontal = 2
 
 [node name="TextureRect" type="TextureRect" parent="title"]
 layout_mode = 2
 texture = ExtResource("4_5dd4i")
+stretch_mode = 3
 
 [node name="skills_button" type="Button" parent="."]
 layout_mode = 2
