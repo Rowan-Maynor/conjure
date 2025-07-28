@@ -32,18 +32,22 @@ offset_bottom = 520.0
 [node name="basic" type="Button" parent="tome_tabs"]
 custom_minimum_size = Vector2(120, 80)
 layout_mode = 2
+toggle_mode = true
+button_pressed = true
 icon = ExtResource("3_htbgv")
 expand_icon = true
 
 [node name="intermediate" type="Button" parent="tome_tabs"]
 custom_minimum_size = Vector2(110, 80)
 layout_mode = 2
+toggle_mode = true
 icon = ExtResource("4_2gd0r")
 expand_icon = true
 
 [node name="Advanced" type="Button" parent="tome_tabs"]
 custom_minimum_size = Vector2(120, 80)
 layout_mode = 2
+toggle_mode = true
 icon = ExtResource("5_nf4pg")
 expand_icon = true
 
