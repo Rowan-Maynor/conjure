@@ -318,9 +318,13 @@ func _on_attack_spawn_delay_timeout() -> void:
 func calculate_critical_chance():
 	var final_critical_chance: int = unit_data.critical_chance
 	
-	if(skill_data.skill_current_upgrades.get("critical_chance_basic") > 0):
-		for i in range(skill_data.skill_current_upgrades.get("critical_chance_basic")):
-			final_critical_chance += skill_data.skill_values.get("critical_chance_basic")
+	if(skill_data.skill_current_upgrades["critical_chance_basic"] > 0):
+		for i in range(skill_data.skill_current_upgrades["critical_chance_basic"]):
+			final_critical_chance += skill_data.skill_values["critical_chance_basic"]
+	
+	if(skill_data.skill_current_upgrades["critical_chance_intermediate"] > 0):
+		for i in range(skill_data.skill_current_upgrades["critical_chance_intermediate"]):
+			final_critical_chance += skill_data.skill_values["critical_chance_intermediate"]
 	
 	unit_data.set("critical_chance", final_critical_chance)
 
