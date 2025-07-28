@@ -413,12 +413,18 @@ func handle_damage(value: int, element: String, is_critical: bool):
 	elif(element == "earth"):
 		final_damage = floor(final_damage * get_tree().get_root().get_node("game").earth_research_value)
 	
-	#apply basic skill page increase
+	#apply skill page increases
 	var basic_skill_mult: float = 1.0
-	if(skill_data.skill_current_upgrades.get("damage_basic") > 0):
-		for i in range(skill_data.skill_current_upgrades.get("damage_basic")):
-			basic_skill_mult += skill_data.skill_values.get("damage_basic")
+	if(skill_data.skill_current_upgrades["damage_basic"] > 0):
+		for i in range(skill_data.skill_current_upgrades["damage_basic"]):
+			basic_skill_mult += skill_data.skill_values["damage_basic"]
 	final_damage = floor(final_damage * basic_skill_mult)
+	
+	var intermediate_skill_mult: float = 1.0
+	if(skill_data.skill_current_upgrades["damage_intermediate"] > 0):
+		for i in range(skill_data.skill_current_upgrades["damage_intermediate"]):
+			intermediate_skill_mult += skill_data.skill_values["damage_intermediate"]
+	final_damage = floor(final_damage * intermediate_skill_mult)
 	
 	#check for critical
 	if(is_critical == true):
