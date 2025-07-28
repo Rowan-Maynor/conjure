@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://dn4kpdigkg7wb"]
+[gd_scene load_steps=21 format=3 uid="uid://dn4kpdigkg7wb"]
 
 [ext_resource type="Theme" uid="uid://d30qa4wpnelg3" path="res://theme.tres" id="1_1acqe"]
 [ext_resource type="Script" uid="uid://bflomy78vqbey" path="res://scripts/skill_tree_advanced.gd" id="2_1acqe"]
@@ -8,11 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://doogn0fa3agws" path="res://assets/ui/9patchrect_button_blank.png" id="6_g3u1u"]
 [ext_resource type="Texture2D" uid="uid://dmln3atler5yi" path="res://assets/ui/bank_research_skill_icon.png" id="7_1acqe"]
 [ext_resource type="Texture2D" uid="uid://munqkwi7mayp" path="res://assets/ui/luck_skill_icon.png" id="8_5syb4"]
-[ext_resource type="Texture2D" uid="uid://ryqtoutqo38q" path="res://assets/ui/damage_skill_icon.png" id="9_pmcrn"]
-[ext_resource type="Texture2D" uid="uid://33o5yndd3gb8" path="res://assets/ui/critical_chance_skill_icon.png" id="10_bpo3i"]
 [ext_resource type="Texture2D" uid="uid://dr70g110va4hx" path="res://assets/ui/knowledge_icon.png" id="11_17i6n"]
 [ext_resource type="Texture2D" uid="uid://btxayetjurgst" path="res://assets/ui/mana_icon.png" id="12_ah88s"]
-[ext_resource type="Texture2D" uid="uid://wjdlx7udwnvr" path="res://assets/ui/critical_damage_skill_icon.png" id="13_xctp4"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nbe2s"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -261,122 +258,6 @@ max_value = 10.0
 fill_mode = 3
 show_percentage = false
 
-[node name="damage_advanced" type="Button" parent="main_panel/VBoxContainer/skill_tree_buttons"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -25.0
-offset_top = 20.0
-offset_right = 25.0
-offset_bottom = 70.0
-grow_horizontal = 2
-theme_override_styles/disabled = SubResource("StyleBoxTexture_84iq1")
-theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_x4n2q")
-theme_override_styles/hover = SubResource("StyleBoxTexture_asslu")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_vquem")
-theme_override_styles/normal = SubResource("StyleBoxTexture_nl1fx")
-button_mask = 3
-
-[node name="TextureRect" type="TextureRect" parent="main_panel/VBoxContainer/skill_tree_buttons/damage_advanced"]
-show_behind_parent = true
-z_index = 1
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("9_pmcrn")
-
-[node name="ProgressBar" type="ProgressBar" parent="main_panel/VBoxContainer/skill_tree_buttons/damage_advanced"]
-show_behind_parent = true
-custom_minimum_size = Vector2(45, 45)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_styles/background = SubResource("StyleBoxFlat_rsr76")
-theme_override_styles/fill = SubResource("StyleBoxFlat_4au4n")
-max_value = 10.0
-fill_mode = 3
-show_percentage = false
-
-[node name="critical_chance_advanced" type="Button" parent="main_panel/VBoxContainer/skill_tree_buttons"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -25.0
-offset_top = 160.0
-offset_right = 25.0
-offset_bottom = 210.0
-grow_horizontal = 2
-theme_override_styles/disabled = SubResource("StyleBoxTexture_84iq1")
-theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_x4n2q")
-theme_override_styles/hover = SubResource("StyleBoxTexture_asslu")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_vquem")
-theme_override_styles/normal = SubResource("StyleBoxTexture_nl1fx")
-disabled = true
-button_mask = 3
-
-[node name="TextureRect" type="TextureRect" parent="main_panel/VBoxContainer/skill_tree_buttons/critical_chance_advanced"]
-show_behind_parent = true
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("10_bpo3i")
-
-[node name="ProgressBar" type="ProgressBar" parent="main_panel/VBoxContainer/skill_tree_buttons/critical_chance_advanced"]
-show_behind_parent = true
-custom_minimum_size = Vector2(45, 45)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_styles/background = SubResource("StyleBoxFlat_rsr76")
-theme_override_styles/fill = SubResource("StyleBoxFlat_4au4n")
-max_value = 10.0
-fill_mode = 3
-show_percentage = false
-
 [node name="research_advanced" type="Button" parent="main_panel/VBoxContainer/skill_tree_buttons"]
 layout_mode = 1
 anchors_preset = 5
@@ -493,76 +374,6 @@ max_value = 10.0
 fill_mode = 3
 show_percentage = false
 
-[node name="critical_damage_advanced" type="Button" parent="main_panel/VBoxContainer/skill_tree_buttons"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -25.0
-offset_top = 300.0
-offset_right = 25.0
-offset_bottom = 350.0
-grow_horizontal = 2
-theme_override_styles/disabled = SubResource("StyleBoxTexture_84iq1")
-theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_x4n2q")
-theme_override_styles/hover = SubResource("StyleBoxTexture_asslu")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_vquem")
-theme_override_styles/normal = SubResource("StyleBoxTexture_nl1fx")
-disabled = true
-button_mask = 3
-
-[node name="TextureRect" type="TextureRect" parent="main_panel/VBoxContainer/skill_tree_buttons/critical_damage_advanced"]
-show_behind_parent = true
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("13_xctp4")
-
-[node name="ProgressBar" type="ProgressBar" parent="main_panel/VBoxContainer/skill_tree_buttons/critical_damage_advanced"]
-show_behind_parent = true
-custom_minimum_size = Vector2(45, 45)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_styles/background = SubResource("StyleBoxFlat_rsr76")
-theme_override_styles/fill = SubResource("StyleBoxFlat_4au4n")
-max_value = 10.0
-fill_mode = 3
-show_percentage = false
-
-[node name="critical_chance_advanced_unlock" type="ProgressBar" parent="main_panel/VBoxContainer/skill_tree_buttons"]
-layout_mode = 0
-offset_left = 415.0
-offset_top = 69.0
-offset_right = 425.0
-offset_bottom = 161.0
-theme_override_styles/background = SubResource("StyleBoxFlat_04epi")
-theme_override_styles/fill = SubResource("StyleBoxFlat_b2qd7")
-max_value = 10.0
-fill_mode = 2
-show_percentage = false
-
 [node name="starting_mana_advanced_unlock" type="ProgressBar" parent="main_panel/VBoxContainer/skill_tree_buttons"]
 layout_mode = 0
 offset_left = 610.0
@@ -575,36 +386,15 @@ max_value = 10.0
 fill_mode = 2
 show_percentage = false
 
-[node name="critical_damage_advanced_unlock" type="ProgressBar" parent="main_panel/VBoxContainer/skill_tree_buttons"]
-layout_mode = 0
-offset_left = 415.0
-offset_top = 209.0
-offset_right = 425.0
-offset_bottom = 301.0
-theme_override_styles/background = SubResource("StyleBoxFlat_04epi")
-theme_override_styles/fill = SubResource("StyleBoxFlat_b2qd7")
-max_value = 10.0
-fill_mode = 2
-show_percentage = false
-
 [connection signal="button_down" from="main_panel/VBoxContainer/skill_tree_buttons/bank_research_advanced" to="." method="_on_bank_research_advanced_button_down"]
 [connection signal="mouse_entered" from="main_panel/VBoxContainer/skill_tree_buttons/bank_research_advanced" to="." method="_on_bank_research_advanced_mouse_entered"]
 [connection signal="mouse_exited" from="main_panel/VBoxContainer/skill_tree_buttons/bank_research_advanced" to="." method="_on_bank_research_advanced_mouse_exited"]
 [connection signal="button_down" from="main_panel/VBoxContainer/skill_tree_buttons/luck_advanced" to="." method="_on_luck_advanced_button_down"]
 [connection signal="mouse_entered" from="main_panel/VBoxContainer/skill_tree_buttons/luck_advanced" to="." method="_on_luck_advanced_mouse_entered"]
 [connection signal="mouse_exited" from="main_panel/VBoxContainer/skill_tree_buttons/luck_advanced" to="." method="_on_luck_advanced_mouse_exited"]
-[connection signal="button_down" from="main_panel/VBoxContainer/skill_tree_buttons/damage_advanced" to="." method="_on_damage_advanced_button_down"]
-[connection signal="mouse_entered" from="main_panel/VBoxContainer/skill_tree_buttons/damage_advanced" to="." method="_on_damage_advanced_mouse_entered"]
-[connection signal="mouse_exited" from="main_panel/VBoxContainer/skill_tree_buttons/damage_advanced" to="." method="_on_damage_advanced_mouse_exited"]
-[connection signal="button_down" from="main_panel/VBoxContainer/skill_tree_buttons/critical_chance_advanced" to="." method="_on_critical_chance_advanced_button_down"]
-[connection signal="mouse_entered" from="main_panel/VBoxContainer/skill_tree_buttons/critical_chance_advanced" to="." method="_on_critical_chance_advanced_mouse_entered"]
-[connection signal="mouse_exited" from="main_panel/VBoxContainer/skill_tree_buttons/critical_chance_advanced" to="." method="_on_critical_chance_advanced_mouse_exited"]
 [connection signal="button_down" from="main_panel/VBoxContainer/skill_tree_buttons/research_advanced" to="." method="_on_research_advanced_button_down"]
 [connection signal="mouse_entered" from="main_panel/VBoxContainer/skill_tree_buttons/research_advanced" to="." method="_on_research_advanced_mouse_entered"]
 [connection signal="mouse_exited" from="main_panel/VBoxContainer/skill_tree_buttons/research_advanced" to="." method="_on_research_advanced_mouse_exited"]
 [connection signal="button_down" from="main_panel/VBoxContainer/skill_tree_buttons/starting_mana_advanced" to="." method="_on_starting_mana_advanced_button_down"]
 [connection signal="mouse_entered" from="main_panel/VBoxContainer/skill_tree_buttons/starting_mana_advanced" to="." method="_on_starting_mana_advanced_mouse_entered"]
 [connection signal="mouse_exited" from="main_panel/VBoxContainer/skill_tree_buttons/starting_mana_advanced" to="." method="_on_starting_mana_advanced_mouse_exited"]
-[connection signal="button_down" from="main_panel/VBoxContainer/skill_tree_buttons/critical_damage_advanced" to="." method="_on_critical_damage_advanced_button_down"]
-[connection signal="mouse_entered" from="main_panel/VBoxContainer/skill_tree_buttons/critical_damage_advanced" to="." method="_on_critical_damage_advanced_mouse_entered"]
-[connection signal="mouse_exited" from="main_panel/VBoxContainer/skill_tree_buttons/critical_damage_advanced" to="." method="_on_critical_damage_advanced_mouse_exited"]

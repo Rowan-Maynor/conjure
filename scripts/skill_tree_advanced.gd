@@ -10,26 +10,18 @@ var skill_page: int = 1
 @onready var skill_tree_controller: Node = get_node("/root/MainMenu/skill_page_canvas/skill_tree_controller")
 
 #upgrade button progress bar selectors
-@onready var damage_bar: ProgressBar = $main_panel/VBoxContainer/skill_tree_buttons/damage_advanced/ProgressBar
 @onready var bank_research_bar: ProgressBar = $main_panel/VBoxContainer/skill_tree_buttons/bank_research_advanced/ProgressBar
 @onready var research_bar: ProgressBar = $main_panel/VBoxContainer/skill_tree_buttons/research_advanced/ProgressBar
-@onready var critical_chance_bar: ProgressBar = $main_panel/VBoxContainer/skill_tree_buttons/critical_chance_advanced/ProgressBar
-@onready var critical_damage_bar: ProgressBar = $main_panel/VBoxContainer/skill_tree_buttons/critical_damage_advanced/ProgressBar
 @onready var starting_mana_bar: ProgressBar = $main_panel/VBoxContainer/skill_tree_buttons/starting_mana_advanced/ProgressBar
 @onready var luck_bar: ProgressBar = $main_panel/VBoxContainer/skill_tree_buttons/luck_advanced/ProgressBar
 
 #upgrade unlock progress bar selectors
-@onready var critical_chance_unlock_bar:ProgressBar = $main_panel/VBoxContainer/skill_tree_buttons/critical_chance_advanced_unlock
-@onready var critical_damage_unlock_bar: ProgressBar = $main_panel/VBoxContainer/skill_tree_buttons/critical_damage_advanced_unlock
 @onready var starting_mana_unlock_bar: ProgressBar = $main_panel/VBoxContainer/skill_tree_buttons/starting_mana_advanced_unlock
 
 #upgrade button selectors
-@onready var critical_chance_button: Button = $main_panel/VBoxContainer/skill_tree_buttons/critical_chance_advanced
-@onready var critical_damage_button: Button = $main_panel/VBoxContainer/skill_tree_buttons/critical_damage_advanced
 @onready var starting_mana_button: Button = $main_panel/VBoxContainer/skill_tree_buttons/starting_mana_advanced
 @onready var bank_research_button: Button = $main_panel/VBoxContainer/skill_tree_buttons/bank_research_advanced
 @onready var luck_button: Button = $main_panel/VBoxContainer/skill_tree_buttons/luck_advanced
-@onready var damage_button: Button = $main_panel/VBoxContainer/skill_tree_buttons/damage_advanced
 @onready var research_button: Button = $main_panel/VBoxContainer/skill_tree_buttons/research_advanced
 
 @onready var upgrade_map: Array = [
@@ -37,19 +29,14 @@ var skill_page: int = 1
 	#this will wipe all players' saved pages and update them to the new version
 	
 	#progress bar, upgrade type, upgrade unlocks, cost_change_base, cost_change_mult
-	[damage_bar, "damage", "critical_chance", 1, 1],
 	[bank_research_bar, "bank_research", null, 0, 1],
 	[research_bar, "research", "starting_mana", 0, 1],
 	[luck_bar, "luck", null, 10, 1],
-	[critical_chance_bar, "critical_chance", "critical_damage", 1, 1],
-	[critical_damage_bar, "critical_damage", null, 1, 1],
 	[starting_mana_bar, "starting_mana", null, 10, 1],
 ]
 
 @onready var upgrade_unlock_map: Array = [
 	#progress bar, previous upgrade required, current upgrade button
-	[critical_chance_unlock_bar, "damage", critical_chance_button],
-	[critical_damage_unlock_bar, "critical_chance", critical_damage_button],
 	[starting_mana_unlock_bar, "research", starting_mana_button],
 ]
 
@@ -162,11 +149,6 @@ signal available_sp_increase(ammount: int)
 signal available_sp_decrease(ammount: int)
 
 #button_down handlers
-func _on_damage_advanced_button_down() -> void:
-	handle_button_press(upgrade_map[0])
-	if(damage_button.get_child(2)):
-		var tooltip: Node = damage_button.get_child(2)
-		tooltip.update_values("damage_advanced")
 
 func _on_bank_research_advanced_button_down() -> void:
 	handle_button_press(upgrade_map[1])
@@ -186,18 +168,6 @@ func _on_luck_advanced_button_down() -> void:
 		var tooltip: Node = luck_button.get_child(2)
 		tooltip.update_values("luck_advanced")
 
-func _on_critical_chance_advanced_button_down() -> void:
-	handle_button_press(upgrade_map[4])
-	if(critical_chance_button.get_child(2)):
-		var tooltip: Node = critical_chance_button.get_child(2)
-		tooltip.update_values("critical_chance_advanced")
-
-func _on_critical_damage_advanced_button_down() -> void:
-	handle_button_press(upgrade_map[5])
-	if(critical_damage_button.get_child(2)):
-		var tooltip: Node = critical_damage_button.get_child(2)
-		tooltip.update_values("critical_damage_advanced")
-
 func _on_starting_mana_advanced_button_down() -> void:
 	handle_button_press(upgrade_map[6])
 	if(starting_mana_button.get_child(2)):
@@ -213,26 +183,6 @@ func _on_bank_research_advanced_mouse_entered() -> void:
 func _on_bank_research_advanced_mouse_exited() -> void:
 	if(bank_research_button.get_child(2)):
 		var tooltip: Node = bank_research_button.get_child(2)
-		tooltip.queue_free()
-
-func _on_damage_advanced_mouse_entered() -> void:
-	var tooltip: Node = load("res://scenes/tooltips/advanced_damage_skill_tooltip.tscn").instantiate()
-	tooltip.skill_data = skill_data
-	damage_button.add_child(tooltip)
-
-func _on_damage_advanced_mouse_exited() -> void:
-	if(damage_button.get_child(2)):
-		var tooltip: Node = damage_button.get_child(2)
-		tooltip.queue_free()
-
-func _on_critical_chance_advanced_mouse_entered() -> void:
-	var tooltip: Node = load("res://scenes/tooltips/advanced_critical_chance_skill_tooltip.tscn").instantiate()
-	tooltip.skill_data = skill_data
-	critical_chance_button.add_child(tooltip)
-
-func _on_critical_chance_advanced_mouse_exited() -> void:
-	if(critical_chance_button.get_child(2)):
-		var tooltip: Node = critical_chance_button.get_child(2)
 		tooltip.queue_free()
 
 func _on_luck_advanced_mouse_entered() -> void:
@@ -263,16 +213,6 @@ func _on_starting_mana_advanced_mouse_entered() -> void:
 func _on_starting_mana_advanced_mouse_exited() -> void:
 	if(starting_mana_button.get_child(2)):
 		var tooltip: Node = starting_mana_button.get_child(2)
-		tooltip.queue_free()
-
-func _on_critical_damage_advanced_mouse_entered() -> void:
-	var tooltip: Node = load("res://scenes/tooltips/advanced_critical_damage_skill_tooltip.tscn").instantiate()
-	tooltip.skill_data = skill_data
-	critical_damage_button.add_child(tooltip)
-
-func _on_critical_damage_advanced_mouse_exited() -> void:
-	if(critical_damage_button.get_child(2)):
-		var tooltip: Node = critical_damage_button.get_child(2)
 		tooltip.queue_free()
 
 func handle_page_unlock():
