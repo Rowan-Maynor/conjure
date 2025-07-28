@@ -84,7 +84,6 @@ script = ExtResource("2_1acqe")
 
 [node name="locked_canvas_layer" type="CanvasLayer" parent="."]
 layer = 3
-visible = false
 
 [node name="main_panel" type="PanelContainer" parent="locked_canvas_layer"]
 clip_contents = true
