@@ -24,16 +24,16 @@ var skill_page: int = 1
 @onready var luck_button: Button = $main_panel/VBoxContainer/skill_tree_buttons/luck_advanced
 @onready var research_button: Button = $main_panel/VBoxContainer/skill_tree_buttons/research_advanced
 
-@onready var upgrade_map: Array = [
+@onready var upgrade_map: Dictionary = {
 	#if any changes are made to cost scaling, update skill_data.gd to next version
 	#this will wipe all players' saved pages and update them to the new version
 	
 	#progress bar, upgrade type, upgrade unlocks, cost_change_base, cost_change_mult
-	[bank_research_bar, "bank_research", null, 0, 1],
-	[research_bar, "research", "starting_mana", 0, 1],
-	[luck_bar, "luck", null, 10, 1],
-	[starting_mana_bar, "starting_mana", null, 10, 1],
-]
+	"bank_research": [bank_research_bar, "bank_research", null, 0, 1],
+	"starting_research": [research_bar, "research", "starting_mana", 0, 1],
+	"luck": [luck_bar, "luck", null, 10, 1],
+	"starting_mana": [starting_mana_bar, "starting_mana", null, 10, 1],
+}
 
 @onready var upgrade_unlock_map: Array = [
 	#progress bar, previous upgrade required, current upgrade button
@@ -49,6 +49,7 @@ func _ready():
 	handle_page_unlock()
 
 func handle_button_press(current_upgrade_map: Array):
+	print(current_upgrade_map)
 	var current_cost = skill_data.skill_current_cost.get(current_upgrade_map[1] + "_advanced")
 	var current_upgrades = skill_data.skill_current_upgrades.get(current_upgrade_map[1] + "_advanced")
 	var max_upgrades = skill_data.skill_max_upgrades.get(current_upgrade_map[1] + "_advanced")
@@ -71,6 +72,7 @@ func handle_button_press(current_upgrade_map: Array):
 			save_page()
 			update_data()
 	elif(Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT)):
+		print("right click detected")
 		if(current_cost == null):
 			return
 		if(current_upgrade_map[2] != null):
@@ -117,7 +119,7 @@ func update_data():
 	max_sp = player_data.sp
 	available_sp = max_sp - skill_data.spent_sp
 	for upgrade in upgrade_map:
-		handle_bar_update(upgrade[0], upgrade[1])
+		handle_bar_update(upgrade_map[upgrade][0], upgrade_map[upgrade][1])
 	for unlock in upgrade_unlock_map:
 		handle_unlock_bar_update(unlock[0], unlock[1])
 		handle_unlock_button_update(unlock[0], unlock[1], unlock[2])
@@ -151,25 +153,25 @@ signal available_sp_decrease(ammount: int)
 #button_down handlers
 
 func _on_bank_research_advanced_button_down() -> void:
-	handle_button_press(upgrade_map[1])
+	handle_button_press(upgrade_map["bank_research"])
 	if(bank_research_button.get_child(2)):
 		var tooltip: Node = bank_research_button.get_child(2)
 		tooltip.update_values("bank_research_advanced")
 
 func _on_research_advanced_button_down() -> void:
-	handle_button_press(upgrade_map[2])
+	handle_button_press(upgrade_map["starting_research"])
 	if(research_button.get_child(2)):
 		var tooltip: Node = research_button.get_child(2)
 		tooltip.update_values("research_advanced")
 
 func _on_luck_advanced_button_down() -> void:
-	handle_button_press(upgrade_map[3])
+	handle_button_press(upgrade_map["luck"])
 	if(luck_button.get_child(2)):
 		var tooltip: Node = luck_button.get_child(2)
 		tooltip.update_values("luck_advanced")
 
 func _on_starting_mana_advanced_button_down() -> void:
-	handle_button_press(upgrade_map[6])
+	handle_button_press(upgrade_map["starting_mana"])
 	if(starting_mana_button.get_child(2)):
 		var tooltip: Node = starting_mana_button.get_child(2)
 		tooltip.update_values("starting_mana_advanced")
