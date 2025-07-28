@@ -72,7 +72,6 @@ func handle_button_press(current_upgrade_map: Array):
 			save_page()
 			update_data()
 	elif(Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT)):
-		print("right click detected")
 		if(current_cost == null):
 			return
 		if(current_upgrade_map[2] != null):
