@@ -331,9 +331,9 @@ func calculate_critical_chance():
 func calculate_range():
 	var final_range: int = unit_data.attack_range
 	
-	if(skill_data.skill_current_upgrades.get("range_basic") > 0):
-		for i in range(skill_data.skill_current_upgrades.get("range_basic")):
-			final_range += skill_data.skill_values.get("range_basic")
+	if(skill_data.skill_current_upgrades["range_basic"] > 0):
+		for i in range(skill_data.skill_current_upgrades["range_basic"]):
+			final_range += skill_data.skill_values["range_basic"]
 	
 	unit_data.set("attack_range", final_range)
 
