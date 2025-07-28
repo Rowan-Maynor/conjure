@@ -97,3 +97,4 @@ func _on_mouse_exited() -> void:
 
 func calculate_luck():
 	lucky_summon_chance += skill_data.skill_current_upgrades["luck_intermediate"]
+	lucky_summon_chance += skill_data.skill_current_upgrades["luck_advanced"]

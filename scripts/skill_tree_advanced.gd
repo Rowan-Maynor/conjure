@@ -49,7 +49,6 @@ func _ready():
 	handle_page_unlock()
 
 func handle_button_press(current_upgrade_map: Array):
-	print(current_upgrade_map)
 	var current_cost = skill_data.skill_current_cost.get(current_upgrade_map[1] + "_advanced")
 	var current_upgrades = skill_data.skill_current_upgrades.get(current_upgrade_map[1] + "_advanced")
 	var max_upgrades = skill_data.skill_max_upgrades.get(current_upgrade_map[1] + "_advanced")
