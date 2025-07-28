@@ -96,5 +96,4 @@ func _on_mouse_exited() -> void:
 		tooltip.queue_free()
 
 func calculate_luck():
-	lucky_summon_chance += skill_data.skill_current_upgrades.get("luck_intermediate")
-	print(lucky_summon_chance)
+	lucky_summon_chance += skill_data.skill_current_upgrades["luck_intermediate"]
