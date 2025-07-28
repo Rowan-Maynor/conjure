@@ -599,6 +599,10 @@ func calculate_starting_research():
 	if(skill_data.skill_current_upgrades["research_basic"] > 0):
 		for i in range(skill_data.skill_current_upgrades["research_basic"]):
 			final_research += skill_data.skill_values["research_basic"]
+			
+	if(skill_data.skill_current_upgrades["research_intermediate"] > 0):
+		for i in range(skill_data.skill_current_upgrades["research_intermediate"]):
+			final_research += skill_data.skill_values["research_intermediate"]
 	
 	research = final_research
 	research_ui_value.text = str(research)
