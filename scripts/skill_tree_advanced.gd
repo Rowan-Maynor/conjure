@@ -11,7 +11,7 @@ var skill_page: int = 1
 
 #upgrade button progress bar selectors
 @onready var damage_bar: ProgressBar = $main_panel/VBoxContainer/skill_tree_buttons/damage_advanced/ProgressBar
-@onready var bank_cap_bar: ProgressBar = $main_panel/VBoxContainer/skill_tree_buttons/bank_cap_advanced/ProgressBar
+@onready var bank_research_bar: ProgressBar = $main_panel/VBoxContainer/skill_tree_buttons/bank_research_advanced/ProgressBar
 @onready var research_bar: ProgressBar = $main_panel/VBoxContainer/skill_tree_buttons/research_advanced/ProgressBar
 @onready var critical_chance_bar: ProgressBar = $main_panel/VBoxContainer/skill_tree_buttons/critical_chance_advanced/ProgressBar
 @onready var critical_damage_bar: ProgressBar = $main_panel/VBoxContainer/skill_tree_buttons/critical_damage_advanced/ProgressBar
@@ -27,7 +27,7 @@ var skill_page: int = 1
 @onready var critical_chance_button: Button = $main_panel/VBoxContainer/skill_tree_buttons/critical_chance_advanced
 @onready var critical_damage_button: Button = $main_panel/VBoxContainer/skill_tree_buttons/critical_damage_advanced
 @onready var starting_mana_button: Button = $main_panel/VBoxContainer/skill_tree_buttons/starting_mana_advanced
-@onready var bank_cap_button: Button = $main_panel/VBoxContainer/skill_tree_buttons/bank_cap_advanced
+@onready var bank_research_button: Button = $main_panel/VBoxContainer/skill_tree_buttons/bank_research_advanced
 @onready var luck_button: Button = $main_panel/VBoxContainer/skill_tree_buttons/luck_advanced
 @onready var damage_button: Button = $main_panel/VBoxContainer/skill_tree_buttons/damage_advanced
 @onready var research_button: Button = $main_panel/VBoxContainer/skill_tree_buttons/research_advanced
@@ -38,7 +38,7 @@ var skill_page: int = 1
 	
 	#progress bar, upgrade type, upgrade unlocks, cost_change_base, cost_change_mult
 	[damage_bar, "damage", "critical_chance", 1, 1],
-	[bank_cap_bar, "bank_cap", null, 0, 1],
+	[bank_research_bar, "bank_research", null, 0, 1],
 	[research_bar, "research", "starting_mana", 0, 1],
 	[luck_bar, "luck", null, 10, 1],
 	[critical_chance_bar, "critical_chance", "critical_damage", 1, 1],
@@ -168,11 +168,11 @@ func _on_damage_advanced_button_down() -> void:
 		var tooltip: Node = damage_button.get_child(2)
 		tooltip.update_values("damage_advanced")
 
-func _on_bank_cap_advanced_button_down() -> void:
+func _on_bank_research_advanced_button_down() -> void:
 	handle_button_press(upgrade_map[1])
-	if(bank_cap_button.get_child(2)):
-		var tooltip: Node = bank_cap_button.get_child(2)
-		tooltip.update_values("bank_cap_advanced")
+	if(bank_research_button.get_child(2)):
+		var tooltip: Node = bank_research_button.get_child(2)
+		tooltip.update_values("bank_research_advanced")
 
 func _on_research_advanced_button_down() -> void:
 	handle_button_press(upgrade_map[2])
@@ -205,14 +205,14 @@ func _on_starting_mana_advanced_button_down() -> void:
 		tooltip.update_values("starting_mana_advanced")
 
 #tooltip functions
-func _on_bank_cap_advanced_mouse_entered() -> void:
-	var tooltip: Node = load("res://scenes/tooltips/advanced_bank_cap_skill_tooltip.tscn").instantiate()
+func _on_bank_research_advanced_mouse_entered() -> void:
+	var tooltip: Node = load("res://scenes/tooltips/advanced_bank_research_skill_tooltip.tscn").instantiate()
 	tooltip.skill_data = skill_data
-	bank_cap_button.add_child(tooltip)
+	bank_research_button.add_child(tooltip)
 
-func _on_bank_cap_advanced_mouse_exited() -> void:
-	if(bank_cap_button.get_child(2)):
-		var tooltip: Node = bank_cap_button.get_child(2)
+func _on_bank_research_advanced_mouse_exited() -> void:
+	if(bank_research_button.get_child(2)):
+		var tooltip: Node = bank_research_button.get_child(2)
 		tooltip.queue_free()
 
 func _on_damage_advanced_mouse_entered() -> void:

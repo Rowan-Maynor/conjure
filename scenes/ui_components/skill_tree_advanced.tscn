@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://camw6yw17riqu" path="res://assets/ui/9patchrect_button_blank_active.png" id="4_upmvn"]
 [ext_resource type="Texture2D" uid="uid://dhbputretf5jw" path="res://assets/ui/9patchrect_button_blank_hover.png" id="5_l1vwf"]
 [ext_resource type="Texture2D" uid="uid://doogn0fa3agws" path="res://assets/ui/9patchrect_button_blank.png" id="6_g3u1u"]
-[ext_resource type="Texture2D" uid="uid://bf35bcrhlk2sc" path="res://assets/ui/bank_icon.png" id="7_pqp54"]
+[ext_resource type="Texture2D" uid="uid://dmln3atler5yi" path="res://assets/ui/bank_research_skill_icon.png" id="7_1acqe"]
 [ext_resource type="Texture2D" uid="uid://munqkwi7mayp" path="res://assets/ui/luck_skill_icon.png" id="8_5syb4"]
 [ext_resource type="Texture2D" uid="uid://ryqtoutqo38q" path="res://assets/ui/damage_skill_icon.png" id="9_pmcrn"]
 [ext_resource type="Texture2D" uid="uid://33o5yndd3gb8" path="res://assets/ui/critical_chance_skill_icon.png" id="10_bpo3i"]
@@ -87,6 +87,7 @@ script = ExtResource("2_1acqe")
 
 [node name="locked_canvas_layer" type="CanvasLayer" parent="."]
 layer = 3
+visible = false
 
 [node name="main_panel" type="PanelContainer" parent="locked_canvas_layer"]
 clip_contents = true
@@ -144,7 +145,7 @@ layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="bank_cap_advanced" type="Button" parent="main_panel/VBoxContainer/skill_tree_buttons"]
+[node name="bank_research_advanced" type="Button" parent="main_panel/VBoxContainer/skill_tree_buttons"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -161,7 +162,7 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_vquem")
 theme_override_styles/normal = SubResource("StyleBoxTexture_nl1fx")
 button_mask = 3
 
-[node name="TextureRect" type="TextureRect" parent="main_panel/VBoxContainer/skill_tree_buttons/bank_cap_advanced"]
+[node name="TextureRect" type="TextureRect" parent="main_panel/VBoxContainer/skill_tree_buttons/bank_research_advanced"]
 show_behind_parent = true
 z_index = 1
 custom_minimum_size = Vector2(40, 40)
@@ -178,9 +179,9 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource("7_pqp54")
+texture = ExtResource("7_1acqe")
 
-[node name="ProgressBar" type="ProgressBar" parent="main_panel/VBoxContainer/skill_tree_buttons/bank_cap_advanced"]
+[node name="ProgressBar" type="ProgressBar" parent="main_panel/VBoxContainer/skill_tree_buttons/bank_research_advanced"]
 show_behind_parent = true
 custom_minimum_size = Vector2(45, 45)
 layout_mode = 1
@@ -586,9 +587,9 @@ max_value = 10.0
 fill_mode = 2
 show_percentage = false
 
-[connection signal="button_down" from="main_panel/VBoxContainer/skill_tree_buttons/bank_cap_advanced" to="." method="_on_bank_cap_advanced_button_down"]
-[connection signal="mouse_entered" from="main_panel/VBoxContainer/skill_tree_buttons/bank_cap_advanced" to="." method="_on_bank_cap_advanced_mouse_entered"]
-[connection signal="mouse_exited" from="main_panel/VBoxContainer/skill_tree_buttons/bank_cap_advanced" to="." method="_on_bank_cap_advanced_mouse_exited"]
+[connection signal="button_down" from="main_panel/VBoxContainer/skill_tree_buttons/bank_research_advanced" to="." method="_on_bank_research_advanced_button_down"]
+[connection signal="mouse_entered" from="main_panel/VBoxContainer/skill_tree_buttons/bank_research_advanced" to="." method="_on_bank_research_advanced_mouse_entered"]
+[connection signal="mouse_exited" from="main_panel/VBoxContainer/skill_tree_buttons/bank_research_advanced" to="." method="_on_bank_research_advanced_mouse_exited"]
 [connection signal="button_down" from="main_panel/VBoxContainer/skill_tree_buttons/luck_advanced" to="." method="_on_luck_advanced_button_down"]
 [connection signal="mouse_entered" from="main_panel/VBoxContainer/skill_tree_buttons/luck_advanced" to="." method="_on_luck_advanced_mouse_entered"]
 [connection signal="mouse_exited" from="main_panel/VBoxContainer/skill_tree_buttons/luck_advanced" to="." method="_on_luck_advanced_mouse_exited"]
