@@ -82,3 +82,6 @@ func _on_intermediate_pressed() -> void:
 
 func _on_basic_pressed() -> void:
 	handle_tab_change("basic")
+
+func _on_advanced_pressed() -> void:
+	handle_tab_change("advanced")
