@@ -596,9 +596,9 @@ func calculate_starting_lives():
 func calculate_starting_research():
 	var final_research: int = research
 	
-	if(skill_data.skill_current_upgrades.get("research_basic") > 0):
-		for i in range(skill_data.skill_current_upgrades.get("research_basic")):
-			final_research += skill_data.skill_values.get("research_basic")
+	if(skill_data.skill_current_upgrades["research_basic"] > 0):
+		for i in range(skill_data.skill_current_upgrades["research_basic"]):
+			final_research += skill_data.skill_values["research_basic"]
 	
 	research = final_research
 	research_ui_value.text = str(research)
