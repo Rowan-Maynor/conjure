@@ -340,9 +340,9 @@ func calculate_range():
 func calculate_critical_damage():
 	var final_critical_damage: float = 2.0
 	
-	if(skill_data.skill_current_upgrades.get("critical_damage_basic") > 0):
-		for i in range(skill_data.skill_current_upgrades.get("critical_chance_basic")):
-			final_critical_damage += skill_data.skill_values.get("critical_chance_basic")
+	if(skill_data.skill_current_upgrades["critical_damage_basic"] > 0):
+		for i in range(skill_data.skill_current_upgrades["critical_damage_basic"]):
+			final_critical_damage += skill_data.skill_values["critical_damage_basic"]
 	
 	return final_critical_damage
 
