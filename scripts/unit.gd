@@ -343,6 +343,10 @@ func calculate_critical_damage():
 	if(skill_data.skill_current_upgrades["critical_damage_basic"] > 0):
 		for i in range(skill_data.skill_current_upgrades["critical_damage_basic"]):
 			final_critical_damage += skill_data.skill_values["critical_damage_basic"]
+			
+	if(skill_data.skill_current_upgrades["critical_damage_intermediate"] > 0):
+		for i in range(skill_data.skill_current_upgrades["critical_damage_intermediate"]):
+			final_critical_damage += skill_data.skill_values["critical_damage_intermediate"]
 	
 	return final_critical_damage
 
