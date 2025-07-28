@@ -372,6 +372,8 @@ func _on_wave_time_timeout() -> void:
 				sp_base += 2
 			#handles bank interest
 			generate_bank_mana()
+			if(skill_data.skill_current_upgrades["bank_research_advanced"] > 0):
+				generate_bank_research()
 			#sets up wait
 			wave_time = 10
 			add_status_message("Break (10 seconds)", Color.hex(0xafafafff))
@@ -731,6 +733,11 @@ func generate_bank_mana():
 		bank_mana += bank_mana_cap
 		bank_mana_value.text = str(bank_mana)
 		bank_projected_value.text = str(snapped(bank_mana * (bank_interest - 1), 0.01))
+
+func generate_bank_research():
+	var research_gained = floori(int(bank_mana) % 10)
+	gain_research(research_gained)
+	add_status_message("Gained " + str(research_gained) + " bank research", Color.hex(0xe8c078ff))
 
 #helper functions
 func add_status_message(message, color = Color.hex(0xffffffff)):

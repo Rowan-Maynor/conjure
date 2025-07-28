@@ -3,7 +3,7 @@ class_name Skill_Data
 
 #update this whenever you make changes to skills to force wipe old data
 #this will force all users to make new skill pages so do skill page changes sparingly
-@export var skill_version: int = 11
+@export var skill_version: int = 13
 
 @export var skill_max_upgrades: Dictionary = {
 	"damage_basic": 10,
