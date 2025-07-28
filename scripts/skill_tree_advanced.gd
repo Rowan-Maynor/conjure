@@ -31,8 +31,8 @@ var skill_page: int = 1
 	#progress bar, upgrade type, upgrade unlocks, cost_change_base, cost_change_mult
 	"bank_research": [bank_research_bar, "bank_research", null, 0, 1],
 	"starting_research": [research_bar, "research", "starting_mana", 0, 1],
-	"luck": [luck_bar, "luck", null, 10, 1],
-	"starting_mana": [starting_mana_bar, "starting_mana", null, 10, 1],
+	"luck": [luck_bar, "luck", null, 25, 1],
+	"starting_mana": [starting_mana_bar, "starting_mana", null, 100, 1],
 }
 
 @onready var upgrade_unlock_map: Array = [

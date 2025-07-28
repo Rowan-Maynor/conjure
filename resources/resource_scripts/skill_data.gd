@@ -3,7 +3,7 @@ class_name Skill_Data
 
 #update this whenever you make changes to skills to force wipe old data
 #this will force all users to make new skill pages so do skill page changes sparingly
-@export var skill_version: int = 9
+@export var skill_version: int = 11
 
 @export var skill_max_upgrades: Dictionary = {
 	"damage_basic": 10,
@@ -37,14 +37,14 @@ class_name Skill_Data
 	"damage_intermediate": 10,
 	"bank_cap_intermediate": 100,
 	"luck_intermediate": 10,
-	"research_intermediate": 50,
+	"research_intermediate": 25,
 	"critical_chance_intermediate": 10,
 	"critical_damage_intermediate": 10,
-	"starting_mana_intermediate": 100,
-	"bank_research_advanced": 250,
-	"luck_advanced": 50,
-	"research_advanced": 150,
-	"starting_mana_advanced": 300,
+	"starting_mana_intermediate": 50,
+	"bank_research_advanced": 200,
+	"luck_advanced": 25,
+	"research_advanced": 50,
+	"starting_mana_advanced": 100,
 }
 
 @export var skill_current_upgrades: Dictionary = {
