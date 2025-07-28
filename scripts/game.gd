@@ -610,9 +610,9 @@ func calculate_starting_research():
 func calculate_starting_mana():
 	var final_mana: int = mana
 	
-	if(skill_data.skill_current_upgrades.get("starting_mana_basic") > 0):
-		for i in range(skill_data.skill_current_upgrades.get("starting_mana_basic")):
-			final_mana += skill_data.skill_values.get("starting_mana_basic")
+	if(skill_data.skill_current_upgrades["starting_mana_basic"] > 0):
+		for i in range(skill_data.skill_current_upgrades["starting_mana_basic"]):
+			final_mana += skill_data.skill_values["starting_mana_basic"]
 	
 	mana = final_mana
 	mana_ui_value.text = str(mana)
