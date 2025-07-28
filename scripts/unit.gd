@@ -318,27 +318,35 @@ func _on_attack_spawn_delay_timeout() -> void:
 func calculate_critical_chance():
 	var final_critical_chance: int = unit_data.critical_chance
 	
-	if(skill_data.skill_current_upgrades.get("critical_chance_basic") > 0):
-		for i in range(skill_data.skill_current_upgrades.get("critical_chance_basic")):
-			final_critical_chance += skill_data.skill_values.get("critical_chance_basic")
+	if(skill_data.skill_current_upgrades["critical_chance_basic"] > 0):
+		for i in range(skill_data.skill_current_upgrades["critical_chance_basic"]):
+			final_critical_chance += skill_data.skill_values["critical_chance_basic"]
+	
+	if(skill_data.skill_current_upgrades["critical_chance_intermediate"] > 0):
+		for i in range(skill_data.skill_current_upgrades["critical_chance_intermediate"]):
+			final_critical_chance += skill_data.skill_values["critical_chance_intermediate"]
 	
 	unit_data.set("critical_chance", final_critical_chance)
 
 func calculate_range():
 	var final_range: int = unit_data.attack_range
 	
-	if(skill_data.skill_current_upgrades.get("range_basic") > 0):
-		for i in range(skill_data.skill_current_upgrades.get("range_basic")):
-			final_range += skill_data.skill_values.get("range_basic")
+	if(skill_data.skill_current_upgrades["range_basic"] > 0):
+		for i in range(skill_data.skill_current_upgrades["range_basic"]):
+			final_range += skill_data.skill_values["range_basic"]
 	
 	unit_data.set("attack_range", final_range)
 
 func calculate_critical_damage():
 	var final_critical_damage: float = 2.0
 	
-	if(skill_data.skill_current_upgrades.get("critical_damage_basic") > 0):
-		for i in range(skill_data.skill_current_upgrades.get("critical_chance_basic")):
-			final_critical_damage += skill_data.skill_values.get("critical_chance_basic")
+	if(skill_data.skill_current_upgrades["critical_damage_basic"] > 0):
+		for i in range(skill_data.skill_current_upgrades["critical_damage_basic"]):
+			final_critical_damage += skill_data.skill_values["critical_damage_basic"]
+			
+	if(skill_data.skill_current_upgrades["critical_damage_intermediate"] > 0):
+		for i in range(skill_data.skill_current_upgrades["critical_damage_intermediate"]):
+			final_critical_damage += skill_data.skill_values["critical_damage_intermediate"]
 	
 	return final_critical_damage
 
@@ -405,12 +413,18 @@ func handle_damage(value: int, element: String, is_critical: bool):
 	elif(element == "earth"):
 		final_damage = floor(final_damage * get_tree().get_root().get_node("game").earth_research_value)
 	
-	#apply basic skill page increase
+	#apply skill page increases
 	var basic_skill_mult: float = 1.0
-	if(skill_data.skill_current_upgrades.get("damage_basic") > 0):
-		for i in range(skill_data.skill_current_upgrades.get("damage_basic")):
-			basic_skill_mult += skill_data.skill_values.get("damage_basic")
+	if(skill_data.skill_current_upgrades["damage_basic"] > 0):
+		for i in range(skill_data.skill_current_upgrades["damage_basic"]):
+			basic_skill_mult += skill_data.skill_values["damage_basic"]
 	final_damage = floor(final_damage * basic_skill_mult)
+	
+	var intermediate_skill_mult: float = 1.0
+	if(skill_data.skill_current_upgrades["damage_intermediate"] > 0):
+		for i in range(skill_data.skill_current_upgrades["damage_intermediate"]):
+			intermediate_skill_mult += skill_data.skill_values["damage_intermediate"]
+	final_damage = floor(final_damage * intermediate_skill_mult)
 	
 	#check for critical
 	if(is_critical == true):

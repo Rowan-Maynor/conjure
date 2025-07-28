@@ -32,19 +32,22 @@ offset_bottom = 520.0
 [node name="basic" type="Button" parent="tome_tabs"]
 custom_minimum_size = Vector2(120, 80)
 layout_mode = 2
+toggle_mode = true
+button_pressed = true
 icon = ExtResource("3_htbgv")
 expand_icon = true
 
 [node name="intermediate" type="Button" parent="tome_tabs"]
 custom_minimum_size = Vector2(110, 80)
 layout_mode = 2
+toggle_mode = true
 icon = ExtResource("4_2gd0r")
 expand_icon = true
 
 [node name="Advanced" type="Button" parent="tome_tabs"]
 custom_minimum_size = Vector2(120, 80)
 layout_mode = 2
-disabled = true
+toggle_mode = true
 icon = ExtResource("5_nf4pg")
 expand_icon = true
 
@@ -135,6 +138,7 @@ layer = 2
 
 [connection signal="pressed" from="tome_tabs/basic" to="." method="_on_basic_pressed"]
 [connection signal="pressed" from="tome_tabs/intermediate" to="." method="_on_intermediate_pressed"]
+[connection signal="pressed" from="tome_tabs/Advanced" to="." method="_on_advanced_pressed"]
 [connection signal="item_selected" from="main_panel/VBoxContainer/HBoxContainer/skill_page_option" to="." method="_on_skill_page_option_item_selected"]
 [connection signal="pressed" from="main_panel/VBoxContainer/HBoxContainer/reset_button" to="." method="_on_reset_button_pressed"]
 [connection signal="pressed" from="main_panel/VBoxContainer/HBoxContainer/close_button" to="." method="_on_close_button_pressed"]

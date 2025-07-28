@@ -37,13 +37,13 @@ var skill_page: int = 1
 	#this will wipe all players' saved pages and update them to the new version
 	
 	#progress bar, upgrade type, upgrade unlocks, cost_change_base, cost_change_mult
-	[damage_bar, "damage", "critical_chance", 1, 1],
+	[damage_bar, "damage", "critical_chance", 10, 1],
 	[bank_cap_bar, "bank_cap", null, 0, 1],
 	[research_bar, "research", "starting_mana", 0, 1],
 	[luck_bar, "luck", null, 10, 1],
-	[critical_chance_bar, "critical_chance", "critical_damage", 1, 1],
-	[critical_damage_bar, "critical_damage", null, 1, 1],
-	[starting_mana_bar, "starting_mana", null, 10, 1],
+	[critical_chance_bar, "critical_chance", "critical_damage", 10, 1],
+	[critical_damage_bar, "critical_damage", null, 10, 1],
+	[starting_mana_bar, "starting_mana", null, 50, 1],
 ]
 
 @onready var upgrade_unlock_map: Array = [

@@ -72,13 +72,26 @@ func check_skill_version():
 		_on_reset_button_pressed()
 
 func handle_tab_change(tab):
+	var tome_tab_buttons: Array = $tome_tabs.get_children()
+	for button in tome_tab_buttons:
+		button.button_pressed = false
+	if(tab == "basic"):
+		tome_tab_buttons[0].button_pressed = true
+	if(tab == "intermediate"):
+		tome_tab_buttons[1].button_pressed = true
+	if(tab == "advanced"):
+		tome_tab_buttons[2].button_pressed = true
+	
 	$skill_tree_buttons.get_child(0).queue_free()
-	var tab_buttons: Node = load("res://scenes/ui_components/skill_tree_" + tab + ".tscn").instantiate()
-	tab_buttons.skill_page = skill_page
-	$skill_tree_buttons.add_child(tab_buttons)
+	var skill_tree_buttons: Node = load("res://scenes/ui_components/skill_tree_" + tab + ".tscn").instantiate()
+	skill_tree_buttons.skill_page = skill_page
+	$skill_tree_buttons.add_child(skill_tree_buttons)
 
 func _on_intermediate_pressed() -> void:
 	handle_tab_change("intermediate")
 
 func _on_basic_pressed() -> void:
 	handle_tab_change("basic")
+
+func _on_advanced_pressed() -> void:
+	handle_tab_change("advanced")

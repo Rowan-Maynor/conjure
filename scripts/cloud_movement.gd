@@ -9,6 +9,7 @@ func _ready() -> void:
 	starting_position.x = self.position.x
 	starting_position.y = self.position.y
 	get_new_position()
+
 func _physics_process(_delta: float) -> void:
 	self.position = self.position.lerp(new_position, speed)
 

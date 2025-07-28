@@ -372,6 +372,8 @@ func _on_wave_time_timeout() -> void:
 				sp_base += 2
 			#handles bank interest
 			generate_bank_mana()
+			if(skill_data.skill_current_upgrades["bank_research_advanced"] > 0):
+				generate_bank_research()
 			#sets up wait
 			wave_time = 10
 			add_status_message("Break (10 seconds)", Color.hex(0xafafafff))
@@ -573,12 +575,18 @@ func calculate_final_damage(unit):
 	elif(unit.unit_data.element == "earth"):
 		final_damage = floori(unit.unit_data.damage * earth_research_value)
 	
-	#apply basic skill page increase
+	#apply skill page increases
 	var basic_skill_mult: float = 1.0
-	if(skill_data.skill_current_upgrades.get("damage_basic") > 0):
-		for i in range(skill_data.skill_current_upgrades.get("damage_basic")):
-			basic_skill_mult += skill_data.skill_values.get("damage_basic")
+	if(skill_data.skill_current_upgrades["damage_basic"] > 0):
+		for i in range(skill_data.skill_current_upgrades["damage_basic"]):
+			basic_skill_mult += skill_data.skill_values["damage_basic"]
 	final_damage = floor(final_damage * basic_skill_mult)
+	
+	var intermediate_skill_mult: float = 1.0
+	if(skill_data.skill_current_upgrades["damage_intermediate"] > 0):
+		for i in range(skill_data.skill_current_upgrades["damage_intermediate"]):
+			intermediate_skill_mult += skill_data.skill_values["damage_intermediate"]
+	final_damage = floor(final_damage * intermediate_skill_mult)
 	
 	#return the value
 	return final_damage
@@ -596,9 +604,17 @@ func calculate_starting_lives():
 func calculate_starting_research():
 	var final_research: int = research
 	
-	if(skill_data.skill_current_upgrades.get("research_basic") > 0):
-		for i in range(skill_data.skill_current_upgrades.get("research_basic")):
-			final_research += skill_data.skill_values.get("research_basic")
+	if(skill_data.skill_current_upgrades["research_basic"] > 0):
+		for i in range(skill_data.skill_current_upgrades["research_basic"]):
+			final_research += skill_data.skill_values["research_basic"]
+			
+	if(skill_data.skill_current_upgrades["research_intermediate"] > 0):
+		for i in range(skill_data.skill_current_upgrades["research_intermediate"]):
+			final_research += skill_data.skill_values["research_intermediate"]
+			
+	if(skill_data.skill_current_upgrades["research_advanced"] > 0):
+		for i in range(skill_data.skill_current_upgrades["research_advanced"]):
+			final_research += skill_data.skill_values["research_advanced"]
 	
 	research = final_research
 	research_ui_value.text = str(research)
@@ -606,9 +622,17 @@ func calculate_starting_research():
 func calculate_starting_mana():
 	var final_mana: int = mana
 	
-	if(skill_data.skill_current_upgrades.get("starting_mana_basic") > 0):
-		for i in range(skill_data.skill_current_upgrades.get("starting_mana_basic")):
-			final_mana += skill_data.skill_values.get("starting_mana_basic")
+	if(skill_data.skill_current_upgrades["starting_mana_basic"] > 0):
+		for i in range(skill_data.skill_current_upgrades["starting_mana_basic"]):
+			final_mana += skill_data.skill_values["starting_mana_basic"]
+	
+	if(skill_data.skill_current_upgrades["starting_mana_intermediate"] > 0):
+		for i in range(skill_data.skill_current_upgrades["starting_mana_intermediate"]):
+			final_mana += skill_data.skill_values["starting_mana_intermediate"]
+	
+	if(skill_data.skill_current_upgrades["starting_mana_advanced"] > 0):
+		for i in range(skill_data.skill_current_upgrades["starting_mana_advanced"]):
+			final_mana += skill_data.skill_values["starting_mana_advanced"]
 	
 	mana = final_mana
 	mana_ui_value.text = str(mana)
@@ -709,6 +733,11 @@ func generate_bank_mana():
 		bank_mana += bank_mana_cap
 		bank_mana_value.text = str(bank_mana)
 		bank_projected_value.text = str(snapped(bank_mana * (bank_interest - 1), 0.01))
+
+func generate_bank_research():
+	var research_gained = floori(int(bank_mana) % 10)
+	gain_research(research_gained)
+	add_status_message("Gained " + str(research_gained) + " bank research", Color.hex(0xe8c078ff))
 
 #helper functions
 func add_status_message(message, color = Color.hex(0xffffffff)):
