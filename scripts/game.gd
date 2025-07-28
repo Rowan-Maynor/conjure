@@ -623,10 +623,14 @@ func calculate_starting_mana():
 	if(skill_data.skill_current_upgrades["starting_mana_basic"] > 0):
 		for i in range(skill_data.skill_current_upgrades["starting_mana_basic"]):
 			final_mana += skill_data.skill_values["starting_mana_basic"]
-			
+	
 	if(skill_data.skill_current_upgrades["starting_mana_intermediate"] > 0):
 		for i in range(skill_data.skill_current_upgrades["starting_mana_intermediate"]):
 			final_mana += skill_data.skill_values["starting_mana_intermediate"]
+	
+	if(skill_data.skill_current_upgrades["starting_mana_advanced"] > 0):
+		for i in range(skill_data.skill_current_upgrades["starting_mana_advanced"]):
+			final_mana += skill_data.skill_values["starting_mana_advanced"]
 	
 	mana = final_mana
 	mana_ui_value.text = str(mana)
