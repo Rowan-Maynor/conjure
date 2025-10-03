@@ -350,6 +350,9 @@ func calculate_critical_damage():
 	
 	return final_critical_damage
 
+func calculate_infusion_upgrade_count():
+	unit_data.infusion_mult = 5
+
 #helper functions
 func find_lowest_health_target(targets):
 	#TODO probably gotta change lowest to nearest target
@@ -395,6 +398,8 @@ func update_obstacle_status():
 func handle_unit_skill_values():
 	calculate_critical_chance()
 	calculate_range()
+	calculate_infusion_upgrade_count()
+	unit_data.infusion_mult = 1.0
 
 #damage functions
 func handle_damage(value: int, element: String, is_critical: bool):

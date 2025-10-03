@@ -9,6 +9,8 @@ class_name Unit_Data
 @export var health: int
 @export var speed: int
 @export var element: String
+@export var infusion_mult: float
+@export var upgrades_remaining: int
 
 #helping variables
 @export var type: String
