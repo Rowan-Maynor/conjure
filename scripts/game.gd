@@ -14,7 +14,7 @@ var difficulty_data: Difficulty_Data
 
 #resource values
 var lives: int = 30
-var mana: int = 25
+var mana: int = 500
 var research: int = 0
 var kills: int = 0
 
