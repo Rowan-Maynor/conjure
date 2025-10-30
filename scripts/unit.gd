@@ -33,7 +33,10 @@ func _ready():
 	$health_bar.value = unit_data.health
 
 func _physics_process(_delta: float) -> void:
-	pass
+	if(flow_field.is_empty() == false):
+		var curr_square: Vector2 = get_target_grid_position(self.position)
+		velocity = flow_field[curr_square.x][curr_square.y].flow_vector * unit_data.speed
+		move_and_slide()
 
 #basic functionalities
 func attack():
@@ -217,6 +220,12 @@ func handle_unit_skill_values():
 	calculate_range()
 	calculate_infusion_upgrade_count()
 	unit_data.infusion_mult = 1.0
+
+func get_target_grid_position(pos: Vector2):
+	var grid_pos: Vector2 = Vector2.ZERO
+	grid_pos.x = (floori(pos.x / 16))
+	grid_pos.y = (floori(pos.y / 16))
+	return grid_pos
 
 #damage functions
 func handle_damage(value: int, element: String, is_critical: bool):
