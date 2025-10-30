@@ -86,6 +86,8 @@ var cursor_hold: Resource = load("res://assets/ui/cursor_hold.png")
 @onready var player_ffm: Node2D = $flow_field_managers/player_ffm
 @onready var enemy_ffm: Node2D = $flow_field_managers/enemy_ffm
 
+#flow_field grid properties
+const CELL_SIZE: int = 16
 
 #general functions
 func _ready():
@@ -114,6 +116,9 @@ func _input(event: InputEvent) -> void:
 	if(Input.is_action_just_pressed("attack_move")):
 		handle_attack_move()
 	if(Input.is_action_just_pressed("right_click")):
+		var new_grid: Array = player_ffm.generate_new_grid(
+			get_target_grid_position(get_viewport().get_mouse_position()))
+		player_ffm.grid = new_grid
 		if(attack_move == true):
 			attack_move = false
 			Input.set_custom_mouse_cursor(cursor_default)
@@ -862,3 +867,9 @@ func handle_skill_page_unlock():
 	elif(difficulty_data.difficulty == "medium"):
 		player_data.skill_page_unlocks["advanced"] = true
 		save_player_data()
+
+func get_target_grid_position(pos: Vector2):
+	var grid_pos: Vector2 = Vector2.ZERO
+	grid_pos.x = (floori(pos.x / CELL_SIZE))
+	grid_pos.y = (floori(pos.y / CELL_SIZE))
+	return grid_pos
