@@ -304,7 +304,7 @@ metadata/_edit_lock_ = true
 metadata/_edit_lock_ = true
 
 [node name="enemy_spawn_area_1" type="Area2D" parent="enemy_spawn_areas"]
-position = Vector2(272, 74)
+position = Vector2(264, 74)
 collision_mask = 2
 metadata/_edit_lock_ = true
 
@@ -316,7 +316,7 @@ metadata/_edit_lock_ = true
 metadata/_edit_lock_ = true
 
 [node name="enemy_spawn_area_2" type="Area2D" parent="enemy_spawn_areas"]
-position = Vector2(282, 69)
+position = Vector2(274, 69)
 collision_mask = 2
 metadata/_edit_lock_ = true
 
@@ -328,7 +328,7 @@ metadata/_edit_lock_ = true
 metadata/_edit_lock_ = true
 
 [node name="enemy_spawn_area_3" type="Area2D" parent="enemy_spawn_areas"]
-position = Vector2(272, 64)
+position = Vector2(264, 64)
 collision_mask = 2
 metadata/_edit_lock_ = true
 
@@ -340,7 +340,7 @@ metadata/_edit_lock_ = true
 metadata/_edit_lock_ = true
 
 [node name="enemy_spawn_area_4" type="Area2D" parent="enemy_spawn_areas"]
-position = Vector2(282, 59)
+position = Vector2(274, 59)
 collision_mask = 2
 metadata/_edit_lock_ = true
 
@@ -352,7 +352,7 @@ metadata/_edit_lock_ = true
 metadata/_edit_lock_ = true
 
 [node name="enemy_spawn_area_5" type="Area2D" parent="enemy_spawn_areas"]
-position = Vector2(262, 69)
+position = Vector2(254, 69)
 collision_mask = 2
 metadata/_edit_lock_ = true
 
@@ -364,7 +364,7 @@ metadata/_edit_lock_ = true
 metadata/_edit_lock_ = true
 
 [node name="enemy_spawn_area_6" type="Area2D" parent="enemy_spawn_areas"]
-position = Vector2(262, 59)
+position = Vector2(254, 59)
 collision_mask = 2
 metadata/_edit_lock_ = true
 
