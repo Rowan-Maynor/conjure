@@ -8,7 +8,7 @@ var grid_height: int = floori(33) #this will be 33 when finalized for 16x16
 
 var target: Vector2 = Vector2(10, 10)
 
-var grid: Array = [] #this will store data using [x][y]
+var flow_field: Array = [] #this will store data using [x][y]
 
 #Using this will properly propogate costs in a BFS
 const NEIGHBORS: Array = [
@@ -38,28 +38,28 @@ func _input(event: InputEvent):
 			queue_redraw()
 		
 	if event.is_action_pressed("left_click"):
-		if(grid):
+		if(flow_field):
 			var pos: Vector2 = get_target_grid_position(get_viewport().get_mouse_position())
-			print("cost: ", grid[pos.x][pos.y].cost)
-			print("vector: ", grid[pos.x][pos.y].flow_vector)
-			print("index: ", grid[pos.x][pos.y].index)
-			print("position: ", grid[pos.x][pos.y].position)
+			print("cost: ", flow_field[pos.x][pos.y].cost)
+			print("vector: ", flow_field[pos.x][pos.y].flow_vector)
+			print("index: ", flow_field[pos.x][pos.y].index)
+			print("position: ", flow_field[pos.x][pos.y].position)
 			print("mouse_position: ", get_viewport().get_mouse_position())
 
 func _draw():
-	if grid.is_empty():
+	if flow_field.is_empty():
 		return
 	for x in range(grid_width):
 		for y in range(grid_height):
 			var pos = Vector2(x * CELL_SIZE, y * CELL_SIZE)
-			var cost: int = grid[x][y].cost
+			var cost: int = flow_field[x][y].cost
 			var fill_color: Color = Color(255, 0, 0, float(cost)/100)
 			draw_rect(Rect2(pos, Vector2(CELL_SIZE, CELL_SIZE)), fill_color, true)
 			draw_rect(Rect2(pos, Vector2(CELL_SIZE, CELL_SIZE)), Color.BLACK, false, 2.0)
-			if(grid[x][y].flow_vector != Vector2.ZERO):
+			if(flow_field[x][y].flow_vector != Vector2.ZERO):
 				@warning_ignore("integer_division")
 				var center = pos + Vector2(CELL_SIZE / 2, CELL_SIZE / 2)
-				var line_end = center + grid[x][y].flow_vector * (CELL_SIZE * 0.5)
+				var line_end = center + flow_field[x][y].flow_vector * (CELL_SIZE * 0.5)
 				draw_line(center, line_end, Color.BLUE, 2.0)
 
 func get_target_grid_position(pos: Vector2):
@@ -68,8 +68,8 @@ func get_target_grid_position(pos: Vector2):
 	grid_pos.y = (floori(pos.y / CELL_SIZE))
 	return grid_pos
 
-func generate_new_grid(new_target: Vector2):
-	var new_grid: Array = []
+func generate_new_flow_field(new_target: Vector2):
+	var new_flow_field: Array = []
 	
 	for x in range(grid_width):
 		var column: Array = []
@@ -82,13 +82,13 @@ func generate_new_grid(new_target: Vector2):
 				"flow_vector": Vector2.ZERO
 			}
 			column.append(cell)
-		new_grid.append(column)
+		new_flow_field.append(column)
 	
 	cell_queue = []
 	cell_queue.append(new_target)
-	new_grid[new_target.x][new_target.y].cost = 0
-	calculate_costs(new_grid, new_target)
-	return new_grid
+	new_flow_field[new_target.x][new_target.y].cost = 0
+	calculate_costs(new_flow_field, new_target)
+	return new_flow_field
 
 func is_valid_cell(x: int, y: int):
 	return x >= 0 and x < grid_width and y >= 0 and y < grid_height
@@ -96,7 +96,7 @@ func is_valid_cell(x: int, y: int):
 func is_diagonal(pos: Vector2):
 	return pos == Vector2(-1, -1) or pos == Vector2(1, -1) or pos == Vector2(1, 1) or pos == Vector2(-1, 1)
 
-func calculate_costs(new_grid: Array, new_target: Vector2):
+func calculate_costs(new_flow_field: Array, new_target: Vector2):
 	#generate a collision shape for idle units
 	var space_state = get_world_2d().direct_space_state
 	var shape: RectangleShape2D = RectangleShape2D.new()
@@ -104,40 +104,40 @@ func calculate_costs(new_grid: Array, new_target: Vector2):
 	
 	while(cell_queue.is_empty() == false):
 		var curr_cell: Vector2 = cell_queue.pop_front()
-		new_grid[curr_cell.x][curr_cell.y].visited = true
+		new_flow_field[curr_cell.x][curr_cell.y].visited = true
 		for neighbor in NEIGHBORS:
 			var next_x: int = int(curr_cell.x + neighbor.x)
 			var next_y: int = int(curr_cell.y + neighbor.y)
 			var next_vector: Vector2 = Vector2(next_x, next_y)
 			if not is_valid_cell(next_x, next_y):
 				continue
-			if new_grid[next_x][next_y].visited:
+			if new_flow_field[next_x][next_y].visited:
 				continue
 			
 			var query: PhysicsShapeQueryParameters2D = PhysicsShapeQueryParameters2D.new()
 			query.shape = shape
 			
-			#needs to use bitwise parameter for layers, this represents 3
-			query.collision_mask = 0b00000000_00000000_00000000_00000100
+			#needs to use bitwise parameter for layers, this represents 5
+			query.collision_mask = 0b00000000_00000000_00000000_00010000
 			query.collide_with_areas = true
 			query.collide_with_bodies = true
-			query.transform = Transform2D(0, new_grid[next_x][next_y].position + Vector2(
+			query.transform = Transform2D(0, new_flow_field[next_x][next_y].position + Vector2(
 				CELL_SIZE * 0.5, CELL_SIZE * 0.5))
 			
 			var results: Array = space_state.intersect_shape(query)
 			
 			if not results.is_empty():
-				new_grid[next_x][next_y].cost = 255
-				new_grid[next_x][next_y].visited = true
+				new_flow_field[next_x][next_y].cost = 255
+				new_flow_field[next_x][next_y].visited = true
 				continue
 			else:
-				new_grid[next_x][next_y].cost = new_grid[curr_cell.x][curr_cell.y].cost + 1
-				new_grid[next_x][next_y].visited = true
+				new_flow_field[next_x][next_y].cost = new_flow_field[curr_cell.x][curr_cell.y].cost + 1
+				new_flow_field[next_x][next_y].visited = true
 				cell_queue.append(next_vector)
 	
-	calculate_vectors(new_grid, new_target)
+	calculate_vectors(new_flow_field, new_target)
 
-func calculate_vectors(new_grid: Array, new_target: Vector2):
+func calculate_vectors(new_flow_field: Array, new_target: Vector2):
 	for x in range(grid_width):
 		for y in range(grid_height):
 			var min_cost: float = 9999
@@ -146,12 +146,12 @@ func calculate_vectors(new_grid: Array, new_target: Vector2):
 				var nx: int = x + neighbor.x
 				var ny: int = y + neighbor.y
 				if(is_valid_cell(nx, ny)):
-					var neighbor_cost: float = new_grid[nx][ny].cost
+					var neighbor_cost: float = new_flow_field[nx][ny].cost
 					if(neighbor_cost < min_cost):
 						min_cost = neighbor_cost
-						min_neighbor_pos = new_grid[nx][ny].position
+						min_neighbor_pos = new_flow_field[nx][ny].position
 			
-			new_grid[x][y].flow_vector = (min_neighbor_pos - new_grid[x][y].position).normalized()
+			new_flow_field[x][y].flow_vector = (min_neighbor_pos - new_flow_field[x][y].position).normalized()
 	
-	new_grid[new_target.x][new_target.y].flow_vector = Vector2.ZERO
+	new_flow_field[new_target.x][new_target.y].flow_vector = Vector2.ZERO
 	

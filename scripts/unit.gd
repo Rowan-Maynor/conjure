@@ -12,6 +12,7 @@ var current_target: CharacterBody2D = null
 var attacked_target: CharacterBody2D = null
 
 #navigation
+var flow_field: Array = []
 
 #used to prevent animation overlap
 var is_attacking: bool = false

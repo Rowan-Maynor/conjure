@@ -116,9 +116,9 @@ func _input(event: InputEvent) -> void:
 	if(Input.is_action_just_pressed("attack_move")):
 		handle_attack_move()
 	if(Input.is_action_just_pressed("right_click")):
-		var new_grid: Array = player_ffm.generate_new_grid(
+		var new_flow_field: Array = player_ffm.generate_new_flow_field(
 			get_target_grid_position(get_viewport().get_mouse_position()))
-		player_ffm.grid = new_grid
+		player_ffm.flow_field = new_flow_field
 		if(attack_move == true):
 			attack_move = false
 			Input.set_custom_mouse_cursor(cursor_default)
