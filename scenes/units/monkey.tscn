@@ -12,6 +12,9 @@ height = 13.0
 radius = 8.0
 height = 26.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_vkgmo"]
+radius = 68.0294
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_bfhjj"]
 atlas = ExtResource("2_rxose")
 region = Rect2(0, 0, 32, 32)
@@ -63,9 +66,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_vkgmo"]
-radius = 68.0294
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m5anq"]
 bg_color = Color(0.517647, 0, 0, 1)
 border_width_left = 1
@@ -105,6 +105,14 @@ position = Vector2(0, -8)
 shape = SubResource("CapsuleShape2D_k4pre")
 metadata/_edit_lock_ = true
 
+[node name="attack_range" type="Area2D" parent="."]
+visible = false
+collision_layer = 8
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="attack_range"]
+shape = SubResource("CircleShape2D_vkgmo")
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -7)
 sprite_frames = SubResource("SpriteFrames_iqh78")
@@ -117,19 +125,6 @@ visible = false
 z_index = -1
 position = Vector2(0, -7)
 texture = ExtResource("3_rxose")
-
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-path_desired_distance = 3.0
-target_desired_distance = 5.0
-avoidance_enabled = true
-
-[node name="attack_range" type="Area2D" parent="."]
-visible = false
-collision_layer = 8
-collision_mask = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="attack_range"]
-shape = SubResource("CircleShape2D_vkgmo")
 
 [node name="health_bar" type="ProgressBar" parent="."]
 visible = false
@@ -154,13 +149,9 @@ one_shot = true
 wait_time = 0.3
 one_shot = true
 
-[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
-visible = false
-vertices = PackedVector2Array(14, 6, -14, 6, -16, 2, -16, -2, -14, -6, 14, -6, 16, -2, 16, 2)
-
-[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="body_entered" from="attack_range" to="." method="_on_attack_range_body_entered"]
 [connection signal="body_exited" from="attack_range" to="." method="_on_attack_range_body_exited"]
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="timeout" from="attack_speed" to="." method="_on_attack_speed_timeout"]
 [connection signal="timeout" from="attack_animation_speed" to="." method="_on_attack_animation_speed_timeout"]
 [connection signal="timeout" from="attack_spawn_delay" to="." method="_on_attack_spawn_delay_timeout"]
