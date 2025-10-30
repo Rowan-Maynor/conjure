@@ -122,11 +122,6 @@ func _input(event: InputEvent) -> void:
 			unit.get_node("attack_spawn_delay").stop()
 			unit.reset_target()
 			unit.current_command = "move"
-			var mouse_position: Vector2 = get_global_mouse_position()
-			mouse_position.x = clampf(mouse_position.x, 312.0, 648.0)
-			mouse_position.y = clampf(mouse_position.y, 104.0, 440.0)
-			unit.move_position = mouse_position
-			unit.nav.set_target_position(unit.move_position)
 	if(Input.is_action_just_pressed("stop_movement")):
 		handle_stop_move()
 	if(Input.is_action_just_pressed("hold_position")):
