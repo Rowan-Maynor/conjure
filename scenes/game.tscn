@@ -397,6 +397,7 @@ metadata/_edit_lock_ = true
 [node name="enemy_path_right" type="Area2D" parent="enemy_path_triggers"]
 collision_layer = 0
 collision_mask = 2
+metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_path_triggers/enemy_path_right"]
 position = Vector2(278, 491)
@@ -405,6 +406,7 @@ shape = SubResource("RectangleShape2D_dinhu")
 [node name="enemy_path_up" type="Area2D" parent="enemy_path_triggers"]
 collision_layer = 0
 collision_mask = 2
+metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_path_triggers/enemy_path_up"]
 position = Vector2(716, 491)
@@ -413,6 +415,7 @@ shape = SubResource("RectangleShape2D_dinhu")
 [node name="enemy_path_left" type="Area2D" parent="enemy_path_triggers"]
 collision_layer = 0
 collision_mask = 2
+metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_path_triggers/enemy_path_left"]
 position = Vector2(716, 53)
@@ -421,6 +424,7 @@ shape = SubResource("RectangleShape2D_dinhu")
 [node name="enemy_path_down" type="Area2D" parent="enemy_path_triggers"]
 collision_layer = 0
 collision_mask = 2
+metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_path_triggers/enemy_path_down"]
 position = Vector2(276, 53)
