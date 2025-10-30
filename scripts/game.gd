@@ -298,8 +298,9 @@ func spawn_wave():
 		unit.unit_data.health = calculate_enemy_hp()
 		unit.skill_data = skill_data
 		unit.position = spawn_point.position
+		unit.flow_field = enemy_ffm.flow_fields[0]
 		unit.connect("died", _on_died)
-		get_tree().get_root().get_node("game").get_node("enemy_units_nav").add_child(unit)
+		get_tree().get_root().get_node("game").get_node("enemy_units").add_child(unit)
 	waves_remaining -= 1
 	if(waves_remaining == 0 && wave % 10 != 0):
 		$wave_time.start()
