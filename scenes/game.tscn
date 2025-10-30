@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=4 uid="uid://dm76mg2k73lxk"]
+[gd_scene load_steps=25 format=4 uid="uid://dm76mg2k73lxk"]
 
 [ext_resource type="Script" uid="uid://cof62ids57e6o" path="res://scripts/game.gd" id="1_vtaks"]
 [ext_resource type="Texture2D" uid="uid://cjeicm00qeewr" path="res://assets/sprites/Tiles/Path_Middle.png" id="2_kvpfn"]
@@ -145,6 +145,9 @@ sources/9 = SubResource("TileSetAtlasSource_pm3ni")
 size = Vector2(10, 10)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jbj1t"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dinhu"]
+size = Vector2(70, 70)
 
 [node name="game" type="Node2D"]
 y_sort_enabled = true
@@ -388,25 +391,40 @@ collision_mask = 4
 visible = false
 shape = SubResource("RectangleShape2D_jbj1t")
 
-[node name="enemy_path_points" type="Node2D" parent="."]
-visible = false
+[node name="enemy_path_triggers" type="Node2D" parent="."]
 metadata/_edit_lock_ = true
 
-[node name="top_left" type="Marker2D" parent="enemy_path_points"]
-position = Vector2(264, 64)
-metadata/_edit_lock_ = true
+[node name="enemy_path_right" type="Area2D" parent="enemy_path_triggers"]
+collision_layer = 0
+collision_mask = 2
 
-[node name="bottom_left" type="Marker2D" parent="enemy_path_points"]
-position = Vector2(264, 488)
-metadata/_edit_lock_ = true
+[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_path_triggers/enemy_path_right"]
+position = Vector2(278, 491)
+shape = SubResource("RectangleShape2D_dinhu")
 
-[node name="bottom_right" type="Marker2D" parent="enemy_path_points"]
-position = Vector2(696, 488)
-metadata/_edit_lock_ = true
+[node name="enemy_path_up" type="Area2D" parent="enemy_path_triggers"]
+collision_layer = 0
+collision_mask = 2
 
-[node name="top_right" type="Marker2D" parent="enemy_path_points"]
-position = Vector2(696, 56)
-metadata/_edit_lock_ = true
+[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_path_triggers/enemy_path_up"]
+position = Vector2(716, 491)
+shape = SubResource("RectangleShape2D_dinhu")
+
+[node name="enemy_path_left" type="Area2D" parent="enemy_path_triggers"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_path_triggers/enemy_path_left"]
+position = Vector2(716, 53)
+shape = SubResource("RectangleShape2D_dinhu")
+
+[node name="enemy_path_down" type="Area2D" parent="enemy_path_triggers"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_path_triggers/enemy_path_down"]
+position = Vector2(276, 53)
+shape = SubResource("RectangleShape2D_dinhu")
 
 [node name="wave_delay" type="Timer" parent="."]
 wait_time = 3.0
@@ -415,6 +433,10 @@ wait_time = 3.0
 
 [node name="wait_time" type="Timer" parent="."]
 
+[connection signal="body_entered" from="enemy_path_triggers/enemy_path_right" to="." method="_on_enemy_path_right_body_entered"]
+[connection signal="body_entered" from="enemy_path_triggers/enemy_path_up" to="." method="_on_enemy_path_up_body_entered"]
+[connection signal="body_entered" from="enemy_path_triggers/enemy_path_left" to="." method="_on_enemy_path_left_body_entered"]
+[connection signal="body_entered" from="enemy_path_triggers/enemy_path_down" to="." method="_on_enemy_path_down_body_entered"]
 [connection signal="timeout" from="wave_delay" to="." method="_on_wave_delay_timeout"]
 [connection signal="timeout" from="wave_time" to="." method="_on_wave_time_timeout"]
 [connection signal="timeout" from="wait_time" to="." method="_on_wait_time_timeout"]

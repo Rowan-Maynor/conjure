@@ -874,3 +874,20 @@ func get_target_grid_position(pos: Vector2):
 	grid_pos.x = (floori(pos.x / CELL_SIZE))
 	grid_pos.y = (floori(pos.y / CELL_SIZE))
 	return grid_pos
+
+#enemy pathing functions
+func _on_enemy_path_right_body_entered(body: Node2D) -> void:
+	if(body.unit_data.control == "enemy"):
+		body.flow_field = enemy_ffm.flow_fields[1]
+
+func _on_enemy_path_up_body_entered(body: Node2D) -> void:
+	if(body.unit_data.control == "enemy"):
+		body.flow_field = enemy_ffm.flow_fields[2]
+
+func _on_enemy_path_left_body_entered(body: Node2D) -> void:
+	if(body.unit_data.control == "enemy"):
+		body.flow_field = enemy_ffm.flow_fields[3]
+
+func _on_enemy_path_down_body_entered(body: Node2D) -> void:
+	if(body.unit_data.control == "enemy"):
+		body.flow_field = enemy_ffm.flow_fields[0]
