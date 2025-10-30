@@ -55,10 +55,10 @@ layout_mode = 1
 anchors_preset = -1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -200.0
+offset_left = -190.0
 offset_top = -20.0
-offset_right = -30.0
-offset_bottom = 80.0
+offset_right = -20.0
+offset_bottom = 86.0
 grow_horizontal = 0
 metadata/_edit_lock_ = true
 
@@ -220,15 +220,14 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -76.5
+offset_left = -65.0
 offset_top = -55.0
-offset_right = 76.5
+offset_right = 88.0
 offset_bottom = -9.0
 grow_horizontal = 2
 grow_vertical = 0
 text = "Start Game"
 script = ExtResource("2_513t2")
-metadata/_edit_lock_ = true
 
 [node name="mana_tab_button" type="Button" parent="."]
 layout_mode = 1
