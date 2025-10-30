@@ -31,10 +31,10 @@ const NEIGHBORS_FLOW: Array = [
 ]
 
 const PATH_TARGETS: Array = [
-	Vector2(14, 30), #down
-	Vector2(45, 30), #right
-	Vector2(45, 3), #up
-	Vector2(14, 3), #left
+	Vector2(16, 31), #down
+	Vector2(45, 31), #right
+	Vector2(45, 2), #up
+	Vector2(16, 2), #left
 ]
 
 var cell_queue: Array = []

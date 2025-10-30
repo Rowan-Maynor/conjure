@@ -351,7 +351,7 @@ func spawn_boss():
 	
 	boss_unit.position = spawn_point.position
 	boss_unit.connect("died", _on_died)
-	get_tree().get_root().get_node("game").get_node("enemy_units_nav").add_child(boss_unit)
+	get_tree().get_root().get_node("game").get_node("enemy_units").add_child(boss_unit)
 	#unit was being created but not freed, causing an orphan
 	unit.queue_free()
 	$wave_time.start()
@@ -359,7 +359,7 @@ func spawn_boss():
 
 #functions that handle game timers
 func _on_wave_time_timeout() -> void:
-	if($enemy_units_nav.get_child_count() == 0):
+	if($enemy_units.get_child_count() == 0):
 		if(wave == wave_max):
 			var win_screen: Node = load("res://scenes/ui_components/win_screen.tscn").instantiate()
 			get_tree().get_root().get_node("game").get_node("main_ui").add_child(win_screen)
@@ -390,7 +390,7 @@ func _on_wave_time_timeout() -> void:
 		time_ui_value.text = str(wave_time)
 	else:
 		$wave_time.stop()
-		var remaining_enemies: Node = $enemy_units_nav
+		var remaining_enemies: Node = $enemy_units
 		lives -= remaining_enemies.get_child_count()
 		add_status_message("lives -" + str(remaining_enemies.get_child_count()), Color.hex(0xff3e3eff))
 		lives_ui_value.text = str(lives)
