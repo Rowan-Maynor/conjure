@@ -82,6 +82,11 @@ var cursor_hold: Resource = load("res://assets/ui/cursor_hold.png")
 @onready var bank_withdraw_10_button: Button = $"main_ui/Main-ui/bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons/withdraw_10_button"
 @onready var interest_increase_button: Button = $"main_ui/Main-ui/bank_canvas/bank_container/HBoxContainer/VBoxContainer/interest_increase_button"
 
+#selectors for flow_field_managers
+@onready var player_ffm: Node2D = $flow_field_managers/player_ffm
+@onready var enemy_ffm: Node2D = $flow_field_managers/enemy_ffm
+
+
 #general functions
 func _ready():
 	load_game_data()
