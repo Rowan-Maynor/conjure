@@ -12,18 +12,12 @@ var current_target: CharacterBody2D = null
 var attacked_target: CharacterBody2D = null
 
 #navigation
-var move_position: Vector2
-var target_position: Vector2
-var chase: bool = false
-var enemy_direction: String = "down"
 
 #used to prevent animation overlap
 var is_attacking: bool = false
 
 #general functions
 func _ready():
-	#this prevents units from running to (0, 0) on spawn
-	move_position = position
 	
 	if(unit_data.control == "player"):
 		handle_unit_skill_values()
@@ -53,7 +47,6 @@ func attack():
 func die():
 	#is_attacking used so that animation plays instead of more movement
 	is_attacking = true
-	move_position = position
 	$AnimatedSprite2D.play("death")
 	emit_signal("died", self)
 
@@ -83,47 +76,13 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 		return
 
 #functions related to player unit aggro
-func _on_attack_range_body_entered(body: Node2D) -> void:
-	#only allow players to attack enemies, not vice versa
-	if(unit_data.control == "enemy"):
-		return
-	if(body.unit_data.control == "player"):
-		return
-	if(!is_instance_valid(body)):
-		return
-	if(current_command == "idle" || current_command == "attack"):
-		if(current_command == "attack"):
-			move_position = position
-		if(current_target == null && body.unit_data.control == "enemy"):
-			current_target = body
-			if(!current_target.died.is_connected(_on_died)):
-				current_target.died.connect(_on_died)
-			current_command = "focus"
-			attack()
-	elif(current_command == "focus" && current_target == body):
-		attack()
-	elif(current_command == "hold" && current_target == null):
-		current_target = body
-		if(!current_target.died.is_connected(_on_died)):
-			current_target.died.connect(_on_died)
-		attack()
+func _on_attack_range_body_entered(_body: Node2D) -> void:
+	#TODO
+	pass
 
-func _on_attack_range_body_exited(body: Node2D) -> void:
-	if(body.is_queued_for_deletion()):
-		return
-	if(body == current_target):
-		if(!is_instance_valid(current_target)):
-			reset_target()
-			return
-		if(current_target.is_queued_for_deletion()):
-			reset_target()
-			return
-		#if target is valid and not queued for deletion chase
-		if(current_command != "hold"):
-			chase = true
-			current_command = "focus"
-		if(current_command == "hold"):
-			reset_target()
+func _on_attack_range_body_exited(_body: Node2D) -> void:
+	#TODO
+	pass
 
 func find_new_target():
 	var units: Array[Node2D] = $attack_range.get_overlapping_bodies()
@@ -141,9 +100,6 @@ func find_new_target():
 func reset_target():
 	if(current_target != null):
 		current_target.died.disconnect(_on_died)
-	chase = false
-	current_target = null
-	move_position = self.position
 
 func _on_died(body):
 	if (current_target == body):
