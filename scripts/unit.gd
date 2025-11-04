@@ -20,6 +20,8 @@ var is_attacking: bool = false
 
 #general functions
 func _ready():
+	if(unit_data.control == "enemy"):
+		pathing_area.disabled = true 
 	
 	if(unit_data.control == "player"):
 		handle_unit_skill_values()
