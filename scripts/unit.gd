@@ -41,9 +41,7 @@ func _physics_process(_delta: float) -> void:
 		var direction: Vector2 = flow_field[curr_square.x][curr_square.y].flow_vector
 		velocity = direction * unit_data.speed
 		if(direction == Vector2(0, 0)):
-			current_command = "idle"
-			$AnimatedSprite2D.play("idle")
-			pathing_area.disabled = false
+			change_state_idle()
 		else:
 			handle_anim(velocity)
 			$AnimatedSprite2D.play("move")
@@ -350,6 +348,15 @@ func damage_number(value: int, hit_position: Vector2, is_critical = false):
 	tween.set_parallel(true)
 	tween.tween_property(number_label, "position", tween_position, 1)
 	tween.tween_callback(number_label.queue_free).set_delay(1)
+
+#state functions
+func change_state_idle():
+	current_command = "idle"
+	flow_field = []
+	pathing_area.disabled = false
+	$attack_spawn_delay.stop()
+	reset_target()
+	$AnimatedSprite2D.play("idle")
 
 #signals
 signal died(body)

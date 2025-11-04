@@ -538,9 +538,7 @@ func handle_stop_move():
 	if(attack_move == true):
 		attack_move = false
 	for unit in selected:
-		unit.get_node("attack_spawn_delay").stop()
-		unit.reset_target()
-		unit.current_command = "idle"
+		unit.change_state_idle()
 		unit.find_new_target()
 	Input.set_custom_mouse_cursor(cursor_stop)
 	await get_tree().create_timer(.25).timeout
