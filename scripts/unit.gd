@@ -33,10 +33,19 @@ func _ready():
 	$health_bar.value = unit_data.health
 
 func _physics_process(_delta: float) -> void:
+	if(is_attacking == true):
+		return
 	if(flow_field.is_empty() == false):
 		var curr_square: Vector2 = get_target_grid_position(self.position)
-		velocity = flow_field[curr_square.x][curr_square.y].flow_vector * unit_data.speed
-		move_and_slide()
+		var direction: Vector2 = flow_field[curr_square.x][curr_square.y].flow_vector
+		velocity = direction * unit_data.speed
+		if(direction == Vector2(0, 0)):
+			current_command = "idle"
+			$AnimatedSprite2D.play("idle")
+		else:
+			handle_anim(velocity)
+			$AnimatedSprite2D.play("move")
+			move_and_slide()
 
 #basic functionalities
 func attack():
@@ -58,10 +67,8 @@ func die():
 func handle_anim(vector):
 	if(vector.x > 0):
 		$AnimatedSprite2D.flip_h = false
-		$AnimatedSprite2D.play("move")
 	elif(vector.x < 0):
 		$AnimatedSprite2D.flip_h = true
-		$AnimatedSprite2D.play("move")
 
 func handle_attack_anim(vector):
 	is_attacking = true
