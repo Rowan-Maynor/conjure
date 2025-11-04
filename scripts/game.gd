@@ -139,12 +139,11 @@ func _input(event: InputEvent) -> void:
 			if(unit.current_command != "focus"):
 				unit.change_state_attack()
 				unit.find_new_target()
-				if(unit.current_target == null):
-					var mouse_position: Vector2 = get_global_mouse_position()
-					mouse_position.x = clampf(mouse_position.x, 312.0, 648.0)
-					mouse_position.y = clampf(mouse_position.y, 104.0, 440.0)
-					unit.move_position = mouse_position
-					unit.nav.set_target_position(unit.move_position)
+		var new_flow_field: Array = player_ffm.generate_new_flow_field(
+			get_target_grid_position(get_viewport().get_mouse_position()))
+		for unit in selected:
+			if(unit.current_target == null):
+				unit.flow_field = new_flow_field
 		attack_move = false
 		Input.set_custom_mouse_cursor(cursor_default)
 		get_viewport().set_input_as_handled()
