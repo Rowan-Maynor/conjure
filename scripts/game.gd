@@ -127,6 +127,7 @@ func _input(event: InputEvent) -> void:
 			unit.get_node("attack_spawn_delay").stop()
 			unit.reset_target()
 			unit.current_command = "move"
+			unit.flow_field = new_flow_field
 	if(Input.is_action_just_pressed("stop_movement")):
 		handle_stop_move()
 	if(Input.is_action_just_pressed("hold_position")):
