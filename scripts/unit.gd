@@ -13,6 +13,7 @@ var attacked_target: CharacterBody2D = null
 
 #navigation
 var flow_field: Array = []
+@onready var pathing_area: CollisionShape2D = $pathing_area/CollisionShape2D
 
 #used to prevent animation overlap
 var is_attacking: bool = false
@@ -42,6 +43,7 @@ func _physics_process(_delta: float) -> void:
 		if(direction == Vector2(0, 0)):
 			current_command = "idle"
 			$AnimatedSprite2D.play("idle")
+			pathing_area.disabled = false
 		else:
 			handle_anim(velocity)
 			$AnimatedSprite2D.play("move")
