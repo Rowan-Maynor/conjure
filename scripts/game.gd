@@ -122,8 +122,8 @@ func _input(event: InputEvent) -> void:
 			return
 		for unit in selected:
 			unit.change_state_move()
-		#need to handle this after the first loop to make sure pathing doesnt
-		#include units that are about to move
+		#generate field after state change so units dont try to path around units that
+		#are about to move.
 		var new_flow_field: Array = player_ffm.generate_new_flow_field(
 			get_target_grid_position(get_viewport().get_mouse_position()))
 		#set the ffm to use the new field for debug display
