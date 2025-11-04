@@ -364,5 +364,11 @@ func change_state_move():
 	pathing_area.disabled = true
 	$attack_spawn_delay.stop()
 
+func change_state_hold():
+	reset_target()
+	current_command = "hold"
+	pathing_area.disabled = false
+	$attack_spawn_delay.stop()
+
 #signals
 signal died(body)

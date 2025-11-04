@@ -524,9 +524,7 @@ func handle_hold_position():
 	if(attack_move == true):
 		attack_move = false
 	for unit in selected:
-		unit.get_node("attack_spawn_delay").stop()
-		unit.reset_target()
-		unit.current_command = "hold"
+		unit.change_state_hold()
 		unit.find_new_target()
 	Input.set_custom_mouse_cursor(cursor_hold)
 	await get_tree().create_timer(.25).timeout
