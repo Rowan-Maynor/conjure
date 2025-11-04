@@ -88,6 +88,7 @@ left_click={
 2d_physics/layer_2="Unit bodies"
 2d_physics/layer_3="Unit Selection"
 2d_physics/layer_4="Unit Attacks"
+2d_physics/layer_5="Unit Pathing"
 
 [rendering]
 

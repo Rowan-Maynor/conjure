@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://qku2b5sf82bi"]
+[gd_scene load_steps=15 format=3 uid="uid://qku2b5sf82bi"]
 
 [ext_resource type="Script" uid="uid://bmtnkgh3vjrpk" path="res://scripts/unit.gd" id="1_ve022"]
 [ext_resource type="Texture2D" uid="uid://bem2syshoc7ca" path="res://assets/sprites/units/skipper/base.png" id="2_ve022"]
@@ -14,6 +14,10 @@ height = 26.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vkgmo"]
 radius = 68.0294
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rhl3s"]
+radius = 3.0
+height = 25.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rhl3s"]
 atlas = ExtResource("2_ve022")
@@ -112,6 +116,15 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="attack_range"]
 shape = SubResource("CircleShape2D_vkgmo")
+
+[node name="pathing_area" type="Area2D" parent="."]
+visible = false
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="pathing_area"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_rhl3s")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -7)

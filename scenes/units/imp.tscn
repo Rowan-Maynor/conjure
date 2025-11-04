@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://ce56wkyhfr6nw"]
+[gd_scene load_steps=43 format=3 uid="uid://ce56wkyhfr6nw"]
 
 [ext_resource type="Script" uid="uid://bmtnkgh3vjrpk" path="res://scripts/unit.gd" id="1_g55d4"]
 [ext_resource type="Texture2D" uid="uid://dp1k5f8gnmkhw" path="res://assets/sprites/units/imp/attack.png" id="2_st70b"]
@@ -17,6 +17,10 @@ height = 26.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vkgmo"]
 radius = 68.0294
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_st70b"]
+radius = 3.0
+height = 20.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_m5anq"]
 atlas = ExtResource("2_st70b")
@@ -290,6 +294,14 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="attack_range"]
 shape = SubResource("CircleShape2D_vkgmo")
+
+[node name="pathing_area" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="pathing_area"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_st70b")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -7)
