@@ -121,14 +121,12 @@ func _input(event: InputEvent) -> void:
 			Input.set_custom_mouse_cursor(cursor_default)
 			return
 		for unit in selected:
-			unit.get_node("attack_spawn_delay").stop()
-			unit.reset_target()
-			unit.current_command = "move"
-			unit.pathing_area.disabled = true
+			unit.change_state_move()
 		#need to handle this after the first loop to make sure pathing doesnt
 		#include units that are about to move
 		var new_flow_field: Array = player_ffm.generate_new_flow_field(
 			get_target_grid_position(get_viewport().get_mouse_position()))
+		#set the ffm to use the new field for debug display
 		player_ffm.flow_field = new_flow_field
 		for unit in selected:
 			unit.flow_field = new_flow_field

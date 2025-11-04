@@ -351,12 +351,18 @@ func damage_number(value: int, hit_position: Vector2, is_critical = false):
 
 #state functions
 func change_state_idle():
+	reset_target()
 	current_command = "idle"
 	flow_field = []
 	pathing_area.disabled = false
 	$attack_spawn_delay.stop()
-	reset_target()
 	$AnimatedSprite2D.play("idle")
+
+func change_state_move():
+	reset_target()
+	current_command = "move"
+	pathing_area.disabled = true
+	$attack_spawn_delay.stop()
 
 #signals
 signal died(body)
