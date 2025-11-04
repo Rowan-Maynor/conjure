@@ -137,10 +137,8 @@ func _input(event: InputEvent) -> void:
 	if(event is InputEventMouseButton && event.button_index == 1 && attack_move == true):
 		for unit in selected:
 			if(unit.current_command != "focus"):
-				unit.get_node("attack_spawn_delay").stop()
-				unit.reset_target()
+				unit.change_state_attack()
 				unit.find_new_target()
-				unit.current_command = "attack"
 				if(unit.current_target == null):
 					var mouse_position: Vector2 = get_global_mouse_position()
 					mouse_position.x = clampf(mouse_position.x, 312.0, 648.0)

@@ -367,6 +367,14 @@ func change_state_move():
 func change_state_hold():
 	reset_target()
 	current_command = "hold"
+	flow_field = []
+	pathing_area.disabled = false
+	$attack_spawn_delay.stop()
+
+func change_state_attack():
+	reset_target()
+	current_command = "attack"
+	flow_field = []
 	pathing_area.disabled = false
 	$attack_spawn_delay.stop()
 
