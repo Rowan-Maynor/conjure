@@ -428,7 +428,7 @@ func change_state_attack():
 	reset_target()
 	current_command = "attack"
 	flow_field = []
-	pathing_area.disabled = false
+	pathing_area.disabled = true
 	$attack_spawn_delay.stop()
 
 func change_state_focus():
