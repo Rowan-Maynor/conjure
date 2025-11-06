@@ -435,7 +435,7 @@ func change_state_focus():
 	reset_target()
 	current_command = "focus"
 	flow_field = []
-	pathing_area.set_deferred("disabled", true)
+	pathing_area.disabled = true
 	$attack_spawn_delay.stop()
 
 #signals
