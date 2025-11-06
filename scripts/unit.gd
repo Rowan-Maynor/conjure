@@ -124,9 +124,14 @@ func _on_attack_range_body_entered(body: Node2D) -> void:
 			attack()
 			return
 
-func _on_attack_range_body_exited(_body: Node2D) -> void:
-	#TODO
-	pass
+func _on_attack_range_body_exited(body: Node2D) -> void:
+	if(body.unit_data.control == "player"):
+		return
+	
+	if(current_command == "hold"):
+		if(current_target == body):
+			reset_target()
+			current_target = null
 
 func find_new_target():
 	var units: Array[Node2D] = $attack_range.get_overlapping_bodies()
