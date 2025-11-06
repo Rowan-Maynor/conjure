@@ -100,10 +100,22 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 func _on_attack_range_body_entered(body: Node2D) -> void:
 	if(body.unit_data.control == "player"):
 		return
+	
 	if(current_command == "focus"):
 		if(current_target == body):
 			attack()
 			return
+	
+	if(current_command == "hold"):
+		if(current_target == body):
+			attack()
+			return
+		if(current_target == null):
+			current_target = body
+			current_target.died.connect(_on_died)
+			attack()
+			return
+	
 	if(current_command == "idle"):
 		if(current_target == null):
 			change_state_focus()
