@@ -7,6 +7,7 @@ extends CharacterBody2D
 #targeting
 var current_command: String = "idle"
 var current_target: CharacterBody2D = null
+@onready var attack_range: CollisionShape2D = $attack_range/CollisionShape2D
 
 #this is for cases where the attack starts, but target exits attack range, resetting current_target
 var attacked_target: CharacterBody2D = null
@@ -21,7 +22,9 @@ var is_attacking: bool = false
 #general functions
 func _ready():
 	if(unit_data.control == "enemy"):
-		pathing_area.disabled = true 
+		pathing_area.disabled = true
+		attack_range.disabled = true
+		
 	
 	if(unit_data.control == "player"):
 		handle_unit_skill_values()
@@ -38,6 +41,11 @@ func _ready():
 func _physics_process(_delta: float) -> void:
 	if(is_attacking == true):
 		return
+	#if(current_target != null && current_command == "focus"):
+		#var direction: Vector2 = (self.position - current_target.position).normalized()
+		#velocity = direction * unit_data.speed
+		#move_and_slide()
+		#return
 	if(flow_field.is_empty() == false):
 		var curr_square: Vector2 = get_target_grid_position(self.position)
 		var direction: Vector2 = flow_field[curr_square.x][curr_square.y].flow_vector
@@ -89,9 +97,14 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 		return
 
 #functions related to player unit aggro
-func _on_attack_range_body_entered(_body: Node2D) -> void:
-	#TODO
-	pass
+func _on_attack_range_body_entered(body: Node2D) -> void:
+	if(body.unit_data.control == "player"):
+		return
+	if(current_command == "idle"):
+		if(current_target == null):
+			change_state_focus()
+			current_target = body
+			current_target.died.connect(_on_died)
 
 func _on_attack_range_body_exited(_body: Node2D) -> void:
 	#TODO
@@ -378,6 +391,13 @@ func change_state_attack():
 	current_command = "attack"
 	flow_field = []
 	pathing_area.disabled = false
+	$attack_spawn_delay.stop()
+
+func change_state_focus():
+	reset_target()
+	current_command = "focus"
+	flow_field = []
+	pathing_area.set_deferred("disabled", true)
 	$attack_spawn_delay.stop()
 
 #signals
