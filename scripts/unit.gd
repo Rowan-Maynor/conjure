@@ -105,6 +105,7 @@ func _on_attack_range_body_entered(body: Node2D) -> void:
 			change_state_focus()
 			current_target = body
 			current_target.died.connect(_on_died)
+			attack()
 
 func _on_attack_range_body_exited(_body: Node2D) -> void:
 	#TODO
@@ -118,6 +119,8 @@ func find_new_target():
 		if (unit.unit_data.control == "enemy" && unit.unit_data.health > 0):
 			enemy_units.append(unit)
 	if(enemy_units.size() != 0):
+		if(current_command != "hold"):
+			change_state_focus()
 		current_target = find_lowest_health_target(enemy_units)
 		current_target.died.connect(_on_died)
 	if(current_target != null):
@@ -125,7 +128,8 @@ func find_new_target():
 
 func reset_target():
 	if(current_target != null):
-		current_target.died.disconnect(_on_died)
+		if(current_target.died.is_connected(_on_died)):
+			current_target.died.disconnect(_on_died)
 
 func _on_died(body):
 	if (current_target == body):
