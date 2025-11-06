@@ -14,6 +14,8 @@ var attacked_target: CharacterBody2D = null
 
 #navigation
 var flow_field: Array = []
+@onready var player_ffm: Node2D = get_tree().get_root().get_node(
+	"game/flow_field_managers/player_ffm")
 @onready var pathing_area: CollisionShape2D = $pathing_area/CollisionShape2D
 
 #used to prevent animation overlap
@@ -130,7 +132,12 @@ func _on_attack_range_body_exited(body: Node2D) -> void:
 		if(current_target == body):
 			reset_target()
 			current_target = null
-
+	
+	elif(current_command == "focus"):
+		if(current_target == body && $chase_update.is_stopped()):
+			var target: Vector2 = player_ffm.get_target_grid_position(current_target.position)
+			flow_field = player_ffm.generate_new_flow_field(target)
+			$chase_update.start()
 
 func find_new_target():
 	var units: Array[Node2D] = $attack_range.get_overlapping_bodies()
@@ -151,6 +158,8 @@ func reset_target():
 	if(current_target != null):
 		if(current_target.died.is_connected(_on_died)):
 			current_target.died.disconnect(_on_died)
+	if($chase_update.is_stopped() == false):
+		$chase_update.stop()
 
 func _on_died(body):
 	if (current_target == body):
@@ -158,6 +167,10 @@ func _on_died(body):
 		if(current_command != "hold"):
 			current_command = "idle"
 		find_new_target()
+
+func _on_chase_update_timeout() -> void:
+	var target: Vector2 = player_ffm.get_target_grid_position(current_target.position)
+	flow_field = player_ffm.generate_new_flow_field(target)
 
 #functions related to handleing unit attacks
 func _on_attack_speed_timeout() -> void:
