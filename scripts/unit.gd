@@ -104,9 +104,8 @@ func _on_attack_range_body_entered(body: Node2D) -> void:
 	if(current_command == "focus"):
 		if(current_target == body):
 			attack()
-			return
 	
-	if(current_command == "hold"):
+	elif(current_command == "hold"):
 		if(current_target == body):
 			attack()
 			return
@@ -116,13 +115,12 @@ func _on_attack_range_body_entered(body: Node2D) -> void:
 			attack()
 			return
 	
-	if(current_command == "idle"):
+	elif(current_command == "idle"):
 		if(current_target == null):
 			change_state_focus()
 			current_target = body
 			current_target.died.connect(_on_died)
 			attack()
-			return
 
 func _on_attack_range_body_exited(body: Node2D) -> void:
 	if(body.unit_data.control == "player"):
@@ -132,6 +130,7 @@ func _on_attack_range_body_exited(body: Node2D) -> void:
 		if(current_target == body):
 			reset_target()
 			current_target = null
+
 
 func find_new_target():
 	var units: Array[Node2D] = $attack_range.get_overlapping_bodies()
