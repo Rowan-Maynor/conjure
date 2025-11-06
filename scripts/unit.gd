@@ -163,9 +163,8 @@ func reset_target():
 
 func _on_died(body):
 	if (current_target == body):
-		reset_target()
 		if(current_command != "hold"):
-			current_command = "idle"
+			change_state_idle()
 		find_new_target()
 
 func _on_chase_update_timeout() -> void:
@@ -407,35 +406,35 @@ func change_state_idle():
 	reset_target()
 	current_command = "idle"
 	flow_field = []
-	pathing_area.disabled = false
+	pathing_area.set_deferred("disabled", false)
 	$attack_spawn_delay.stop()
 	$AnimatedSprite2D.play("idle")
 
 func change_state_move():
 	reset_target()
 	current_command = "move"
-	pathing_area.disabled = true
+	pathing_area.set_deferred("disabled", true)
 	$attack_spawn_delay.stop()
 
 func change_state_hold():
 	reset_target()
 	current_command = "hold"
 	flow_field = []
-	pathing_area.disabled = false
+	pathing_area.set_deferred("disabled", false)
 	$attack_spawn_delay.stop()
 
 func change_state_attack():
 	reset_target()
 	current_command = "attack"
 	flow_field = []
-	pathing_area.disabled = true
+	pathing_area.set_deferred("disabled", true)
 	$attack_spawn_delay.stop()
 
 func change_state_focus():
 	reset_target()
 	current_command = "focus"
 	flow_field = []
-	pathing_area.disabled = true
+	pathing_area.set_deferred("disabled", true)
 	$attack_spawn_delay.stop()
 
 #signals
