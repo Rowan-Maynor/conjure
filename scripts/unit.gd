@@ -417,6 +417,7 @@ func change_state_hold():
 	flow_field = []
 	pathing_area.set_deferred("disabled", false)
 	$attack_spawn_delay.stop()
+	$AnimatedSprite2D.play("idle")
 
 func change_state_attack():
 	reset_target()
