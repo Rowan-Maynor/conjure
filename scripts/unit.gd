@@ -17,6 +17,7 @@ var flow_field: Array = []
 @onready var player_ffm: Node2D = get_tree().get_root().get_node(
 	"game/flow_field_managers/player_ffm")
 @onready var pathing_area: CollisionShape2D = $pathing_area/CollisionShape2D
+var chase: bool = false
 
 #used to prevent animation overlap
 var is_attacking: bool = false
@@ -134,10 +135,8 @@ func _on_attack_range_body_exited(body: Node2D) -> void:
 			current_target = null
 	
 	elif(current_command == "focus"):
-		if(current_target == body && $chase_update.is_stopped()):
-			var target: Vector2 = player_ffm.get_target_grid_position(current_target.position)
-			flow_field = player_ffm.generate_new_flow_field(target)
-			$chase_update.start()
+		if(current_target == body):
+			chase = true
 
 func find_new_target():
 	var units: Array[Node2D] = $attack_range.get_overlapping_bodies()
@@ -158,18 +157,14 @@ func reset_target():
 	if(current_target != null):
 		if(current_target.died.is_connected(_on_died)):
 			current_target.died.disconnect(_on_died)
-	if($chase_update.is_stopped() == false):
-		$chase_update.stop()
+	if(chase == true):
+		chase = false
 
 func _on_died(body):
 	if (current_target == body):
 		if(current_command != "hold"):
 			change_state_idle()
 		find_new_target()
-
-func _on_chase_update_timeout() -> void:
-	var target: Vector2 = player_ffm.get_target_grid_position(current_target.position)
-	flow_field = player_ffm.generate_new_flow_field(target)
 
 #functions related to handleing unit attacks
 func _on_attack_speed_timeout() -> void:
@@ -413,7 +408,7 @@ func change_state_idle():
 func change_state_move():
 	reset_target()
 	current_command = "move"
-	pathing_area.set_deferred("disabled", true)
+	pathing_area.disabled = true
 	$attack_spawn_delay.stop()
 
 func change_state_hold():
@@ -427,7 +422,7 @@ func change_state_attack():
 	reset_target()
 	current_command = "attack"
 	flow_field = []
-	pathing_area.set_deferred("disabled", true)
+	pathing_area.disabled = true
 	$attack_spawn_delay.stop()
 
 func change_state_focus():
