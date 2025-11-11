@@ -17,6 +17,7 @@ var flow_field: Array = []
 @onready var player_ffm: Node2D = get_tree().get_root().get_node(
 	"game/flow_field_managers/player_ffm")
 @onready var pathing_area: CollisionShape2D = $pathing_area/CollisionShape2D
+@onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 var chase: bool = false
 
 #used to prevent animation overlap
