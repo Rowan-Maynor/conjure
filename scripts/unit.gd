@@ -28,7 +28,6 @@ func _ready():
 	if(unit_data.control == "enemy"):
 		pathing_area.disabled = true
 		attack_range.disabled = true
-		
 	
 	if(unit_data.control == "player"):
 		handle_unit_skill_values()
@@ -41,6 +40,7 @@ func _ready():
 	$attack_speed.wait_time = unit_data.attack_speed
 	$health_bar.max_value = unit_data.health
 	$health_bar.value = unit_data.health
+	nav_agent.max_speed = unit_data.speed
 
 func _physics_process(_delta: float) -> void:
 	if(is_attacking == true):
