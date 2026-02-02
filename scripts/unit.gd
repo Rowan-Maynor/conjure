@@ -40,7 +40,11 @@ func _ready():
 	$attack_speed.wait_time = unit_data.attack_speed
 	$health_bar.max_value = unit_data.health
 	$health_bar.value = unit_data.health
+	nav_agent.avoidance_enabled = true
 	nav_agent.max_speed = unit_data.speed
+	var world_col: CollisionShape2D = $world_collision
+	var col_shape: CapsuleShape2D = world_col.shape as CapsuleShape2D
+	nav_agent.radius = col_shape.height
 
 func _physics_process(_delta: float) -> void:
 	if(is_attacking == true):
