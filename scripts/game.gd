@@ -495,7 +495,7 @@ func _on_merge():
 				add_status_message("No free space", Color.hex(0xff3e3eff))
 			else:
 				instance.position = spawn_point.global_position
-				get_tree().get_root().get_node("game").get_node("player_units_nav").add_child(instance)
+				get_tree().get_root().get_node("game").get_node("player_units").add_child(instance)
 				var unit_type_with_spaces: String = instance.unit_data.type.replace("_", " ")
 				add_status_message("Conjured " + unit_type_with_spaces)
 				check_recipe_unlock(instance.unit_data.type)
