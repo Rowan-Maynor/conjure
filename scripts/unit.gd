@@ -155,6 +155,7 @@ func reset_target():
 			current_target.died.disconnect(_on_died)
 	if(chase == true):
 		chase = false
+	current_target = null
 
 func _on_died(body):
 	if (current_target == body):
