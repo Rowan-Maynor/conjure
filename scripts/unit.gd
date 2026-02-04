@@ -89,7 +89,6 @@ func handle_anim(vector):
 
 func handle_attack_anim(vector):
 	is_attacking = true
-	print(vector)
 	if(vector.x > 0):
 		$AnimatedSprite2D.flip_h = false
 		$AnimatedSprite2D.play("attack")
@@ -290,6 +289,8 @@ func get_target_grid_position(pos: Vector2):
 	return grid_pos
 
 func _on_navigation_agent_2d_velocity_computed(safe_velocity: Vector2) -> void:
+	if(is_attacking == true or chase == false):
+		return
 	velocity = safe_velocity
 	handle_anim(safe_velocity)
 	$AnimatedSprite2D.play("move")
