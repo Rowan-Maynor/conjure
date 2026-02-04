@@ -52,16 +52,16 @@ func _physics_process(_delta: float) -> void:
 		velocity = direction * unit_data.speed
 		if(direction == Vector2(0, 0)):
 			change_state_idle()
-		else:
-			handle_anim(velocity)
-			$AnimatedSprite2D.play("move")
-			move_and_slide()
 	if(chase == true):
 		if(current_target):
 			nav_agent.target_position = current_target.position
 			var next_path_position: Vector2 = nav_agent.get_next_path_position()
 			var intended_velocity: Vector2 = (next_path_position - self.position).normalized()
 			nav_agent.set_velocity(intended_velocity * unit_data.speed)
+	if(velocity != Vector2.ZERO):
+		handle_anim(velocity)
+		$AnimatedSprite2D.play("move")
+		move_and_slide()
 
 #basic functionalities
 func attack():
@@ -295,9 +295,6 @@ func _on_navigation_agent_2d_velocity_computed(safe_velocity: Vector2) -> void:
 	 flow_field.is_empty() == false):
 		return
 	velocity = safe_velocity
-	handle_anim(safe_velocity)
-	$AnimatedSprite2D.play("move")
-	move_and_slide()
 
 #damage functions
 func handle_damage(value: int, element: String, is_critical: bool):
