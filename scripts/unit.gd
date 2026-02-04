@@ -290,7 +290,9 @@ func get_target_grid_position(pos: Vector2):
 	return grid_pos
 
 func _on_navigation_agent_2d_velocity_computed(safe_velocity: Vector2) -> void:
-	if(is_attacking == true or chase == false):
+	if(is_attacking == true or
+	 chase == false or
+	 flow_field.is_empty() == false):
 		return
 	velocity = safe_velocity
 	handle_anim(safe_velocity)
