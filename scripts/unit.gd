@@ -28,6 +28,7 @@ func _ready():
 	if(unit_data.control == "enemy"):
 		pathing_area.disabled = true
 		attack_range.disabled = true
+		nav_agent.avoidance_enabled = false
 	
 	if(unit_data.control == "player"):
 		handle_unit_skill_values()
@@ -414,6 +415,7 @@ func damage_number(value: int, hit_position: Vector2, is_critical = false):
 #state functions
 func change_state_idle():
 	reset_target()
+	nav_agent.avoidance_mask = 0
 	current_command = "idle"
 	flow_field = []
 	pathing_area.set_deferred("disabled", false)
@@ -428,6 +430,7 @@ func change_state_move():
 
 func change_state_hold():
 	reset_target()
+	nav_agent.avoidance_mask = 0
 	current_command = "hold"
 	flow_field = []
 	pathing_area.set_deferred("disabled", false)
@@ -443,6 +446,7 @@ func change_state_attack():
 
 func change_state_focus():
 	reset_target()
+	nav_agent.avoidance_mask = 1 << 0
 	current_command = "focus"
 	flow_field = []
 	pathing_area.set_deferred("disabled", true)
