@@ -55,6 +55,11 @@ func _physics_process(_delta: float) -> void:
 			handle_anim(velocity)
 			$AnimatedSprite2D.play("move")
 			move_and_slide()
+	if(chase == true):
+		nav_agent.target_position = current_target.position
+		var next_path_position: Vector2 = nav_agent.get_next_path_position()
+		var intended_velocity: Vector2 = (next_path_position - self.position).normalized()
+		nav_agent.set_velocity(intended_velocity * unit_data.speed)
 
 #basic functionalities
 func attack():
@@ -278,6 +283,11 @@ func get_target_grid_position(pos: Vector2):
 	grid_pos.y = (floori(pos.y / 16))
 	return grid_pos
 
+func _on_navigation_agent_2d_velocity_computed(safe_velocity: Vector2) -> void:
+	velocity = safe_velocity
+	handle_anim(safe_velocity)
+	$AnimatedSprite2D.play("move")
+	move_and_slide()
 
 #damage functions
 func handle_damage(value: int, element: String, is_critical: bool):

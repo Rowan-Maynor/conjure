@@ -321,3 +321,4 @@ neighbor_distance = 100.0
 [connection signal="timeout" from="attack_speed" to="." method="_on_attack_speed_timeout"]
 [connection signal="timeout" from="attack_animation_speed" to="." method="_on_attack_animation_speed_timeout"]
 [connection signal="timeout" from="attack_spawn_delay" to="." method="_on_attack_spawn_delay_timeout"]
+[connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]
