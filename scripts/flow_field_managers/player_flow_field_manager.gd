@@ -1,6 +1,6 @@
 extends Node2D
 
-var debug: bool = true
+var debug: bool = false
 
 const CELL_SIZE: int = 16
 var grid_width: int = floori(60) #this will be 60 when finalized for 16x16
