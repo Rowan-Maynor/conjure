@@ -56,16 +56,18 @@ func _physics_process(_delta: float) -> void:
 			$AnimatedSprite2D.play("move")
 			move_and_slide()
 	if(chase == true):
-		nav_agent.target_position = current_target.position
-		var next_path_position: Vector2 = nav_agent.get_next_path_position()
-		var intended_velocity: Vector2 = (next_path_position - self.position).normalized()
-		nav_agent.set_velocity(intended_velocity * unit_data.speed)
+		if(current_target):
+			nav_agent.target_position = current_target.position
+			var next_path_position: Vector2 = nav_agent.get_next_path_position()
+			var intended_velocity: Vector2 = (next_path_position - self.position).normalized()
+			nav_agent.set_velocity(intended_velocity * unit_data.speed)
 
 #basic functionalities
 func attack():
 	if(current_target == null):
 		return
 	if($attack_speed.is_stopped()):
+		nav_agent.set_velocity(Vector2.ZERO)
 		attacked_target = current_target
 		handle_attack_anim((current_target.position - position).normalized())
 		$attack_speed.start()
@@ -76,6 +78,7 @@ func die():
 	is_attacking = true
 	$AnimatedSprite2D.play("death")
 	emit_signal("died", self)
+	self.queue_free()
 
 #functions related to animations
 func handle_anim(vector):
@@ -86,6 +89,7 @@ func handle_anim(vector):
 
 func handle_attack_anim(vector):
 	is_attacking = true
+	print(vector)
 	if(vector.x > 0):
 		$AnimatedSprite2D.flip_h = false
 		$AnimatedSprite2D.play("attack")
@@ -161,6 +165,8 @@ func reset_target():
 	if(chase == true):
 		chase = false
 	current_target = null
+	nav_agent.target_position = self.position
+	velocity = Vector2.ZERO
 
 func _on_died(body):
 	if (current_target == body):
