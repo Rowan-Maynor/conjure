@@ -61,7 +61,7 @@ func _physics_process(_delta: float) -> void:
 	if(velocity != Vector2.ZERO):
 		handle_anim(velocity)
 		$AnimatedSprite2D.play("move")
-		move_and_slide()
+	move_and_slide()
 
 #basic functionalities
 func attack():
