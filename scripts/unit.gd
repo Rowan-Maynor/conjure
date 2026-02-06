@@ -30,7 +30,8 @@ func _ready():
 	if(unit_data.control == "enemy"):
 		pathing_area.disabled = true
 		attack_range.disabled = true
-		nav_agent.avoidance_enabled = false
+		nav_agent.avoidance_enabled = true
+		nav_obstacle.avoidance_enabled = false
 	
 	if(unit_data.control == "player"):
 		handle_unit_skill_values()
@@ -77,8 +78,6 @@ func _physics_process(_delta: float) -> void:
 		handle_anim(velocity)
 		$AnimatedSprite2D.play("move")
 	
-	if(current_command == "focus"):
-		print(velocity)
 	move_and_slide()
 
 #basic functionalities
