@@ -19,6 +19,7 @@ var flow_field: Array = []
 @onready var pathing_area: CollisionShape2D = $pathing_area/CollisionShape2D
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 var chase: bool = false
+var safe_velocity: Vector2 = Vector2.ZERO
 
 #used to prevent animation overlap
 var is_attacking: bool = false
@@ -48,20 +49,29 @@ func _physics_process(_delta: float) -> void:
 		velocity = Vector2.ZERO
 		move_and_slide()
 		return
+	
+	var desired_velocity: Vector2 = Vector2.ZERO
+	
 	if(flow_field.is_empty() == false):
 		var curr_square: Vector2 = get_target_grid_position(self.position)
 		var direction: Vector2 = flow_field[curr_square.x][curr_square.y].flow_vector
-		velocity = direction * unit_data.speed
+		desired_velocity = direction * unit_data.speed
 		if(direction == Vector2(0, 0)):
 			change_state_idle()
+		
 	if(chase == true and current_target):
 		nav_agent.target_position = current_target.position
 		var next_path_position: Vector2 = nav_agent.get_next_path_position()
 		var intended_velocity: Vector2 = (next_path_position - self.position).normalized()
 		nav_agent.set_velocity(intended_velocity * unit_data.speed)
+		desired_velocity = safe_velocity
+	
+	velocity = desired_velocity
+	
 	if(velocity != Vector2.ZERO):
 		handle_anim(velocity)
 		$AnimatedSprite2D.play("move")
+	
 	move_and_slide()
 
 #basic functionalities
@@ -290,13 +300,13 @@ func get_target_grid_position(pos: Vector2):
 	grid_pos.y = (floori(pos.y / 16))
 	return grid_pos
 
-func _on_navigation_agent_2d_velocity_computed(safe_velocity: Vector2) -> void:
+func _on_navigation_agent_2d_velocity_computed(v: Vector2) -> void:
 	if(is_attacking == true or
 	 chase == false or
 	 flow_field.is_empty() == false):
 		return
 	else:
-		velocity = safe_velocity
+		safe_velocity = v
 
 #damage functions
 func handle_damage(value: int, element: String, is_critical: bool):
