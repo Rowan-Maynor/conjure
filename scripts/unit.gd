@@ -56,7 +56,9 @@ func _physics_process(_delta: float) -> void:
 	if(flow_field.is_empty() == false):
 		var curr_square: Vector2 = get_target_grid_position(self.position)
 		var direction: Vector2 = flow_field[curr_square.x][curr_square.y].flow_vector
-		desired_velocity = direction * unit_data.speed
+		var intended_velocity: Vector2 = direction
+		nav_agent.set_velocity(intended_velocity * unit_data.speed)
+		desired_velocity = safe_velocity
 		if(direction == Vector2(0, 0)):
 			change_state_idle()
 		
