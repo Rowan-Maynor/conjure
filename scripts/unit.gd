@@ -44,6 +44,8 @@ func _ready():
 	$health_bar.max_value = unit_data.health
 	$health_bar.value = unit_data.health
 	nav_agent.max_speed = unit_data.speed
+	nav_agent.neighbor_distance = 20.0
+	nav_agent.time_horizon_agents = 0.35
 
 func _physics_process(_delta: float) -> void:
 	if(is_attacking == true):
@@ -429,7 +431,7 @@ func damage_number(value: int, hit_position: Vector2, is_critical = false):
 func change_state_idle():
 	reset_target()
 	nav_obstacle.avoidance_enabled = true
-	nav_agent.avoidance_mask = 0
+	nav_agent.avoidance_enabled = false
 	safe_velocity = Vector2.ZERO
 	current_command = "idle"
 	flow_field = []
@@ -439,6 +441,7 @@ func change_state_idle():
 
 func change_state_move():
 	reset_target()
+	nav_agent.avoidance_enabled = true
 	nav_obstacle.avoidance_enabled = false
 	current_command = "move"
 	pathing_area.disabled = true
@@ -447,7 +450,7 @@ func change_state_move():
 func change_state_hold():
 	reset_target()
 	nav_obstacle.avoidance_enabled = true
-	nav_agent.avoidance_mask = 0
+	nav_agent.avoidance_enabled = false
 	current_command = "hold"
 	flow_field = []
 	pathing_area.set_deferred("disabled", false)
@@ -456,6 +459,7 @@ func change_state_hold():
 
 func change_state_attack():
 	reset_target()
+	nav_agent.avoidance_enabled = true
 	nav_obstacle.avoidance_enabled = false
 	current_command = "attack"
 	flow_field = []
@@ -464,8 +468,8 @@ func change_state_attack():
 
 func change_state_focus():
 	reset_target()
+	nav_agent.avoidance_enabled = true
 	nav_obstacle.avoidance_enabled = false
-	nav_agent.avoidance_mask = 1 << 0
 	current_command = "focus"
 	flow_field = []
 	pathing_area.set_deferred("disabled", true)
