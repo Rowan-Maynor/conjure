@@ -62,7 +62,9 @@ func _physics_process(_delta: float) -> void:
 		var intended_velocity: Vector2 = direction
 		nav_agent.set_velocity(intended_velocity * unit_data.speed)
 		desired_velocity = safe_velocity
-		if(direction == Vector2(0, 0)):
+		if(safe_velocity == Vector2.ZERO):
+			desired_velocity = (intended_velocity * unit_data.speed)
+		if(flow_field[curr_square.x][curr_square.y].cost == 0):
 			change_state_idle()
 		
 	if(chase == true and current_target):
@@ -74,7 +76,7 @@ func _physics_process(_delta: float) -> void:
 	
 	velocity = desired_velocity
 	
-	if(velocity != Vector2.ZERO):
+	if(current_command != "idle" and current_command != "hold"):
 		handle_anim(velocity)
 		$AnimatedSprite2D.play("move")
 	
