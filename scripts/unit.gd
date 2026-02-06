@@ -98,7 +98,6 @@ func die():
 	is_attacking = true
 	$AnimatedSprite2D.play("death")
 	emit_signal("died", self)
-	self.queue_free()
 
 #functions related to animations
 func handle_anim(vector):
