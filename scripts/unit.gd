@@ -422,6 +422,7 @@ func damage_number(value: int, hit_position: Vector2, is_critical = false):
 func change_state_idle():
 	reset_target()
 	nav_agent.avoidance_mask = 0
+	safe_velocity = Vector2.ZERO
 	current_command = "idle"
 	flow_field = []
 	pathing_area.set_deferred("disabled", false)
