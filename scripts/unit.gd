@@ -18,6 +18,7 @@ var flow_field: Array = []
 	"game/flow_field_managers/player_ffm")
 @onready var pathing_area: CollisionShape2D = $pathing_area/CollisionShape2D
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
+@onready var nav_obstacle: NavigationObstacle2D = $NavigationObstacle2D
 var chase: bool = false
 var safe_velocity: Vector2 = Vector2.ZERO
 
@@ -72,6 +73,8 @@ func _physics_process(_delta: float) -> void:
 		handle_anim(velocity)
 		$AnimatedSprite2D.play("move")
 	
+	if(current_command == "focus"):
+		print(velocity)
 	move_and_slide()
 
 #basic functionalities
@@ -175,6 +178,8 @@ func reset_target():
 			current_target.died.disconnect(_on_died)
 	if(chase == true):
 		chase = false
+	if(flow_field):
+		flow_field = []
 	current_target = null
 	nav_agent.target_position = self.position
 	velocity = Vector2.ZERO
@@ -421,6 +426,7 @@ func damage_number(value: int, hit_position: Vector2, is_critical = false):
 #state functions
 func change_state_idle():
 	reset_target()
+	nav_obstacle.avoidance_enabled = true
 	nav_agent.avoidance_mask = 0
 	safe_velocity = Vector2.ZERO
 	current_command = "idle"
@@ -431,12 +437,14 @@ func change_state_idle():
 
 func change_state_move():
 	reset_target()
+	nav_obstacle.avoidance_enabled = false
 	current_command = "move"
 	pathing_area.disabled = true
 	$attack_spawn_delay.stop()
 
 func change_state_hold():
 	reset_target()
+	nav_obstacle.avoidance_enabled = true
 	nav_agent.avoidance_mask = 0
 	current_command = "hold"
 	flow_field = []
@@ -446,6 +454,7 @@ func change_state_hold():
 
 func change_state_attack():
 	reset_target()
+	nav_obstacle.avoidance_enabled = false
 	current_command = "attack"
 	flow_field = []
 	pathing_area.disabled = true
@@ -453,6 +462,7 @@ func change_state_attack():
 
 func change_state_focus():
 	reset_target()
+	nav_obstacle.avoidance_enabled = false
 	nav_agent.avoidance_mask = 1 << 0
 	current_command = "focus"
 	flow_field = []
