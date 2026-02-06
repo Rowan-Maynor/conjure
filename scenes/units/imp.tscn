@@ -296,6 +296,7 @@ collision_mask = 2
 shape = SubResource("CircleShape2D_vkgmo")
 
 [node name="pathing_area" type="Area2D" parent="."]
+visible = false
 collision_layer = 16
 collision_mask = 0
 
@@ -345,6 +346,9 @@ one_shot = true
 avoidance_enabled = true
 radius = 13.0
 neighbor_distance = 100.0
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
+radius = 10.0
 
 [connection signal="body_entered" from="attack_range" to="." method="_on_attack_range_body_entered"]
 [connection signal="body_exited" from="attack_range" to="." method="_on_attack_range_body_exited"]
