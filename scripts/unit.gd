@@ -301,12 +301,7 @@ func get_target_grid_position(pos: Vector2):
 	return grid_pos
 
 func _on_navigation_agent_2d_velocity_computed(v: Vector2) -> void:
-	if(is_attacking == true or
-	 chase == false or
-	 flow_field.is_empty() == false):
-		return
-	else:
-		safe_velocity = v
+	safe_velocity = v
 
 #damage functions
 func handle_damage(value: int, element: String, is_critical: bool):
