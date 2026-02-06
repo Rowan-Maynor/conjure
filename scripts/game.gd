@@ -299,6 +299,7 @@ func spawn_wave():
 		unit.skill_data = skill_data
 		unit.position = spawn_point.position
 		unit.flow_field = enemy_ffm.flow_fields[0]
+		unit.current_command = "move"
 		unit.connect("died", _on_died)
 		get_tree().get_root().get_node("game").get_node("enemy_units").add_child(unit)
 	waves_remaining -= 1
