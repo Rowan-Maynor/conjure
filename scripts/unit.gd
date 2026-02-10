@@ -21,7 +21,6 @@ var flow_field: Array = []
 @onready var nav_obstacle: NavigationObstacle2D = $NavigationObstacle2D
 var chase: bool = false
 var safe_velocity: Vector2 = Vector2.ZERO
-var last_safe_velocity: Vector2 = Vector2.ZERO
 
 #used to prevent animation overlap
 var is_attacking: bool = false
@@ -55,16 +54,15 @@ func _physics_process(_delta: float) -> void:
 		move_and_slide()
 		return
 	
-	var desired_velocity: Vector2 = Vector2.ZERO
-	
 	if(flow_field.is_empty() == false):
 		var curr_square: Vector2 = get_target_grid_position(self.position)
 		var direction: Vector2 = flow_field[curr_square.x][curr_square.y].flow_vector
 		var intended_velocity: Vector2 = direction
 		nav_agent.set_velocity(intended_velocity * unit_data.speed)
-		desired_velocity = safe_velocity
 		if(safe_velocity == Vector2.ZERO):
-			desired_velocity = (intended_velocity * unit_data.speed)
+			velocity = (intended_velocity * unit_data.speed)
+		else:
+			velocity = safe_velocity
 		if(flow_field[curr_square.x][curr_square.y].cost == 0):
 			change_state_idle()
 		
@@ -73,23 +71,14 @@ func _physics_process(_delta: float) -> void:
 		var next_path_position: Vector2 = nav_agent.get_next_path_position()
 		var intended_velocity: Vector2 = (next_path_position - self.position).normalized()
 		nav_agent.set_velocity(intended_velocity * unit_data.speed)
-		
-		#check for walls
-		var blocked: bool = intended_velocity.length() > 0.1 and safe_velocity.length() < 1.0
-		if blocked:
-			if last_safe_velocity != Vector2.ZERO:
-				desired_velocity = last_safe_velocity * unit_data.speed
-			else:
-				var tangent: Vector2 = intended_velocity.orthogonal().normalized()
-				desired_velocity = tangent * unit_data.speed * 0.7
-		else:
-			desired_velocity = safe_velocity
-	
-	velocity = desired_velocity
+		velocity = safe_velocity
 	
 	if(current_command != "idle" and current_command != "hold"):
 		handle_anim(velocity)
-		$AnimatedSprite2D.play("move")
+		if velocity.length() > 0:
+			$AnimatedSprite2D.play("move")
+		else:
+			$AnimatedSprite2D.play("idle")
 	
 	move_and_slide()
 
@@ -322,9 +311,6 @@ func get_target_grid_position(pos: Vector2):
 
 func _on_navigation_agent_2d_velocity_computed(v: Vector2) -> void:
 	safe_velocity = v
-	
-	if v.length() > 1.0:
-		last_safe_velocity = v.normalized()
 
 #damage functions
 func handle_damage(value: int, element: String, is_critical: bool):
