@@ -81,6 +81,19 @@ func _physics_process(_delta: float) -> void:
 			$AnimatedSprite2D.play("idle")
 	
 	move_and_slide()
+	queue_redraw()
+
+func _draw():
+	var path: PackedVector2Array = nav_agent.get_current_navigation_path()
+	if path.size() < 2:
+		return
+	for i in range (path.size() - 1):
+		draw_line(
+			to_local(path[i]),
+			to_local(path[i + 1]),
+			Color.RED,
+			2.0
+		)
 
 #basic functionalities
 func attack():
