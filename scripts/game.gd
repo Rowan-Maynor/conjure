@@ -14,7 +14,7 @@ var difficulty_data: Difficulty_Data
 
 #resource values
 var lives: int = 30
-var mana: int = 25
+var mana: int = 500
 var research: int = 0
 var kills: int = 0
 
@@ -82,6 +82,13 @@ var cursor_hold: Resource = load("res://assets/ui/cursor_hold.png")
 @onready var bank_withdraw_10_button: Button = $"main_ui/Main-ui/bank_canvas/bank_container/HBoxContainer/VBoxContainer/bank_buttons/withdraw_10_button"
 @onready var interest_increase_button: Button = $"main_ui/Main-ui/bank_canvas/bank_container/HBoxContainer/VBoxContainer/interest_increase_button"
 
+#selectors for flow_field_managers
+@onready var player_ffm: Node2D = $flow_field_managers/player_ffm
+@onready var enemy_ffm: Node2D = $flow_field_managers/enemy_ffm
+
+#flow_field grid properties
+const CELL_SIZE: int = 16
+
 #general functions
 func _ready():
 	load_game_data()
@@ -114,14 +121,15 @@ func _input(event: InputEvent) -> void:
 			Input.set_custom_mouse_cursor(cursor_default)
 			return
 		for unit in selected:
-			unit.get_node("attack_spawn_delay").stop()
-			unit.reset_target()
-			unit.current_command = "move"
-			var mouse_position: Vector2 = get_global_mouse_position()
-			mouse_position.x = clampf(mouse_position.x, 312.0, 648.0)
-			mouse_position.y = clampf(mouse_position.y, 104.0, 440.0)
-			unit.move_position = mouse_position
-			unit.nav.set_target_position(unit.move_position)
+			unit.change_state_move()
+		#generate field after state change so units dont try to path around units that
+		#are about to move.
+		var new_flow_field: Array = player_ffm.generate_new_flow_field(
+			get_target_grid_position(get_viewport().get_mouse_position()))
+		#set the ffm to use the new field for debug display
+		player_ffm.flow_field = new_flow_field
+		for unit in selected:
+			unit.flow_field = new_flow_field
 	if(Input.is_action_just_pressed("stop_movement")):
 		handle_stop_move()
 	if(Input.is_action_just_pressed("hold_position")):
@@ -129,16 +137,13 @@ func _input(event: InputEvent) -> void:
 	if(event is InputEventMouseButton && event.button_index == 1 && attack_move == true):
 		for unit in selected:
 			if(unit.current_command != "focus"):
-				unit.get_node("attack_spawn_delay").stop()
-				unit.reset_target()
+				unit.change_state_attack()
 				unit.find_new_target()
-				unit.current_command = "attack"
-				if(unit.current_target == null):
-					var mouse_position: Vector2 = get_global_mouse_position()
-					mouse_position.x = clampf(mouse_position.x, 312.0, 648.0)
-					mouse_position.y = clampf(mouse_position.y, 104.0, 440.0)
-					unit.move_position = mouse_position
-					unit.nav.set_target_position(unit.move_position)
+		var new_flow_field: Array = player_ffm.generate_new_flow_field(
+			get_target_grid_position(get_viewport().get_mouse_position()))
+		for unit in selected:
+			if(unit.current_target == null):
+				unit.flow_field = new_flow_field
 		attack_move = false
 		Input.set_custom_mouse_cursor(cursor_default)
 		get_viewport().set_input_as_handled()
@@ -293,8 +298,10 @@ func spawn_wave():
 		unit.unit_data.health = calculate_enemy_hp()
 		unit.skill_data = skill_data
 		unit.position = spawn_point.position
+		unit.flow_field = enemy_ffm.flow_fields[0]
+		unit.current_command = "move"
 		unit.connect("died", _on_died)
-		get_tree().get_root().get_node("game").get_node("enemy_units_nav").add_child(unit)
+		get_tree().get_root().get_node("game").get_node("enemy_units").add_child(unit)
 	waves_remaining -= 1
 	if(waves_remaining == 0 && wave % 10 != 0):
 		$wave_time.start()
@@ -345,7 +352,7 @@ func spawn_boss():
 	
 	boss_unit.position = spawn_point.position
 	boss_unit.connect("died", _on_died)
-	get_tree().get_root().get_node("game").get_node("enemy_units_nav").add_child(boss_unit)
+	get_tree().get_root().get_node("game").get_node("enemy_units").add_child(boss_unit)
 	#unit was being created but not freed, causing an orphan
 	unit.queue_free()
 	$wave_time.start()
@@ -353,7 +360,7 @@ func spawn_boss():
 
 #functions that handle game timers
 func _on_wave_time_timeout() -> void:
-	if($enemy_units_nav.get_child_count() == 0):
+	if($enemy_units.get_child_count() == 0):
 		if(wave == wave_max):
 			var win_screen: Node = load("res://scenes/ui_components/win_screen.tscn").instantiate()
 			get_tree().get_root().get_node("game").get_node("main_ui").add_child(win_screen)
@@ -384,7 +391,7 @@ func _on_wave_time_timeout() -> void:
 		time_ui_value.text = str(wave_time)
 	else:
 		$wave_time.stop()
-		var remaining_enemies: Node = $enemy_units_nav
+		var remaining_enemies: Node = $enemy_units
 		lives -= remaining_enemies.get_child_count()
 		add_status_message("lives -" + str(remaining_enemies.get_child_count()), Color.hex(0xff3e3eff))
 		lives_ui_value.text = str(lives)
@@ -489,7 +496,7 @@ func _on_merge():
 				add_status_message("No free space", Color.hex(0xff3e3eff))
 			else:
 				instance.position = spawn_point.global_position
-				get_tree().get_root().get_node("game").get_node("player_units_nav").add_child(instance)
+				get_tree().get_root().get_node("game").get_node("player_units").add_child(instance)
 				var unit_type_with_spaces: String = instance.unit_data.type.replace("_", " ")
 				add_status_message("Conjured " + unit_type_with_spaces)
 				check_recipe_unlock(instance.unit_data.type)
@@ -515,9 +522,7 @@ func handle_hold_position():
 	if(attack_move == true):
 		attack_move = false
 	for unit in selected:
-		unit.get_node("attack_spawn_delay").stop()
-		unit.reset_target()
-		unit.current_command = "hold"
+		unit.change_state_hold()
 		unit.find_new_target()
 	Input.set_custom_mouse_cursor(cursor_hold)
 	await get_tree().create_timer(.25).timeout
@@ -527,9 +532,7 @@ func handle_stop_move():
 	if(attack_move == true):
 		attack_move = false
 	for unit in selected:
-		unit.get_node("attack_spawn_delay").stop()
-		unit.reset_target()
-		unit.current_command = "idle"
+		unit.change_state_idle()
 		unit.find_new_target()
 	Input.set_custom_mouse_cursor(cursor_stop)
 	await get_tree().create_timer(.25).timeout
@@ -862,3 +865,26 @@ func handle_skill_page_unlock():
 	elif(difficulty_data.difficulty == "medium"):
 		player_data.skill_page_unlocks["advanced"] = true
 		save_player_data()
+
+func get_target_grid_position(pos: Vector2):
+	var grid_pos: Vector2 = Vector2.ZERO
+	grid_pos.x = (floori(pos.x / CELL_SIZE))
+	grid_pos.y = (floori(pos.y / CELL_SIZE))
+	return grid_pos
+
+#enemy pathing functions
+func _on_enemy_path_right_body_entered(body: Node2D) -> void:
+	if(body.unit_data.control == "enemy"):
+		body.flow_field = enemy_ffm.flow_fields[1]
+
+func _on_enemy_path_up_body_entered(body: Node2D) -> void:
+	if(body.unit_data.control == "enemy"):
+		body.flow_field = enemy_ffm.flow_fields[2]
+
+func _on_enemy_path_left_body_entered(body: Node2D) -> void:
+	if(body.unit_data.control == "enemy"):
+		body.flow_field = enemy_ffm.flow_fields[3]
+
+func _on_enemy_path_down_body_entered(body: Node2D) -> void:
+	if(body.unit_data.control == "enemy"):
+		body.flow_field = enemy_ffm.flow_fields[0]

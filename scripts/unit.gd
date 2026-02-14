@@ -7,40 +7,37 @@ extends CharacterBody2D
 #targeting
 var current_command: String = "idle"
 var current_target: CharacterBody2D = null
+@onready var attack_range: CollisionShape2D = $attack_range/CollisionShape2D
 
 #this is for cases where the attack starts, but target exits attack range, resetting current_target
 var attacked_target: CharacterBody2D = null
 
 #navigation
-var move_position: Vector2
-var target_position: Vector2
+var flow_field: Array = []
+@onready var player_ffm: Node2D = get_tree().get_root().get_node(
+	"game/flow_field_managers/player_ffm")
+@onready var pathing_area: CollisionShape2D = $pathing_area/CollisionShape2D
+@onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
+@onready var nav_obstacle: NavigationObstacle2D = $NavigationObstacle2D
 var chase: bool = false
-@onready var nav: NavigationAgent2D = $NavigationAgent2D
-@onready var player_nav_mesh: NavigationRegion2D = get_tree().get_root().get_node("game/player_units_nav")
-@onready var enemy_nav_mesh: NavigationRegion2D = get_tree().get_root().get_node("game/enemy_units_nav")
-var enemy_direction: String = "down"
+var safe_velocity: Vector2 = Vector2.ZERO
 
 #used to prevent animation overlap
 var is_attacking: bool = false
 
+#used to toggle debug drawing
+var debug: bool = true
+
 #general functions
 func _ready():
-	#this prevents units from running to (0, 0) on spawn
-	move_position = position
+	if(unit_data.control == "enemy"):
+		pathing_area.disabled = true
+		attack_range.disabled = true
+		nav_agent.avoidance_enabled = true
+		nav_obstacle.avoidance_enabled = false
 	
 	if(unit_data.control == "player"):
 		handle_unit_skill_values()
-	
-	if(unit_data.control == "enemy"):
-		enemy_change_direction(enemy_direction)
-		#this causes units to clot less around the square
-		#however it also makes them jitter like crazy if they do clot
-		self.safe_margin = 1.0
-		$NavigationAgent2D.set_navigation_layer_value(1, false)
-		$NavigationAgent2D.set_navigation_layer_value(2, true)
-		#units keep going oposite directions trying to reach target
-		#might aswell just turn off unit collision for enemies
-		self.set_collision_mask_value(2, false)
 	
 	#initialize nodes based on units data
 	if ($attack_range/CollisionShape2D.shape):
@@ -50,78 +47,64 @@ func _ready():
 	$attack_speed.wait_time = unit_data.attack_speed
 	$health_bar.max_value = unit_data.health
 	$health_bar.value = unit_data.health
+	nav_agent.max_speed = unit_data.speed
+	nav_agent.neighbor_distance = 20.0
+	nav_agent.time_horizon_agents = 0.35
 
 func _physics_process(_delta: float) -> void:
-	#handles updating the path of enemies when they get near corners
-	if (target_position.y - position.y <= 5 && unit_data.control == "enemy" && enemy_direction == "down"):
-		enemy_direction = "right"
-		enemy_change_direction(enemy_direction)
-	if (target_position.x - position.x <= 5 && unit_data.control == "enemy" && enemy_direction == "right"):
-		enemy_direction = "up"
-		enemy_change_direction(enemy_direction)
-	if (position.y - target_position.y <= 5 && unit_data.control == "enemy" && enemy_direction == "up"):
-		enemy_direction = "left"
-		enemy_change_direction(enemy_direction)
-	if (position.x - target_position.x <= 5 && unit_data.control == "enemy" && enemy_direction == "left"):
-		enemy_direction = "down"
-		enemy_change_direction(enemy_direction)
-	
-	if (chase == true):
-		#need to do this because if a unit is queued to be freed on the same frame
-		#as when you try to get the posiion for the chase the game will crash
-		if(current_target != null):
-			move_position = current_target.position
-			self.nav.set_target_position(move_position)
-		#there is a case where a unit will be in the idle state chasing a target
-		#i am not sure why its happening so this is a bandaid fix
-		elif(current_command == "idle"):
-			chase = false
-		else:
-			chase = false
-			
-	#there are cases where units get stuck on focus with no target
-	if(current_command == "focus" && current_target == null):
-		current_command = "idle"
-	
-	#must be done before attempting to move
-	update_obstacle_status()
-	
-	if(nav.is_navigation_finished() && unit_data.control == "player"):
-		if(current_command == "move" || current_command == "attack"):
-			current_command = "idle"
-			$AnimatedSprite2D.play("idle")
+	if(is_attacking == true):
+		velocity = Vector2.ZERO
+		move_and_slide()
 		return
 	
-	#resolves enemy movement if they are more than 3 pixels from target
-	if (position.distance_to(target_position) > 3 && unit_data.control == "enemy"):
-		var next_nav_location: Vector2 = nav.get_next_path_position()
-		var nav_target_position: Vector2 = (next_nav_location - position).normalized()
-		velocity = nav_target_position * unit_data.speed
-		if(is_attacking == false):
-			handle_anim(nav_target_position)
-			move_and_slide()
+	if(flow_field.is_empty() == false):
+		var curr_square: Vector2 = get_target_grid_position(self.position)
+		var direction: Vector2 = flow_field[curr_square.x][curr_square.y].flow_vector
+		var intended_velocity: Vector2 = direction
+		nav_agent.set_velocity(intended_velocity * unit_data.speed)
+		if(safe_velocity == Vector2.ZERO):
+			velocity = (intended_velocity * unit_data.speed)
+		else:
+			velocity = safe_velocity
+		if(flow_field[curr_square.x][curr_square.y].cost == 0):
+			change_state_idle()
 		
-	#resolves player movement if they are more than 3 pixels away from click
-	if (position.distance_to(move_position) > 3 && unit_data.control == "player"):
-		var next_nav_location: Vector2 = nav.get_next_path_position()
-		var nav_target_position: Vector2 = (next_nav_location - position).normalized()
-		velocity = nav_target_position * unit_data.speed
-		if(is_attacking == false):
-			handle_anim(nav_target_position)
-			move_and_slide()
-		
-	#sets animation to idle if unit stops moving
-	if (position.distance_to(move_position) < 3 && unit_data.control == "player"):
-		if(is_attacking == false):
+	if(chase == true and current_target):
+		nav_agent.target_position = current_target.position
+		var next_path_position: Vector2 = nav_agent.get_next_path_position()
+		var intended_velocity: Vector2 = (next_path_position - self.position).normalized()
+		nav_agent.set_velocity(intended_velocity * unit_data.speed)
+		velocity = safe_velocity
+	
+	if(current_command != "idle" and current_command != "hold"):
+		handle_anim(velocity)
+		if velocity.length() > 0:
+			$AnimatedSprite2D.play("move")
+		else:
 			$AnimatedSprite2D.play("idle")
-		if(current_command == "move"):
-			current_command = "idle"
+	
+	move_and_slide()
+	if(debug == true):
+		queue_redraw()
+
+func _draw():
+	var path: PackedVector2Array = nav_agent.get_current_navigation_path()
+	if path.size() < 2:
+		return
+	for i in range (path.size() - 1):
+		draw_line(
+			to_local(path[i]),
+			to_local(path[i + 1]),
+			Color.RED,
+			2.0
+		)
 
 #basic functionalities
 func attack():
 	if(current_target == null):
 		return
 	if($attack_speed.is_stopped()):
+		nav_agent.set_velocity(Vector2.ZERO)
 		attacked_target = current_target
 		handle_attack_anim((current_target.position - position).normalized())
 		$attack_speed.start()
@@ -130,7 +113,6 @@ func attack():
 func die():
 	#is_attacking used so that animation plays instead of more movement
 	is_attacking = true
-	move_position = position
 	$AnimatedSprite2D.play("death")
 	emit_signal("died", self)
 
@@ -138,10 +120,8 @@ func die():
 func handle_anim(vector):
 	if(vector.x > 0):
 		$AnimatedSprite2D.flip_h = false
-		$AnimatedSprite2D.play("move")
 	elif(vector.x < 0):
 		$AnimatedSprite2D.flip_h = true
-		$AnimatedSprite2D.play("move")
 
 func handle_attack_anim(vector):
 	is_attacking = true
@@ -159,84 +139,52 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 	else:
 		return
 
-#functions related to enemy pathing
-func update_target_position(target):
-	nav.set_target_position(target)
-
-func enemy_change_direction(direction):
-	#random number used to make enemy path fell less linear
-	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
-	var variance: float = 20.0
-	#variance needs to be turned off for boss units because they are huge
-	if(unit_data.type == "hell_hound" || unit_data.type == "naga" || unit_data.type == "great_ape"):
-		variance = 0.0
-	if(direction == "right"):
-		var path_node: Marker2D = get_tree().get_root().get_node("game/enemy_path_points/bottom_right")
-		target_position = path_node.position
-		target_position.x += rng.randf_range(-variance, variance)
-		target_position.y += rng.randf_range(-variance, variance)
-		update_target_position(target_position)
-	if(direction == "up"):
-		var path_node: Marker2D = get_tree().get_root().get_node("game/enemy_path_points/top_right")
-		target_position = path_node.position
-		target_position.x += rng.randf_range(-variance, variance)
-		target_position.y += rng.randf_range(-variance, variance)
-		update_target_position(target_position)
-	if(direction == "left"):
-		var path_node: Marker2D = get_tree().get_root().get_node("game/enemy_path_points/top_left")
-		target_position = path_node.position
-		target_position.x += rng.randf_range(-variance, variance)
-		target_position.y += rng.randf_range(-variance, variance)
-		update_target_position(target_position)
-	if(direction == "down"):
-		var path_node: Marker2D = get_tree().get_root().get_node("game/enemy_path_points/bottom_left")
-		target_position = path_node.position
-		target_position.x += rng.randf_range(-variance, variance)
-		target_position.y += rng.randf_range(-variance, variance)
-		update_target_position(target_position)
-
 #functions related to player unit aggro
 func _on_attack_range_body_entered(body: Node2D) -> void:
-	#only allow players to attack enemies, not vice versa
-	if(unit_data.control == "enemy"):
-		return
 	if(body.unit_data.control == "player"):
 		return
-	if(!is_instance_valid(body)):
-		return
-	if(current_command == "idle" || current_command == "attack"):
-		if(current_command == "attack"):
-			move_position = position
-		if(current_target == null && body.unit_data.control == "enemy"):
-			current_target = body
-			if(!current_target.died.is_connected(_on_died)):
-				current_target.died.connect(_on_died)
-			current_command = "focus"
+	
+	if(current_command == "focus"):
+		if(current_target == body):
 			attack()
-	elif(current_command == "focus" && current_target == body):
-		attack()
-	elif(current_command == "hold" && current_target == null):
-		current_target = body
-		if(!current_target.died.is_connected(_on_died)):
+	
+	elif(current_command == "attack"):
+		if(current_target == null):
+			change_state_focus()
+			current_target = body
 			current_target.died.connect(_on_died)
-		attack()
+			attack()
+			return
+
+	elif(current_command == "hold"):
+		if(current_target == body):
+			attack()
+			return
+		if(current_target == null):
+			current_target = body
+			current_target.died.connect(_on_died)
+			attack()
+			return
+	
+	elif(current_command == "idle"):
+		if(current_target == null):
+			change_state_focus()
+			current_target = body
+			current_target.died.connect(_on_died)
+			attack()
 
 func _on_attack_range_body_exited(body: Node2D) -> void:
-	if(body.is_queued_for_deletion()):
+	if(body.unit_data.control == "player"):
 		return
-	if(body == current_target):
-		if(!is_instance_valid(current_target)):
+	
+	if(current_command == "hold"):
+		if(current_target == body):
 			reset_target()
-			return
-		if(current_target.is_queued_for_deletion()):
-			reset_target()
-			return
-		#if target is valid and not queued for deletion chase
-		if(current_command != "hold"):
+			current_target = null
+	
+	elif(current_command == "focus"):
+		if(current_target == body):
 			chase = true
-			current_command = "focus"
-		if(current_command == "hold"):
-			reset_target()
 
 func find_new_target():
 	var units: Array[Node2D] = $attack_range.get_overlapping_bodies()
@@ -246,6 +194,8 @@ func find_new_target():
 		if (unit.unit_data.control == "enemy" && unit.unit_data.health > 0):
 			enemy_units.append(unit)
 	if(enemy_units.size() != 0):
+		if(current_command != "hold"):
+			change_state_focus()
 		current_target = find_lowest_health_target(enemy_units)
 		current_target.died.connect(_on_died)
 	if(current_target != null):
@@ -253,16 +203,20 @@ func find_new_target():
 
 func reset_target():
 	if(current_target != null):
-		current_target.died.disconnect(_on_died)
-	chase = false
+		if(current_target.died.is_connected(_on_died)):
+			current_target.died.disconnect(_on_died)
+	if(chase == true):
+		chase = false
+	if(flow_field):
+		flow_field = []
 	current_target = null
-	move_position = self.position
+	nav_agent.target_position = self.position
+	velocity = Vector2.ZERO
 
 func _on_died(body):
 	if (current_target == body):
-		reset_target()
 		if(current_command != "hold"):
-			current_command = "idle"
+			change_state_idle()
 		find_new_target()
 
 #functions related to handleing unit attacks
@@ -368,38 +322,20 @@ func find_lowest_health_target(targets):
 			lowest_health_target = target
 	return lowest_health_target
 
-func update_obstacle_status():
-	if(unit_data.control == "enemy"):
-		return
-	if(is_attacking == true && current_command == "focus"):
-		if($NavigationObstacle2D.carve_navigation_mesh == false):
-			$NavigationObstacle2D.set_deferred("affect_navigation_mesh", true)
-			$NavigationObstacle2D.set_deferred("carve_navigation_mesh", true)
-			player_nav_mesh.needs_rebake = true
-		
-	elif(is_attacking == false && current_command == "focus"):
-		if($NavigationObstacle2D.carve_navigation_mesh == true):
-			$NavigationObstacle2D.set_deferred("affect_navigation_mesh", false)
-			$NavigationObstacle2D.set_deferred("carve_navigation_mesh", false)
-			player_nav_mesh.needs_rebake = true
-		
-	elif(current_command == "idle" || current_command == "hold"):
-		if($NavigationObstacle2D.carve_navigation_mesh == false):
-			$NavigationObstacle2D.set_deferred("affect_navigation_mesh", true)
-			$NavigationObstacle2D.set_deferred("carve_navigation_mesh", true)
-			player_nav_mesh.needs_rebake = true
-		
-	elif(current_command != "idle" || current_command != "hold" ):
-		if($NavigationObstacle2D.carve_navigation_mesh == true):
-			$NavigationObstacle2D.set_deferred("affect_navigation_mesh", false)
-			$NavigationObstacle2D.set_deferred("carve_navigation_mesh", false)
-			player_nav_mesh.needs_rebake = true
-
 func handle_unit_skill_values():
 	calculate_critical_chance()
 	calculate_range()
 	calculate_infusion_upgrade_count()
 	unit_data.infusion_mult = 1.0
+
+func get_target_grid_position(pos: Vector2):
+	var grid_pos: Vector2 = Vector2.ZERO
+	grid_pos.x = (floori(pos.x / 16))
+	grid_pos.y = (floori(pos.y / 16))
+	return grid_pos
+
+func _on_navigation_agent_2d_velocity_computed(v: Vector2) -> void:
+	safe_velocity = v
 
 #damage functions
 func handle_damage(value: int, element: String, is_critical: bool):
@@ -515,6 +451,54 @@ func damage_number(value: int, hit_position: Vector2, is_critical = false):
 	tween.set_parallel(true)
 	tween.tween_property(number_label, "position", tween_position, 1)
 	tween.tween_callback(number_label.queue_free).set_delay(1)
+
+#state functions
+func change_state_idle():
+	reset_target()
+	nav_obstacle.avoidance_enabled = true
+	nav_agent.avoidance_enabled = false
+	safe_velocity = Vector2.ZERO
+	current_command = "idle"
+	flow_field = []
+	pathing_area.set_deferred("disabled", false)
+	$attack_spawn_delay.stop()
+	$AnimatedSprite2D.play("idle")
+
+func change_state_move():
+	reset_target()
+	nav_agent.avoidance_enabled = true
+	nav_obstacle.avoidance_enabled = false
+	current_command = "move"
+	pathing_area.disabled = true
+	$attack_spawn_delay.stop()
+
+func change_state_hold():
+	reset_target()
+	nav_obstacle.avoidance_enabled = true
+	nav_agent.avoidance_enabled = false
+	current_command = "hold"
+	flow_field = []
+	pathing_area.set_deferred("disabled", false)
+	$attack_spawn_delay.stop()
+	$AnimatedSprite2D.play("idle")
+
+func change_state_attack():
+	reset_target()
+	nav_agent.avoidance_enabled = true
+	nav_obstacle.avoidance_enabled = false
+	current_command = "attack"
+	flow_field = []
+	pathing_area.disabled = true
+	$attack_spawn_delay.stop()
+
+func change_state_focus():
+	reset_target()
+	nav_agent.avoidance_enabled = true
+	nav_obstacle.avoidance_enabled = false
+	current_command = "focus"
+	flow_field = []
+	pathing_area.set_deferred("disabled", true)
+	$attack_spawn_delay.stop()
 
 #signals
 signal died(body)

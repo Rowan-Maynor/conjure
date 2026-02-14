@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bkh5jlfdnnlc4"]
+[gd_scene load_steps=15 format=3 uid="uid://bkh5jlfdnnlc4"]
 
 [ext_resource type="Script" uid="uid://bmtnkgh3vjrpk" path="res://scripts/unit.gd" id="1_ianph"]
 [ext_resource type="Texture2D" uid="uid://dmxkj1ddqhv46" path="res://assets/sprites/units/great_ape/base.png" id="2_ianph"]
@@ -10,6 +10,13 @@ radius = 3.0
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_k4pre"]
 radius = 8.0
 height = 26.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vkgmo"]
+radius = 68.0294
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ianph"]
+radius = 3.0
+height = 45.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gevth"]
 atlas = ExtResource("2_ianph")
@@ -62,9 +69,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_vkgmo"]
-radius = 68.0294
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m5anq"]
 bg_color = Color(0.517647, 0, 0, 1)
 border_width_left = 1
@@ -87,7 +91,6 @@ collision_mask = 3
 script = ExtResource("1_ianph")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 z_index = -1
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_8ww25")
@@ -104,6 +107,23 @@ position = Vector2(0, -8)
 shape = SubResource("CapsuleShape2D_k4pre")
 metadata/_edit_lock_ = true
 
+[node name="attack_range" type="Area2D" parent="."]
+visible = false
+collision_layer = 8
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="attack_range"]
+shape = SubResource("CircleShape2D_vkgmo")
+
+[node name="pathing_area" type="Area2D" parent="."]
+visible = false
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="pathing_area"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_ianph")
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -16)
 sprite_frames = SubResource("SpriteFrames_iqh78")
@@ -115,18 +135,6 @@ visible = false
 z_index = -1
 position = Vector2(0, -16)
 texture = ExtResource("3_lwe6q")
-
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-path_desired_distance = 3.0
-avoidance_enabled = true
-
-[node name="attack_range" type="Area2D" parent="."]
-visible = false
-collision_layer = 8
-collision_mask = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="attack_range"]
-shape = SubResource("CircleShape2D_vkgmo")
 
 [node name="health_bar" type="ProgressBar" parent="."]
 visible = false
@@ -151,13 +159,20 @@ one_shot = true
 wait_time = 0.3
 one_shot = true
 
-[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
-visible = false
-vertices = PackedVector2Array(-24, 5, -26, 3, -26, -3, -24, -5, 24, -5, 26, -3, 26, 3, 24, 5)
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+avoidance_enabled = true
+radius = 15.0
+neighbor_distance = 100.0
 
-[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
+radius = 15.0
+affect_navigation_mesh = true
+carve_navigation_mesh = true
+
 [connection signal="body_entered" from="attack_range" to="." method="_on_attack_range_body_entered"]
 [connection signal="body_exited" from="attack_range" to="." method="_on_attack_range_body_exited"]
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="timeout" from="attack_speed" to="." method="_on_attack_speed_timeout"]
 [connection signal="timeout" from="attack_animation_speed" to="." method="_on_attack_animation_speed_timeout"]
 [connection signal="timeout" from="attack_spawn_delay" to="." method="_on_attack_spawn_delay_timeout"]
+[connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]

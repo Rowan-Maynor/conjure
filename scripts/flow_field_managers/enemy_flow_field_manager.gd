@@ -1,0 +1,131 @@
+extends Node2D
+
+var debug: bool = true
+
+const CELL_SIZE: int = 16
+var grid_width: int = floori(60) #this will be 60 when finalized for 16x16
+var grid_height: int = floori(33) #this will be 33 when finalized for 16x16
+
+#this will store the 4 pathing grids
+#[0]down, [1]right, [2]up, [3]left
+var flow_fields: Array = [] 
+
+#Using this will properly propogate costs in a BFS
+const NEIGHBORS: Array = [
+	Vector2.UP,
+	Vector2.RIGHT,
+	Vector2.DOWN,
+	Vector2.LEFT,
+]
+
+#Using this when calculating flow will prioritize 4 way cardinal directions over diagonals
+const NEIGHBORS_FLOW: Array = [
+	Vector2.UP,
+	Vector2.RIGHT,
+	Vector2.DOWN,
+	Vector2.LEFT,
+	Vector2(1, -1),
+	Vector2(1, 1),
+	Vector2(-1, 1),
+	Vector2(-1, -1),
+]
+
+const PATH_TARGETS: Array = [
+	Vector2(16, 31), #down
+	Vector2(45, 31), #right
+	Vector2(45, 2), #up
+	Vector2(16, 2), #left
+]
+
+var cell_queue: Array = []
+
+func _ready():
+	for target in PATH_TARGETS:
+		flow_fields.append(generate_new_flow_field(target))
+
+func get_target_grid_position(pos: Vector2):
+	var grid_pos: Vector2 = Vector2.ZERO
+	grid_pos.x = (floori(pos.x / CELL_SIZE))
+	grid_pos.y = (floori(pos.y / CELL_SIZE))
+	return grid_pos
+
+func generate_new_flow_field(new_target: Vector2):
+	var new_flow_field: Array = []
+	
+	for x in range(grid_width):
+		var column: Array = []
+		for y in range(grid_height):
+			var cell: Dictionary = {
+				"index": Vector2i(x, y),
+				"position": Vector2(x * CELL_SIZE, y * CELL_SIZE),
+				"visited": false,
+				"cost":  0.0,
+				"flow_vector": Vector2.ZERO
+			}
+			column.append(cell)
+		new_flow_field.append(column)
+	
+	cell_queue = []
+	cell_queue.append(new_target)
+	new_flow_field[new_target.x][new_target.y].cost = 0
+	calculate_costs(new_flow_field, new_target)
+	return new_flow_field
+
+func is_valid_cell(x: int, y: int):
+	return x >= 0 and x < grid_width and y >= 0 and y < grid_height
+
+func is_diagonal(pos: Vector2):
+	return pos == Vector2(-1, -1) or pos == Vector2(1, -1) or pos == Vector2(1, 1) or pos == Vector2(-1, 1)
+
+func calculate_costs(new_flow_field: Array, new_target: Vector2):
+	while(cell_queue.is_empty() == false):
+		var curr_cell: Vector2 = cell_queue.pop_front()
+		new_flow_field[curr_cell.x][curr_cell.y].visited = true
+		for neighbor in NEIGHBORS:
+			var next_x: int = int(curr_cell.x + neighbor.x)
+			var next_y: int = int(curr_cell.y + neighbor.y)
+			var next_vector: Vector2 = Vector2(next_x, next_y)
+			if(is_valid_cell(next_x, next_y) and not new_flow_field[next_x][next_y].visited):
+				new_flow_field[next_x][next_y].visited = true
+				var cost_total = new_flow_field[curr_cell.x][curr_cell.y].cost + 1
+				
+				#generate a collision check for walls/units
+				var space_state = get_world_2d().direct_space_state
+				var shape: RectangleShape2D = RectangleShape2D.new()
+				shape.size = Vector2(8, 8)
+				
+				var query: PhysicsShapeQueryParameters2D = PhysicsShapeQueryParameters2D.new()
+				query.shape = shape
+				query.transform = Transform2D(0, new_flow_field[next_x][next_y].position + Vector2(8, 8))
+				query.collision_mask = 2
+				query.collide_with_areas = true
+				query.collide_with_bodies = true
+				
+				#check if units blocking (layer 2)
+				var results: Array = space_state.intersect_shape(query)
+				if not results.is_empty():
+					cost_total += 50
+					
+				new_flow_field[next_x][next_y].cost = cost_total
+				cell_queue.append(next_vector)
+	
+	calculate_vectors(new_flow_field, new_target)
+
+func calculate_vectors(new_flow_field: Array, new_target: Vector2):
+	for x in range(grid_width):
+		for y in range(grid_height):
+			var min_cost: float = 9999
+			var min_neighbor_pos: Vector2 = Vector2.ZERO
+			for neighbor in NEIGHBORS_FLOW:
+				var nx: int = x + neighbor.x
+				var ny: int = y + neighbor.y
+				if(is_valid_cell(nx, ny)):
+					var neighbor_cost: float = new_flow_field[nx][ny].cost
+					if(neighbor_cost < min_cost):
+						min_cost = neighbor_cost
+						min_neighbor_pos = new_flow_field[nx][ny].position
+			
+			new_flow_field[x][y].flow_vector = (min_neighbor_pos - new_flow_field[x][y].position).normalized()
+	
+	new_flow_field[new_target.x][new_target.y].flow_vector = Vector2.ZERO
+	
