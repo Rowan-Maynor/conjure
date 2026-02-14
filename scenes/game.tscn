@@ -146,9 +146,9 @@ sources/9 = SubResource("TileSetAtlasSource_pm3ni")
 size = Vector2(10, 10)
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_dinhu"]
-vertices = PackedVector2Array(756.031, 15.9766, 757.961, 528.008, 226.281, 528.977, 240.719, 15.0078)
+vertices = PackedVector2Array(671, 97.9062, 671, 445.969, 322.938, 445.023, 321.047, 95.0781)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(231, 5, 766, 6, 768, 538, 216, 539)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(311, 85, 681, 88, 681, 456, 313, 455)])
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jbj1t"]
 
