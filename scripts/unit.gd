@@ -25,6 +25,9 @@ var safe_velocity: Vector2 = Vector2.ZERO
 #used to prevent animation overlap
 var is_attacking: bool = false
 
+#used to toggle debug drawing
+var debug: bool = true
+
 #general functions
 func _ready():
 	if(unit_data.control == "enemy"):
@@ -81,7 +84,8 @@ func _physics_process(_delta: float) -> void:
 			$AnimatedSprite2D.play("idle")
 	
 	move_and_slide()
-	queue_redraw()
+	if(debug == true):
+		queue_redraw()
 
 func _draw():
 	var path: PackedVector2Array = nav_agent.get_current_navigation_path()
@@ -144,6 +148,14 @@ func _on_attack_range_body_entered(body: Node2D) -> void:
 		if(current_target == body):
 			attack()
 	
+	elif(current_command == "attack"):
+		if(current_target == null):
+			change_state_focus()
+			current_target = body
+			current_target.died.connect(_on_died)
+			attack()
+			return
+
 	elif(current_command == "hold"):
 		if(current_target == body):
 			attack()
