@@ -331,6 +331,7 @@ neighbor_distance = 100.0
 
 [node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
 radius = 10.0
+affect_navigation_mesh = true
 carve_navigation_mesh = true
 
 [connection signal="body_entered" from="attack_range" to="." method="_on_attack_range_body_entered"]

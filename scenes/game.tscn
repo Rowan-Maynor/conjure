@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=4 uid="uid://dm76mg2k73lxk"]
+[gd_scene load_steps=26 format=4 uid="uid://dm76mg2k73lxk"]
 
 [ext_resource type="Script" uid="uid://cof62ids57e6o" path="res://scripts/game.gd" id="1_vtaks"]
 [ext_resource type="Texture2D" uid="uid://cjeicm00qeewr" path="res://assets/sprites/Tiles/Path_Middle.png" id="2_kvpfn"]
@@ -13,34 +13,9 @@
 [ext_resource type="Script" uid="uid://hosa2wpr2lhn" path="res://scripts/flow_field_managers/enemy_flow_field_manager.gd" id="11_dinhu"]
 [ext_resource type="Script" uid="uid://f0iurf3iuaoq" path="res://scripts/flow_field_managers/player_flow_field_manager.gd" id="12_kvuet"]
 
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_dinhu"]
-vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
-agent_radius = 0.0
-
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_jbj1t"]
 texture = ExtResource("2_kvpfn")
 0:0/0 = 0
-0:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dinhu")
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_kvuet"]
-vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_trtic"]
-vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_ir15t"]
-vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
-agent_radius = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_muem4"]
 texture = ExtResource("3_dinhu")
@@ -70,55 +45,24 @@ texture = ExtResource("3_dinhu")
 1:4/0 = 0
 1:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, -8, 8)
 0:5/0 = 0
-0:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_kvuet")
 1:5/0 = 0
-1:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_trtic")
 2:5/0 = 0
-2:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_ir15t")
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_ca42v"]
-vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_rysoc"]
-vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
-agent_radius = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dp3eg"]
 texture = ExtResource("4_kvuet")
 0:0/0 = 0
-0:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_ca42v")
 1:0/0 = 0
-1:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_ca42v")
 2:0/0 = 0
-2:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_ca42v")
 0:1/0 = 0
-0:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_ca42v")
 1:1/0 = 0
-1:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_rysoc")
 2:1/0 = 0
-2:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_ca42v")
 0:2/0 = 0
-0:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_ca42v")
 1:2/0 = 0
-1:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_ca42v")
 2:2/0 = 0
-2:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_ca42v")
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_ssvqc"]
-vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
-agent_radius = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0ld40"]
 texture = ExtResource("5_trtic")
 0:0/0 = 0
-0:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_ssvqc")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gqmmt"]
 texture = ExtResource("6_ir15t")
@@ -200,6 +144,11 @@ sources/9 = SubResource("TileSetAtlasSource_pm3ni")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jkv2x"]
 size = Vector2(10, 10)
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_dinhu"]
+vertices = PackedVector2Array(756.031, 15.9766, 757.961, 528.008, 226.281, 528.977, 240.719, 15.0078)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(231, 5, 766, 6, 768, 538, 216, 539)])
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jbj1t"]
 
@@ -432,8 +381,9 @@ metadata/_edit_lock_ = true
 [node name="enemy_units" type="Node2D" parent="."]
 y_sort_enabled = true
 
-[node name="player_units" type="Node2D" parent="."]
+[node name="player_units" type="NavigationRegion2D" parent="."]
 y_sort_enabled = true
+navigation_polygon = SubResource("NavigationPolygon_dinhu")
 
 [node name="selection_area" type="Area2D" parent="."]
 collision_layer = 4
