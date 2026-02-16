@@ -108,7 +108,6 @@ func attack():
 		attacked_target = current_target
 		handle_attack_anim((current_target.position - position).normalized())
 		$attack_speed.start()
-		$attack_spawn_delay.start()
 
 func die():
 	#is_attacking used so that animation plays instead of more movement
@@ -138,6 +137,7 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 	elif($AnimatedSprite2D.animation == "attack"):
 		is_attacking = false
 		$AnimatedSprite2D.play("idle")
+		spawn_attack()
 	else:
 		return
 
@@ -234,7 +234,7 @@ func _on_attack_speed_timeout() -> void:
 func _on_attack_contact(body, damage, element, is_critical):
 	body.handle_damage(damage, element, is_critical)
 
-func _on_attack_spawn_delay_timeout() -> void:
+func spawn_attack() -> void:
 	if(attacked_target != null && is_instance_valid(attacked_target)):
 		var attack_instance: Node = load(
 			"res://scenes/attacks/" + unit_data.attack + ".tscn").instantiate()
@@ -459,7 +459,6 @@ func change_state_idle():
 	current_command = "idle"
 	flow_field = []
 	pathing_area.set_deferred("disabled", false)
-	$attack_spawn_delay.stop()
 	$AnimatedSprite2D.play("idle")
 
 func change_state_move():
@@ -468,7 +467,6 @@ func change_state_move():
 	nav_obstacle.avoidance_enabled = false
 	current_command = "move"
 	pathing_area.disabled = true
-	$attack_spawn_delay.stop()
 
 func change_state_hold():
 	reset_target()
@@ -477,7 +475,6 @@ func change_state_hold():
 	current_command = "hold"
 	flow_field = []
 	pathing_area.set_deferred("disabled", false)
-	$attack_spawn_delay.stop()
 	$AnimatedSprite2D.play("idle")
 
 func change_state_attack():
@@ -487,7 +484,6 @@ func change_state_attack():
 	current_command = "attack"
 	flow_field = []
 	pathing_area.disabled = true
-	$attack_spawn_delay.stop()
 
 func change_state_focus():
 	reset_target()
@@ -496,7 +492,6 @@ func change_state_focus():
 	current_command = "focus"
 	flow_field = []
 	pathing_area.set_deferred("disabled", true)
-	$attack_spawn_delay.stop()
 
 #signals
 signal died(body)
