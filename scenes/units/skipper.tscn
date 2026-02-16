@@ -152,10 +152,6 @@ show_percentage = false
 
 [node name="attack_speed" type="Timer" parent="."]
 
-[node name="attack_animation_speed" type="Timer" parent="."]
-wait_time = 0.4
-one_shot = true
-
 [node name="attack_spawn_delay" type="Timer" parent="."]
 wait_time = 0.3
 one_shot = true
@@ -173,6 +169,5 @@ carve_navigation_mesh = true
 [connection signal="body_exited" from="attack_range" to="." method="_on_attack_range_body_exited"]
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="timeout" from="attack_speed" to="." method="_on_attack_speed_timeout"]
-[connection signal="timeout" from="attack_animation_speed" to="." method="_on_attack_animation_speed_timeout"]
 [connection signal="timeout" from="attack_spawn_delay" to="." method="_on_attack_spawn_delay_timeout"]
 [connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]

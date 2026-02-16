@@ -131,11 +131,13 @@ func handle_attack_anim(vector):
 	elif(vector.x < 0):
 		$AnimatedSprite2D.flip_h = true
 		$AnimatedSprite2D.play("attack")
-	$attack_animation_speed.start()
 
 func _on_animated_sprite_2d_animation_finished() -> void:
 	if($AnimatedSprite2D.animation == "death"):
 		queue_free()
+	elif($AnimatedSprite2D.animation == "attack"):
+		is_attacking = false
+		$AnimatedSprite2D.play("idle")
 	else:
 		return
 
@@ -228,10 +230,6 @@ func _on_attack_speed_timeout() -> void:
 	elif(current_command == "hold" || current_command == "idle"):
 		if(current_target == null):
 			find_new_target()
-
-func _on_attack_animation_speed_timeout() -> void:
-	is_attacking = false
-	$AnimatedSprite2D.play("idle")
 
 func _on_attack_contact(body, damage, element, is_critical):
 	body.handle_damage(damage, element, is_critical)
