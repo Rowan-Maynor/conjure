@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://7qs6f38wlvuq"
-path="res://.godot/imported/base.png-4dd7f88d01256baa11bf30176fe9187f.ctex"
+uid="uid://dp7yg3on1c100"
+path="res://.godot/imported/attack.png-82ad22fed444542aa8894b83f2471c6d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/units/hound/base.png"
-dest_files=["res://.godot/imported/base.png-4dd7f88d01256baa11bf30176fe9187f.ctex"]
+source_file="res://assets/sprites/units/pebble/attack.png"
+dest_files=["res://.godot/imported/attack.png-82ad22fed444542aa8894b83f2471c6d.ctex"]
 
 [params]
 

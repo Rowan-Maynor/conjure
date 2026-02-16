@@ -12,7 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://om3mlhyv6qpp" path="res://assets/sprites/units/monkey/base.png" id="8_tm7ds"]
 [ext_resource type="Texture2D" uid="uid://dgwoifvr2qdal" path="res://assets/sprites/units/pebble/base.png" id="9_qns4g"]
 [ext_resource type="Texture2D" uid="uid://c3hrdspg5ggxk" path="res://assets/sprites/units/shrub/base.png" id="10_lww56"]
-[ext_resource type="Texture2D" uid="uid://dd33s3cg0m07m" path="res://assets/sprites/units/hound/base.png" id="11_oswgk"]
+[ext_resource type="Texture2D" uid="uid://7qs6f38wlvuq" path="res://assets/sprites/units/hound/base.png" id="11_oswgk"]
 [ext_resource type="Texture2D" uid="uid://be48mpnk5o7vb" path="res://assets/sprites/units/demon/base.png" id="12_jrr6l"]
 [ext_resource type="Texture2D" uid="uid://bem2syshoc7ca" path="res://assets/sprites/units/skipper/base.png" id="13_7meoe"]
 [ext_resource type="Shader" uid="uid://gwfyq30s6ibw" path="res://shaders/hidden.gdshader" id="13_cj0fx"]

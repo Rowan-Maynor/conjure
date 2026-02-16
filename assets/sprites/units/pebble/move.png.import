@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://7qs6f38wlvuq"
-path="res://.godot/imported/base.png-4dd7f88d01256baa11bf30176fe9187f.ctex"
+uid="uid://dwv52kuy4ahgc"
+path="res://.godot/imported/move.png-e12bee0677deb33c61e2b2b1964b6f05.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/units/hound/base.png"
-dest_files=["res://.godot/imported/base.png-4dd7f88d01256baa11bf30176fe9187f.ctex"]
+source_file="res://assets/sprites/units/pebble/move.png"
+dest_files=["res://.godot/imported/move.png-e12bee0677deb33c61e2b2b1964b6f05.ctex"]
 
 [params]
 
