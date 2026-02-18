@@ -277,10 +277,8 @@ shape = SubResource("CapsuleShape2D_n85gf")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -7)
 sprite_frames = SubResource("SpriteFrames_iqh78")
-animation = &"attack"
+animation = &"death"
 autoplay = "idle"
-frame = 9
-frame_progress = 1.0
 offset = Vector2(-0.5, 0)
 
 [node name="selection_sprite" type="Sprite2D" parent="."]
