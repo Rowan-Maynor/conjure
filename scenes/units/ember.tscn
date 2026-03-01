@@ -383,8 +383,10 @@ shape = SubResource("CapsuleShape2D_byxnq")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -7)
 sprite_frames = SubResource("SpriteFrames_iqh78")
-animation = &"move"
+animation = &"idle"
 autoplay = "idle"
+frame = 5
+frame_progress = 0.103578
 offset = Vector2(-0.5, 0)
 
 [node name="selection_sprite" type="Sprite2D" parent="."]
