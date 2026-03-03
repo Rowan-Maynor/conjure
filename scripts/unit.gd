@@ -119,8 +119,10 @@ func die():
 func handle_anim(vector):
 	if(vector.x > 0):
 		$AnimatedSprite2D.flip_h = false
+		$selection_sprite.flip_h = false
 	elif(vector.x < 0):
 		$AnimatedSprite2D.flip_h = true
+		$selection_sprite.flip_h = true
 
 func handle_attack_anim(vector):
 	is_attacking = true
