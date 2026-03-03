@@ -5,6 +5,6 @@
 [resource]
 script = ExtResource("1_qf1iy")
 list = {
-"hound": ["imp"]
+"hound": ["ember"]
 }
 metadata/_custom_type_script = "uid://dv81udx7kpjs1"

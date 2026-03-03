@@ -13,7 +13,7 @@ var unit_data: Unit_Data
 @onready var recipe_container: VBoxContainer = $PanelContainer/HBoxContainer/recipe_container
 
 var recipe_list: Dictionary = {
-	"hound": ["imp", "pup"],
+	"hound": ["pup", "ember"],
 	"demon": ["imp", "ember"],
 	"skipper": ["gator", "guppy"],
 	"shaman": ["gator", "drop"],
