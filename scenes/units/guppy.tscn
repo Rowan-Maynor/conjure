@@ -6,7 +6,7 @@
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_sw07y"]
 radius = 3.0
-height = 13.0
+height = 20.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_k4pre"]
 radius = 8.0
@@ -156,11 +156,10 @@ show_percentage = false
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 avoidance_enabled = true
-radius = 7.0
 neighbor_distance = 100.0
 
 [node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
-radius = 7.0
+radius = 10.0
 affect_navigation_mesh = true
 carve_navigation_mesh = true
 
