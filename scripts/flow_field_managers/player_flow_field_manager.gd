@@ -38,7 +38,7 @@ func _input(event: InputEvent):
 			queue_redraw()
 		
 	if event.is_action_pressed("left_click"):
-		if(flow_field):
+		if(flow_field && debug):
 			var pos: Vector2 = get_target_grid_position(get_viewport().get_mouse_position())
 			print("cost: ", flow_field[pos.x][pos.y].cost)
 			print("vector: ", flow_field[pos.x][pos.y].flow_vector)
