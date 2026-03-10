@@ -20,6 +20,7 @@ config/icon="uid://btxayetjurgst"
 window/size/viewport_width=960
 window/size/viewport_height=540
 window/stretch/mode="viewport"
+window/stretch/scale_mode="integer"
 mouse_cursor/custom_image="uid://tu3wf6yxtyhc"
 
 [input]
