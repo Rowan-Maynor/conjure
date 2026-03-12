@@ -472,6 +472,7 @@ position = Vector2(0, -8)
 texture = ExtResource("3_281xe")
 
 [node name="health_bar" type="ProgressBar" parent="."]
+visible = false
 offset_left = 9.0
 offset_top = -35.0
 offset_right = 13.0
