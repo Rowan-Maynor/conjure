@@ -192,6 +192,14 @@ offset_bottom = 371.0
 texture = ExtResource("6_gee14")
 stretch_mode = 2
 
+[node name="water_rock_12" type="TextureRect" parent="background/props"]
+offset_left = 876.0
+offset_top = 484.0
+offset_right = 916.0
+offset_bottom = 529.0
+texture = ExtResource("6_gee14")
+stretch_mode = 2
+
 [node name="water_rock_8" type="TextureRect" parent="background/props"]
 offset_left = 907.0
 offset_top = 335.0
