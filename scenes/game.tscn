@@ -1,7 +1,10 @@
-[gd_scene load_steps=12 format=4 uid="uid://dm76mg2k73lxk"]
+[gd_scene load_steps=15 format=4 uid="uid://dm76mg2k73lxk"]
 
 [ext_resource type="Script" uid="uid://cof62ids57e6o" path="res://scripts/game.gd" id="1_vtaks"]
 [ext_resource type="Texture2D" uid="uid://drcmnndthkimk" path="res://assets/sprites/Tiles/tile_set.png" id="3_kvuet"]
+[ext_resource type="Texture2D" uid="uid://bkovnkokjb0c3" path="res://assets/sprites/props/water_rock_1.png" id="4_p57ef"]
+[ext_resource type="Texture2D" uid="uid://bcdg216yago7x" path="res://assets/sprites/props/water_rock_2.png" id="5_u5sy4"]
+[ext_resource type="Texture2D" uid="uid://dgf2qjafmfv4j" path="res://assets/sprites/props/water_rock_3.png" id="6_gee14"]
 [ext_resource type="PackedScene" uid="uid://b578nkptq5xnm" path="res://scenes/game_ui.tscn" id="10_264po"]
 [ext_resource type="Script" uid="uid://hosa2wpr2lhn" path="res://scripts/flow_field_managers/enemy_flow_field_manager.gd" id="11_dinhu"]
 [ext_resource type="Script" uid="uid://f0iurf3iuaoq" path="res://scripts/flow_field_managers/player_flow_field_manager.gd" id="12_kvuet"]
@@ -129,6 +132,89 @@ layer = 2
 [node name="Main-ui" parent="main_ui" instance=ExtResource("10_264po")]
 
 [node name="unit_panel" type="CanvasLayer" parent="."]
+
+[node name="props" type="CanvasLayer" parent="."]
+
+[node name="water_rock_1" type="TextureRect" parent="props"]
+offset_left = 856.0
+offset_top = 110.0
+offset_right = 896.0
+offset_bottom = 150.0
+texture = ExtResource("4_p57ef")
+stretch_mode = 2
+
+[node name="water_rock_2" type="TextureRect" parent="props"]
+offset_left = 904.0
+offset_top = 444.0
+offset_right = 944.0
+offset_bottom = 484.0
+texture = ExtResource("4_p57ef")
+stretch_mode = 2
+
+[node name="water_rock_3" type="TextureRect" parent="props"]
+offset_left = 29.0
+offset_top = 242.0
+offset_right = 69.0
+offset_bottom = 282.0
+texture = ExtResource("4_p57ef")
+stretch_mode = 2
+
+[node name="water_rock_4" type="TextureRect" parent="props"]
+offset_left = 909.0
+offset_top = 216.0
+offset_right = 949.0
+offset_bottom = 265.0
+texture = ExtResource("5_u5sy4")
+stretch_mode = 2
+
+[node name="water_rock_5" type="TextureRect" parent="props"]
+offset_left = -7.0
+offset_top = 428.0
+offset_right = 33.0
+offset_bottom = 477.0
+texture = ExtResource("5_u5sy4")
+stretch_mode = 2
+
+[node name="water_rock_6" type="TextureRect" parent="props"]
+offset_left = 13.0
+offset_top = 32.0
+offset_right = 53.0
+offset_bottom = 81.0
+texture = ExtResource("5_u5sy4")
+stretch_mode = 2
+
+[node name="water_rock_8" type="TextureRect" parent="props"]
+offset_left = 846.0
+offset_top = 310.0
+offset_right = 886.0
+offset_bottom = 359.0
+texture = ExtResource("5_u5sy4")
+stretch_mode = 2
+
+[node name="water_rock_9" type="TextureRect" parent="props"]
+offset_left = 882.0
+offset_top = 307.0
+offset_right = 922.0
+offset_bottom = 356.0
+texture = ExtResource("5_u5sy4")
+stretch_mode = 2
+flip_h = true
+
+[node name="water_rock_7" type="TextureRect" parent="props"]
+offset_left = 860.0
+offset_top = 313.0
+offset_right = 900.0
+offset_bottom = 358.0
+texture = ExtResource("6_gee14")
+stretch_mode = 2
+
+[node name="water_rock_10" type="TextureRect" parent="props"]
+offset_left = 171.0
+offset_top = 104.0
+offset_right = 211.0
+offset_bottom = 149.0
+texture = ExtResource("6_gee14")
+stretch_mode = 2
 
 [node name="flow_field_managers" type="Node2D" parent="."]
 
